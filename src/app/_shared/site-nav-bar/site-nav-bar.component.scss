@@ -1,0 +1,18 @@
+#site-nav-bar {
+  background-color: peachpuff;
+  width: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  margin: 0px;
+  padding: 10px 10px;
+  display: flex;
+
+  a {
+    padding: 5px 20px;
+  }
+
+  a:last-child {
+    margin-left: auto;
+  }
+}

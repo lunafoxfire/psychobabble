@@ -5,18 +5,26 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var config = require('./config/config');
 var routes = require('./routes/index.route');
 
 var app = express();
 const { Pool, Client } = require('pg');
 const connectionString = process.env.POSTGRES_CONNECTION_STRING;
+console.log(`CONNECTION STRING: ${connectionString}`);
 
 const pool = new Pool({
   connectionString: connectionString,
 });
 
 pool.query('SELECT NOW()', (err, res) => {
-  console.log("pool did thing");
+  if (err) {
+    console.error("Pool query broke");
+    console.error(err);
+  }
+  else {
+    console.log("Pool query success");
+  }
   pool.end();
 })
 
@@ -26,7 +34,13 @@ const client = new Client({
 client.connect();
 
 client.query('SELECT NOW()', (err, res) => {
-  console.log("query did thing");
+  if (err) {
+    console.error("Client query broke");
+    console.error(err);
+  }
+  else {
+    console.log("Client query success");
+  }
   client.end();
 });
 

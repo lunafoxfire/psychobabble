@@ -3,8 +3,6 @@ var app = require('../app');
 var debug = require('debug')('expresstest:server');
 var http = require('http');
 
-var config = require('../config/config');
-
 var port = normalizePort(process.env.SERVER_PORT);
 app.set('port', port);
 var server = http.createServer(app);
@@ -55,5 +53,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  console.log('Listening on ' + bind + '\n');
+  console.log('\nListening on ' + bind + '\n');
 }

@@ -1,10 +1,10 @@
 var secrets = null;
 try {
-  secrets = require('./secrets');
+  secrets = require('../../secrets.json');
 }
 // JavaScript apparently can't do inner exceptions, so you get this instead.
 catch (e) {
-  console.error("Could not load ./server/config/secrets.js. This file is required and may be missing. See documentation for details.\n");
+  console.error("Could not load secrets.json. This file is required in the root directory and may be missing. See documentation for details.\n");
   throw e;
 }
 

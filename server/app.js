@@ -8,27 +8,27 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index.route');
 
 var app = express();
-const { Pool, Client } = require('pg')
-const connectionString = 'postgresql://postgres:aa77nn77dd77@localhost:5432/todo'
+const { Pool, Client } = require('pg');
+const connectionString = process.env.POSTGRES_CONNECTION_STRING;
 
 const pool = new Pool({
   connectionString: connectionString,
-})
+});
 
 pool.query('SELECT NOW()', (err, res) => {
-  console.log(err, res)
-  pool.end()
+  console.log("pool did thing");
+  pool.end();
 })
 
 const client = new Client({
   connectionString: connectionString,
-})
-client.connect()
+});
+client.connect();
 
 client.query('SELECT NOW()', (err, res) => {
-  console.log(err, res)
-  client.end()
-})
+  console.log("query did thing");
+  client.end();
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

@@ -9,7 +9,27 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+const { Pool, Client } = require('pg')
+const connectionString = 'postgresql://postgres:aa77nn77dd77@localhost:5432/todo'
 
+const pool = new Pool({
+  connectionString: connectionString,
+})
+
+pool.query('SELECT NOW()', (err, res) => {
+  console.log(err, res)
+  pool.end()
+})
+
+const client = new Client({
+  connectionString: connectionString,
+})
+client.connect()
+
+client.query('SELECT NOW()', (err, res) => {
+  console.log(err, res)
+  client.end()
+})
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

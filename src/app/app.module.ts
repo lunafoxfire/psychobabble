@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ROUTES } from './app.routes';
@@ -19,6 +19,9 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 // Error components
 import { NotFoundComponent } from './not-found/not-found.component';
 
+// Test components
+import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,13 +30,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
     RegisterComponent,
 
     SiteNavBarComponent,
-    
+
     NotFoundComponent,
+
+    ApiCallTestComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     RouterModule.forRoot(ROUTES),
   ],
   providers: [],

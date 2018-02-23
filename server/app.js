@@ -21,11 +21,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
+// Load Angular and let it handle view routes
+app.get('*', function(req, res) {
+  if (req.accepts('html')) {
+    res.sendfile('./dist/index.html');
+  }
+});
 
 // Example routes -- will be obsolete since we're using Angular
 // ==================================================================
-app.use('/', index);
+// app.use('/', index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

@@ -5,8 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var routes = require('./routes/index.route');
 
 var app = express();
 const { Pool, Client } = require('pg')
@@ -30,18 +29,16 @@ client.query('SELECT NOW()', (err, res) => {
   console.log(err, res)
   client.end()
 })
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
+
+// load api routes
+app.use(routes);
 
 // Load Angular and let it handle view routes
 app.get('*', function(req, res) {
@@ -50,11 +47,8 @@ app.get('*', function(req, res) {
   }
 });
 
-// Example routes -- will be obsolete since we're using Angular
+// TODO: Log errors to console instead of rendering view
 // ==================================================================
-// app.use('/', index);
-app.use('/users', users);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -73,6 +67,5 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 // ==================================================================
-// End obsolete routes
 
 module.exports = app;

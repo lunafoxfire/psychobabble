@@ -10,17 +10,6 @@ var routes = require('./routes/index.route');
 
 var app = express();
 
-var db = require('./db/db.context');
-db.query('SELECT NOW()', null, (err, res) => {
-  if (err) {
-    console.error("QUERY ERROR");
-    console.error(err);
-  }
-  else {
-    console.log("QUERY SUCCESS");
-  }
-});
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

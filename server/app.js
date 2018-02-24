@@ -9,39 +9,16 @@ var config = require('./config/config');
 var routes = require('./routes/index.route');
 
 var app = express();
-const { Pool, Client } = require('pg');
-const connectionString = process.env.POSTGRES_CONNECTION_STRING;
-console.log(`CONNECTION STRING: ${connectionString}`);
 
-const pool = new Pool({
-  connectionString: connectionString,
-});
-
-pool.query('SELECT NOW()', (err, res) => {
+var db = require('./db/db.context');
+db.query('SELECT NOW()', null, (err, res) => {
   if (err) {
-    console.error("Pool query broke");
+    console.error("QUERY ERROR");
     console.error(err);
   }
   else {
-    console.log("Pool query success");
+    console.log("QUERY SUCCESS");
   }
-  pool.end();
-})
-
-const client = new Client({
-  connectionString: connectionString,
-});
-client.connect();
-
-client.query('SELECT NOW()', (err, res) => {
-  if (err) {
-    console.error("Client query broke");
-    console.error(err);
-  }
-  else {
-    console.log("Client query success");
-  }
-  client.end();
 });
 
 app.use(logger('dev'));

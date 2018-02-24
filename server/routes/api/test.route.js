@@ -10,10 +10,10 @@ router.get('/', (req, res) => {
 
 // GET /api/test/db-time-query
 router.get('/db-time-query', (req, res) => {
-  db.query('SELECT NOW()', null, (err, res) => {
+  db.query('SELECT NOW()', null, (err, qres) => {
     if (err) { }
     else {
-      console.log(res.rows[0].now);
+      res.send(qres.rows[0].now);
     }
   });
 });

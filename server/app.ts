@@ -1,14 +1,21 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+import * as express from 'express';
+import * as path from 'path';
+import * as favicon from 'serve-favicon';
+import * as logger from 'morgan';
+import * as cookieParser from 'cookie-parser';
+import * as bodyParser from 'body-parser';
 
-var config = require('./config/config');
-var routes = require('./routes/index.route');
+// TODO: Get rid of random require
+require('./config/config');
+import { createConnection } from 'typeorm';
+import { router } from './routes/routes';
 
-var app = express();
+export let app = express();
+
+// Get database connection
+createConnection()
+  .then(() => console.log("Successfully connected to the database."))
+  .catch((err) => console.error("Error connecting to the database!\n" + err));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -18,7 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
 // load api routes
-app.use(routes);
+app.use(router);
 
 // Load Angular and let it handle view routes
 app.get('*', function(req, res) {
@@ -31,8 +38,8 @@ app.get('*', function(req, res) {
 // ==================================================================
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
+  let err = new Error('Not Found');
+  err["status"] = 404;
   next(err);
 });
 
@@ -46,6 +53,3 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-// ==================================================================
-
-module.exports = app;

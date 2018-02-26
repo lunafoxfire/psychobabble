@@ -1,4 +1,4 @@
-var secrets = null;
+let secrets = null;
 try {
   secrets = require('../../secrets.json');
 }

@@ -1,5 +1,5 @@
 <h1>Test Component</h1>
-<p>API Call: <em>{{callResponse | async}}</em></p>
+<p>API Call: <em>{{testApiCallText | async}}</em></p>
 <hr>
 <button type="button" name="button" (click)="queryClick()">Do a database query</button>
-<p>DB Now: {{queryResponse | async}}</p>
+<p>DB Now: {{testDbQueryTime | async}}</p>

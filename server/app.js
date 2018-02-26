@@ -9,6 +9,27 @@ var config = require('./config/config');
 var routes = require('./routes/index.route');
 
 var app = express();
+const { Pool, Client } = require('pg');
+const connectionString = 'postgresql://postgres:@localhost:5432/todo';
+
+const pool = new Pool({
+  connectionString: connectionString,
+});
+
+pool.query('CREATE TABLE IF NOT EXISTS tasks (id serial, title varchar(255));', (err, res) => {
+  console.log(err);
+  pool.end();
+});
+
+const client = new Client({
+  connectionString: connectionString,
+});
+client.connect();
+
+client.query('CREATE TABLE IF NOT EXISTS tasks (id serial, title varchar(255));', (err, res) => {
+  console.log(err);
+  client.end();
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

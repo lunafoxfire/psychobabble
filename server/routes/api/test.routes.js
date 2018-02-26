@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-var db = require('../../db/db.context');
+var testCtrl = require('../../controllers/test.controller');
 
 // GET /api/test
 router.get('/', (req, res) => {
@@ -10,12 +9,14 @@ router.get('/', (req, res) => {
 
 // GET /api/test/db-time-query
 router.get('/db-time-query', (req, res) => {
-  db.query('SELECT NOW()', null, (err, qres) => {
-    if (err) { }
-    else {
-      res.send(qres.rows[0].now);
+  testCtrl.getTime().then(
+    (time) => {
+      res.send(time);
+    },
+    (err) => {
+      // Error handling would go here
     }
-  });
+  );
 });
 
 module.exports = router;

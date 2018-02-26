@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var config = require('./config/config');
-var routes = require('./routes/routes');
+import { router } from './routes/routes';
 
 var app = express();
 
@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
 // load api routes
-app.use(routes);
+app.use(router);
 
 // Load Angular and let it handle view routes
 app.get('*', function(req, res) {

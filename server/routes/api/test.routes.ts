@@ -1,8 +1,9 @@
-var express = require('express');
-var router = express.Router();
+import * as express from 'express';
 import { TestController } from '../../controllers/test.controller';
 
 let testCtrl = new TestController();
+
+export let router = express.Router();
 
 // GET /api/test
 router.get('/', (req, res) => {
@@ -11,10 +12,11 @@ router.get('/', (req, res) => {
 
 // GET /api/test/db-time-query
 router.get('/db-time-query', (req, res) => {
-testCtrl.getTime()
-  .then((time) => {
-    res.send(time);
-  });
+  testCtrl.getTime()
+    .then((time) => {
+      res.send(time);
+    })
+    .catch(() => {
+      // Error handling would go here
+    });
 });
-
-module.exports = router;

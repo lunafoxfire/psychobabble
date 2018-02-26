@@ -1,9 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var authRoutes = require('./auth.routes');
-var testRoutes = require('./test.routes');
+import * as express from 'express';
+import { router as authRoutes } from './auth.routes';
+import { router as testRoutes } from './test.routes';
 
+export let router = express.Router();
 router.use('/auth', authRoutes);
 router.use('/test', testRoutes);
-
-module.exports = router;

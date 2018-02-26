@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var config = require('./config/config');
-var routes = require('./routes/index.route');
+var routes = require('./routes/routes');
 
 var app = express();
 

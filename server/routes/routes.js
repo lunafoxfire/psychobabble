@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var testRoutes = require('./test.route');
+var apiRoutes = require('./api/api.routes');
 
-router.use('/test', testRoutes);
+router.use('/api', apiRoutes);
 
 module.exports = router;

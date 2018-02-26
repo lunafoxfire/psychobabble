@@ -9,7 +9,6 @@ import { Observable } from 'rxjs/Observable';
 })
 export class ApiCallTestComponent implements OnInit {
   private callResponse: Observable<string>;
-  private queryResponse: Observable<string>;
   constructor(
     private http: HttpClient
   ) { }
@@ -23,9 +22,5 @@ export class ApiCallTestComponent implements OnInit {
       .subscribe(data => {
         console.log(data);
       });
-    }
-
-    queryClick() {
-      this.queryResponse = this.http.get("/api/test/db-time-query", {responseType: 'text'});
     }
 }

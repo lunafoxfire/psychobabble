@@ -4,7 +4,8 @@
   "scripts": {
     "start": "concurrently --names \"node,ng\" \"npm run serve:dev\" \"npm run ng-watch\"",
     "serve:dev": "nodemon ./server/bin/www",
-    "ng-watch": "ng build --dev --watch"
+    "ng-watch": "ng build --dev --watch",
+    "db-init": "node ./db-init"
   },
   "private": true,
   "dependencies": {

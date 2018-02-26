@@ -1,3 +1,8 @@
+// TODO: Make all of these consistant
+
+import "reflect-metadata";
+import { createConnection, Connection, ConnectionOptions } from "typeorm";
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,6 +14,11 @@ var config = require('./config/config');
 var routes = require('./routes/routes');
 
 var app = express();
+
+// Get database connection
+createConnection()
+  .then(() => console.log("Successfully connected to the database."))
+  .catch((err) => console.log("Error connecting to the database!\n" + err));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -32,7 +42,7 @@ app.get('*', function(req, res) {
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
-  err.status = 404;
+  err["status"] = 404;
   next(err);
 });
 

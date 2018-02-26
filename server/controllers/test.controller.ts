@@ -1,16 +1,11 @@
-var db = require('../db/db.context');
+import { getConnection } from 'typeorm';
 
-// Resolve => database time
-// Reject => err
-module.exports.getTime = function() {
-  return new Promise((resolve, reject) => {
-    db.query('SELECT NOW()', null, (err, res) => {
-      if (err) {
-        reject(err);
-      }
-      else {
-        resolve(res.rows[0].now)
-      }
-    });
-  });
+export class TestController {
+  // Resolve => database time
+  // Reject => err
+  async getTime() {
+    let response = await getConnection()
+      .query("SELECT NOW()");
+    return response[0].now;
+  }
 }

@@ -1,7 +1,7 @@
 // TODO: Make all of these consistant
 
-import "reflect-metadata";
-import { createConnection, Connection, ConnectionOptions } from "typeorm";
+import 'reflect-metadata';
+import { createConnection, Connection, ConnectionOptions } from 'typeorm';
 
 var express = require('express');
 var path = require('path');
@@ -18,7 +18,7 @@ var app = express();
 // Get database connection
 createConnection()
   .then(() => console.log("Successfully connected to the database."))
-  .catch((err) => console.log("Error connecting to the database!\n" + err));
+  .catch((err) => console.error("Error connecting to the database!\n" + err));
 
 app.use(logger('dev'));
 app.use(bodyParser.json());

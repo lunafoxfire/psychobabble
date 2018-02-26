@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-var app = require('../app');
-var debug = require('debug')('expresstest:server');
-var http = require('http');
+import * as http from 'http';
+import { app } from '../app';
+let debug = require('debug')('expresstest:server');
 
-var port = normalizePort(process.env.SERVER_PORT);
+let port = normalizePort(process.env.SERVER_PORT);
 app.set('port', port);
-var server = http.createServer(app);
+let server = http.createServer(app);
 
 server.listen(port);
 server.on('error', onError);
@@ -14,7 +14,7 @@ server.on('listening', onListening);
 
 // Normalize a port into a number, string, or false.
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  let port = parseInt(val, 10);
   if (isNaN(port)) { // Is named pipe
     return val;
   }
@@ -29,7 +29,7 @@ function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
-  var bind = typeof port === 'string'
+  let bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;
 
@@ -49,8 +49,8 @@ function onError(error) {
 
 // Event listener for HTTP server "listening" event.
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
+  let addr = server.address();
+  let bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   console.log('\nListening on ' + bind + '\n');

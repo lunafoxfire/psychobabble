@@ -33,6 +33,7 @@ createConnection()
     });
     let admin = new User();
     admin.email = process.env.ADMIN_EMAIL;
+    admin.normalized_email = process.env.ADMIN_EMAIL.toUpperCase();
     admin.salt = crypto.randomBytes(128).toString('hex');
     admin.hash = crypto.pbkdf2Sync(process.env.ADMIN_PASSWORD, admin.salt, 1000, 64, 'sha512').toString('hex');
     admin.role = await connection.manager.getRepository(Role).findOne({name:RoleNames.Admin});

@@ -14,6 +14,9 @@ export class User {
   email: string;
 
   @Column()
+  normalized_email: string;
+
+  @Column()
   salt: string;
 
   @Column()

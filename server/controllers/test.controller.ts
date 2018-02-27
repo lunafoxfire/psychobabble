@@ -1,5 +1,5 @@
 import { getConnection, getManager } from 'typeorm';
-import { Users } from "../models/Users";
+import { User } from "../models/User";
 
 export class TestController {
   // Resolve => database time

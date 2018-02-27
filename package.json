@@ -5,7 +5,9 @@
     "start": "concurrently --names \"node,ng\" \"npm run serve:dev\" \"npm run ng-watch\"",
     "serve:dev": "nodemon --watch server/**/*.ts --exec ts-node ./server/bin/www.ts",
     "ng-watch": "ng build --dev --watch",
-    "gen-migrate": "ts-node ./node_modules/typeorm/cli.js migrations:generate"
+    "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
+    "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
+    "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert"
   },
   "private": true,
   "dependencies": {

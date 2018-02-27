@@ -1,20 +1,27 @@
+let secrets = null;
+try {
+  secrets = require('./secrets.json');
+} catch (err) {
+  console.log("I don't even know how you managed to make this error, what are you, stupid?")
+}
+
 module.exports = {
    "type": "postgres",
-   "url": process.env.POSTGRES_CONNECTION_STRING,
-   "synchronize": true,
+   "url": secrets.POSTGRES_CONNECTION_STRING,
+   "synchronize": false,
    "logging": false,
    "entities": [
-      "src/entity/**/*.ts"
+      "server/models/**/*.ts"
    ],
    "migrations": [
-      "src/migration/**/*.ts"
+      "server/migration/**/*.ts"
    ],
    "subscribers": [
-      "src/subscriber/**/*.ts"
+      "server/subscriber/**/*.ts"
    ],
    "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
+      "entitiesDir": "server/entity",
+      "migrationsDir": "server/migration",
+      "subscribersDir": "server/subscriber"
    }
 }

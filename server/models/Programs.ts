@@ -11,8 +11,8 @@ export class Programs {
   @Column()
   description: string;
 
-  @Column()
-  expiration: Date;
+  @Column({type:'date'})
+  expiration;
 
   @Column()
   closed: boolean;

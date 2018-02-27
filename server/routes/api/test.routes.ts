@@ -16,7 +16,7 @@ router.get('/db-time-query', (req, res) => {
     .then((time) => {
       res.send(time);
     })
-    .catch(() => {
-      // Error handling would go here
+    .catch((err) => {
+      console.log(err);
     });
 });

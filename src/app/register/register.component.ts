@@ -15,7 +15,7 @@ export class RegisterComponent {
   ) { }
 
   private onSubmit(registerForm: NgForm) {
-    this.http.post("/api/auth/register", registerForm.value)
+    this.http.post("/api/auth/client/register", registerForm.value)
       .subscribe((data) => {
         console.log(registerForm.value);
         console.log(data);

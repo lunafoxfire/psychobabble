@@ -5,12 +5,12 @@ let authCtrl = new AuthController();
 
 export let router = express.Router();
 
-// POST /api/auth/register
+// POST /api/auth/client/register
 // Params: email, password
-router.post('/register', (req, res) => {
+router.post('/client/register', (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
-  authCtrl.registerAsync(email, password)
+  authCtrl.registerClientAsync(email, password)
     .then(() => {
       res.status(200);
       res.json({

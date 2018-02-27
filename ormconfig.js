@@ -2,7 +2,7 @@ let secrets = null;
 try {
   secrets = require('./secrets.json');
 } catch (err) {
-  console.log("I don't even know how you managed to make this error, what are you, stupid?")
+  console.log("Could not load secrets.json. This file is required in the root directory and may be missing. See documentation for details.\n")
 }
 
 module.exports = {

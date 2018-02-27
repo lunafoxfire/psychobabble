@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'register',
@@ -7,5 +10,17 @@ import { Component, OnInit } from '@angular/core';
 })
 
 export class RegisterComponent {
-  constructor(){ }
+  emailText: string;
+  passwordText: string;
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  onSubmit(registerForm: NgForm) {
+    this.http.post("/api/auth/register", registerForm.value)
+      .subscribe((data) => {
+        console.log(registerForm.value);
+        console.log(data);
+      });
+    }
 }

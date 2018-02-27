@@ -10,33 +10,33 @@ import './config/config';
 import { createConnection } from 'typeorm';
 import { router } from './routes/routes';
 const crypto = require('crypto');
-import { Users } from "./models/Users";
-import { Roles } from "./models/Roles";
+import { User } from "./models/User";
+import { Role, RoleNames } from "./models/Role";
 export let app = express();
 
 // Get database connection
 createConnection()
   .then(async connection => {
     console.log("Successfully connected to the database.");
-    let role1 = new Roles();
-    role1.name = "Admin";
-    let role2 = new Roles();
-    role2.name = "Employer";
-    let role3 = new Roles();
-    role3.name = "User";
+  let role1 = new Role();
+  role1.name = RoleNames.Admin;
+  let role2 = new Role();
+  role2.name = RoleNames.Client;
+  let role3 = new Role();
+  role3.name = RoleNames.Subject;
     let roles = [role1, role2, role3];
     roles.forEach(async function(role){
-      let rolefinder = await connection.manager.getRepository(Roles).findOne({name:role.name});
+      let rolefinder = await connection.manager.getRepository(Role).findOne({name:role.name});
       if(!rolefinder) {
         await connection.manager.save(role);
       }
     });
-    let admin = new Users();
+    let admin = new User();
     admin.email = process.env.ADMIN_EMAIL;
     admin.salt = crypto.randomBytes(128).toString('hex');
     admin.hash = crypto.pbkdf2Sync(process.env.ADMIN_PASSWORD, admin.salt, 1000, 64, 'sha512').toString('hex');
     admin.role = role1;
-    let finder = await connection.manager.getRepository(Users).findOne({email:admin.email});
+    let finder = await connection.manager.getRepository(User).findOne({email:admin.email});
     if(!finder){
       await connection.manager.save(admin);
     }

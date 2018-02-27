@@ -7,7 +7,9 @@
     "ng-watch": "ng build --dev --watch",
     "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
     "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
-    "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert"
+    "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert",
+    "cache:clear": "ts-node ./node_modules/typeorm/cli.js cache:clear",
+    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop"
   },
   "private": true,
   "dependencies": {

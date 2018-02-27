@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
-import { Videos } from "./Videos";
+import { Video } from "./Video";
 
-@Entity()
-export class Tags {
+@Entity('tags')
+export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
   name: string;
 
-  @ManyToMany(type => Videos, videos => videos.tags)
-  videos: Videos[];
+  @ManyToMany(type => Video, videos => videos.tags)
+  videos: Video[];
 }

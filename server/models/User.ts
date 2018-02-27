@@ -19,6 +19,9 @@ export class User {
   @Column()
   hash: string;
 
+  @Column()
+  company_name: string;
+
   @ManyToOne(type => Role, role => role.users)
   role: Role;
 

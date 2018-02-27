@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 import { ProgramRequest } from "./ProgramRequest";
 
 @Entity('soft_skills')

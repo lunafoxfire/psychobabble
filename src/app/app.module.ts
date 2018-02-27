@@ -21,6 +21,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 // Test components
 import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
+import { VideoComponent } from './video/video.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,8 @@ import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
     NotFoundComponent,
 
     ApiCallTestComponent,
+
+    VideoComponent,
   ],
   imports: [
     BrowserModule,

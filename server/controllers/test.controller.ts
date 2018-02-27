@@ -20,7 +20,7 @@ export class TestController {
     let finder = await getRepository(Users).findOne({email:admin.email});
     console.log(finder);
     if(finder){
-      return "There is already a user with the email of adamtitus76@gmail.com";
+      return `There is already a user with the email of ${admin.email}`;
     }
     let response = await getManager().save(admin);
     return "User registered";

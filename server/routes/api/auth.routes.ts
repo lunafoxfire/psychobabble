@@ -27,5 +27,19 @@ router.post('/register', (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', (req, res) => {
-  // Login logic
+let email = req.body.email;
+let password = req.body.password;
+authCtrl.loginAsync(email, password)
+  .then(() => {
+    res.status(200);
+    res.json({
+      message: `User logged in\n${email} | ${password}`
+    });
+  })
+  .catch((err) => {
+    res.status(500);
+    res.json({
+      message: `login failed.`
+    });
+  });
 });

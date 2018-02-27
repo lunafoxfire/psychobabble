@@ -18,21 +18,19 @@ export let app = express();
 createConnection()
   .then(async connection => {
     console.log("Successfully connected to the database.");
-    let role1 = new Role();
-    role1.name = RoleNames.Admin;
-    let role2 = new Role();
-    role2.name = RoleNames.Client;
-    let role3 = new Role();
-    role3.name = RoleNames.Subject;
-    let role1finder = await connection.manager.getRepository(Role).findOne({name:role1.name});
-    let role2finder = await connection.manager.getRepository(Role).findOne({name:role2.name});
-    let role3finder = await connection.manager.getRepository(Role).findOne({name:role3.name});
-    if(!role1finder && !role2finder && !role3finder) {
-      console.log("%%%%%%%%%%%%%%%%%%%%Hello");
-      await connection.manager.save(role1);
-      await connection.manager.save(role2);
-      await connection.manager.save(role3);
-    }
+  let role1 = new Role();
+  role1.name = RoleNames.Admin;
+  let role2 = new Role();
+  role2.name = RoleNames.Client;
+  let role3 = new Role();
+  role3.name = RoleNames.Subject;
+    let roles = [role1, role2, role3];
+    roles.forEach(async function(role){
+      let rolefinder = await connection.manager.getRepository(Role).findOne({name:role.name});
+      if(!rolefinder) {
+        await connection.manager.save(role);
+      }
+    });
     let admin = new User();
     admin.email = process.env.ADMIN_EMAIL;
     admin.salt = crypto.randomBytes(128).toString('hex');
@@ -40,7 +38,6 @@ createConnection()
     admin.role = role1;
     let finder = await connection.manager.getRepository(User).findOne({email:admin.email});
     if(!finder){
-      console.log("############HI")
       await connection.manager.save(admin);
     }
   })

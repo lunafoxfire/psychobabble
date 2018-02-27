@@ -10,13 +10,11 @@ import { Observable } from 'rxjs/Observable';
 })
 
 export class RegisterComponent {
-  emailText: string;
-  passwordText: string;
   constructor(
     private http: HttpClient
   ) { }
 
-  onSubmit(registerForm: NgForm) {
+  private onSubmit(registerForm: NgForm) {
     this.http.post("/api/auth/register", registerForm.value)
       .subscribe((data) => {
         console.log(registerForm.value);

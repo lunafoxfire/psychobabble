@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import * as http from 'http';
 import { app } from '../app';
-let debug = require('debug')('expresstest:server');
+import * as getDebug from 'debug';
+let debug = getDebug('expresstest:server');
 
 let port = normalizePort(process.env.SERVER_PORT);
 app.set('port', port);

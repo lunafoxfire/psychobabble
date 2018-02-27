@@ -4,7 +4,7 @@ import * as favicon from 'serve-favicon';
 import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-
+import 'reflect-metadata';
 // TODO: Get rid of random require
 require('./config/config');
 import { createConnection } from 'typeorm';

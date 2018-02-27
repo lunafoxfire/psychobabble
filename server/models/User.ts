@@ -19,7 +19,7 @@ export class User {
   @Column()
   hash: string;
 
-  @Column()
+  @Column({ nullable: true})
   company_name: string;
 
   @ManyToOne(type => Role, role => role.users)

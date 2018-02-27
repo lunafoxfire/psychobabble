@@ -35,7 +35,7 @@ createConnection()
     admin.email = process.env.ADMIN_EMAIL;
     admin.salt = crypto.randomBytes(128).toString('hex');
     admin.hash = crypto.pbkdf2Sync(process.env.ADMIN_PASSWORD, admin.salt, 1000, 64, 'sha512').toString('hex');
-    admin.role = role1;
+    admin.role = await connection.manager.getRepository(Role).findOne({name: RoleNames.Admin});
     let finder = await connection.manager.getRepository(User).findOne({email:admin.email});
     if(!finder){
       await connection.manager.save(admin);

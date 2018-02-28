@@ -1,0 +1,7 @@
+<h1>Auth-Test</h1>
+<ul>
+  <li>Id: {{(userData | async)?.id}}</li>
+  <li>Email: {{(userData | async)?.email}}</li>
+  <li>Salt: {{(userData | async)?.salt}}</li>
+  <li>Hash: {{(userData | async)?.hash}}</li>
+</ul>

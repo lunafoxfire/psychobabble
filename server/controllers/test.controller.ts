@@ -1,4 +1,5 @@
 import { getConnection } from 'typeorm';
+import { User } from './../models/User';
 
 export class TestController {
   public static getTestMessage(req, res) {
@@ -24,12 +25,18 @@ export class TestController {
   }
 
   public static getTestUserData(req, res) {
-    res.status(200);
-    res.json({
-      id: "12345",
-      email: "example@example.com",
-      hash: "abcde",
-      salt: "qwerty"
-    })
+    if (req.jwt.id) {
+      res.status(200);
+      res.json({
+        id: "12345",
+        email: "example@example.com",
+        hash: "abcde",
+        salt: "qwerty"
+      });
+    }
+    else {
+      res.status(401);
+    }
+
   }
 }

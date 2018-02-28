@@ -2,7 +2,7 @@ import * as passport from 'passport';
 import { User } from './../models/User';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
-
+// TODO: check for malformed requests
 export class AuthController {
   public static registerClient(req, res) {
     let email = req.body.email;
@@ -11,7 +11,7 @@ export class AuthController {
     User.registerClientAsync(email, password)
       .then((user) => {
         if (user) {
-          let msg = `Successfully registered ${email}`;
+          let msg = `Registered ${email} with id ${user.id}`;
           console.log(msg);
           res.status(200);
           res.json({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { AuthService, TokenPayload } from './../auth.service';
 import { Observable } from 'rxjs/Observable';
 import { IUserInfo } from './IUserInfo';
 
@@ -9,12 +9,12 @@ import { IUserInfo } from './IUserInfo';
   styleUrls: ['./auth-test.component.scss']
 })
 export class AuthTestComponent implements OnInit {
-  userData: Observable<IUserInfo>;
+  userInfo: Observable<IUserInfo>;
   constructor(
-    private http: HttpClient
+    private auth: AuthService
   ) { }
 
   ngOnInit() {
-    this.userData = this.http.get<IUserInfo>("/api/test/auth-test");
+    this.userInfo = this.auth.get<IUserInfo>("/api/test/auth-test");
   }
 }

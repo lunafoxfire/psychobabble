@@ -24,6 +24,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
 import { AuthTestComponent } from './auth-test/auth-test.component';
 
+// Services
+import { AuthService } from './auth.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +45,9 @@ import { AuthTestComponent } from './auth-test/auth-test.component';
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
   ],
-  providers: [],
+  providers: [
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

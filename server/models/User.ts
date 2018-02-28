@@ -71,7 +71,7 @@ export class User {
       user.company_name = company_name;
       user.role = await Role.findByNameAsync(RoleName.Client);
 
-      userRepo.save(user);
+      await userRepo.save(user);
       return user;
     }
     else {
@@ -86,10 +86,10 @@ export class User {
   public generateJwt() {
     let expiration = new Date();
     expiration.setDate(expiration.getDate() + 7); // Expire in one week
-
     return jwt.sign({
       id: this.id,
       email: this.email,
+      role: this.role,
       exp: expiration.getTime() / 1000
     }, process.env.JWT_SECRET);
   }

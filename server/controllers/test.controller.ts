@@ -1,5 +1,6 @@
-import { getConnection } from 'typeorm';
+import { getConnection, getRepository } from 'typeorm';
 import { User } from './../models/User';
+import { Role } from './../models/Role';
 
 export class TestController {
   public static getTestMessage(req, res) {
@@ -25,17 +26,37 @@ export class TestController {
   }
 
   public static getTestUserData(req, res) {
-    if (req.jwt.id) {
-      res.status(200);
-      res.json({
-        id: "12345",
-        email: "example@example.com",
-        hash: "abcde",
-        salt: "qwerty"
-      });
+    if (req.jwt && req.jwt.id) {
+      getRepository(User).findOneById(req.jwt.id, {relations: ["role"]})
+        .then((user) => {
+          if (user) {
+            console.log(user);
+            res.status(200);
+            res.json({
+              id: user.id,
+              email: user.email,
+              role: user.role.name,
+              hash: user.hash,
+              salt: user.salt
+            });
+          }
+          else {
+            res.status(400);
+            res.json({
+              message: "User does not exist"
+            });
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500);
+        });
     }
     else {
       res.status(401);
+      res.json({
+        message: "Invalid token"
+      });
     }
 
   }

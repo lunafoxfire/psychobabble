@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
+import { AuthService, UserCredentials } from './../auth.service';
 
 @Component({
   selector: 'register',
@@ -11,14 +11,14 @@ import { Observable } from 'rxjs/Observable';
 
 export class RegisterComponent {
   constructor(
-    private http: HttpClient
+    private auth: AuthService,
+    private router: Router
   ) { }
 
   private onSubmit(registerForm: NgForm) {
-    this.http.post("/api/auth/client/register", registerForm.value)
-      .subscribe((data) => {
-        console.log(registerForm.value);
-        console.log(data);
-      });
-    }
+    let credentials = registerForm.value as UserCredentials;
+    this.auth.registerClient(credentials).subscribe(() => {
+      this.router.navigateByUrl('/');
+    });
+  }
 }

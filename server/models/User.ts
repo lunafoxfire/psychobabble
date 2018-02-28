@@ -1,9 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, getRepository } from "typeorm";
 import { Role } from "./Role";
 import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
+import { Token } from "./Token";
 
 @Entity('users')
 export class User {
@@ -42,4 +43,8 @@ export class User {
 
   @OneToMany(type => Response, responses => responses.user)
   responses: Response[];
+
+  @OneToOne(type => Token)
+  @JoinColumn()
+  token: Token;
 }

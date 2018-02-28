@@ -22,4 +22,14 @@ export class TestController {
         res.status(500);
       });
   }
+
+  public static getTestUserData(req, res) {
+    res.status(200);
+    res.json({
+      id: "12345",
+      email: "example@example.com",
+      hash: "abcde",
+      salt: "qwerty"
+    })
+  }
 }

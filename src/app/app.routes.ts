@@ -7,6 +7,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { VideoComponent } from './video/video.component';
 
 import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
+import { AuthTestComponent } from './auth-test/auth-test.component';
 
 export const ROUTES: Routes = [
   { path: '',   component: SplashComponent },
@@ -14,5 +15,6 @@ export const ROUTES: Routes = [
   { path: 'register',   component: RegisterComponent },
   { path: 'video',    component: VideoComponent },
   { path: 'test',   component: ApiCallTestComponent },
+  { path: 'auth-test',   component: AuthTestComponent },
   { path: '**',   component: NotFoundComponent },
 ];

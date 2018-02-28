@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'app-api-call-test',
+  selector: 'api-call-test',
   templateUrl: './api-call-test.component.html',
   styleUrls: ['./api-call-test.component.scss']
 })

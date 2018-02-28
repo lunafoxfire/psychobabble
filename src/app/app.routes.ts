@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { SplashComponent } from './splash/splash.component';
-import { LogInComponent } from './log-in/log-in.component';
+import { LogInComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { VideoComponent } from './video/video.component';

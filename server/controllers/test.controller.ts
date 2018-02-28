@@ -30,7 +30,6 @@ export class TestController {
       getRepository(User).findOneById(req.jwt.id, {relations: ["role"]})
         .then((user) => {
           if (user) {
-            console.log(user);
             res.status(200);
             res.json({
               id: user.id,

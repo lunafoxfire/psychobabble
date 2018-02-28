@@ -31,4 +31,11 @@ export class ApiCallTestComponent implements OnInit {
           this.testDbQueryTime = data["message"];
         });
     }
+
+    failClick() {
+      this.http.get("/api/test/fakeroute/aaaaaaaaaaaaaaaaa")
+        .subscribe(data => {
+          console.log("fail request");
+        });
+    }
 }

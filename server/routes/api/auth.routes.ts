@@ -11,13 +11,15 @@ router.post('/client/register', (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   authCtrl.registerClientAsync(email, password)
-    .then(() => {
+    .then((jwt) => {
       res.status(200);
       res.json({
-        message: `User registered\n${email} | ${password}`
+        message: `User registered: ${email} | ${password}`,
+        token: jwt
       });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500);
       res.json({
         message: `Registration failed.`

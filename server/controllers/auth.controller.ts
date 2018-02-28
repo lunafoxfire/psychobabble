@@ -1,12 +1,26 @@
 import { User } from '../models/User';
-import { getRepository } from 'typeorm';
+import { Role, RoleName } from '../models/Role';
+import { getConnection, getRepository } from 'typeorm';
 import { randomBytes, pbkdf2Sync } from 'crypto';
 import * as jwt from 'jsonwebtoken'
 
 export class AuthController {
-  public async registerClientAsync(email: string, password: string) {
+  // Returns JWT on successful login
+  public async registerClientAsync(email: string, password: string, company_name: string = null) {
+    // TODO: Check for unique user
     console.log(`Registering user\n${email} | ${password}`);
+    let userRepo = await this.getUserRepo();
+    let user = new User();
+    user.email = email;
+    user.normalized_email = email.toUpperCase();
+    user.salt = this.genSalt();
+    user.hash = this.hashPassword(password, user.salt);
+    user.company_name = company_name;
+    user.role = await Role.getRoleByName(getConnection(), RoleName.Client);
 
+    userRepo.save(user);
+
+    return this.generateJwt(user);
   }
 
   public validateUser(user, password: string): boolean {
@@ -17,7 +31,7 @@ export class AuthController {
     return await getRepository(User);
   }
 
-  private getSalt(): string {
+  private genSalt(): string {
     return randomBytes(16).toString('hex');
   }
 
@@ -37,7 +51,7 @@ export class AuthController {
     }, process.env.JWT_SECRET);
   }
 
-  async loginAsync(email: string, password: string) {
+  public async loginAsync(email: string, password: string) {
     console.log(`Logging in user\n${email} | ${password}`);
   }
 }

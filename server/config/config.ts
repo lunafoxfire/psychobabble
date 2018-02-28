@@ -16,3 +16,6 @@ process.env.SERVER_PORT = process.env.SERVER_PORT || '3000';
 process.env.POSTGRES_CONNECTION_STRING = secrets.POSTGRES_CONNECTION_STRING;
 process.env.ADMIN_EMAIL = secrets.ADMIN_EMAIL;
 process.env.ADMIN_PASSWORD = secrets.ADMIN_PASSWORD;
+
+// JWT settings
+process.env.JWT_SECRET = secrets.JWT_SECRET;

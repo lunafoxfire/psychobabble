@@ -1,68 +1,60 @@
-import { User } from '../models/User';
-import { Role, RoleName } from '../models/Role';
-import { getConnection, getRepository } from 'typeorm';
-import { randomBytes, pbkdf2Sync } from 'crypto';
-import * as jwt from 'jsonwebtoken';
+import * as passport from 'passport';
+import { User } from './../models/User';
 
 export class AuthController {
-  // Returns JWT on successful login
-  public async registerClientAsync(email: string, password: string, company_name: string = null) {
-    console.log(`Registering user\n${email} | ${password}`);
-    let userRepo = await getRepository(User);
-    let userExists = await userRepo.findOne({normalized_email: email.toUpperCase()});
-    if (!userExists) {
-      let user = new User();
-      user.email = email;
-      user.normalized_email = email.toUpperCase();
-      user.salt = this.genSalt();
-      user.hash = this.hashPassword(password, user.salt);
-      user.company_name = company_name;
-      user.role = await Role.getRoleByName(RoleName.Client);
-
-      userRepo.save(user);
-      return this.generateJwt(user);
-    }
-    else {
-      return Promise.reject("User already exists");
-    }
+  public static registerClient(req, res) {
+    let email = req.body.email;
+    let password = req.body.password;
+    console.log(`Registering ${email}...`)
+    User.registerClientAsync(email, password)
+      .then((user) => {
+        if (user) {
+          let msg = `Successfully registered ${email}`;
+          console.log(msg);
+          res.status(200);
+          res.json({
+            message: msg,
+            token: user.generateJwt()
+          });
+        }
+        else {
+          let msg = `User ${email} already exists`;
+          console.log(msg);
+          res.status(400);
+          res.json({
+            message: msg
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500);
+      })
   }
 
-  // public async loginAsync(email: string, password: string) {
-  //   console.log(`Logging in user\n${email} | ${password}`);
-  //   let user = await this.getUserRepoAsync().then(userRepo => {
-  //     return userRepo.findOne({normalized_email: email.toUpperCase()})
-  //   });
-  //   if(user) {
-  //     console.log(this.validateUser(user, password));
-  //   } else {
-  //     console.log("Your email is wrong");
-  //   }
-  // }
-
-  public validateUser(user: User, password: string): boolean {
-    if(this.hashPassword(password, user.salt) === user.hash) {
-      return true;
-    }
-    return false;
-  }
-
-  private genSalt(): string {
-    return randomBytes(16).toString('hex');
-  }
-
-  private hashPassword(password: string, salt: string): string {
-    return pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
-  }
-
-  public generateJwt(user: User) {
-    // Expire in one week
-    let expiration = new Date();
-    expiration.setDate(expiration.getDate() + 7);
-
-    return jwt.sign({
-      _id: user.id,
-      email: user.email,
-      exp: expiration.getTime() / 1000
-    }, process.env.JWT_SECRET);
+  public static loginLocal(req, res) {
+    let email = req.body.email;
+    passport.authenticate('local', (err, user, info) => {
+      console.log(`Logging in ${email}...`)
+      if (err) {
+        console.error(err);
+        res.status(404).json(err);
+        return;
+      }
+      if (user) {
+        let msg = `Successfully logged in ${email}`;
+        console.log(msg);
+        res.status(200);
+        res.json({
+          message: msg,
+          token: user.generateJwt()
+        });
+      }
+      else {
+        let msg = `Login failed: ${info.message}`;
+        console.log(msg);
+        res.status(401).json(info);
+      }
+    })(req, res);
   }
 }

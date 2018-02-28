@@ -1,6 +1,6 @@
 import {
   Entity, Column, PrimaryGeneratedColumn, OneToMany,
-  Connection, getConnection
+  getRepository
 } from "typeorm";
 import { User } from "./User";
 
@@ -16,8 +16,8 @@ export class Role {
   users: User[];
 
   // Saves all roles in role enum to db
-  public static async syncRolesToDbAsync(connection: Connection = getConnection()) {
-    let roleRepo = connection.getRepository(Role);
+  public static async syncRolesToDbAsync() {
+    let roleRepo = getRepository(Role);
     let roleList = Object.values(RoleName);
     roleList.forEach(async (roleName) => {
       let roleFinder = await roleRepo.findOne({name: roleName});
@@ -30,8 +30,8 @@ export class Role {
   }
 
   // Gets role object from db by name
-  public static async findByNameAsync(roleName: RoleName, connection: Connection = getConnection()): Promise<Role> {
-    return connection.getRepository(Role).findOne({name: roleName});
+  public static async findByNameAsync(roleName: RoleName): Promise<Role> {
+    return getRepository(Role).findOne({name: roleName});
   }
 }
 

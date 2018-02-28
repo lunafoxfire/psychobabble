@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class ProgramComponent implements OnInit {
   public Host = "Http://" + window.location.host;
   public id: Observable<string>;
+  public url: string;
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
@@ -16,7 +17,7 @@ export class ProgramComponent implements OnInit {
 
   genUrl() {
     this.http.get<string>("/api/test/pc").subscribe(data => {
-      console.log(this.Host + "/program/" + data["message"]);
+      this.url = this.Host + "/program/" + data["message"];
     });
   }
 

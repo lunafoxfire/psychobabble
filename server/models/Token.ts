@@ -3,8 +3,8 @@ import { User } from "./User";
 
 @Entity('tokens')
 export class Token {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   code: string;

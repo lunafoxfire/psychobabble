@@ -1,6 +1,8 @@
 import * as passport from 'passport';
 import { User } from './../models/User';
 
+// https://www.sitepoint.com/user-authentication-mean-stack/
+
 export class AuthController {
   public static registerClient(req, res) {
     let email = req.body.email;

@@ -52,31 +52,26 @@ app.use(passport.initialize());
 app.use(router);
 
 // Load Angular and let it handle view routes
-app.get('*', function(req, res) {
-  if (req.accepts('html')) {
+app.get('**', function(req, res, next) {
+  // If not AJAX request
+  if (!(req.xhr || req.headers.accept.indexOf('json') > -1)) {
     res.sendfile('./dist/index.html');
+  }
+  else {
+    next();
   }
 });
 
-
-
-
-// TODO: Log errors to console instead of rendering view
-// ==================================================================
+// ===== Error handling ===== //
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  let err = new Error('Not Found');
+  let err = new Error('The requested route could not be found');
   err["status"] = 404;
   next(err);
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  console.error(err);
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
+// Error handler
+app.use(function (err, req, res, next) {
   res.status(err.status || 500);
+  res.json({"message" : err.name + ": " + err.message});
 });

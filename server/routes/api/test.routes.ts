@@ -11,6 +11,4 @@ router.get('/', TestController.getTestMessage);
 router.get('/db-time-query', TestController.getTimeFromDb);
 
 // GET /api/test/auth-test
-router.get('/auth-test', TestController.getTestUserData);
-
-router.get('/pc', TestController.pc);
+router.get('/auth-test', auth, TestController.getTestUserData);

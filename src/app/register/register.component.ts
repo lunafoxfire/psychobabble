@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+import { Router } from '@angular/router';
+import { AuthService, UserCredentials } from './../auth.service';
 @Component({
   selector: 'register',
   styleUrls: [ './register.component.scss' ],
@@ -12,18 +14,16 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 export class RegisterComponent {
   constructor(
-    private http: HttpClient
+    private auth: AuthService,
+    private router: Router
   ) { }
 
   private onSubmit(registerForm: NgForm) {
-    this.http.post("/api/auth/client/register", registerForm.value)
-      .subscribe((data) => {
-        console.log(registerForm.value);
-        console.log(data);
-      });
+    let credentials = registerForm.value as UserCredentials;
+    this.auth.registerClient(credentials).subscribe(() => {
+      this.router.navigateByUrl('/');
       this.mailCall();
-    }
-
+    });
     private mailCall() {
 
       let msg = {
@@ -36,4 +36,5 @@ export class RegisterComponent {
 
       sgMail.send(msg);
     }
+  }
 }

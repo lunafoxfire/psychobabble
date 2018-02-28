@@ -1,6 +1,7 @@
 export interface IUserInfo {
-  id: number;
+  id: string;
   email: string;
+  role: string;
   salt: string;
   hash: string;
 }

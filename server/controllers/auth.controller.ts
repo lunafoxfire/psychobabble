@@ -1,25 +1,30 @@
 import { User } from '../models/User';
-import { Role, RoleNames } from '../models/Role';
-import { getRepository, getManager } from 'typeorm';
+import { Role, RoleName } from '../models/Role';
+import { getConnection, getRepository } from 'typeorm';
 import { randomBytes, pbkdf2Sync } from 'crypto';
 import * as jwt from 'jsonwebtoken';
 
 export class AuthController {
-  public async registerClientAsync(email: string, password: string) {
-    // console.log(`Registering user\n${email} | ${password}`);
-    let newUser = new User();
-    newUser.role = await getRepository(Role).findOne({name:RoleNames.Client});
-    this.getUserRepo().then(userRepo => {
-      userRepo.findOne({normalized_email: email.toUpperCase()}).then((user) => {
-        if(!user) {
-          newUser.email = email;
-          newUser.normalized_email = email.toUpperCase();
-          newUser.salt = this.getSalt();
-          newUser.hash = this.hashPassword(password, newUser.salt);
-          getManager().save(newUser);
-        }
-      });
-    });
+  // Returns JWT on successful login
+  public async registerClientAsync(email: string, password: string, company_name: string = null) {
+    console.log(`Registering user\n${email} | ${password}`);
+    let userRepo = await this.getUserRepo();
+    let userExists = await userRepo.findOne({normalized_email: email.toUpperCase()});
+    if (!userExists) {
+      let user = new User();
+      user.email = email;
+      user.normalized_email = email.toUpperCase();
+      user.salt = this.genSalt();
+      user.hash = this.hashPassword(password, user.salt);
+      user.company_name = company_name;
+      user.role = await Role.getRoleByName(getConnection(), RoleName.Client);
+
+      userRepo.save(user);
+      return this.generateJwt(user);
+    }
+    else {
+      return null;
+    }
   }
 
   public validateUser(user: User, password: string): boolean {
@@ -33,7 +38,7 @@ export class AuthController {
     return await getRepository(User);
   }
 
-  private getSalt(): string {
+  private genSalt(): string {
     return randomBytes(16).toString('hex');
   }
 

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, getRepository } from "typeorm";
 import { Role } from "./Role";
 import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";

@@ -17,6 +17,7 @@ export class AuthController {
       user.salt = this.genSalt();
       user.hash = this.hashPassword(password, user.salt);
       user.company_name = company_name;
+      user.date_created = new Date().getTime();
       user.role = await Role.getRoleByName(getConnection(), RoleName.Client);
 
       userRepo.save(user);

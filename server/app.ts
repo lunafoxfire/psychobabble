@@ -6,7 +6,6 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 import * as crypto from 'crypto';
-
 import 'reflect-metadata';
 import './config/config';
 import './config/passport';
@@ -29,6 +28,7 @@ createConnection()
       admin.normalized_email = process.env.ADMIN_EMAIL.toUpperCase();
       admin.salt = crypto.randomBytes(128).toString('hex');
       admin.hash = crypto.pbkdf2Sync(process.env.ADMIN_PASSWORD, admin.salt, 1000, 64, 'sha512').toString('hex');
+      admin.date_created = new Date().getTime();
       admin.role = await connection.manager.getRepository(Role).findOne({name: RoleName.Admin});
       let finder = await connection.manager.getRepository(User).findOne({email:admin.email});
       if(!finder){

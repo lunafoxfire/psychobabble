@@ -38,7 +38,7 @@ createConnection()
   .catch((err) => console.error("Error connecting to the database!\n" + err));
 
 // Load middleware
-app.use(cors({origin: null}));
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

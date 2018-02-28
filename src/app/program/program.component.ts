@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-// import * as crypto from 'crypto';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'program',
   templateUrl: './program.component.html',
   styleUrls: ['./program.component.scss']
 })
 export class ProgramComponent implements OnInit {
-  public Host = "localhost:3000";
-  constructor() { }
+  public Host = "Http://" + window.location.host;
+  public id: Observable<string>;
+  public url: string;
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
   }
 
   genUrl() {
-    let fakeId = "1d1dd2dd3dff4f12f";
-    console.log(this.Host + "/program/" + fakeId);
+    this.http.get<string>("/api/test/pc").subscribe(data => {
+      this.url = this.Host + "/program/" + data["message"];
+    });
   }
 
 }

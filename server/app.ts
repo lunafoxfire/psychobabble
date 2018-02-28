@@ -6,11 +6,11 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 import * as crypto from 'crypto';
+import * as cors from 'cors';
 import 'reflect-metadata';
 import './config/config';
 import './config/passport';
 import { router } from './routes/routes';
-
 import { createConnection } from 'typeorm';
 import { User } from "./models/User";
 import { Role, RoleName } from "./models/Role";
@@ -38,12 +38,14 @@ createConnection()
   .catch((err) => console.error("Error connecting to the database!\n" + err));
 
 // Load middleware
+app.use(cors({origin: null}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
+app.use(express.static(path.join(__dirname, '../dist')));
+// Add Angular build folder to static files
 
 // load api routes with passport
 app.use(passport.initialize());

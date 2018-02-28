@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { SplashComponent } from './splash/splash.component';
 import { LogInComponent } from './log-in/log-in.component';
 import { RegisterComponent } from './register/register.component';
+import { VideoComponent } from './video/video.component';
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
@@ -21,7 +22,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 // Test components
 import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
-import { VideoComponent } from './video/video.component';
+import { AuthTestComponent } from './auth-test/auth-test.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +30,11 @@ import { VideoComponent } from './video/video.component';
     SplashComponent,
     LogInComponent,
     RegisterComponent,
-
-    SiteNavBarComponent,
-
-    NotFoundComponent,
-
-    ApiCallTestComponent,
-
     VideoComponent,
+    SiteNavBarComponent,
+    NotFoundComponent,
+    ApiCallTestComponent,
+    AuthTestComponent,
   ],
   imports: [
     BrowserModule,

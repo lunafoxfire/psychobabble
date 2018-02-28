@@ -1,10 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, getRepository } from "typeorm";
-import { Role } from "./Role";
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn,
+  getRepository
+} from "typeorm";
+import { Role, RoleName } from "./Role";
 import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
 import { Token } from "./Token";
+
+import { randomBytes, pbkdf2Sync } from 'crypto';
+import * as jwt from 'jsonwebtoken';
 
 @Entity('users')
 export class User {
@@ -50,4 +56,58 @@ export class User {
   @OneToOne(type => Token)
   @JoinColumn()
   token: Token;
+
+  // Registers new client user
+  public static async registerClientAsync(email: string, password: string, company_name: string = null): Promise<User> {
+    let userRepo = getRepository(User);
+    let userExists = await User.findByEmailAsync(email);
+    if (!userExists) {
+      let user = new User();
+      user.email = email;
+      user.normalized_email = User.normalizeEmail(email);
+      user.salt = User.genSalt();
+      user.hash = User.hashPassword(password, user.salt);
+      user.date_created = new Date().getTime();
+      user.company_name = company_name;
+      user.role = await Role.findByNameAsync(RoleName.Client);
+
+      userRepo.save(user);
+      return user;
+    }
+    else {
+      return null;
+    }
+  }
+
+  public validateLogin(password: string): boolean {
+    return User.hashPassword(password, this.salt) == this.hash;
+  }
+
+  public generateJwt() {
+    let expiration = new Date();
+    expiration.setDate(expiration.getDate() + 7); // Expire in one week
+
+    return jwt.sign({
+      id: this.id,
+      email: this.email,
+      exp: expiration.getTime() / 1000
+    }, process.env.JWT_SECRET);
+  }
+
+  // Finds a user by email accounting for normalization
+  public static async findByEmailAsync(email: string): Promise<User> {
+    return getRepository(User).findOne({normalized_email: User.normalizeEmail(email)});
+  }
+
+  private static genSalt(): string {
+    return randomBytes(16).toString('hex');
+  }
+
+  private static hashPassword(password: string, salt: string): string {
+    return pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
+  }
+
+  private static normalizeEmail(email: string): string {
+    return email.toUpperCase();
+  }
 }

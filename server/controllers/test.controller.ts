@@ -1,28 +1,35 @@
-import { getConnection, getManager, getRepository } from 'typeorm';
-import { User } from "../models/User";
-const crypto = require('crypto');
+import { getConnection } from 'typeorm';
 
 export class TestController {
-  // Resolve => database time
-  // Reject => err
-  async getTim() {
-    let response = await getConnection()
-      .query("SELECT NOW()");
-    return response[0].now;
+  public static getTestMessage(req, res) {
+    res.status(200);
+    res.json({
+      message: "Hello from our Express API"
+    })
   }
 
-  async getTime() {
-    let admin = new User();
-    admin.email = "adamtitus76@gmail.com";
-    admin.salt = crypto.randomBytes(128).toString('hex');
-    admin.hash = crypto.pbkdf2Sync('Password', admin.salt, 1000, 64, 'sha512').toString('hex');
-    console.log(admin.hash);
-    let finder = await getRepository(User).findOne({email:admin.email});
-    console.log(finder);
-    if(finder){
-      return `There is already a user with the email of ${admin.email}`;
-    }
-    let response = await getManager().save(admin);
-    return "User registered";
+  public static getTimeFromDb(req, res) {
+    getConnection().query("SELECT NOW()")
+      .then((response) => {
+        let time = response[0].now;
+        res.status(200);
+        res.json({
+          message: time
+        })
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500);
+      });
+  }
+
+  public static getTestUserData(req, res) {
+    res.status(200);
+    res.json({
+      id: "12345",
+      email: "example@example.com",
+      hash: "abcde",
+      salt: "qwerty"
+    })
   }
 }

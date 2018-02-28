@@ -1,22 +1,14 @@
 import * as express from 'express';
-import { TestController } from '../../controllers/test.controller';
-
-let testCtrl = new TestController();
+import { auth } from './../../config/auth';
+import { TestController } from './../../controllers/test.controller';
 
 export let router = express.Router();
 
 // GET /api/test
-router.get('/', (req, res) => {
-  res.send("Hello from our Express API");
-});
+router.get('/', TestController.getTestMessage);
 
 // GET /api/test/db-time-query
-router.get('/db-time-query', (req, res) => {
-  testCtrl.getTime()
-    .then((time) => {
-      res.send(time);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+router.get('/db-time-query', TestController.getTimeFromDb);
+
+// GET /api/test/auth-test
+router.get('/auth-test', TestController.getTestUserData);

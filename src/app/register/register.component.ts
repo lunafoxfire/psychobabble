@@ -16,26 +16,27 @@ import { AuthService, UserCredentials } from './../auth.service';
 export class RegisterComponent {
   constructor(
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   private onSubmit(registerForm: NgForm) {
     let credentials = registerForm.value as UserCredentials;
     this.auth.registerClient(credentials).subscribe(() => {
       this.router.navigateByUrl('/');
-      this.mailCall();
     });
-    private mailCall() {
-      let msg = {
-        to: 'adamtitus76@gmail.com',
-        from: 'noreply@inter.com',
-        subject: 'I AM SENDING AN EMAIL WITH AN API',
-        text: 'SUP',
-        html: '<small><small>I can even do tiny text with html</small></small>',
-      };
-      this.http.post("/api/api/sendMail", msg).subscribe((data) => {
-        console.log(data)
-      })
-    }
+    this.mailCall();
+  }
+  private mailCall() {
+    let msg = {
+      to: 'adamtitus76@gmail.com',
+      from: 'noreply@inter.com',
+      subject: 'I AM SENDING AN EMAIL WITH AN API',
+      text: 'SUP',
+      html: '<small><small>I can even do tiny text with html</small></small>',
+    };
+    this.http.post("/api/sendMail", msg).subscribe((data) => {
+      console.log(data)
+    })
   }
 }

@@ -9,8 +9,8 @@ export class Token {
   @Column()
   code: string;
 
-  @Column({type:'timestamp'})
-  expiration;
+  @Column({type:'bigint'})
+  expiration: number;
 
   @OneToOne(type => User)
   user: User;

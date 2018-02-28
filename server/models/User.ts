@@ -26,6 +26,9 @@ export class User {
   @Column({ nullable: true})
   company_name: string;
 
+  @Column({type: 'bigint'})
+  date_created: number;
+
   @ManyToOne(type => Role, role => role.users)
   role: Role;
 

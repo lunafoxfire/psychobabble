@@ -9,14 +9,14 @@ let authCtrl = new AuthController();
 passport.use(new LocalStrategy({
     usernameField: 'email'
   },
-  function(username, password, done) {
-    authCtrl.getUserRepo()
+  function(loginName, password, done) {
+    authCtrl.getUserRepoAsync()
       .then(userRepo => {
-        userRepo.findOne({email: username})
+        userRepo.findOne({normalized_email: loginName.toUpperCase()})
           .then((user) => {
             if (!user) {
               return done(null, false, {
-                message: `User ${username} not found`
+                message: `User ${loginName} not found`
               });
             }
             if (!authCtrl.validateUser(user, password)) {

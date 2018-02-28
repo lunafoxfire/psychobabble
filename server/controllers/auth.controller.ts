@@ -8,7 +8,7 @@ export class AuthController {
   // Returns JWT on successful login
   public async registerClientAsync(email: string, password: string, company_name: string = null) {
     console.log(`Registering user\n${email} | ${password}`);
-    let userRepo = await this.getUserRepo();
+    let userRepo = await this.getUserRepoAsync();
     let userExists = await userRepo.findOne({normalized_email: email.toUpperCase()});
     if (!userExists) {
       let user = new User();
@@ -23,7 +23,19 @@ export class AuthController {
       return this.generateJwt(user);
     }
     else {
-      return null;
+      return Promise.reject("User already exists");
+    }
+  }
+
+  public async loginAsync(email: string, password: string) {
+    console.log(`Logging in user\n${email} | ${password}`);
+    let user = await this.getUserRepoAsync().then(userRepo => {
+      return userRepo.findOne({normalized_email: email.toUpperCase()})
+    });
+    if(user) {
+      console.log(this.validateUser(user, password));
+    } else {
+      console.log("Your email is wrong");
     }
   }
 
@@ -34,7 +46,7 @@ export class AuthController {
     return false;
   }
 
-  public async getUserRepo() {
+  public async getUserRepoAsync() {
     return await getRepository(User);
   }
 
@@ -46,7 +58,7 @@ export class AuthController {
     return pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
   }
 
-  private generateJwt(user: User) {
+  public generateJwt(user: User) {
     // Expire in one week
     let expiration = new Date();
     expiration.setDate(expiration.getDate() + 7);
@@ -56,17 +68,5 @@ export class AuthController {
       email: user.email,
       exp: expiration.getTime() / 1000
     }, process.env.JWT_SECRET);
-  }
-
-  async loginAsync(email: string, password: string) {
-    // console.log(`Logging in user\n${email} | ${password}`);
-    let user = await this.getUserRepo().then(userRepo => {
-      return userRepo.findOne({normalized_email: email.toUpperCase()})
-    });
-    if(user) {
-      console.log(this.validateUser(user, password));
-    } else {
-      console.log("Your email is wrong");
-    }
   }
 }

@@ -1,9 +1,12 @@
 import * as express from 'express';
+import * as passport from 'passport';
 import { AuthController } from '../../controllers/auth.controller';
 
 let authCtrl = new AuthController();
 
 export let router = express.Router();
+
+// TODO: Remove all logs with passwords in them
 
 // POST /api/auth/client/register
 // Params: email, password
@@ -21,7 +24,7 @@ router.post('/client/register', (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500);
+      res.status(400);
       res.json({
         message: `Registration failed.`
       });
@@ -30,19 +33,21 @@ router.post('/client/register', (req, res) => {
 
 // POST /api/auth/login
 router.post('/login', (req, res) => {
-let email = req.body.email;
-let password = req.body.password;
-authCtrl.loginAsync(email, password)
-  .then(() => {
-    res.status(200);
-    res.json({
-      message: `User logged in\n${email} | ${password}`
-    });
-  })
-  .catch((err) => {
-    res.status(500);
-    res.json({
-      message: `login failed.`
-    });
-  });
+  passport.authenticate('local', function(err, user, info) {
+    let token;
+    if (err) {
+      res.status(404).json(err);
+      return;
+    }
+    if (user) {
+      token = authCtrl.generateJwt(user);
+      res.status(200);
+      res.json({
+        token: token
+      });
+    }
+    else {
+      res.status(401).json(info);
+    }
+  })(req, res);
 });

@@ -10,7 +10,7 @@
 
 # TODO
 * [x]Seed roles and admin
-* [ ]Setup user registration and login
+* [x]Setup user registration and login
 * [ ]Video uploading with buckets and metadata
 * [ ]Video Tags
 * [ ]Playlist Creation

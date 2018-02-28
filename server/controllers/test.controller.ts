@@ -25,6 +25,19 @@ export class TestController {
       });
   }
 
+  public static pc(req, res) {
+    getConnection().getRepository(User).findOne({normalized_email: 'ADAMTITUS76@GMAIL.COM'}).then((response) => {
+      let id = response.id;
+      res.status(200);
+      res.json({
+        message: id
+      })
+    }).catch((err) => {
+      console.log(err);
+      res.status(500);
+    })
+  }
+
   public static getTestUserData(req, res) {
     if (req.jwt && req.jwt.id) {
       getRepository(User).findOneById(req.jwt.id, {relations: ["role"]})

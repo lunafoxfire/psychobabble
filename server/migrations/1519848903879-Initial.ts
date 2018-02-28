@@ -1,20 +1,20 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1519846551137 implements MigrationInterface {
+export class Initial1519848903879 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        await queryRunner.query(`CREATE TABLE "roles" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "soft_skills" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "roles" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "soft_skills" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "program_requests" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" uuid, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "tags" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "tags" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "videos" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "video_ref" character varying NOT NULL, "description" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "responses" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "sound_ref" character varying NOT NULL, "text_version" character varying NOT NULL, "score" integer NOT NULL, "userId" uuid, "videoId" uuid, "programId" uuid, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "programs" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "description" character varying NOT NULL, "expiration" bigint NOT NULL, "closed" boolean NOT NULL, "userId" uuid, "makerId" uuid, "playlistId" uuid, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "tokens" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "code" character varying NOT NULL, "expiration" bigint NOT NULL, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying NOT NULL, "normalized_email" character varying NOT NULL, "salt" character varying NOT NULL, "hash" character varying NOT NULL, "company_name" character varying, "date_created" bigint NOT NULL, "roleId" uuid, "tokenId" uuid, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "tokens" ("id" SERIAL NOT NULL, "code" character varying NOT NULL, "expiration" bigint NOT NULL, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "email" character varying NOT NULL, "normalized_email" character varying NOT NULL, "salt" character varying NOT NULL, "hash" character varying NOT NULL, "company_name" character varying, "date_created" bigint NOT NULL, "roleId" integer, "tokenId" integer, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "playlists" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "userId" uuid, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "program_requests_soft_skills_soft_skills" ("programRequestsId" uuid NOT NULL, "softSkillsId" uuid NOT NULL, PRIMARY KEY("programRequestsId", "softSkillsId"))`);
-        await queryRunner.query(`CREATE TABLE "videos_tags_tags" ("videosId" uuid NOT NULL, "tagsId" uuid NOT NULL, PRIMARY KEY("videosId", "tagsId"))`);
+        await queryRunner.query(`CREATE TABLE "program_requests_soft_skills_soft_skills" ("programRequestsId" uuid NOT NULL, "softSkillsId" integer NOT NULL, PRIMARY KEY("programRequestsId", "softSkillsId"))`);
+        await queryRunner.query(`CREATE TABLE "videos_tags_tags" ("videosId" uuid NOT NULL, "tagsId" integer NOT NULL, PRIMARY KEY("videosId", "tagsId"))`);
         await queryRunner.query(`CREATE TABLE "playlists_videos_videos" ("playlistsId" uuid NOT NULL, "videosId" uuid NOT NULL, PRIMARY KEY("playlistsId", "videosId"))`);
         await queryRunner.query(`ALTER TABLE "program_requests" ADD CONSTRAINT "fk_a73a825a4cb488ee859f5f1318d" FOREIGN KEY ("userId") REFERENCES "users"("id")`);
         await queryRunner.query(`ALTER TABLE "responses" ADD CONSTRAINT "fk_e6d82a270be62c18bba2d7bd2ff" FOREIGN KEY ("userId") REFERENCES "users"("id")`);

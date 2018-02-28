@@ -1,15 +1,31 @@
 import { User } from '../models/User';
-import { getRepository } from 'typeorm';
+import { Role, RoleNames } from '../models/Role';
+import { getRepository, getManager } from 'typeorm';
 import { randomBytes, pbkdf2Sync } from 'crypto';
-import * as jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken';
 
 export class AuthController {
   public async registerClientAsync(email: string, password: string) {
-    console.log(`Registering user\n${email} | ${password}`);
-
+    // console.log(`Registering user\n${email} | ${password}`);
+    let newUser = new User();
+    newUser.role = await getRepository(Role).findOne({name:RoleNames.Client});
+    this.getUserRepo().then(userRepo => {
+      userRepo.findOne({normalized_email: email.toUpperCase()}).then((user) => {
+        if(!user) {
+          newUser.email = email;
+          newUser.normalized_email = email.toUpperCase();
+          newUser.salt = this.getSalt();
+          newUser.hash = this.hashPassword(password, newUser.salt);
+          getManager().save(newUser);
+        }
+      });
+    });
   }
 
-  public validateUser(user, password: string): boolean {
+  public validateUser(user: User, password: string): boolean {
+    if(this.hashPassword(password, user.salt) === user.hash) {
+      return true;
+    }
     return false;
   }
 
@@ -38,6 +54,14 @@ export class AuthController {
   }
 
   async loginAsync(email: string, password: string) {
-    console.log(`Logging in user\n${email} | ${password}`);
+    // console.log(`Logging in user\n${email} | ${password}`);
+    let user = await this.getUserRepo().then(userRepo => {
+      return userRepo.findOne({normalized_email: email.toUpperCase()})
+    });
+    if(user) {
+      console.log(this.validateUser(user, password));
+    } else {
+      console.log("Your email is wrong");
+    }
   }
 }

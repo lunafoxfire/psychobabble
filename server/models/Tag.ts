@@ -3,8 +3,8 @@ import { Video } from "./Video";
 
 @Entity('tags')
 export class Tag {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: string;

@@ -5,8 +5,8 @@ import { Response } from "./Response";
 
 @Entity('videos')
 export class Video {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   video_ref: string;

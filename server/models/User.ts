@@ -14,8 +14,8 @@ import * as jwt from 'jsonwebtoken';
 
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   email: string;

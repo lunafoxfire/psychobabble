@@ -4,8 +4,8 @@ import { User } from "./User";
 
 @Entity('program_requests')
 export class ProgramRequest {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @ManyToOne(type => User, user => user.programRequests)
   user: User;

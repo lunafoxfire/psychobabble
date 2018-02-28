@@ -5,8 +5,8 @@ import { Program } from "./Program";
 
 @Entity('responses')
 export class Response {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   sound_ref: string;

@@ -3,8 +3,8 @@ import { ProgramRequest } from "./ProgramRequest";
 
 @Entity('soft_skills')
 export class SoftSkill {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
   @Column()
   name: string;

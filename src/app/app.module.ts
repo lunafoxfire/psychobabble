@@ -23,6 +23,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 // Test components
 import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
 import { AuthTestComponent } from './auth-test/auth-test.component';
+import { ProgramComponent } from './program/program.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AuthTestComponent } from './auth-test/auth-test.component';
     NotFoundComponent,
     ApiCallTestComponent,
     AuthTestComponent,
+    ProgramComponent,
   ],
   imports: [
     BrowserModule,

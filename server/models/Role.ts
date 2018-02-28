@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Connection } from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, OneToMany,
+  Connection, getConnection
+} from "typeorm";
 import { User } from "./User";
 
 @Entity('roles')
@@ -13,10 +16,10 @@ export class Role {
   users: User[];
 
   // Saves all roles in role enum to db
-  public static async syncRolesToDbAsync(connection: Connection) {
+  public static async syncRolesToDbAsync(connection: Connection = getConnection()) {
     let roleRepo = connection.getRepository(Role);
     let roleList = Object.values(RoleName);
-    roleList.forEach(async function(roleName) {
+    roleList.forEach(async (roleName) => {
       let roleFinder = await roleRepo.findOne({name: roleName});
       if (!roleFinder) {
         let newRole = new Role();
@@ -26,8 +29,9 @@ export class Role {
     });
   }
 
-  public static async getRoleByName(connection: Connection, roleName: RoleName) {
-    return await connection.getRepository(Role).findOne({name: roleName});
+  // Gets role object from db by name
+  public static async findByNameAsync(roleName: RoleName, connection: Connection = getConnection()): Promise<Role> {
+    return connection.getRepository(Role).findOne({name: roleName});
   }
 }
 

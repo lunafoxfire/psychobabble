@@ -8,7 +8,7 @@ export class AuthController {
   // Returns JWT on successful login
   public async registerClientAsync(email: string, password: string, company_name: string = null) {
     console.log(`Registering user\n${email} | ${password}`);
-    let userRepo = await this.getUserRepoAsync();
+    let userRepo = await getRepository(User);
     let userExists = await userRepo.findOne({normalized_email: email.toUpperCase()});
     if (!userExists) {
       let user = new User();
@@ -17,7 +17,7 @@ export class AuthController {
       user.salt = this.genSalt();
       user.hash = this.hashPassword(password, user.salt);
       user.company_name = company_name;
-      user.role = await Role.getRoleByName(getConnection(), RoleName.Client);
+      user.role = await Role.getRoleByName(RoleName.Client);
 
       userRepo.save(user);
       return this.generateJwt(user);
@@ -27,27 +27,23 @@ export class AuthController {
     }
   }
 
-  public async loginAsync(email: string, password: string) {
-    console.log(`Logging in user\n${email} | ${password}`);
-    let user = await this.getUserRepoAsync().then(userRepo => {
-      return userRepo.findOne({normalized_email: email.toUpperCase()})
-    });
-    if(user) {
-      console.log(this.validateUser(user, password));
-    } else {
-      console.log("Your email is wrong");
-    }
-  }
+  // public async loginAsync(email: string, password: string) {
+  //   console.log(`Logging in user\n${email} | ${password}`);
+  //   let user = await this.getUserRepoAsync().then(userRepo => {
+  //     return userRepo.findOne({normalized_email: email.toUpperCase()})
+  //   });
+  //   if(user) {
+  //     console.log(this.validateUser(user, password));
+  //   } else {
+  //     console.log("Your email is wrong");
+  //   }
+  // }
 
   public validateUser(user: User, password: string): boolean {
     if(this.hashPassword(password, user.salt) === user.hash) {
       return true;
     }
     return false;
-  }
-
-  public async getUserRepoAsync() {
-    return await getRepository(User);
   }
 
   private genSalt(): string {

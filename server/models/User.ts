@@ -79,7 +79,7 @@ export class User {
     expiration.setDate(expiration.getDate() + 7); // Expire in one week
 
     return jwt.sign({
-      _id: this.id,
+      id: this.id,
       email: this.email,
       exp: expiration.getTime() / 1000
     }, process.env.JWT_SECRET);

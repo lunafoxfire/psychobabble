@@ -22,3 +22,4 @@ process.env.JWT_SECRET = secrets.JWT_SECRET;
 
 // SendGrid settings
 process.env.SENDGRID_API_KEY = secrets.SENDGRID_API_KEY;
+process.env.NOREPLY_EMAIL = secrets.NOREPLY_EMAIL;

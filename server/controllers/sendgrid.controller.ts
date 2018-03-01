@@ -7,9 +7,8 @@ export class ApiController {
       res.status(200);
       console.log(status);
     }).catch((err) => {
-      res.status(400);
-      console.log("##########################################");
-      console.log(err);
+      res.status(500);
+      console.error(err);
     })
   }
 }

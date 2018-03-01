@@ -178,6 +178,13 @@ export class User {
     return getRepository(User).findOne({normalized_email: User.normalizeField(email)});
   }
 
+  // Finds a user by username or email for login puposes
+  public static async findByLoginNameAsync(loginName: string): Promise<User> {
+    let userByName = await User.findByUsernameAsync(loginName);
+    let userByEmail = await User.findByEmailAsync(loginName);
+    return (userByName || userByEmail);
+  }
+
   private static genSalt(): string {
     return randomBytes(16).toString('hex');
   }
@@ -186,8 +193,8 @@ export class User {
     return pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
   }
 
-  private static normalizeField(email: string): string {
-    return email.toUpperCase();
+  private static normalizeField(field: string): string {
+    return field.toUpperCase();
   }
 }
 

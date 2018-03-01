@@ -1,7 +1,9 @@
 import { getConnection, getRepository } from 'typeorm';
 import { User } from './../models/User';
 import { Role } from './../models/Role';
-
+import * as AWS from 'aws-sdk';
+AWS.config.update({accessKeyId: process.env.VIDEO_ACCESS_KEY, secretAccessKey: process.env.VIDEO_SECRET_KEY})
+import * as fs from 'fs';
 export class TestController {
   public static getTestMessage(req, res) {
     res.status(200);
@@ -23,6 +25,23 @@ export class TestController {
         console.error(err);
         res.status(500);
       });
+  }
+
+  public static uploadVideo(req, res) {
+    let s3 = new AWS.S3();
+    let myBucket = "epicodus-internship";
+    let myKey = 'mp4';
+    fs.readFile('videoplayback.mp4', function(err, data) {
+      if(err) { throw err; }
+      let params = {Bucket: myBucket, Key: myKey, Body: data, ACL:'public-read'};
+      s3.putObject(params, function(err, data) {
+        if(err) {
+          console.log(err);
+        } else {
+          console.log(`successfully uploaded data to ${myBucket}/${myKey}`)
+        }
+      })
+    })
   }
 
   public static pc(req, res) {

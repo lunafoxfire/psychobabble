@@ -23,3 +23,7 @@ process.env.JWT_SECRET = secrets.JWT_SECRET;
 // SendGrid settings
 process.env.SENDGRID_API_KEY = secrets.SENDGRID_API_KEY;
 process.env.NOREPLY_EMAIL = secrets.NOREPLY_EMAIL;
+
+// S3 Bucket settings
+process.env.VIDEO_ACCESS_KEY = secrets.VIDEO_ACCESS_KEY;
+process.env.VIDEO_SECRET_KEY = secrets.VIDEO_SECRET_KEY;

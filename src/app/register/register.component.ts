@@ -24,20 +24,6 @@ export class RegisterComponent {
     let credentials = registerForm.value as UserCredentials;
     this.auth.registerClient(credentials).subscribe(() => {
       this.router.navigateByUrl('/');
-      //Un comment for emails
-      //this.mailCall();
     });
-  }
-  private mailCall() {
-    let msg = {
-      to: 'adamtitus76@gmail.com',
-      from: 'noreply@inter.com',
-      subject: 'I AM SENDING AN EMAIL WITH AN API',
-      text: 'SUP',
-      html: '<small><small>I can even do tiny text with html</small></small>',
-    };
-    this.http.post("/api/sendMail", msg).subscribe((data) => {
-      console.log(data)
-    })
   }
 }

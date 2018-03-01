@@ -8,7 +8,8 @@ import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
 import { Token } from "./Token";
-
+import * as sgMail from '@sendgrid/mail';
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 import { randomBytes, pbkdf2Sync } from 'crypto';
 import * as jwt from 'jsonwebtoken';
 
@@ -72,11 +73,24 @@ export class User {
       user.role = await Role.findByNameAsync(RoleName.Client);
       user.token = await Token.generateToken();
       await userRepo.save(user);
+      user.sendTokenMail();
       return user;
     }
     else {
       return null;
     }
+  }
+
+  public sendTokenMail() {
+    let msg = {
+      to: this.email,
+      from: process.env.NOREPLY_EMAIL,
+      subject: 'Account Activation',
+      html: `Please enter this code: ${this.token.code}`,
+    };
+    sgMail.send(msg).catch((err) => {
+      console.log(err);
+    })
   }
 
   public validateLogin(password: string): boolean {

@@ -35,7 +35,7 @@ export class User {
   @Column({type: 'bigint'})
   date_created: number;
 
-  @ManyToOne(type => Role, role => role.users)
+  @ManyToOne(type => Role, role => role.users, {eager: true})
   role: Role;
 
   @OneToMany(type => Playlist, playlists => playlists.user)
@@ -89,7 +89,7 @@ export class User {
     return jwt.sign({
       id: this.id,
       email: this.email,
-      role: this.role,
+      role: this.role.name,
       exp: expiration.getTime() / 1000
     }, process.env.JWT_SECRET);
   }

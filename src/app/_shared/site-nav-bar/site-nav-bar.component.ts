@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../../auth.service';
 
 @Component({
   selector: 'site-nav-bar',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 
 // TODO: Change content depending on authentication
 export class SiteNavBarComponent {
-  constructor(){ }
+  constructor(
+    private auth: AuthService
+  ){ }
 
   ngOnInit() {
 

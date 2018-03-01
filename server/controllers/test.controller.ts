@@ -40,7 +40,7 @@ export class TestController {
 
   public static getTestUserData(req, res) {
     if (req.jwt && req.jwt.id) {
-      getRepository(User).findOneById(req.jwt.id, {relations: ["role"]})
+      getRepository(User).findOneById(req.jwt.id)
         .then((user) => {
           if (user) {
             res.status(200);

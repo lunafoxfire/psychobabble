@@ -13,16 +13,6 @@ export class AuthService {
     private router: Router
   ) { }
 
-  public isLoggedIn(): boolean {
-    const user = this.getUserDetails();
-    if (user) {
-      return user.exp > Date.now() / 1000
-    }
-    else {
-      return false;
-    }
-  }
-
   public registerClient(credentials: UserCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/client/register', credentials);
     return this.interceptToken(baseRequest);
@@ -47,7 +37,47 @@ export class AuthService {
     this.router.navigateByUrl('/');
   }
 
-  public getUserDetails(): TokenPayload {
+  public isLoggedIn(): boolean {
+    const user = this.getTokenPayload();
+    if (user) {
+      return user.exp > Date.now() / 1000
+    }
+    else {
+      return false;
+    }
+  }
+
+  public isAdmin(): boolean {
+    if (this.isLoggedIn()) {
+      const user = this.getTokenPayload();
+      if (user) {
+        return user.role === 'ADMIN';
+      }
+    }
+    return false;
+  }
+
+  public isClient(): boolean {
+    if (this.isLoggedIn()) {
+      const user = this.getTokenPayload();
+      if (user) {
+        return user.role === 'CLIENT';
+      }
+    }
+    return false;
+  }
+
+  public isSubject(): boolean {
+    if (this.isLoggedIn()) {
+      const user = this.getTokenPayload();
+      if (user) {
+        return user.role === 'SUBJECT';
+      }
+    }
+    return false;
+  }
+
+  public getTokenPayload(): TokenPayload {
     const token = this.getToken();
     if (token) {
       let payload = token.split('.')[1];

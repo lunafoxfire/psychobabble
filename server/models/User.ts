@@ -19,9 +19,15 @@ export class User {
   id: string;
 
   @Column()
-  email: string;
+  username: string;
 
   @Column()
+  normalized_username: string;
+
+  @Column({nullable: true})
+  email: string;
+
+  @Column({nullable: true})
   normalized_email: string;
 
   @Column()
@@ -29,9 +35,6 @@ export class User {
 
   @Column()
   hash: string;
-
-  @Column({ nullable: true})
-  company_name: string;
 
   @Column({type: 'bigint'})
   date_created: number;
@@ -62,22 +65,25 @@ export class User {
   validated: boolean;
 
   // Registers new user
-  public static async registerAsync(email: string, password: string, roleName: RoleName, preValidated: boolean = false): Promise<User> {
+  // TODO: Return some results object with more info on failures
+  public static async registerAsync(regOptions: UserRegistrationOptions): Promise<User> {
     let userRepo = getRepository(User);
-    let userExists = await User.findByEmailAsync(email);
-    if (!userExists) {
+    let usernameTaken = await User.findByEmailAsync(regOptions.username);
+    let emailTaken = await User.findByEmailAsync(regOptions.email);
+    if (!usernameTaken && !emailTaken) {
       let user = new User();
-      user.email = email;
-      user.normalized_email = User.normalizeEmail(email);
-      user.salt = User.genSalt();
-      user.hash = User.hashPassword(password, user.salt);
-      user.date_created = new Date().getTime();
-      user.company_name = null;
-      user.role = await Role.findByNameAsync(roleName);
-      user.token = await Token.generateToken();
-      user.validated = preValidated;
+        user.username = regOptions.username;
+        user.normalized_username = User.normalizeField(user.username);
+        user.email = regOptions.email;
+        user.normalized_email = User.normalizeField(user.email);
+        user.salt = User.genSalt();
+        user.hash = User.hashPassword(regOptions.password, user.salt);
+        user.date_created = new Date().getTime();
+        user.role = await Role.findByNameAsync(regOptions.roleName);
+        user.validated = regOptions.preValidated || false;
       await userRepo.save(user);
-      if (!preValidated) {
+      if (!user.validated) {
+        user.token = await Token.generateTokenAsync();
         user.sendTokenMail();
       }
       return user;
@@ -87,22 +93,36 @@ export class User {
     }
   }
 
-  public static async registerAdminAsync(email: string, password: string): Promise<User> {
-    return User.registerAsync(email, password, RoleName.Admin, true);
+  public static async registerAdminAsync(username: string, email: string, password: string): Promise<User> {
+    return User.registerAsync({
+      username: username,
+      email: email,
+      password: password,
+      roleName: RoleName.Admin
+    });
   }
 
-  public static async registerClientAsync(email: string, password: string, companyName: string = null): Promise<User> {
-    return User.registerAsync(email, password, RoleName.Client);
+  public static async registerClientAsync(username: string, email: string, password: string): Promise<User> {
+    return User.registerAsync({
+      username: username,
+      email: email,
+      password: password,
+      roleName: RoleName.Client
+    });
   }
 
-  public static async registerSubjectAsync(email: string, password: string): Promise<User> {
-    return User.registerAsync(email, password, RoleName.Subject);
+  public static async registerSubjectAsync(username: string, email: string, password: string): Promise<User> {
+    return User.registerAsync({
+      username: username,
+      email: email,
+      password: password,
+      roleName: RoleName.Subject
+    });
   }
 
   public static async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
     let adminRole = await Role.findByNameAsync(RoleName.Admin);
-    // Ignore this type error. TypeORM apparently has some "quirks".
-    let adminExists = await getRepository(User).findOne({role: adminRole.id});
+    let adminExists = await getRepository(User).findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
     if (adminExists) {
       return null;
     }
@@ -112,7 +132,13 @@ export class User {
   }
 
   public static async generateDefaultAdminAsync(): Promise<User> {
-    return User.registerAdminAsync(process.env.ADMIN_EMAIL, process.env.ADMIN_PASSWORD);
+    return User.registerAsync({
+      username: process.env.DEFAULT_ADMIN_USERNAME,
+      email: null,
+      password: process.env.DEFAULT_ADMIN_PASSWORD,
+      roleName: RoleName.Admin,
+      preValidated: true
+    });
   }
 
   public sendTokenMail() {
@@ -142,9 +168,14 @@ export class User {
     }, process.env.JWT_SECRET);
   }
 
+  // Finds a user by username accounting for normalization
+  public static async findByUsernameAsync(username: string): Promise<User> {
+    return getRepository(User).findOne({normalized_username: User.normalizeField(username)});
+  }
+
   // Finds a user by email accounting for normalization
   public static async findByEmailAsync(email: string): Promise<User> {
-    return getRepository(User).findOne({normalized_email: User.normalizeEmail(email)});
+    return getRepository(User).findOne({normalized_email: User.normalizeField(email)});
   }
 
   private static genSalt(): string {
@@ -155,7 +186,15 @@ export class User {
     return pbkdf2Sync(password, salt, 1000, 64, 'sha512').toString('hex');
   }
 
-  private static normalizeEmail(email: string): string {
+  private static normalizeField(email: string): string {
     return email.toUpperCase();
   }
+}
+
+interface UserRegistrationOptions {
+  username: string;
+  email: string;
+  password: string;
+  roleName: RoleName;
+  preValidated?: boolean;
 }

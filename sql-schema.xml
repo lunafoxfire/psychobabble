@@ -50,7 +50,7 @@
 <row name="hash" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
-<row name="company_name" null="1" autoincrement="0">
+<row name="username" null="1" autoincrement="0">
 <datatype>VARCHAR(255)</datatype>
 <default>NULL</default></row>
 <row name="role_id" null="1" autoincrement="0">

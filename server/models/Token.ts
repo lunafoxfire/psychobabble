@@ -15,7 +15,7 @@ export class Token {
   @OneToOne(type => User)
   user: User;
 
-  public static async generateToken() {
+  public static async generateTokenAsync() {
     let tokenRepo = getRepository(Token);
     let minBeforeExpire = 15;
     let newToken = new Token();

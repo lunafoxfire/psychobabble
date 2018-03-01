@@ -19,21 +19,12 @@ import { Role, RoleName } from "./models/Role";
 export let app = express();
 
 // Get database connection and initialize data
+console.log("Connecting to the database...");
 createConnection()
   .then(async connection => {
+    await Role.syncRolesToDbAsync();
+    await User.generateDefaultAdminIfNoAdminAsync();
     console.log("Successfully connected to the database.");
-      Role.syncRolesToDbAsync();
-      let admin = new User();
-      admin.email = process.env.ADMIN_EMAIL;
-      admin.normalized_email = process.env.ADMIN_EMAIL.toUpperCase();
-      admin.salt = crypto.randomBytes(128).toString('hex');
-      admin.hash = crypto.pbkdf2Sync(process.env.ADMIN_PASSWORD, admin.salt, 1000, 64, 'sha512').toString('hex');
-      admin.date_created = new Date().getTime();
-      admin.role = await connection.manager.getRepository(Role).findOne({name: RoleName.Admin});
-      let finder = await connection.manager.getRepository(User).findOne({email:admin.email});
-      if(!finder){
-        await connection.manager.save(admin);
-      }
   })
   .catch((err) => console.error("Error connecting to the database!\n" + err));
 

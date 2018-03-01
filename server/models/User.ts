@@ -70,7 +70,7 @@ export class User {
       user.date_created = new Date().getTime();
       user.company_name = company_name;
       user.role = await Role.findByNameAsync(RoleName.Client);
-
+      user.token = await Token.generateToken();
       await userRepo.save(user);
       return user;
     }

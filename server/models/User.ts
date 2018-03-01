@@ -61,8 +61,8 @@ export class User {
   @Column()
   validated: boolean;
 
-  // Registers new client user
-  public static async registerClientAsync(email: string, password: string, company_name: string = null): Promise<User> {
+  // Registers new user
+  public static async registerAsync(email: string, password: string, roleName: RoleName, preValidated: boolean = false): Promise<User> {
     let userRepo = getRepository(User);
     let userExists = await User.findByEmailAsync(email);
     if (!userExists) {
@@ -72,17 +72,47 @@ export class User {
       user.salt = User.genSalt();
       user.hash = User.hashPassword(password, user.salt);
       user.date_created = new Date().getTime();
-      user.company_name = company_name;
-      user.role = await Role.findByNameAsync(RoleName.Client);
+      user.company_name = null;
+      user.role = await Role.findByNameAsync(roleName);
       user.token = await Token.generateToken();
-      user.validated = false;
+      user.validated = preValidated;
       await userRepo.save(user);
-      user.sendTokenMail();
+      if (!preValidated) {
+        user.sendTokenMail();
+      }
       return user;
     }
     else {
       return null;
     }
+  }
+
+  public static async registerAdminAsync(email: string, password: string): Promise<User> {
+    return User.registerAsync(email, password, RoleName.Admin, true);
+  }
+
+  public static async registerClientAsync(email: string, password: string, companyName: string = null): Promise<User> {
+    return User.registerAsync(email, password, RoleName.Client);
+  }
+
+  public static async registerSubjectAsync(email: string, password: string): Promise<User> {
+    return User.registerAsync(email, password, RoleName.Subject);
+  }
+
+  public static async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
+    let adminRole = await Role.findByNameAsync(RoleName.Admin);
+    // Ignore this type error. TypeORM apparently has some "quirks".
+    let adminExists = await getRepository(User).findOne({role: adminRole.id});
+    if (adminExists) {
+      return null;
+    }
+    else {
+      return User.generateDefaultAdminAsync();
+    }
+  }
+
+  public static async generateDefaultAdminAsync(): Promise<User> {
+    return User.registerAdminAsync(process.env.ADMIN_EMAIL, process.env.ADMIN_PASSWORD);
   }
 
   public sendTokenMail() {

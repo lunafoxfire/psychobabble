@@ -28,20 +28,28 @@ export class TestController {
   }
 
   public static uploadVideo(req, res) {
-    let s3 = new AWS.S3();
-    let myBucket = "epicodus-internship";
-    let myKey = 'mp4';
-    fs.readFile('videoplayback.mp4', function(err, data) {
-      if(err) { throw err; }
-      let params = {Bucket: myBucket, Key: myKey, Body: data, ACL:'public-read'};
-      s3.putObject(params, function(err, data) {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log(`successfully uploaded data to ${myBucket}/${myKey}`)
-        }
-      })
-    })
+    if(req.jwt && req.jwt.id) {
+      if(req.jwt.role === "ADMIN") {
+        let s3 = new AWS.S3();
+        let myBucket = "epicodus-internship";
+        let myKey = 'mp4';
+        fs.readFile(req.body, function(err, data) {
+          if(err) { res.status(500); console.log(`There was an error: ${err}`); }
+          let params = {Bucket: myBucket, Key: myKey, Body: data, ACL:'public-read'};
+          s3.putObject(params, function(err, data) {
+            if(err) {
+              console.log(`There was an error: ${err}`);
+              res.status(500);
+            } else {
+              console.log(`successfully uploaded data to ${myBucket}/${myKey}`);
+              res.status(200);
+            }
+          })
+        })
+      }
+    }
+    res.status(500);
+    console.log("Naughty naughty");
   }
 
   public static pc(req, res) {

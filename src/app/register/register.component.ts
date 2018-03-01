@@ -1,7 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -16,8 +15,7 @@ import { AuthService, UserCredentials } from './../auth.service';
 export class RegisterComponent {
   constructor(
     private auth: AuthService,
-    private router: Router,
-    private http: HttpClient
+    private router: Router
   ) { }
 
   private onSubmit(registerForm: NgForm) {

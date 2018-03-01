@@ -23,6 +23,12 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
+  public canUpload(file: any): Observable<any> {
+    if(this.isAdmin()) {
+      return this.http.post('/api/test/video-upload', file);
+    }
+  }
+
   public get<T>(route: string): Observable<T> {
     return this.http.get<T>(route, {
       headers: {

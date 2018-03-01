@@ -1,6 +1,6 @@
-<p>
-  video works!
-</p>
+<h1>UPLOAD TEH VIDJAH</h1>
 
-<button type="button" name="button">Upload Video</button>
-<p style="background-color: red; width:100px;"><small><small><small>Doesn't work right now</small></small></small></p>
+<form #videoForm="ngForm" (ngSubmit)="sendVideo(videoForm)" novalidate>
+  <input type="file">
+  <button type="submit">Upload Video</button>
+</form>

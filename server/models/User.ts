@@ -58,6 +58,9 @@ export class User {
   @JoinColumn()
   token: Token;
 
+  @Column()
+  validated: boolean;
+
   // Registers new client user
   public static async registerClientAsync(email: string, password: string, company_name: string = null): Promise<User> {
     let userRepo = getRepository(User);
@@ -72,6 +75,7 @@ export class User {
       user.company_name = company_name;
       user.role = await Role.findByNameAsync(RoleName.Client);
       user.token = await Token.generateToken();
+      user.validated = false;
       await userRepo.save(user);
       user.sendTokenMail();
       return user;

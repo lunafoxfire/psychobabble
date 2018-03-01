@@ -1,6 +1,16 @@
 <!-- TODO: Change content via authentication -->
 <nav id="site-nav-bar">
-  <a href="/">Home</a>
-
-  <a href="/login">Log In</a>
+  <div class="nav-links-right">
+    <a href="/">Home</a>
+    <a *ngIf="auth.isClient()" href="#">Playlists</a>
+    <a *ngIf="auth.isClient()" href="#">Requests</a>
+    <a *ngIf="auth.isAdmin()" href="#">Feed</a>
+    <a *ngIf="auth.isAdmin()" href="#">Videos</a>
+    <a *ngIf="auth.isAdmin()" href="#">Employers</a>
+  </div>
+  <div class="nav-links-left">
+    <a *ngIf="!auth.isLoggedIn()" href="/register">Register</a>
+    <a *ngIf="!auth.isLoggedIn()" href="/login">Log In</a>
+    <a *ngIf="auth.isLoggedIn()" href (click)="auth.logout()">Log Out</a>
+  </div>
 </nav>

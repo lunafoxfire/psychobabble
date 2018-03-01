@@ -24,8 +24,8 @@ export class RegisterComponent {
     let credentials = registerForm.value as UserCredentials;
     this.auth.registerClient(credentials).subscribe(() => {
       this.router.navigateByUrl('/');
+      this.mailCall();
     });
-    this.mailCall();
   }
   private mailCall() {
     let msg = {

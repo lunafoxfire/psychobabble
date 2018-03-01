@@ -196,7 +196,7 @@ export class User {
   }
 
   private static normalizeField(field: string): string {
-    return field.toUpperCase();
+    return (field) ? field.toUpperCase() : null;
   }
 }
 

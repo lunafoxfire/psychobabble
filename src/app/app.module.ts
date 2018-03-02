@@ -13,6 +13,9 @@ import { LogInComponent } from './routes/login/login.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { VideoComponent } from './routes/video/video.component';
 import { ProgramComponent } from './routes/program/program.component';
+import { FeedComponent } from './routes/admin/feed/feed.component';
+import { VideosComponent } from './routes/admin/videos/videos.component';
+import { ClientsComponent } from './routes/admin/clients/clients.component';
 import { NotFoundComponent } from './routes/not-found/not-found.component';
 
 // Shared components
@@ -24,6 +27,7 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
 
 // Services
 import { AuthService } from './auth.service';
+import { AuthGuardService } from './auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,9 @@ import { AuthService } from './auth.service';
     RegisterComponent,
     VideoComponent,
     ProgramComponent,
+    FeedComponent,
+    VideosComponent,
+    ClientsComponent,
     NotFoundComponent,
     SiteNavBarComponent,
     ApiCallTestComponent,
@@ -45,7 +52,8 @@ import { AuthService } from './auth.service';
     RouterModule.forRoot(ROUTES),
   ],
   providers: [
-    AuthService
+    AuthService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })

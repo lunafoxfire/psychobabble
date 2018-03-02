@@ -39,34 +39,26 @@ export class AuthService {
     }
   }
 
-  public isAdmin(): boolean {
-    if (this.isLoggedIn()) {
+  public isRole(role: AuthRole): boolean {
+    if(this.isLoggedIn()) {
       const user = this.getTokenPayload();
       if (user) {
-        return user.role === 'ADMIN';
+        return user.role === role;
       }
     }
     return false;
+  }
+
+  public isAdmin(): boolean {
+    return this.isRole(AuthRole.Admin);
   }
 
   public isClient(): boolean {
-    if (this.isLoggedIn()) {
-      const user = this.getTokenPayload();
-      if (user) {
-        return user.role === 'CLIENT';
-      }
-    }
-    return false;
+    return this.isRole(AuthRole.Client);
   }
 
   public isSubject(): boolean {
-    if (this.isLoggedIn()) {
-      const user = this.getTokenPayload();
-      if (user) {
-        return user.role === 'SUBJECT';
-      }
-    }
-    return false;
+    return this.isRole(AuthRole.Subject);
   }
 
   public getTokenPayload(): TokenPayload {
@@ -158,6 +150,12 @@ export interface TokenPayload {
   validated: boolean;
   exp: number;
   iat: number;
+}
+
+export enum AuthRole {
+  Admin = "ADMIN",
+  Client = "CLIENT",
+  Subject = "SUBJECT"
 }
 
 interface ResponseToken {

@@ -4,9 +4,10 @@
     <a routerLink="/" routerLinkActive="active">Home</a>
     <a *ngIf="auth.isClient()" routerLink="" routerLinkActive="active">Playlists</a>
     <a *ngIf="auth.isClient()" routerLink="" routerLinkActive="active">Requests</a>
-    <a *ngIf="auth.isAdmin()" routerLink="" routerLinkActive="active">Feed</a>
-    <a *ngIf="auth.isAdmin()"  routerLink="/video" routerLinkActive="active">Videos</a>
-    <a *ngIf="auth.isAdmin()"  routerLink="" routerLinkActive="active">Employers</a>
+
+    <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
+    <a *ngIf="auth.isAdmin()"  routerLink="/admin/videos" routerLinkActive="active">Videos</a>
+    <a *ngIf="auth.isAdmin()"  routerLink="/admin/clients" routerLinkActive="active">Clients</a>
   </div>
   <div class="nav-links-left">
     <a *ngIf="!auth.isLoggedIn()"  routerLink="/register">Register</a>

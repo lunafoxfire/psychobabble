@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, UserCredentials } from './../auth.service';
+import { AuthService, LoginCredentials } from './../auth.service';
 
 @Component({
   selector: 'login',
@@ -16,7 +16,7 @@ export class LogInComponent {
   ){ }
 
   private onSubmit(loginForm: NgForm) {
-    let credentials = loginForm.value as UserCredentials;
+    let credentials = loginForm.value as LoginCredentials;
     this.auth.login(credentials).subscribe(() => {
       this.router.navigateByUrl('/');
     });

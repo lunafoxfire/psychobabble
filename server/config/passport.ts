@@ -3,7 +3,8 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import { User } from './../models/User';
 
 passport.use(new LocalStrategy({
-    usernameField: 'loginName'
+    usernameField: 'loginName',
+    passwordField: 'password'
   },
   function(loginName, password, done) {
     User.findByLoginNameAsync(loginName)

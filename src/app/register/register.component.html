@@ -1,5 +1,8 @@
 <h1>Register</h1>
 <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" novalidate>
+  <label for="register-username">Username:</label>
+  <input id="register-username" type="text" ngModel name="username">
+
   <label for="register-email">Email:</label>
   <input id="register-email" type="email" ngModel name="email">
 

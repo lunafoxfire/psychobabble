@@ -18,9 +18,17 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
+
   public login(credentials: LoginCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/login', credentials);
     return this.interceptToken(baseRequest);
+  }
+
+  public verify(code: string): Observable<any> {
+    if(this.isLoggedIn()) {
+      let baseRequest = this.post('/api/auth/verify', {code:code});
+      return this.interceptToken(baseRequest);
+    }
   }
 
   public logout() {

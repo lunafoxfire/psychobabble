@@ -24,6 +24,7 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
 
 // Services
 import { AuthService } from './auth.service';
+import { VerifyComponent } from './routes/verify/verify.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { AuthService } from './auth.service';
     SiteNavBarComponent,
     ApiCallTestComponent,
     AuthTestComponent,
+    VerifyComponent,
   ],
   imports: [
     BrowserModule,

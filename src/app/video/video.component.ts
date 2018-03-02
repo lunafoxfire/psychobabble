@@ -15,7 +15,10 @@ export class VideoComponent implements OnInit {
   ngOnInit() {
   }
 
-  private sendVideo(videoForm: NgForm) {
-    this.auth.canUpload(videoForm).subscribe(() => {});
+  private sendVideo(videoForm) {
+    let video = videoForm.value;
+    console.log(video);
+    console.log(videoForm);
+    this.auth.canUpload(video).subscribe(() => {});
   }
 }

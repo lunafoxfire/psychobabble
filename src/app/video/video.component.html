@@ -1,6 +1,4 @@
 <h1>UPLOAD TEH VIDJAH</h1>
 
-<form #videoForm="ngForm" (ngSubmit)="sendVideo(videoForm)" novalidate>
-  <input type="file">
-  <button type="submit">Upload Video</button>
-</form>
+<input #file type="file">
+<button type="submit" (click)="sendVideo(file)">Upload Video</button>

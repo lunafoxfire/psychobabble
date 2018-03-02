@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, LoginCredentials } from './../auth.service';
+import { NgForm } from '@angular/forms';
+import { AuthService, LoginCredentials } from './../../auth.service';
 
 @Component({
   selector: 'login',

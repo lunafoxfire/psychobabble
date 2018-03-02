@@ -1,16 +1,16 @@
 <!-- TODO: Change content via authentication -->
 <nav id="site-nav-bar">
   <div class="nav-links-right">
-    <a href="/">Home</a>
-    <a *ngIf="auth.isClient()" href="#">Playlists</a>
-    <a *ngIf="auth.isClient()" href="#">Requests</a>
-    <a *ngIf="auth.isAdmin()" href="#">Feed</a>
-    <a *ngIf="auth.isAdmin()" href="video">Videos</a>
-    <a *ngIf="auth.isAdmin()" href="#">Employers</a>
+    <a routerLink="/" routerLinkActive="active">Home</a>
+    <a *ngIf="auth.isClient()" routerLink="" routerLinkActive="active">Playlists</a>
+    <a *ngIf="auth.isClient()" routerLink="" routerLinkActive="active">Requests</a>
+    <a *ngIf="auth.isAdmin()" routerLink="" routerLinkActive="active">Feed</a>
+    <a *ngIf="auth.isAdmin()"  routerLink="/video" routerLinkActive="active">Videos</a>
+    <a *ngIf="auth.isAdmin()"  routerLink="" routerLinkActive="active">Employers</a>
   </div>
   <div class="nav-links-left">
-    <a *ngIf="!auth.isLoggedIn()" href="/register">Register</a>
-    <a *ngIf="!auth.isLoggedIn()" href="/login">Log In</a>
-    <a *ngIf="auth.isLoggedIn()" href (click)="auth.logout()">Log Out</a>
+    <a *ngIf="!auth.isLoggedIn()"  routerLink="/register">Register</a>
+    <a *ngIf="!auth.isLoggedIn()" routerLink="/login">Log In</a>
+    <a *ngIf="auth.isLoggedIn()" routerLink="/logout" (click)="auth.logout()">Log Out</a>
   </div>
 </nav>

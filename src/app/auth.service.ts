@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
@@ -23,12 +23,32 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
+  public canUpload(file: any): Observable<any> {
+    if(this.isAdmin()) {
+      const httpOptions = {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${this.getToken()}`
+        })
+      };
+      return this.http.post('/api/test/video-upload', file, httpOptions);
+    }
+  }
+
   public get<T>(route: string): Observable<T> {
     return this.http.get<T>(route, {
       headers: {
         Authorization: `Bearer ${this.getToken()}`
       }
     });
+  }
+
+  public post<T>(route: string, body): Observable<T> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    return this.http.post<T>(route, body, httpOptions);
   }
 
   public logout() {

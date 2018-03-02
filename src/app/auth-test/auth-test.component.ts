@@ -15,6 +15,6 @@ export class AuthTestComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userInfo = this.auth.get<IUserInfo>("/api/test/auth-test");
+    this.userInfo = this.auth.post<IUserInfo>("/api/test/auth-test", "howdy doo");
   }
 }

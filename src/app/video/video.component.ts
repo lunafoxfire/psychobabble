@@ -22,7 +22,7 @@ export class VideoComponent implements OnInit {
       console.log(file.files[0]);
       aReader.readAsDataURL(file.files[0]);
       aReader.onloadend = function (e) {
-        _auth.canUpload(aReader.result).subscribe(() => {});
+        _auth.post('/api/test/video-upload', {file: aReader.result}).subscribe(() => {});
       }
     }
   }

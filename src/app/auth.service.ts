@@ -23,34 +23,6 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
-  public canUpload(file: any): Observable<any> {
-    if(this.isAdmin()) {
-      const httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${this.getToken()}`
-        })
-      };
-      return this.http.post('/api/test/video-upload', {file:file}, httpOptions);
-    }
-  }
-
-  public get<T>(route: string): Observable<T> {
-    return this.http.get<T>(route, {
-      headers: {
-        Authorization: `Bearer ${this.getToken()}`
-      }
-    });
-  }
-
-  public post<T>(route: string, body): Observable<T> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${this.getToken()}`
-      })
-    };
-    return this.http.post<T>(route, body, httpOptions);
-  }
-
   public logout() {
     this._token = '';
     window.localStorage.removeItem('jwt');
@@ -107,6 +79,39 @@ export class AuthService {
     else {
       return null;
     }
+  }
+
+  public ajax<T>(method: 'GET' | 'POST', route: string, payload: object = null): Observable<T> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    if (method === 'GET') {
+      return this.http.get<T>(route, httpOptions);
+    }
+    if (method === 'POST') {
+      return this.http.post<T>(route, payload, httpOptions);
+    }
+  }
+
+  // TODO: Add params to options
+  public get<T>(route: string): Observable<T> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    return this.http.get<T>(route, httpOptions);
+  }
+
+  public post<T>(route: string, body): Observable<T> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${this.getToken()}`
+      })
+    };
+    return this.http.post<T>(route, body, httpOptions);
   }
 
   private saveToken(_token: string) {

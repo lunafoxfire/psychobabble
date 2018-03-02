@@ -2,16 +2,23 @@ import * as passport from 'passport';
 import { User } from './../models/User';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
-// TODO: check for malformed requests
 export class AuthController {
   public static registerClient(req, res) {
+    let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
-    console.log(`Registering ${email}...`)
-    User.registerClientAsync(email, password)
+    if (!username || !email || !password) {
+      res.status(400);
+      res.json({
+        message: "One or more required fields were missing"
+      });
+    }
+    else {
+      console.log(`Registering ${username} | ${email}...`)
+      User.registerClientAsync(username, email, password)
       .then((user) => {
         if (user) {
-          let msg = `Registered ${email} with id ${user.id}`;
+          let msg = `Registered ${username} with id ${user.id}`;
           console.log(msg);
           res.status(200);
           res.json({
@@ -20,9 +27,9 @@ export class AuthController {
           });
         }
         else {
-          let msg = `User ${email} already exists`;
+          let msg = `Username or email taken`;
           console.log(msg);
-          res.status(401);
+          res.status(422);
           res.json({
             message: msg
           });
@@ -32,19 +39,20 @@ export class AuthController {
         console.error(err);
         res.status(500);
       })
+    }
   }
 
   public static loginLocal(req, res) {
-    let email = req.body.email;
+    let loginName = req.body.loginName;
     passport.authenticate('local', (err, user, info) => {
-      console.log(`Logging in ${email}...`)
+      console.log(`Logging in ${loginName}...`)
       if (err) {
         console.error(err);
         res.status(500).json(err);
         return;
       }
       if (user) {
-        let msg = `Successfully logged in ${email}`;
+        let msg = `Successfully logged in ${loginName}`;
         console.log(msg);
         res.status(200);
         res.json({

@@ -13,12 +13,12 @@ export class AuthService {
     private router: Router
   ) { }
 
-  public registerClient(credentials: UserCredentials): Observable<any> {
+  public registerClient(credentials: RegisterCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/client/register', credentials);
     return this.interceptToken(baseRequest);
   }
 
-  public login(credentials: UserCredentials): Observable<any> {
+  public login(credentials: LoginCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/login', credentials);
     return this.interceptToken(baseRequest);
   }
@@ -134,15 +134,23 @@ export class AuthService {
   }
 }
 
-export interface UserCredentials {
+export interface RegisterCredentials {
+  username: string;
   email: string;
+  password: string;
+}
+
+export interface LoginCredentials {
+  loginName: string;
   password: string;
 }
 
 export interface TokenPayload {
   id: string;
+  username: string;
   email: string;
   role: string;
+  validated: boolean;
   exp: number;
   iat: number;
 }

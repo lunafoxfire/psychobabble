@@ -15,7 +15,6 @@ import { createConnection } from 'typeorm';
 import { User } from "./models/User";
 import { Role, RoleName } from "./models/Role";
 
-
 export let app = express();
 
 // Get database connection and initialize data
@@ -35,8 +34,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, '../dist')));
-// Add Angular build folder to static files
+app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
 // Load api routes with passport
 app.use(passport.initialize());

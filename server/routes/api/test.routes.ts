@@ -12,6 +12,7 @@ router.get('/db-time-query', TestController.getTimeFromDb);
 
 // GET /api/test/auth-test
 router.get('/auth-test', auth, TestController.getTestUserData);
+router.post('/auth-test', auth, TestController.getTestUserData);
 
 //for video upload test
-router.get('/video-upload', auth, TestController.uploadVideo)
+router.post('/video-upload', auth, TestController.uploadVideo);

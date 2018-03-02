@@ -57,7 +57,7 @@ export class User {
   @OneToMany(type => Response, responses => responses.user)
   responses: Response[];
 
-  @OneToOne(type => ValidationToken)
+  @OneToOne(type => ValidationToken, {eager: true})
   @JoinColumn()
   validationToken: ValidationToken;
 
@@ -81,11 +81,11 @@ export class User {
         user.date_created = new Date().getTime();
         user.role = await Role.findByNameAsync(regOptions.roleName);
         user.validated = regOptions.preValidated || false;
-      await userRepo.save(user);
       if (!user.validated) {
         user.validationToken = await ValidationToken.generateAsync();
         user.sendValidationEmail();
       }
+      await userRepo.save(user);
       return user;
     }
     else {
@@ -122,7 +122,9 @@ export class User {
 
   public static async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
     let adminRole = await Role.findByNameAsync(RoleName.Admin);
-    let adminExists = await getRepository(User).findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
+    let adminExists = await
+    //TODO:Report this bug
+    getRepository(User).findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
     if (adminExists) {
       return null;
     }

@@ -24,4 +24,16 @@ export class ValidationToken {
     await tokenRepo.save(newToken);
     return newToken;
   }
+
+  public static async checkVerify(code: string, userId: string) {
+    let userRepo = getRepository(User);
+    let currentUser = await userRepo.findOneById(userId);
+    if(currentUser.validationToken.code === code && currentUser.validationToken.expiration >= new Date().getTime()) {
+      currentUser.validated = true;
+      userRepo.save(currentUser);
+      return currentUser;
+    } else {
+      return currentUser;
+    }
+  }
 }

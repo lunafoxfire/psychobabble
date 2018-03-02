@@ -1,5 +1,6 @@
 import * as passport from 'passport';
 import { User } from './../models/User';
+import { ValidationToken } from './../models/ValidationToken';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
@@ -39,6 +40,21 @@ export class AuthController {
         console.error(err);
         res.status(500);
       })
+    }
+  }
+
+  public static verifyUser(req, res) {
+    console.log(req.body)
+    if(req.jwt && req.jwt.id) {
+      ValidationToken.checkVerify(req.body.code, req.jwt.id).then((user) => {
+        res.status(200);
+        res.json({
+          message: "validated",
+          token: user.generateJwt()
+        });
+      })
+    } else {
+      res.status(500)
     }
   }
 

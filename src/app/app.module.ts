@@ -5,25 +5,22 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { ROUTES } from './app.routes';
-
 import { AppComponent } from './app.component';
 
-// Page components
-import { SplashComponent } from './splash/splash.component';
-import { LogInComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { VideoComponent } from './video/video.component';
+// Route components
+import { SplashComponent } from './routes/splash/splash.component';
+import { LogInComponent } from './routes/login/login.component';
+import { RegisterComponent } from './routes/register/register.component';
+import { VideoComponent } from './routes/video/video.component';
+import { ProgramComponent } from './routes/program/program.component';
+import { NotFoundComponent } from './routes/not-found/not-found.component';
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
 
-// Error components
-import { NotFoundComponent } from './not-found/not-found.component';
-
 // Test components
-import { ApiCallTestComponent } from './api-call-test/api-call-test.component';
-import { AuthTestComponent } from './auth-test/auth-test.component';
-import { ProgramComponent } from './program/program.component';
+import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
+import { AuthTestComponent } from './test/auth-test/auth-test.component';
 
 // Services
 import { AuthService } from './auth.service';
@@ -35,11 +32,11 @@ import { AuthService } from './auth.service';
     LogInComponent,
     RegisterComponent,
     VideoComponent,
-    SiteNavBarComponent,
+    ProgramComponent,
     NotFoundComponent,
+    SiteNavBarComponent,
     ApiCallTestComponent,
     AuthTestComponent,
-    ProgramComponent,
   ],
   imports: [
     BrowserModule,

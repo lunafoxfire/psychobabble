@@ -44,12 +44,14 @@ app.use(router);
 app.get('**', function(req, res, next) {
   // If not AJAX request
   if (!(req.xhr || req.headers.accept.indexOf('json') > -1)) {
-    let indexPage = path.join(__dirname, '../dist/app.html');
+    let indexPage = path.join(__dirname, '../dist/index.html');
     res.sendFile(indexPage, (err) => {
-      let errMsg = "index.html could not be found!";
-      console.error(errMsg);
-      res.status(500);
-      res.send(errMsg);
+      if (err) {
+        let errMsg = "index.html could not be found!";
+        console.error(errMsg);
+        res.status(500);
+        res.send(errMsg);
+      }
     });
   }
   else {

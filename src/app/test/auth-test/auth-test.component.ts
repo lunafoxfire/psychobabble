@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, TokenPayload } from './../auth.service';
+import { AuthService, TokenPayload } from './../../auth.service';
 import { Observable } from 'rxjs/Observable';
 import { IUserInfo } from './IUserInfo';
 

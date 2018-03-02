@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './../../auth.service';
 
 @Component({
@@ -7,7 +8,6 @@ import { AuthService } from './../../auth.service';
   templateUrl: './site-nav-bar.component.html'
 })
 
-// TODO: Change content depending on authentication
 export class SiteNavBarComponent {
   constructor(
     private auth: AuthService

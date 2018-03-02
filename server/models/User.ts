@@ -7,7 +7,7 @@ import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
-import { Token } from "./Token";
+import { ValidationToken } from "./ValidationToken";
 import * as sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 import { randomBytes, pbkdf2Sync } from 'crypto';
@@ -57,9 +57,9 @@ export class User {
   @OneToMany(type => Response, responses => responses.user)
   responses: Response[];
 
-  @OneToOne(type => Token)
+  @OneToOne(type => ValidationToken)
   @JoinColumn()
-  token: Token;
+  validationToken: ValidationToken;
 
   @Column()
   validated: boolean;
@@ -83,8 +83,8 @@ export class User {
         user.validated = regOptions.preValidated || false;
       await userRepo.save(user);
       if (!user.validated) {
-        user.token = await Token.generateTokenAsync();
-        user.sendTokenMail();
+        user.validationToken = await ValidationToken.generateAsync();
+        user.sendValidationEmail();
       }
       return user;
     }
@@ -141,12 +141,12 @@ export class User {
     });
   }
 
-  public sendTokenMail() {
+  public sendValidationEmail() {
     let msg = {
       to: this.email,
       from: process.env.NOREPLY_EMAIL,
       subject: 'Account Activation',
-      html: `Please enter this code: ${this.token.code}`,
+      html: `Please enter this code: ${this.validationToken.code}`,
     };
     sgMail.send(msg).catch((err) => {
       console.log(err);

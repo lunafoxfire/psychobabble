@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, '../dist')));
 // Add Angular build folder to static files
 
-// load api routes with passport
+// Load api routes with passport
 app.use(passport.initialize());
 app.use(router);
 
@@ -46,7 +46,13 @@ app.use(router);
 app.get('**', function(req, res, next) {
   // If not AJAX request
   if (!(req.xhr || req.headers.accept.indexOf('json') > -1)) {
-    res.sendfile('./dist/index.html');
+    let indexPage = path.join(__dirname, '../dist/app.html');
+    res.sendFile(indexPage, (err) => {
+      let errMsg = "index.html could not be found!";
+      console.error(errMsg);
+      res.status(500);
+      res.send(errMsg);
+    });
   }
   else {
     next();
@@ -54,7 +60,7 @@ app.get('**', function(req, res, next) {
 });
 
 // ===== Error handling ===== //
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('The requested route could not be found');
   err["status"] = 404;

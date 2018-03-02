@@ -1,7 +1,7 @@
 <h1>Log In</h1>
 <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-  <label for="login-email">Email:</label>
-  <input id="login-email" type="email" ngModel name="email">
+  <label for="login-name">Username or Email:</label>
+  <input id="login-name" type="text" ngModel name="loginName">
 
   <label for="login-password">Password:</label>
   <input id="login-password" type="password" ngModel name="password">

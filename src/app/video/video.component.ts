@@ -15,10 +15,15 @@ export class VideoComponent implements OnInit {
   ngOnInit() {
   }
 
-  private sendVideo(videoForm) {
-    let video = videoForm.value;
-    console.log(video);
-    console.log(videoForm);
-    this.auth.canUpload(video).subscribe(() => {});
+  private sendVideo(file) {
+    if(file) {
+      let _auth = this.auth;
+      let aReader = new FileReader();
+      console.log(file.files[0]);
+      aReader.readAsDataURL(file.files[0]);
+      aReader.onloadend = function (e) {
+        _auth.canUpload(aReader.result).subscribe(() => {});
+      }
+    }
   }
 }

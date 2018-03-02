@@ -30,7 +30,7 @@ export class AuthService {
           Authorization: `Bearer ${this.getToken()}`
         })
       };
-      return this.http.post('/api/test/video-upload', file, httpOptions);
+      return this.http.post('/api/test/video-upload', {file:file}, httpOptions);
     }
   }
 

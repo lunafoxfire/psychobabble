@@ -33,7 +33,7 @@ export class TestController {
         let s3 = new AWS.S3();
         let myBucket = "epicodus-internship";
         let myKey = 'mp4';
-        console.log(req.body);
+        console.log(req);
         fs.readFile(req.body, function(err, data) {
           if(err) { res.status(500); console.log(`There was an error: ${err}`); }
           let params = {Bucket: myBucket, Key: myKey, Body: data, ACL:'public-read'};

@@ -142,6 +142,7 @@ export class User {
   }
 
   public sendValidationEmail() {
+    console.log(`Sending validation email to ${this.email}`);
     let msg = {
       to: this.email,
       from: process.env.NOREPLY_EMAIL,
@@ -149,8 +150,8 @@ export class User {
       html: `Please enter this code: ${this.validationToken.code}`,
     };
     sgMail.send(msg).catch((err) => {
-      console.log(err);
-    })
+      console.error(`SendGrid Error: ${err.code} - ${err.message}`);
+    });
   }
 
   public validateLogin(password: string): boolean {

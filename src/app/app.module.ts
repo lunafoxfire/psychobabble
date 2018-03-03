@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 // Services
 import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
+import { HomeGuardService } from './home-guard.service';
 
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
@@ -65,7 +66,8 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
   ],
   providers: [
     AuthService,
-    AuthGuardService
+    AuthGuardService,
+    HomeGuardService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
 import { Routes, CanActivate } from '@angular/router';
 import { AuthRole } from './auth.service';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
+import { HomeGuardService as HomeGuard } from './home-guard.service';
 
 // General
 import { SplashComponent } from './routes/splash/splash.component';
@@ -26,18 +27,19 @@ import { ApiCallTestComponent } from './test/api-call-test/api-call-test.compone
 import { AuthTestComponent } from './test/auth-test/auth-test.component';
 
 export const ROUTES: Routes = [
-  { path: '',   component: SplashComponent },
-  { path: 'login',   component: LogInComponent },
-  { path: 'register',   component: RegisterComponent },
-  { path: 'video',    component: VideoComponent },
+  { path: '', component: SplashComponent, canActivate: [HomeGuard] },
+  { path: 'login', component: LogInComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'video', component: VideoComponent },
   { path: 'program', component: ProgramComponent },
   { path: 'playlists', component: PlaylistsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'unauthorized',   component: UnauthorizedComponent },
-  { path: '**',   component: NotFoundComponent },
+  { path: 'unauthorized', component: UnauthorizedComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: '**', redirectTo: '/not-found' },
 
   { path: 'test',   component: ApiCallTestComponent },
   { path: 'auth-test',   component: AuthTestComponent },

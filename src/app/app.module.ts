@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from './auth.service';
 import { AuthGuardService } from './auth-guard.service';
 import { HomeGuardService } from './home-guard.service';
+import { LoginGuardService } from './login-guard.service';
 
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
@@ -29,8 +30,9 @@ import { PlaylistsComponent } from './routes/client/playlists/playlists.componen
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
 // Error routes
-import { NotFoundComponent } from './routes/not-found/not-found.component';
-import { UnauthorizedComponent } from './routes/unauthorized/unauthorized.component';
+import { NotFoundComponent } from './routes/error/not-found/not-found.component';
+import { UnauthorizedComponent } from './routes/error/unauthorized/unauthorized.component';
+import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/already-logged-in.component';
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
@@ -53,6 +55,7 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
     PlaylistsComponent,
     RequestsComponent,
     NotFoundComponent,
+    AlreadyLoggedInComponent,
     UnauthorizedComponent,
     SiteNavBarComponent,
     ApiCallTestComponent,
@@ -68,6 +71,7 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
     AuthService,
     AuthGuardService,
     HomeGuardService,
+    LoginGuardService,
   ],
   bootstrap: [AppComponent]
 })

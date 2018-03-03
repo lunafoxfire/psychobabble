@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'unauthorized',
-  templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.scss']
+  selector: 'already-logged-in',
+  templateUrl: './already-logged-in.component.html',
+  styleUrls: ['./already-logged-in.component.scss']
 })
-export class UnauthorizedComponent implements OnInit {
+
+export class AlreadyLoggedInComponent implements OnInit {
   private timeToRedirect: number = 5;
   private timer;
 

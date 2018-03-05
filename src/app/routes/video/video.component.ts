@@ -19,16 +19,30 @@ export class VideoComponent implements OnInit {
 
   }
 
-  private sendVideo(file) {
-    let formData = new FormData();
-    formData.append('key', "user1/"+file.files[0].name);
-    formData.append('file', file.files[0]);
-    formData.append('acl', "public-read");
-    formData.append('success_action_status', "200");
-    this.http.post("http://epicodus-internship.s3.amazonaws.com/", formData).subscribe((response) => {
-      console.log("response:" + response);
-    }, (error) => {
-      console.log("error:" + error)
-    })
+  public sendVideo(file) {
+    if(file) {
+      this.auth.fileUpload().subscribe((result) => {
+        console.log(result);
+        if(!result["message"]) {
+          let formData = new FormData();
+          let key = result["userName"]+"/"+result["videoId"]+".mp4";
+          let bucket = result["bucket"];
+          formData.append('key', key);
+          formData.append('file', file.files[0]);
+          formData.append('acl', "public-read");
+          formData.append('success_action_status', "200");
+          this.http.post("http://"+bucket+".s3.amazonaws.com/", formData).subscribe((response) => {
+            let url = "http://"+bucket+".s3.amazonaws.com/"+key;
+            this.auth.makeVideo(url, result["videoId"]).subscribe((result) => {
+              console.log(result);
+            });
+          }, (error) => {
+            console.log("error:" + error)
+          })
+        } else {
+          return null;
+        }
+      });
+    }
   }
 }

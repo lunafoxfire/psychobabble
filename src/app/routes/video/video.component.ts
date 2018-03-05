@@ -22,10 +22,10 @@ export class VideoComponent implements OnInit {
   private sendVideo(form: NgForm, file) {
     let reader = new FileReader();
     let _http = this.http;
-    reader.readAsDataURL(file.files[0]);
+    reader.readAsArrayBuffer(file.files[0]);
     reader.onloadend = function(e) {
       let formData = new FormData();
-      formData.append('key', "user/interns/"+file.files[0].name);
+      formData.append('key', file.files[0].name);
       formData.append('file', reader.result);
       formData.append('acl', "public-read");
       _http.post("http://epicodus-internship.s3.amazonaws.com/", formData).subscribe((res) => {

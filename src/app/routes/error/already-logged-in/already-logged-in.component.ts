@@ -9,11 +9,11 @@ import { TimedRedirectService } from './../../../timed-redirect.service';
 })
 
 export class AlreadyLoggedInComponent implements OnInit {
-  private secondsToRedirect: number = 5;
+  public secondsToRedirect: number = 5;
 
   constructor(
-    private router: Router,
-    private redirect: TimedRedirectService
+    public router: Router,
+    public redirect: TimedRedirectService
   ) { }
 
   ngOnInit() {

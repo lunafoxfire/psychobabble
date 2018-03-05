@@ -11,15 +11,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 export class VideoComponent implements OnInit {
   constructor(
-    private auth: AuthService,
-    private http: HttpClient
+    public auth: AuthService,
+    public http: HttpClient
   ) { }
 
   ngOnInit() {
 
   }
 
-  private sendVideo(form: NgForm, file) {
+  public sendVideo(form: NgForm, file) {
     let reader = new FileReader();
     let _http = this.http;
     reader.readAsArrayBuffer(file.files[0]);

@@ -15,6 +15,13 @@ import { createConnection } from 'typeorm';
 import { User } from "./models/User";
 import { Role, RoleName } from "./models/Role";
 
+console.log(
+`===============================
+==           WELCOME         ==
+===============================`
+)
+console.log(`Node environment: ${process.env.NODE_ENV}\n`);
+
 export let app = express();
 
 // Get database connection and initialize data

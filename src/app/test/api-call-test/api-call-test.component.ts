@@ -8,10 +8,11 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./api-call-test.component.scss']
 })
 export class ApiCallTestComponent implements OnInit {
-  private testApiCallText: string;
-  private testDbQueryTime: string;
+  public testApiCallText: string;
+  public testDbQueryTime: string;
+
   constructor(
-    private http: HttpClient
+    public http: HttpClient
   ) { }
 
   ngOnInit() {
@@ -24,7 +25,7 @@ export class ApiCallTestComponent implements OnInit {
       });
     }
 
-    queryClick() {
+    public queryClick() {
       this.http.get("/api/test/db-time-query")
         .subscribe(data => {
           console.log(data);
@@ -32,7 +33,7 @@ export class ApiCallTestComponent implements OnInit {
         });
     }
 
-    failClick() {
+    public failClick() {
       this.http.get("/api/test/fakeroute/aaaaaaaaaaaaaaaaa")
         .subscribe(data => {
           console.log("fail request");

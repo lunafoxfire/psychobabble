@@ -10,7 +10,7 @@ import { AuthService } from './../../auth.service';
 
 export class SiteNavBarComponent {
   constructor(
-    private auth: AuthService
+    public auth: AuthService
   ){ }
 
   ngOnInit() {

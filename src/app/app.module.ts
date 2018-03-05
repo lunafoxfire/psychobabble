@@ -6,6 +6,9 @@ import { RouterModule } from '@angular/router';
 
 // Services
 import { AuthService } from './auth.service';
+import { TimedRedirectService } from './timed-redirect.service';
+
+// Route guards
 import { AuthGuardService } from './auth-guard.service';
 import { HomeGuardService } from './home-guard.service';
 import { LoginGuardService } from './login-guard.service';
@@ -69,6 +72,7 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
   ],
   providers: [
     AuthService,
+    TimedRedirectService,
     AuthGuardService,
     HomeGuardService,
     LoginGuardService,

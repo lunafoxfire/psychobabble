@@ -12,7 +12,7 @@
     "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
     "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert",
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
-    "db:gen-test-data": "ts-node ./server/bin/gen-test-data.ts"
+    "db:gen-test-data": "npm run schema:drop && npm run migrations:run && ts-node ./server/bin/gen-test-data.ts"
   },
   "private": true,
   "dependencies": {

@@ -48,6 +48,12 @@ const Subjects: UserRegistrationOptions[] = [
 // ===== Data Loading Logic =====//
 export class TestData {
   public static async loadAllTestDataAsync() {
+    console.log("Generating roles...");
+    await Role.syncRolesToDbAsync();
+
+    console.log("Generating admin...");
+    await User.generateDefaultAdminAsync();
+
     console.log("Generating users...");
     await getRepository(User).delete({});
     await User.generateDefaultAdminIfNoAdminAsync();

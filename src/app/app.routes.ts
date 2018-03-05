@@ -40,7 +40,7 @@ export const ROUTES: Routes = [
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard] },
+  { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },

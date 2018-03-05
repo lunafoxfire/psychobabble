@@ -10,15 +10,14 @@ export class LoginGuardService implements CanActivate {
     private router: Router
   ) { }
 
-  // TODO: Don't do this like this...
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    let alreadyLoggedInPath = (route.url[0].path == 'already-logged-in');
-    if (this.auth.isLoggedIn() && !alreadyLoggedInPath) {
-      this.router.navigateByUrl('/already-logged-in');
+    let isRedirectPage = (route.url[0].path === 'already-logged-in');
+    if (!isRedirectPage && this.auth.isLoggedIn()) {
+      this.router.navigate(['/already-logged-in']);
       return false;
     }
-    else if (!this.auth.isLoggedIn() && alreadyLoggedInPath) {
-      this.router.navigateByUrl('/login');
+    if (isRedirectPage && !this.auth.isLoggedIn()) {
+      this.router.navigate(['/login']);
       return false;
     }
     return true;

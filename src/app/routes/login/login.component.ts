@@ -11,11 +11,11 @@ import { AuthService, LoginCredentials } from './../../auth.service';
 
 export class LogInComponent {
   constructor(
-    private auth: AuthService,
-    private router: Router
+    public auth: AuthService,
+    public router: Router
   ){ }
 
-  private onSubmit(loginForm: NgForm) {
+  public onSubmit(loginForm: NgForm) {
     let credentials = loginForm.value as LoginCredentials;
     this.auth.login(credentials).subscribe(() => {
       this.router.navigateByUrl('/');

@@ -13,11 +13,12 @@ export class ProgramComponent implements OnInit {
   public Host = "Http://" + window.location.host;
   public id: Observable<string>;
   public url: string;
-  constructor(private http: HttpClient) { }
+  
+  constructor(
+    public http: HttpClient
+  ) { }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() { }
 
   genUrl() {
     this.http.get<string>("/api/test/pc").subscribe(data => {

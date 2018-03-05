@@ -1,7 +1,4 @@
-import {
-  Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn,
-  getRepository
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, getRepository } from "typeorm";
 import { Role, RoleName } from "./Role";
 import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";
@@ -203,7 +200,7 @@ export class User {
   }
 }
 
-interface UserRegistrationOptions {
+export interface UserRegistrationOptions {
   username: string;
   email: string;
   password: string;

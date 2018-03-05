@@ -12,8 +12,9 @@ import './config/config';
 import './config/passport';
 import { router } from './routes/routes';
 import { createConnection } from 'typeorm';
-import { User } from "./models/User";
-import { Role, RoleName } from "./models/Role";
+import { User } from './models/User';
+import { Role, RoleName } from './models/Role';
+import { TestData } from './test-data/test-data';
 
 console.log(
 `===============================
@@ -30,6 +31,9 @@ createConnection()
   .then(async connection => {
     await Role.syncRolesToDbAsync();
     await User.generateDefaultAdminIfNoAdminAsync();
+    if (process.env.NODE_ENV === 'development' && process.env.DATABASE_GENERATE_TEST_DATA === 'true') {
+      await TestData.loadAllTestDataAsync();
+    }
     console.log("Successfully connected to the database.");
   })
   .catch((err) => console.error("Error connecting to the database!\n" + err));

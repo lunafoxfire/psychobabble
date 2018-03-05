@@ -2,6 +2,9 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 process.env.SERVER_PORT = process.env.SERVER_PORT || '3000';
 
+// Database options
+process.env.DATABASE_GENERATE_TEST_DATA = 'false';
+
 // Load secrets.json
 let secrets = null;
 try {

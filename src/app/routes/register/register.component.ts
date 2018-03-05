@@ -11,15 +11,15 @@ import { AuthService, RegisterCredentials } from './../../auth.service';
 
 export class RegisterComponent {
   constructor(
-    private auth: AuthService,
-    private router: Router
+    public auth: AuthService,
+    public router: Router
   ) { }
 
 ngOnInit() {
 
 }
 
-  private onSubmit(registerForm: NgForm) {
+  public onSubmit(registerForm: NgForm) {
     let credentials = registerForm.value as RegisterCredentials;
     this.auth.registerClient(credentials).subscribe(() => {
       this.router.navigateByUrl('/verify');

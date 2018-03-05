@@ -8,16 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./verify.component.scss']
 })
 export class VerifyComponent implements OnInit {
-
   constructor(
-    private auth: AuthService,
-    private router: Router
+    public auth: AuthService,
+    public router: Router
   ) { }
 
   ngOnInit() {
   }
 
-  private sendCode(code) {
+  public sendCode(code) {
     this.auth.verify(code.value).subscribe(() => {
       console.log(this.auth.getTokenPayload());
       this.router.navigateByUrl('/');

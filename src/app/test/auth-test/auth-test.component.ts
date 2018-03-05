@@ -9,9 +9,10 @@ import { IUserInfo } from './IUserInfo';
   styleUrls: ['./auth-test.component.scss']
 })
 export class AuthTestComponent implements OnInit {
-  userInfo: Observable<IUserInfo>;
+  public userInfo: Observable<IUserInfo>;
+
   constructor(
-    private auth: AuthService
+    public auth: AuthService
   ) { }
 
   ngOnInit() {

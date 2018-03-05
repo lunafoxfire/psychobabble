@@ -48,8 +48,7 @@ const Subjects: UserRegistrationOptions[] = [
 // ===== Data Loading Logic =====//
 export class TestData {
   public static async loadAllTestDataAsync() {
-    console.log("DB: Loading test data...");
-    console.log("DB: Generating users...");
+    console.log("Generating users...");
     await getRepository(User).delete({});
     await User.generateDefaultAdminIfNoAdminAsync();
     Clients.forEach(async (user) => {
@@ -58,6 +57,5 @@ export class TestData {
     Subjects.forEach(async (user) => {
       await User.registerAsync(user);
     });
-    console.log("DB: Test data loading complete!");
   }
 }

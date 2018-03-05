@@ -1,7 +1,7 @@
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
-
+import { Video } from './../models/Video';
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
   public static registerClient(req, res) {
@@ -39,6 +39,44 @@ export class AuthController {
       .catch((err) => {
         console.error(err);
         res.status(500);
+      })
+    }
+  }
+
+  public static async getBucket(req, res) {
+    if(req.jwt.role = "ADMIN") {
+      res.status(200);
+      res.json({
+        videoId: await Video.createVideo(),
+        userName: req.jwt.username,
+        bucket: process.env.BUCKET_NAME
+      });
+    } else {
+      res.status(401);
+      res.json({
+        message: "Not Authorized"
+      })
+    }
+  }
+
+  public static async uploadVideo(req, res) {
+    if(req.jwt.role = "Admin") {
+      let result = await Video.upload(req.body.url, req.body.videoId);
+      if(result) {
+        res.status(200);
+        res.json({
+          message: "Video Successfully Uploaded"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Something Went Wrong"
+        })
+      }
+    } else {
+      res.status(401);
+      res.json({
+        message: "Not Authorized"
       })
     }
   }

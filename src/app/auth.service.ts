@@ -37,6 +37,16 @@ export class AuthService {
     this.router.navigateByUrl('/');
   }
 
+  public fileUpload(): Observable<any> {
+    let result = this.post('api/auth/upload', {video: null});
+    return result;
+  }
+
+  public makeVideo(url, videoId): Observable<any> {
+    let result = this.post('api/auth/video', {url: url, videoId: videoId});
+    return result;
+  }
+
   public isLoggedIn(): boolean {
     const user = this.getTokenPayload();
     if (user) {

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, getRepository } from "typeorm";
-import { Role, RoleName } from "./Role";
+import { Role, RoleType } from "./Role";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
@@ -72,7 +72,7 @@ export class User {
         user.salt = User.genSalt();
         user.hash = User.hashPassword(regOptions.password, user.salt);
         user.date_created = new Date().getTime();
-        user.role = await Role.findByNameAsync(regOptions.roleName);
+        user.role = await Role.findByNameAsync(regOptions.roleType);
         user.validated = regOptions.preValidated || false;
       if (!user.validated) {
         user.validationToken = await ValidationToken.generateAsync();
@@ -91,7 +91,7 @@ export class User {
       username: username,
       email: email,
       password: password,
-      roleName: RoleName.Admin
+      roleType: RoleType.Admin
     });
   }
 
@@ -100,7 +100,7 @@ export class User {
       username: username,
       email: email,
       password: password,
-      roleName: RoleName.Client
+      roleType: RoleType.Client
     });
   }
 
@@ -109,12 +109,12 @@ export class User {
       username: username,
       email: email,
       password: password,
-      roleName: RoleName.Subject
+      roleType: RoleType.Subject
     });
   }
 
   public static async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
-    let adminRole = await Role.findByNameAsync(RoleName.Admin);
+    let adminRole = await Role.findByNameAsync(RoleType.Admin);
     let adminExists = await
     //TODO:Report this bug
     getRepository(User).findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
@@ -131,7 +131,7 @@ export class User {
       username: process.env.DEFAULT_ADMIN_USERNAME,
       email: null,
       password: process.env.DEFAULT_ADMIN_PASSWORD,
-      roleName: RoleName.Admin,
+      roleType: RoleType.Admin,
       preValidated: true
     });
   }
@@ -200,6 +200,6 @@ export interface UserRegistrationOptions {
   username: string;
   email: string;
   password: string;
-  roleName: RoleName;
+  roleType: RoleType;
   preValidated?: boolean;
 }

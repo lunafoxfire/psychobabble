@@ -13,7 +13,7 @@ import './config/passport';
 import { router } from './routes/routes';
 import { createConnection } from 'typeorm';
 import { User } from './models/User';
-import { Role, RoleName } from './models/Role';
+import { Role, RoleType } from './models/Role';
 
 console.log(
 `===============================

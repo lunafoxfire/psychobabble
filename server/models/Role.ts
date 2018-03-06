@@ -10,7 +10,7 @@ export class Role {
   id: number;
 
   @Column()
-  name: RoleName;
+  name: RoleType;
 
   @OneToMany(type => User, users => users.role)
   users: User[];
@@ -18,12 +18,12 @@ export class Role {
   // Saves all roles in role enum to db
   public static async syncRolesToDbAsync() {
     let roleRepo = getRepository(Role);
-    let roleList = Object.values(RoleName);
-    await Promise.all(roleList.map(async (roleName) => {
-      let roleFinder = await roleRepo.findOne({name: roleName});
+    let roleList = Object.values(RoleType);
+    await Promise.all(roleList.map(async (roleType) => {
+      let roleFinder = await roleRepo.findOne({name: roleType});
       if (!roleFinder) {
         let newRole = new Role();
-        newRole.name = roleName;
+        newRole.name = roleType;
         await roleRepo.save(newRole);
       }
       return;
@@ -31,12 +31,12 @@ export class Role {
   }
 
   // Gets role object from db by name
-  public static async findByNameAsync(roleName: RoleName): Promise<Role> {
-    return getRepository(Role).findOne({name: roleName});
+  public static async findByNameAsync(roleType: RoleType): Promise<Role> {
+    return getRepository(Role).findOne({name: roleType});
   }
 }
 
-export enum RoleName {
+export enum RoleType {
   Admin = "ADMIN",
   Client = "CLIENT",
   Subject = "SUBJECT"

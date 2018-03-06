@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { Program, NewProgramOptions } from './../models/Program';
 import { ProgramRequest } from './../models/ProgramRequest';
 import { Response } from './../models/Response';
-import { Role, RoleName } from './../models/Role';
+import { Role, RoleType } from './../models/Role';
 import { SoftSkill } from './../models/SoftSkill';
 import { Tag, TagName } from './../models/Tag';
 import { User, UserRegistrationOptions } from './../models/User';
@@ -15,14 +15,14 @@ const TestClients: UserRegistrationOptions[] = [
     username: "TestClient",
     email: "test1@test.com",
     password: "password1",
-    roleName: RoleName.Client,
+    roleType: RoleType.Client,
     preValidated: true
   },
   {
     username: "TestClient2",
     email: "test2@test.com",
     password: "asdfghjklsemicolon",
-    roleName: RoleName.Client,
+    roleType: RoleType.Client,
     preValidated: true
   },
 ];
@@ -32,35 +32,35 @@ const TestSubjects: UserRegistrationOptions[] = [
     username: "TestSubjectA",
     email: "testA@test.com",
     password: "letmein",
-    roleName: RoleName.Subject,
+    roleType: RoleType.Subject,
     preValidated: true
   },
   {
     username: "TestSubjectB",
     email: "testB@test.com",
     password: "l33th4x",
-    roleName: RoleName.Subject,
+    roleType: RoleType.Subject,
     preValidated: true
   },
   {
     username: "TestSubjectC",
     email: "testC@test.com",
     password: "goodPass123",
-    roleName: RoleName.Subject,
+    roleType: RoleType.Subject,
     preValidated: true
   },
   {
     username: "TestSubjectD",
     email: "testD@test.com",
     password: "1passw0rd",
-    roleName: RoleName.Subject,
+    roleType: RoleType.Subject,
     preValidated: true
   },
   {
     username: "TestSubjectE",
     email: "testE@test.com",
     password: "qwerty76",
-    roleName: RoleName.Subject,
+    roleType: RoleType.Subject,
     preValidated: true
   },
 ];

@@ -70,6 +70,7 @@ export class AuthController {
             bucket: params.Bucket,
             key: params.Key,
             contentType: params.ContentType,
+            videoId: videoId
           });
         } else {
           console.log(err);

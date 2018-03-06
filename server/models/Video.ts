@@ -2,6 +2,12 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTabl
 import { Tag } from "./Tag";
 import { Playlist } from "./Playlist";
 import { Response } from "./Response";
+import * as AWS from 'aws';
+AWS.config({
+  accessKeyId: process.env.VIDEO_ACCESS_KEY,
+  secretAccessKey: process.env.VIDEO_SECRET_KEY
+});
+
 
 @Entity('videos')
 export class Video {

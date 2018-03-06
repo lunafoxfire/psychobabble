@@ -20,11 +20,11 @@ export class Program {
   @ManyToMany(type => Video, video => video.programs)
   videos: Video[];
 
-  @ManyToOne(type => User, user => user.programsUsed)
-  user: User;
+  @ManyToOne(type => User, user => user.clientPrograms)
+  client: User;
 
-  @ManyToOne(type => User, maker => maker.programsMade)
-  maker: User;
+  @ManyToOne(type => User, maker => maker.createdPrograms)
+  author: User;
 
   @OneToMany(type => Response, responses => responses.program)
   responses: Response[];

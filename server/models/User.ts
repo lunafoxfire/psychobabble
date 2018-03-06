@@ -41,11 +41,11 @@ export class User {
   @OneToMany(type => ProgramRequest, programRequests => programRequests.user)
   programRequests: ProgramRequest[];
 
-  @OneToMany(type => Program, programsMade => programsMade.user)
-  programsMade: Program[];
+  @OneToMany(type => Program, program => program.author)
+  createdPrograms: Program[];
 
-  @OneToMany(type => Program, programsUsed => programsUsed.user)
-  programsUsed: Program[];
+  @OneToMany(type => Program, program => program.client)
+  clientPrograms: Program[];
 
   @OneToMany(type => Response, responses => responses.user)
   responses: Response[];

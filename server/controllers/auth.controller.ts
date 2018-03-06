@@ -2,6 +2,7 @@ import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { Video } from './../models/Video';
+import * as AWS from 'aws-sdk';
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
   public static registerClient(req, res) {
@@ -45,11 +46,38 @@ export class AuthController {
 
   public static async getBucket(req, res) {
     if(req.jwt.role = "ADMIN") {
-      res.status(200);
-      res.json({
-        videoId: await Video.createVideo(),
-        userName: req.jwt.username,
-        bucket: process.env.BUCKET_NAME
+      let s3 = new AWS.S3();
+      s3.config.update({
+        accessKeyId: process.env.VIDEO_ACCESS_KEY,
+        secretAccessKey: process.env.VIDEO_SECRET_KEY
+      })
+      let videoId = await Video.createVideo()
+      let params = {
+        ACL: "public-read",
+        Bucket: process.env.BUCKET_NAME,
+        ContentType: 'video/mp4',
+        Expires: 100,
+        Key: req.jwt.username+"/"+videoId+".mp4",
+      }
+      return s3.getSignedUrl('putObject', params, function (err, url) {
+        if(!err) {
+          console.log(url);
+          res.status(200);
+          res.json({
+            url: url,
+            reference: `${process.env.BUCKET_NAME}/${req.jwt.username}/${videoId}`,
+            acl: params.ACL,
+            bucket: params.Bucket,
+            key: params.Key,
+            contentType: params.ContentType,
+          });
+        } else {
+          console.log(err);
+          res.status(400);
+          res.json({
+            message: "Something went wrong"
+          })
+        }
       });
     } else {
       res.status(401);

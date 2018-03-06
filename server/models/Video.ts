@@ -3,6 +3,8 @@ import { Tag } from "./Tag";
 import { Playlist } from "./Playlist";
 import { Response } from "./Response";
 
+
+
 @Entity('videos')
 export class Video {
   @PrimaryGeneratedColumn("uuid")

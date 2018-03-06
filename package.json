@@ -4,14 +4,17 @@
   "scripts": {
     "start": "concurrently --names \"node,ng\" \"npm run serve:dev\" \"npm run ng-watch\"",
     "start:prod": "concurrently --names \"node,ng\" \"npm run serve:prod\" \"npm run ng-build:prod\"",
-    "serve:dev": "nodemon --watch server/**/*.ts --exec ts-node ./server/bin/www.ts",
-    "serve:prod": "set NODE_ENV=production && ts-node ./server/bin/www.ts",
+    "serve:dev": "nodemon --watch server/**/*.ts --exec ts-node ./server/bin/startup.ts",
+    "serve:prod": "set NODE_ENV=production && ts-node ./server/bin/startup.ts",
     "ng-watch": "ng build --dev --watch",
     "ng-build:prod": "ng build --prod",
     "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
     "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
     "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert",
-    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop"
+    "migrations:init": "npm run schema:drop && npm run migrations:generate -- -n Initial",
+    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
+    "schema:reset": "npm run schema:drop && npm run migrations:run",
+    "db:gen-test-data": "npm run schema:reset && ts-node ./server/bin/gen-test-data.ts"
   },
   "private": true,
   "dependencies": {

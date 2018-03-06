@@ -21,5 +21,5 @@ router.post('/verify', auth, AuthController.verifyUser);
 router.post('/upload', auth, AuthController.getBucket);
 
 //Post /api/auth/videos
-// Params: url
+// Params: url, videoId
 router.post('/video', auth, AuthController.uploadVideo);

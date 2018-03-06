@@ -36,7 +36,7 @@ export class VideoComponent implements OnInit {
             console.log("response");
             console.log(response);
             let reference = `https://s3.amazonaws.com/${result["reference"]}`
-            this.auth.makeVideo(result["reference"]).subscribe((result) => {
+            this.auth.makeVideo(reference, result["videoId"]).subscribe((result) => {
               console.log(result);
             });
           }, (error) => {

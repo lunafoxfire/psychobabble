@@ -1,5 +1,5 @@
 <h1>UPLOAD TEH VIDJAH</h1>
-<form method="post" (ngSubmit)="sendVideo(file)" action="http://epicodus-internship.s3.amazonaws.com/" enctype="multipart/form-data" novalidate>
+<form method="post" (ngSubmit)="sendVideo(file)" enctype="multipart/form-data" novalidate>
   <input ngModel type="input" name="key" value="colorred.mp4">
   <input ngModel type="hidden" name="acl" value="public-read">
   <input #file ngModel type="file" name="file">

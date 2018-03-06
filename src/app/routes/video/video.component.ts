@@ -31,16 +31,19 @@ export class VideoComponent implements OnInit {
           formData.append('file', file.files[0]);
           formData.append('acl', "public-read");
           formData.append('success_action_status', "200");
+          formData.append('policy', "VideoUploadPolicy");
+          console.log(formData);
           this.http.post("http://"+bucket+".s3.amazonaws.com/", formData).subscribe((response) => {
             let url = "http://"+bucket+".s3.amazonaws.com/"+key;
             this.auth.makeVideo(url, result["videoId"]).subscribe((result) => {
               console.log(result);
             });
           }, (error) => {
-            console.log("error:" + error)
+            console.log("error");
+            console.log(error);
           })
         } else {
-          return null;
+          console.log(result["message"]);
         }
       });
     }

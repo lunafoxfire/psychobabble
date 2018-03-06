@@ -38,7 +38,7 @@ export class User {
   @ManyToOne(type => Role, role => role.users, {eager: true})
   role: Role;
 
-  @OneToMany(type => ProgramRequest, programRequests => programRequests.user)
+  @OneToMany(type => ProgramRequest, programRequests => programRequests.client)
   programRequests: ProgramRequest[];
 
   @OneToMany(type => Program, program => program.author)
@@ -47,7 +47,7 @@ export class User {
   @OneToMany(type => Program, program => program.client)
   clientPrograms: Program[];
 
-  @OneToMany(type => Response, responses => responses.user)
+  @OneToMany(type => Response, responses => responses.subject)
   responses: Response[];
 
   @OneToOne(type => ValidationToken, {eager: true})

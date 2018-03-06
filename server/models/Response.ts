@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, getRepository } from "typeorm";
 import { User } from "./User";
 import { Video } from "./Video";
 import { Program } from "./Program";
@@ -9,20 +9,43 @@ export class Response {
   id: string;
 
   @Column()
-  sound_ref: string;
+  audio_url: string;
 
-  @Column()
+  @Column({nullable: true})
   text_version: string;
 
-  @Column()
+  @Column({nullable: true})
   score: number;
 
+  @Column()
+  reviewed: boolean;
+
   @ManyToOne(type => User, user => user.responses)
-  user: User;
+  subject: User;
 
   @ManyToOne(type => Video, video => video.responses)
   video: Video;
 
   @ManyToOne(type => Program, program => program.responses)
+  program: Program;
+
+  public static async saveNewAsync(responseOptions: NewResponseOptions) {
+    let responseRepo = await getRepository(Response);
+    let newResponse = new Response();
+      newResponse.audio_url = responseOptions.audio_url;
+      newResponse.text_version = null; // TODO: generate this
+      newResponse.score = null;
+      newResponse.reviewed = false;
+      newResponse.subject = responseOptions.subject;
+      newResponse.video = responseOptions.video;
+      newResponse.program = responseOptions.program;
+    return responseRepo.save(newResponse);
+  }
+}
+
+export interface NewResponseOptions {
+  audio_url: string;
+  subject: User;
+  video: Video;
   program: Program;
 }

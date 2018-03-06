@@ -9,7 +9,7 @@ export class Video {
   id: string;
 
   @Column({nullable: true})
-  ref_url: string;
+  url: string;
 
   @Column({nullable: true})
   description: string;
@@ -35,7 +35,7 @@ export class Video {
       }));
     }
     let newVideo = new Video();
-      newVideo.ref_url = videoOptions.url;
+      newVideo.url = videoOptions.url;
       newVideo.description = videoOptions.description;
       newVideo.tags = tags;
     return videoRepo.save(newVideo);

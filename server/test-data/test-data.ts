@@ -36,9 +36,30 @@ const TestSubjects: UserRegistrationOptions[] = [
     preValidated: true
   },
   {
-    username: "TestSubjectC",
+    username: "TestSubjectB",
     email: "testB@test.com",
     password: "l33th4x",
+    roleName: RoleName.Subject,
+    preValidated: true
+  },
+  {
+    username: "TestSubjectC",
+    email: "testC@test.com",
+    password: "goodPass123",
+    roleName: RoleName.Subject,
+    preValidated: true
+  },
+  {
+    username: "TestSubjectD",
+    email: "testD@test.com",
+    password: "1passw0rd",
+    roleName: RoleName.Subject,
+    preValidated: true
+  },
+  {
+    username: "TestSubjectE",
+    email: "testE@test.com",
+    password: "qwerty76",
     roleName: RoleName.Subject,
     preValidated: true
   },
@@ -109,10 +130,122 @@ const TestPrograms = [
     clientIndex: 1
   },
   {
-    description: "Test Program 3",
+    description: "Test Program 4",
     expiration: null,
     videoIndices: [5],
     clientIndex: 0
+  },
+];
+
+// =========== Programs =========== //
+const TestReponses = [
+  {
+    audio_url: "",
+    subjectIndex: 0,
+    videoIndex: 0,
+    programIndex: 0
+  },
+  {
+    audio_url: "",
+    subjectIndex: 0,
+    videoIndex: 1,
+    programIndex: 0
+  },
+  {
+    audio_url: "",
+    subjectIndex: 0,
+    videoIndex: 2,
+    programIndex: 0
+  },
+  {
+    audio_url: "",
+    subjectIndex: 0,
+    videoIndex: 3,
+    programIndex: 0
+  },
+  {
+    audio_url: "",
+    subjectIndex: 1,
+    videoIndex: 4,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 1,
+    videoIndex: 5,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 1,
+    videoIndex: 6,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 1,
+    videoIndex: 7,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 2,
+    videoIndex: 1,
+    programIndex: 2
+  },
+  {
+    audio_url: "",
+    subjectIndex: 2,
+    videoIndex: 4,
+    programIndex: 2
+  },
+  {
+    audio_url: "",
+    subjectIndex: 2,
+    videoIndex: 7,
+    programIndex: 2
+  },
+  {
+    audio_url: "",
+    subjectIndex: 3,
+    videoIndex: 4,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 3,
+    videoIndex: 5,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 3,
+    videoIndex: 6,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 3,
+    videoIndex: 7,
+    programIndex: 1
+  },
+  {
+    audio_url: "",
+    subjectIndex: 4,
+    videoIndex: 1,
+    programIndex: 2
+  },
+  {
+    audio_url: "",
+    subjectIndex: 4,
+    videoIndex: 4,
+    programIndex: 2
+  },
+  {
+    audio_url: "",
+    subjectIndex: 4,
+    videoIndex: 7,
+    programIndex: 2
   },
 ];
 
@@ -123,6 +256,7 @@ export class TestData {
   static subjects: User[] = [];
   static videos: Video[] = [];
   static programs: Program[] = [];
+  static responses: Response[] = [];
 
   public static async loadAllTestDataAsync() {
     console.log("Generating roles...");
@@ -162,6 +296,17 @@ export class TestData {
       });
       this.programs.push(newProgram);
       return;
+    }));
+
+    console.log("Generating responses...");
+    await Promise.all(TestReponses.map(async (response) => {
+      let newResponse = await Response.saveNewAsync({
+        audio_url: response.audio_url,
+        subject: this.subjects[response.subjectIndex],
+        video: this.videos[response.videoIndex],
+        program: this.programs[response.programIndex]
+      });
+      this.responses.push(newResponse);
     }));
   }
 }

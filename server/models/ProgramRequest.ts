@@ -8,7 +8,7 @@ export class ProgramRequest {
   id: string;
 
   @ManyToOne(type => User, user => user.programRequests)
-  user: User;
+  client: User;
 
   @ManyToMany(type => SoftSkill, softSkills => softSkills.programRequests)
   @JoinTable()

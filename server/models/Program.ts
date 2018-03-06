@@ -45,9 +45,9 @@ export class Program {
 }
 
 export interface NewProgramOptions {
-  description: string,
-  expiration: number,
-  videos: Video[],
-  client: User,
-  author: User
+  description: string;
+  expiration: number;
+  videos: Video[];
+  client: User;
+  author: User;
 }

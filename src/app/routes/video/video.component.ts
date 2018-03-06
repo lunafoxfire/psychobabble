@@ -22,20 +22,21 @@ export class VideoComponent implements OnInit {
   public sendVideo(file) {
     if(file) {
       this.auth.fileUpload().subscribe((result) => {
-        console.log(result);
+        console.log(result["key"], result["acl"], result["bucket"], result["contentType"])
         if(!result["message"]) {
-          let formData = new FormData();
-          let key = result["userName"]+"/"+result["videoId"]+".mp4";
-          let bucket = result["bucket"];
-          formData.append('key', key);
-          formData.append('file', file.files[0]);
-          formData.append('acl', "public-read");
-          formData.append('success_action_status', "200");
-          formData.append('policy', "VideoUploadPolicy");
-          console.log(formData);
-          this.http.post("http://"+bucket+".s3.amazonaws.com/", formData).subscribe((response) => {
-            let url = "http://"+bucket+".s3.amazonaws.com/"+key;
-            this.auth.makeVideo(url, result["videoId"]).subscribe((result) => {
+          const httpOptions = {
+            headers: new HttpHeaders({
+              "Key": result["key"],
+              "ACL": result["acl"],
+              "Bucket": result["bucket"],
+              "Content-Type": result["contentType"],
+            })
+          };
+          this.http.put(result["url"], file.files[0], httpOptions).subscribe((response) => {
+            console.log("response");
+            console.log(response);
+            let reference = `https://s3.amazonaws.com/${result["reference"]}`
+            this.auth.makeVideo(result["reference"]).subscribe((result) => {
               console.log(result);
             });
           }, (error) => {

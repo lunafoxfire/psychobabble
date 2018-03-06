@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1520365942366 implements MigrationInterface {
+export class Initial1520369740213 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`CREATE TABLE "tags" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "roles" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "soft_skills" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "program_requests" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "userId" uuid, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "program_requests" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "text" character varying, "clientId" uuid, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "validation_tokens" ("id" SERIAL NOT NULL, "code" character varying NOT NULL, "expiration" bigint NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "username" character varying NOT NULL, "normalized_username" character varying NOT NULL, "email" character varying, "normalized_email" character varying, "salt" character varying NOT NULL, "hash" character varying NOT NULL, "date_created" bigint NOT NULL, "validated" boolean NOT NULL, "roleId" integer, "validationTokenId" integer, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "responses" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "audio_url" character varying NOT NULL, "text_version" character varying, "score" integer, "reviewed" boolean NOT NULL, "subjectId" uuid, "videoId" uuid, "programId" uuid, PRIMARY KEY("id"))`);
@@ -15,7 +15,7 @@ export class Initial1520365942366 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "program_requests_soft_skills_soft_skills" ("programRequestsId" uuid NOT NULL, "softSkillsId" integer NOT NULL, PRIMARY KEY("programRequestsId", "softSkillsId"))`);
         await queryRunner.query(`CREATE TABLE "videos_tags_tags" ("videosId" uuid NOT NULL, "tagsId" integer NOT NULL, PRIMARY KEY("videosId", "tagsId"))`);
         await queryRunner.query(`CREATE TABLE "programs_videos_videos" ("programsId" uuid NOT NULL, "videosId" uuid NOT NULL, PRIMARY KEY("programsId", "videosId"))`);
-        await queryRunner.query(`ALTER TABLE "program_requests" ADD CONSTRAINT "fk_a73a825a4cb488ee859f5f1318d" FOREIGN KEY ("userId") REFERENCES "users"("id")`);
+        await queryRunner.query(`ALTER TABLE "program_requests" ADD CONSTRAINT "fk_2e9c8222049adc4e4e761679b42" FOREIGN KEY ("clientId") REFERENCES "users"("id")`);
         await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "fk_f9e9996c571502d53a36c640453" FOREIGN KEY ("roleId") REFERENCES "roles"("id")`);
         await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "fk_2c4298cbecdc68455316b90884e" FOREIGN KEY ("validationTokenId") REFERENCES "validation_tokens"("id")`);
         await queryRunner.query(`ALTER TABLE "responses" ADD CONSTRAINT "fk_e44e2fbc1a47bc7d4eaf920b02b" FOREIGN KEY ("subjectId") REFERENCES "users"("id")`);
@@ -45,7 +45,7 @@ export class Initial1520365942366 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "responses" DROP CONSTRAINT "fk_e44e2fbc1a47bc7d4eaf920b02b"`);
         await queryRunner.query(`ALTER TABLE "users" DROP CONSTRAINT "fk_2c4298cbecdc68455316b90884e"`);
         await queryRunner.query(`ALTER TABLE "users" DROP CONSTRAINT "fk_f9e9996c571502d53a36c640453"`);
-        await queryRunner.query(`ALTER TABLE "program_requests" DROP CONSTRAINT "fk_a73a825a4cb488ee859f5f1318d"`);
+        await queryRunner.query(`ALTER TABLE "program_requests" DROP CONSTRAINT "fk_2e9c8222049adc4e4e761679b42"`);
         await queryRunner.query(`DROP TABLE "programs_videos_videos"`);
         await queryRunner.query(`DROP TABLE "videos_tags_tags"`);
         await queryRunner.query(`DROP TABLE "program_requests_soft_skills_soft_skills"`);

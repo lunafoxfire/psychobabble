@@ -1,9 +1,9 @@
 import { getRepository } from 'typeorm';
 import { Program, NewProgramOptions } from './../models/Program';
-import { ProgramRequest } from './../models/ProgramRequest';
+import { ProgramRequest, NewProgramRequestOptions } from './../models/ProgramRequest';
 import { Response } from './../models/Response';
 import { Role, RoleType } from './../models/Role';
-import { SoftSkill } from './../models/SoftSkill';
+import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 import { Tag, TagName } from './../models/Tag';
 import { User, UserRegistrationOptions } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
@@ -22,6 +22,13 @@ const TestClients: UserRegistrationOptions[] = [
     username: "TestClient2",
     email: "test2@test.com",
     password: "asdfghjklsemicolon",
+    roleType: RoleType.Client,
+    preValidated: true
+  },
+  {
+    username: "TestClient3",
+    email: "test3@test.com",
+    password: "drowssap",
     roleType: RoleType.Client,
     preValidated: true
   },
@@ -133,7 +140,7 @@ const TestPrograms = [
     description: "Test Program 4",
     expiration: null,
     videoIndices: [5],
-    clientIndex: 0
+    clientIndex: 2
   },
 ];
 
@@ -249,6 +256,25 @@ const TestReponses = [
   },
 ];
 
+// =========== Programs =========== //
+const TestProgramRequests = [
+  {
+    clientIndex: 0,
+    text: "Make me a pizza!",
+    softSkills: [SoftSkillType.Test1, SoftSkillType.Test2, SoftSkillType.Test3]
+  },
+  {
+    clientIndex: 0,
+    text: "Zoombinis!",
+    softSkills: [SoftSkillType.Test4, SoftSkillType.Test5]
+  },
+  {
+    clientIndex: 1,
+    text: "Find good employee pl0x",
+    softSkills: [SoftSkillType.Test1, SoftSkillType.Test2, SoftSkillType.Test3, SoftSkillType.Test4, SoftSkillType.Test5]
+  },
+]
+
 // =========== Data Loading Logic =========== //
 export class TestData {
   static admin: User = null;
@@ -257,6 +283,7 @@ export class TestData {
   static videos: Video[] = [];
   static programs: Program[] = [];
   static responses: Response[] = [];
+  static requests: ProgramRequest[] = [];
 
   public static async loadAllTestDataAsync() {
     console.log("Generating roles...");
@@ -307,6 +334,19 @@ export class TestData {
         program: this.programs[response.programIndex]
       });
       this.responses.push(newResponse);
+    }));
+
+    console.log("Generating soft skills...");
+    await SoftSkill.syncSoftSkillsToDbAsync();
+
+    console.log("Generating program requests...");
+    await Promise.all(TestProgramRequests.map(async (request) => {
+      let newRequest = await ProgramRequest.saveNewAsync({
+        client: this.clients[request.clientIndex],
+        text: request.text,
+        softSkills: request.softSkills
+      });
+      this.requests.push(newRequest);
     }));
   }
 }

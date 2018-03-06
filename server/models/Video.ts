@@ -29,8 +29,7 @@ export class Video {
     let tags: Tag[] = [];
     if (videoOptions.tags) {
       await Promise.all(videoOptions.tags.map(async (tagName) => {
-        let tag = await Tag.findByNameAsync(tagName);
-        tags.push(tag);
+        tags.push(await Tag.findByNameAsync(tagName));
         return;
       }));
     }
@@ -43,7 +42,7 @@ export class Video {
 }
 
 export interface NewVideoOptions {
-  url: string,
-  description: string,
-  tags?: TagName[],
+  url: string;
+  description: string;
+  tags?: TagName[];
 }

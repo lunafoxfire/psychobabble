@@ -8,10 +8,10 @@ export class Video {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({nullable: true})
   ref_url: string;
 
-  @Column()
+  @Column({nullable: true})
   description: string;
 
   @ManyToMany(type => Tag, tags => tags.videos)
@@ -28,10 +28,11 @@ export class Video {
     let videoRepo = await getRepository(Video);
     let tags: Tag[] = [];
     if (videoOptions.tags) {
-      videoOptions.tags.forEach(async (tagName) => {
+      await Promise.all(videoOptions.tags.map(async (tagName) => {
         let tag = await Tag.findByNameAsync(tagName);
         tags.push(tag);
-      });
+        return;
+      }));
     }
     let newVideo = new Video();
       newVideo.ref_url = videoOptions.url;

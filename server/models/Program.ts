@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable, getRepository } from "typeorm";
 import { Video } from './Video';
 import { User } from "./User";
 import { Response } from "./Response";
@@ -8,16 +8,18 @@ export class Program {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @Column()
+  @Column({nullable: true})
   description: string;
 
-  @Column({type:'bigint'})
+  // UNIX timestamp
+  @Column({type:'bigint', nullable: true})
   expiration: number;
 
   @Column()
   closed: boolean;
 
   @ManyToMany(type => Video, video => video.programs)
+  @JoinTable()
   videos: Video[];
 
   @ManyToOne(type => User, user => user.clientPrograms)
@@ -28,4 +30,24 @@ export class Program {
 
   @OneToMany(type => Response, responses => responses.program)
   responses: Response[];
+
+  public static async saveNewAsync(programOptions: NewProgramOptions): Promise<Program> {
+    let programRepo = await getRepository(Program);
+    let newProgram = new Program();
+      newProgram.description = programOptions.description;
+      newProgram.expiration = programOptions.expiration;
+      newProgram.closed = false;
+      newProgram.videos = programOptions.videos;
+      newProgram.client = programOptions.client;
+      newProgram.author = programOptions.author;
+    return programRepo.save(newProgram);
+  }
+}
+
+export interface NewProgramOptions {
+  description: string,
+  expiration: number,
+  videos: Video[],
+  client: User,
+  author: User
 }

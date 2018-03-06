@@ -16,14 +16,15 @@ export class Tag {
   public static async syncTagsToDbAsync() {
     let tagRepo = getRepository(Tag);
     let tagList = Object.values(TagName);
-    tagList.forEach(async (tagName) => {
+    await Promise.all(tagList.map(async (tagName) => {
       let tagFinder = await tagRepo.findOne({name: tagName});
       if (!tagFinder) {
         let newTag = new Tag();
         newTag.name = tagName;
         await tagRepo.save(newTag);
       }
-    });
+      return;
+    }));
   }
 
   // Gets tag object from db by name

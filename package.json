@@ -11,6 +11,7 @@
     "migrations:generate": "ts-node ./node_modules/typeorm/cli.js migrations:generate",
     "migrations:run": "ts-node ./node_modules/typeorm/cli.js migrations:run",
     "migrations:revert": "ts-node ./node_modules/typeorm/cli.js migrations:revert",
+    "migrations:init": "npm run schema:drop && npm run migrations:generate -- -n Initial",
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "schema:reset": "npm run schema:drop && npm run migrations:run",
     "db:gen-test-data": "npm run schema:reset && ts-node ./server/bin/gen-test-data.ts"

@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import { Program } from './../models/Program';
+import { Program, NewProgramOptions } from './../models/Program';
 import { ProgramRequest } from './../models/ProgramRequest';
 import { Response } from './../models/Response';
 import { Role, RoleName } from './../models/Role';
@@ -10,7 +10,7 @@ import { ValidationToken } from './../models/ValidationToken';
 import { Video, NewVideoOptions } from './../models/Video';
 
 // =========== Users =========== //
-const Clients: UserRegistrationOptions[] = [
+const TestClients: UserRegistrationOptions[] = [
   {
     username: "TestClient",
     email: "test1@test.com",
@@ -27,7 +27,7 @@ const Clients: UserRegistrationOptions[] = [
   },
 ];
 
-const Subjects: UserRegistrationOptions[] = [
+const TestSubjects: UserRegistrationOptions[] = [
   {
     username: "TestSubjectA",
     email: "testA@test.com",
@@ -45,7 +45,7 @@ const Subjects: UserRegistrationOptions[] = [
 ];
 
 // =========== Videos =========== //
-const Videos: NewVideoOptions[] = [
+const TestVideos: NewVideoOptions[] = [
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yee.mp4",
     description: "Yeeeeee",
@@ -88,32 +88,80 @@ const Videos: NewVideoOptions[] = [
   },
 ];
 
+// =========== Programs =========== //
+const TestPrograms = [
+  {
+    description: "Test Program 1",
+    expiration: null,
+    videoIndices: [0, 1, 2, 3],
+    clientIndex: 0
+  },
+  {
+    description: "Test Program 2",
+    expiration: null,
+    videoIndices: [4, 5, 6, 7],
+    clientIndex: 1
+  },
+  {
+    description: "Test Program 3",
+    expiration: null,
+    videoIndices: [1, 7, 4],
+    clientIndex: 1
+  },
+  {
+    description: "Test Program 3",
+    expiration: null,
+    videoIndices: [5],
+    clientIndex: 0
+  },
+];
+
 // =========== Data Loading Logic =========== //
 export class TestData {
+  static admin: User = null;
+  static clients: User[] = [];
+  static subjects: User[] = [];
+  static videos: Video[] = [];
+  static programs: Program[] = [];
+
   public static async loadAllTestDataAsync() {
     console.log("Generating roles...");
     await Role.syncRolesToDbAsync();
 
     console.log("Generating admin...");
-    await User.generateDefaultAdminAsync();
+    this.admin = await User.generateDefaultAdminAsync();
 
     console.log("Generating users...");
-    await getRepository(User).delete({});
     await User.generateDefaultAdminIfNoAdminAsync();
-    Clients.forEach(async (user) => {
-      await User.registerAsync(user);
-    });
-    Subjects.forEach(async (user) => {
-      await User.registerAsync(user);
-    });
+    await Promise.all(TestClients.map(async (user) => {
+      this.clients.push(await User.registerAsync(user));
+      return;
+    }));
+    await Promise.all(TestSubjects.map(async (user) => {
+      this.subjects.push(await User.registerAsync(user));
+      return;
+    }));
 
     console.log("Generating video tags...");
     await Tag.syncTagsToDbAsync();
 
     console.log("Generating videos...");
-    Videos.forEach(async (video) => {
-      await Video.saveNewAsync(video);
-    });
+    await Promise.all(TestVideos.map(async (video) => {
+      this.videos.push(await Video.saveNewAsync(video));
+      return;
+    }));
 
+    console.log("Generating programs...");
+    await Promise.all(TestPrograms.map(async (program) => {
+      let newProgram = await Program.saveNewAsync({
+        description: program.description,
+        expiration: program.expiration,
+        videos: program.videoIndices.map(index => this.videos[index]),
+        client: this.clients[program.clientIndex],
+        author: this.admin
+      });
+      this.programs.push(newProgram);
+      return;
+    }));
   }
 }

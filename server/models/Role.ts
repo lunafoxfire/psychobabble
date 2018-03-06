@@ -19,14 +19,15 @@ export class Role {
   public static async syncRolesToDbAsync() {
     let roleRepo = getRepository(Role);
     let roleList = Object.values(RoleName);
-    roleList.forEach(async (roleName) => {
+    await Promise.all(roleList.map(async (roleName) => {
       let roleFinder = await roleRepo.findOne({name: roleName});
       if (!roleFinder) {
         let newRole = new Role();
         newRole.name = roleName;
         await roleRepo.save(newRole);
       }
-    });
+      return;
+    }));
   }
 
   // Gets role object from db by name

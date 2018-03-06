@@ -1,6 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn, getRepository } from "typeorm";
 import { Role, RoleName } from "./Role";
-import { Playlist } from "./Playlist";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
@@ -38,9 +37,6 @@ export class User {
 
   @ManyToOne(type => Role, role => role.users, {eager: true})
   role: Role;
-
-  @OneToMany(type => Playlist, playlists => playlists.user)
-  playlists: Playlist[];
 
   @OneToMany(type => ProgramRequest, programRequests => programRequests.user)
   programRequests: ProgramRequest[];

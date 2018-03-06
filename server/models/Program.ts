@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany } from "typeorm";
+import { Video } from './Video';
 import { User } from "./User";
-import { Playlist } from "./Playlist";
 import { Response } from "./Response";
 
 @Entity('programs')
@@ -17,14 +17,14 @@ export class Program {
   @Column()
   closed: boolean;
 
+  @ManyToMany(type => Video, video => video.programs)
+  videos: Video[];
+
   @ManyToOne(type => User, user => user.programsUsed)
   user: User;
 
   @ManyToOne(type => User, maker => maker.programsMade)
   maker: User;
-
-  @ManyToOne(type => Playlist, playlist => playlist.programs)
-  playlist: Playlist;
 
   @OneToMany(type => Response, responses => responses.program)
   responses: Response[];

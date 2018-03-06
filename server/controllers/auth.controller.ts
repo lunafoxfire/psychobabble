@@ -51,7 +51,7 @@ export class AuthController {
         accessKeyId: process.env.VIDEO_ACCESS_KEY,
         secretAccessKey: process.env.VIDEO_SECRET_KEY
       })
-      let videoId = await Video.createVideo()
+      let videoId = await Video.createEmptyVideo()
       let params = {
         ACL: "public-read",
         Bucket: process.env.BUCKET_NAME,
@@ -89,7 +89,11 @@ export class AuthController {
 
   public static async uploadVideo(req, res) {
     if(req.jwt.role = "Admin") {
-      let result = await Video.upload(req.body.url, req.body.videoId);
+      let result = await Video.uploadAsync({
+        id: req.body.videoId,
+        url: req.body.url,
+        description: null // TODO: Actually get description and tags from form
+      });
       if(result) {
         res.status(200);
         res.json({

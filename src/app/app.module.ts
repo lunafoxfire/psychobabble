@@ -22,6 +22,8 @@ import { RegisterComponent } from './routes/register/register.component';
 import { VideoComponent } from './routes/video/video.component';
 import { ProgramComponent } from './routes/program/program.component';
 import { VerifyComponent } from './routes/verify/verify.component';
+import { ResetComponent } from './routes/reset/reset.component';
+import { ChangePasswordComponent } from './routes/change-password/change-password.component';
 
 // Admin routes
 import { FeedComponent } from './routes/admin/feed/feed.component';
@@ -29,7 +31,7 @@ import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 
 // Client routes
-import { PlaylistsComponent } from './routes/client/playlists/playlists.component';
+import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
 // Error routes
@@ -39,12 +41,6 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
-
-// Test components
-import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
-import { AuthTestComponent } from './test/auth-test/auth-test.component';
-import { ResetComponent } from './routes/reset/reset.component';
-import { ChangePasswordComponent } from './routes/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -57,14 +53,12 @@ import { ChangePasswordComponent } from './routes/change-password/change-passwor
     FeedComponent,
     VideosComponent,
     ClientsComponent,
-    PlaylistsComponent,
+    ProgramsComponent,
     RequestsComponent,
     NotFoundComponent,
     AlreadyLoggedInComponent,
     UnauthorizedComponent,
     SiteNavBarComponent,
-    ApiCallTestComponent,
-    AuthTestComponent,
     VerifyComponent,
     ResetComponent,
     ChangePasswordComponent,

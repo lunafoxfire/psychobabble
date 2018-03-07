@@ -94,7 +94,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="883" y="322" name="playlists">
+<table x="883" y="322" name="programs">
 <row name="name" null="1" autoincrement="0">
 <datatype>VARCHAR(255)</datatype>
 <default>NULL</default></row>
@@ -112,7 +112,7 @@
 <table x="284" y="188" name="videos_in_playlists">
 <row name="playlist_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="playlists" row="id" />
+<default>NULL</default><relation table="programs" row="id" />
 </row>
 <row name="video_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
@@ -153,7 +153,7 @@
 <table x="774" y="535" name="programs">
 <row name="playlist_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="playlists" row="id" />
+<default>NULL</default><relation table="programs" row="id" />
 </row>
 <row name="description" null="1" autoincrement="0">
 <datatype>VARCHAR(255)</datatype>

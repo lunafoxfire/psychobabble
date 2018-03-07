@@ -38,12 +38,12 @@ export class AuthService {
   }
 
   public fileUpload(): Observable<any> {
-    let result = this.post('api/auth/upload', {video: null});
+    let result = this.post('/api/videos/generate-video-url', {video: null});
     return result;
   }
 
   public makeVideo(url, videoId): Observable<any> {
-    let result = this.post('api/auth/video', {url: url, videoId: videoId});
+    let result = this.post('/api/videos/upload', {url: url, videoId: videoId});
     return result;
   }
 

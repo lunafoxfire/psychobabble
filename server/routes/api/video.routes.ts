@@ -11,10 +11,10 @@ export let router = express.Router();
 // Get list of videos for admin, by page
 router.get('/', auth, (req, res) => {res.status(501)});
 
-// GET /api/videos/generate-url
+// POST /api/videos/generate-video-url
 // auth: ADMIN
 // Creates a new S3 bucket URL with policy and sends it to the user
-router.get('/generate-video-url', auth, VideoController.generateVideoUrl);
+router.post('/generate-video-url', auth, VideoController.generateVideoUrl);
 
 // POST /api/videos/upload
 // params: url, videoId

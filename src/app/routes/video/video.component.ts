@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './../../auth.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-video',
@@ -12,7 +13,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class VideoComponent implements OnInit {
   constructor(
     public auth: AuthService,
-    public http: HttpClient
+    public http: HttpClient,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -35,10 +37,11 @@ export class VideoComponent implements OnInit {
             let reference = `https://s3.amazonaws.com/${result["reference"]}`
             this.auth.makeVideo(reference, result["videoId"]).subscribe((result) => {
               console.log(result);
+              this.router.navigateByUrl('/');
             });
           }, (error) => {
             this.auth.deleteVideo(result["videoId"]).subscribe((data) => {
-              console.log(data["message"]);
+              console.log(data);
             })
             console.log("error");
             console.log(error);

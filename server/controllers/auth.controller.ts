@@ -1,8 +1,9 @@
 import * as passport from 'passport';
+import * as AWS from 'aws-sdk';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { Video } from './../models/Video';
-import * as AWS from 'aws-sdk';
+
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
   public static registerClient(req, res) {

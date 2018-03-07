@@ -27,9 +27,6 @@ import { NotFoundComponent } from './routes/error/not-found/not-found.component'
 import { UnauthorizedComponent } from './routes/error/unauthorized/unauthorized.component';
 import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/already-logged-in.component';
 
-import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
-import { AuthTestComponent } from './test/auth-test/auth-test.component';
-
 export const ROUTES: Routes = [
   { path: '', component: SplashComponent, canActivate: [HomeGuard] },
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
@@ -45,7 +42,4 @@ export const ROUTES: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },
-
-  { path: 'test',   component: ApiCallTestComponent },
-  { path: 'auth-test',   component: AuthTestComponent },
 ];

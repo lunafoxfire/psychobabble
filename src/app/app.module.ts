@@ -40,10 +40,6 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
 
-// Test components
-import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
-import { AuthTestComponent } from './test/auth-test/auth-test.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,8 +57,6 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
     AlreadyLoggedInComponent,
     UnauthorizedComponent,
     SiteNavBarComponent,
-    ApiCallTestComponent,
-    AuthTestComponent,
     VerifyComponent,
   ],
   imports: [

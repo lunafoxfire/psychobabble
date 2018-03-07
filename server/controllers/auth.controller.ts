@@ -65,7 +65,7 @@ export class AuthController {
           res.status(200);
           res.json({
             url: url,
-            reference: `${process.env.BUCKET_NAME}/${req.jwt.username}/${videoId}`,
+            reference: `${process.env.BUCKET_NAME}/${req.jwt.username}/${videoId}.mp4`,
             acl: params.ACL,
             bucket: params.Bucket,
             key: params.Key,

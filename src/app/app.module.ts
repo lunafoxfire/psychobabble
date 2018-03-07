@@ -29,7 +29,7 @@ import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 
 // Client routes
-import { PlaylistsComponent } from './routes/client/playlists/playlists.component';
+import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
 // Error routes
@@ -39,10 +39,6 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
-
-// Test components
-import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
-import { AuthTestComponent } from './test/auth-test/auth-test.component';
 
 @NgModule({
   declarations: [
@@ -55,14 +51,12 @@ import { AuthTestComponent } from './test/auth-test/auth-test.component';
     FeedComponent,
     VideosComponent,
     ClientsComponent,
-    PlaylistsComponent,
+    ProgramsComponent,
     RequestsComponent,
     NotFoundComponent,
     AlreadyLoggedInComponent,
     UnauthorizedComponent,
     SiteNavBarComponent,
-    ApiCallTestComponent,
-    AuthTestComponent,
     VerifyComponent,
   ],
   imports: [

@@ -17,7 +17,7 @@ export class HomeGuardService implements CanActivate {
         return false;
       }
       else if (this.auth.isClient()) {
-        this.router.navigateByUrl('/playlists');
+        this.router.navigateByUrl('/programs');
         return false;
       }
       else if (this.auth.isSubject()) {

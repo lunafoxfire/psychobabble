@@ -2,7 +2,7 @@
 <nav id="site-nav-bar">
   <div class="nav-links-right">
     <a routerLink="/" routerLinkActive="active">Home</a>
-    <a *ngIf="auth.isClient()" routerLink="/playlists" routerLinkActive="active">Playlists</a>
+    <a *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Playlists</a>
     <a *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
 
     <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>

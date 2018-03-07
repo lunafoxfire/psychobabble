@@ -1,29 +1,22 @@
 import * as express from 'express';
-import { AuthController } from './../../controllers/auth.controller';
 import { auth } from './../../config/auth';
+import { AuthController } from './../../controllers/auth.controller';
 
+// prefix: /api/auth/...
 export let router = express.Router();
 
 // POST /api/auth/client/register
-// Params: username, email, password
+// params: username, email, password
+// Registers a new user as a client
 router.post('/client/register', AuthController.registerClient);
 
 // POST /api/auth/login
-// Params: loginName, password
+// params: loginName, password
+// Logs a user in
 router.post('/login', AuthController.loginLocal);
 
-//POST /api/auth/verify
-// Params: code
+// POST /api/auth/verify
+// params: code
+// auth: logged in
+// Attempts to verify a user's email with the provided code
 router.post('/verify', auth, AuthController.verifyUser);
-
-//Post /api/auth/upload
-// Params: null
-router.post('/upload', auth, AuthController.getBucket);
-
-//Post /api/auth/videos
-// Params: url, videoId
-router.post('/video', auth, AuthController.uploadVideo);
-
-//Post /api/auth/upload-fail
-// Params: videoId
-router.post('/upload-fail', auth, AuthController.removeVideo);

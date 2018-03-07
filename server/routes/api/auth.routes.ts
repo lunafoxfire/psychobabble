@@ -16,6 +16,10 @@ router.post('/login', AuthController.loginLocal);
 // Params: code
 router.post('/verify', auth, AuthController.verifyUser);
 
+//POST /api/auth/reset
+// Params: email
+router.post('/reset', AuthController.sendReset);
+
 //Post /api/auth/upload
 // Params: null
 router.post('/upload', auth, AuthController.getBucket);

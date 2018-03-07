@@ -4,6 +4,7 @@ import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
 import { ValidationToken } from "./ValidationToken";
+import { PassResetToken } from "./PassResetToken";
 import * as sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 import { randomBytes, pbkdf2Sync } from 'crypto';
@@ -74,6 +75,11 @@ export class User {
   @JoinColumn()
   validationToken: ValidationToken;
 
+  /** Hash for password reset url generation */
+  @OneToOne(type => PassResetToken, {eager: true})
+  @JoinColumn()
+  passResetToken: PassResetToken;
+
   /** Registers a new User to the database. */
   // TODO: Return some results object with more info on failures (taken username, etc.)
   public static async registerAsync(regOptions: UserRegistrationOptions): Promise<User> {
@@ -92,7 +98,7 @@ export class User {
         user.role = await Role.findByNameAsync(regOptions.roleType);
         user.validated = regOptions.preValidated || false;
       if (!user.validated) {
-        user.validationToken = await ValidationToken.generateAsync();
+        user.validationToken = await ValidationToken.generateValidTokenAsync();
         user.sendValidationEmail();
       }
       await userRepo.save(user);
@@ -165,11 +171,46 @@ export class User {
       to: this.email,
       from: process.env.NOREPLY_EMAIL,
       subject: 'Account Activation',
-      html: `Please enter this code: ${this.validationToken.code}`,
+      html: `<h3>Please enter this code: ${this.validationToken.code}<h3>`,
     };
     sgMail.send(msg).catch((err) => {
       console.error(`SendGrid Error: ${err.code} - ${err.message}`);
     });
+  }
+
+  /** Sends the user an email to reset their password if they exist in database */
+  public static async sendPassResetEmail(email, host) {
+    let user = await this.findByEmailAsync(email);
+    if(!user) {
+      return false;
+    } else {
+      let url = await this.generateResetUrl(user, host);
+      let msg = {
+        to: email,
+        from: process.env.NOREPLY_EMAIL,
+        subject: 'Password Reset',
+        html: `
+        <h3>Password Reset</h3>
+        <p>If you didn't request a password reset, ignore this email</p>
+        <br>
+        <strong><a href=${url}>Reset your password here</a><strong>
+        `
+      };
+      sgMail.send(msg).catch((err) => {
+        console.log(`SendGrid Error: ${err.code} - ${err.message}`);
+      });
+      return true;
+    }
+  }
+
+  /** Generates the url to be sent for password reset */
+  public static async generateResetUrl(user: User, host) {
+    let userRepo = getRepository(User);
+    user.passResetToken = await PassResetToken.generatePassTokenAsync();
+    await userRepo.save(user);
+    let url = `http://${host}/reset/${user.id}/${user.passResetToken.code}`;
+    console.log(url);
+    return url;
   }
 
   /** Checks whether the given password is the user's password. */

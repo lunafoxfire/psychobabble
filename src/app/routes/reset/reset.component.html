@@ -1,6 +1,6 @@
-<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+<form (ngSubmit)="resetSubmit(email)" novalidate>
   <label for="email">Email:</label>
-  <input type="email" ngModel name="email">
+  <input #email type="email" ngModel name="email">
 
   <button type="submit">Reset Password</button>
 </form>

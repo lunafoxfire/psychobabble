@@ -22,7 +22,7 @@ export class ValidationToken {
   user: User;
 
   /** Generates a new token not yet associated with any User. */
-  public static async generateAsync() {
+  public static async generateValidTokenAsync() {
     let tokenRepo = getRepository(ValidationToken);
     let minBeforeExpire = 15;
     let newToken = new ValidationToken();

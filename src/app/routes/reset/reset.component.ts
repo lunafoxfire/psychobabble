@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { AuthService } from './../../auth.service';
 @Component({
   selector: 'reset',
   templateUrl: './reset.component.html',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResetComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public auth: AuthService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
+  }
+
+  public resetSubmit(email) {
+    this.auth.passReset(email.value).subscribe((data) => {
+      console.log(data);
+    })
   }
 
 }

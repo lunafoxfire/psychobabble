@@ -44,6 +44,7 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 import { ApiCallTestComponent } from './test/api-call-test/api-call-test.component';
 import { AuthTestComponent } from './test/auth-test/auth-test.component';
 import { ResetComponent } from './routes/reset/reset.component';
+import { ChangePasswordComponent } from './routes/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { ResetComponent } from './routes/reset/reset.component';
     AuthTestComponent,
     VerifyComponent,
     ResetComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

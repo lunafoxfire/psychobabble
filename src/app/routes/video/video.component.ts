@@ -22,7 +22,6 @@ export class VideoComponent implements OnInit {
   public sendVideo(file) {
     if(file) {
       this.auth.fileUpload().subscribe((result) => {
-        console.log(result["key"], result["acl"], result["bucket"], result["contentType"])
         if(!result["message"]) {
           const httpOptions = {
             headers: new HttpHeaders({
@@ -33,13 +32,14 @@ export class VideoComponent implements OnInit {
             })
           };
           this.http.put(result["url"], file.files[0], httpOptions).subscribe((response) => {
-            console.log("response");
-            console.log(response);
             let reference = `https://s3.amazonaws.com/${result["reference"]}`
             this.auth.makeVideo(reference, result["videoId"]).subscribe((result) => {
               console.log(result);
             });
           }, (error) => {
+            this.auth.deleteVideo(result["videoId"]).subscribe((data) => {
+              console.log(data["message"]);
+            })
             console.log("error");
             console.log(error);
           })

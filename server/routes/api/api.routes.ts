@@ -6,10 +6,12 @@ import { router as responseRoutes } from './response.routes';
 import { router as userRoutes } from './user.routes';
 import { router as videoRoutes } from './video.routes';
 
+// prefix: /api/...
 export let router = express.Router();
+
 router.use('/auth', authRoutes);
-router.use('/program-request', requestRoutes);
-router.use('/programRoutes', programRoutes);
-router.use('/response', responseRoutes);
-router.use('/user', userRoutes);
-router.use('/video', videoRoutes);
+router.use('/program-requests', requestRoutes);
+router.use('/programs', programRoutes);
+router.use('/responses', responseRoutes);
+router.use('/users', userRoutes);
+router.use('/videos', videoRoutes);

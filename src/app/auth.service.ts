@@ -52,6 +52,11 @@ export class AuthService {
     return data;
   }
 
+  public passReset(email): Observable<any> {
+    let data = this.post('api/auth/reset', {email: email});
+    return data;
+  }
+
   public isLoggedIn(): boolean {
     const user = this.getTokenPayload();
     if (user) {

@@ -22,6 +22,8 @@ import { RegisterComponent } from './routes/register/register.component';
 import { VideoComponent } from './routes/video/video.component';
 import { ProgramComponent } from './routes/program/program.component';
 import { VerifyComponent } from './routes/verify/verify.component';
+import { ResetComponent } from './routes/reset/reset.component';
+import { ChangePasswordComponent } from './routes/change-password/change-password.component';
 
 // Admin routes
 import { FeedComponent } from './routes/admin/feed/feed.component';
@@ -58,6 +60,8 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
     UnauthorizedComponent,
     SiteNavBarComponent,
     VerifyComponent,
+    ResetComponent,
+    ChangePasswordComponent,
   ],
   imports: [
     BrowserModule,

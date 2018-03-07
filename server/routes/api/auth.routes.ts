@@ -20,3 +20,7 @@ router.post('/login', AuthController.loginLocal);
 // auth: logged in
 // Attempts to verify a user's email with the provided code
 router.post('/verify', auth, AuthController.verifyUser);
+
+//POST /api/auth/reset
+// Params: email
+router.post('/reset', AuthController.sendReset);

@@ -42,7 +42,22 @@ export class AuthController {
       })
     }
   }
-  
+
+  public static async sendReset(req, res) {
+    let sendSuccess = await User.sendPassResetEmail(req.body.email, req.headers.host);
+    if(sendSuccess) {
+      res.status(200);
+      res.json({
+        message: "Email Sent"
+      })
+    } else {
+      res.status(401);
+      res.json({
+        message: "Email Doesn't Exist"
+      })
+    }
+  }
+
   public static verifyUser(req, res) {
     console.log(req.body)
     if(req.jwt && req.jwt.id) {

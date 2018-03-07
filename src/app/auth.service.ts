@@ -57,6 +57,16 @@ export class AuthService {
     return data;
   }
 
+  public makeNewPass(newPass, userId): Observable<any> {
+    let data = this.post('api/auth/change-password', {newPass: newPass, userId: userId});
+    return data;
+  }
+
+  public resendPassReset(userId): Observable<any> {
+    let data = this.post('api/auth/resend', {userId: userId});
+    return data;
+  }
+
   public isLoggedIn(): boolean {
     const user = this.getTokenPayload();
     if (user) {

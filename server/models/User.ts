@@ -203,6 +203,28 @@ export class User {
     }
   }
 
+  public static async resendPasswordResetEmail(userId, host) {
+    let user = await getRepository(User).findOneById(userId);
+    return await this.sendPassResetEmail(user.email, host);
+  }
+
+  public static async changePassword(newPass, userId) {
+    let userRepo = getRepository(User);
+    let user = await userRepo.findOneById(userId);
+    if(user.passResetToken.expiration <= new Date().getTime()) {
+      return 0;
+    } else {
+      let newHash = this.hashPassword(newPass, user.salt);
+      if(newHash === user.hash) {
+        return 1;
+      } else {
+        user.hash = newHash;
+        userRepo.save(user);
+        return 2;
+      }
+    }
+  }
+
   /** Generates the url to be sent for password reset */
   public static async generateResetUrl(user: User, host) {
     let userRepo = getRepository(User);

@@ -58,6 +58,41 @@ export class AuthController {
     }
   }
 
+  public static async resendResetEmail(req, res) {
+    let sendSuccess = await User.resendPasswordResetEmail(req.body.userId, req.headers.host);
+    if(sendSuccess) {
+      res.status(200);
+      res.json({
+        message: "Email Sent"
+      })
+    } else {
+      res.status(401);
+      res.json({
+        message: "Email Failed to Send"
+      })
+    }
+  }
+
+  public static async passChange(req, res) {
+    let passChangeSuccess = await User.changePassword(req.body.newPass, req.body.userId);
+    if(passChangeSuccess === 0) {
+      res.status(500);
+      res.json({
+        message: "Token Expired"
+      })
+    } else if (passChangeSuccess === 1) {
+      res.status(500);
+      res.json({
+        message: "New Password Cannot Match Old Password"
+      })
+    } else {
+      res.status(200);
+      res.json({
+        message: "Password Changed"
+      })
+    }
+  }
+
   public static verifyUser(req, res) {
     console.log(req.body)
     if(req.jwt && req.jwt.id) {

@@ -19,7 +19,7 @@ import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 
 // Client
-import { PlaylistsComponent } from './routes/client/playlists/playlists.component';
+import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
 // Error
@@ -36,7 +36,7 @@ export const ROUTES: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'program', component: ProgramComponent },
   { path: 'verify',   component: VerifyComponent },
-  { path: 'playlists', component: PlaylistsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
+  { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideoComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },

@@ -47,6 +47,11 @@ export class AuthService {
     return result;
   }
 
+  public deleteVideo(videoId): Observable<any> {
+    let data = this.post('api/auth/upload-fail', {videoId: videoId});
+    return data;
+  }
+
   public isLoggedIn(): boolean {
     const user = this.getTokenPayload();
     if (user) {

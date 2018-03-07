@@ -31,6 +31,13 @@ export class AuthService {
     }
   }
 
+  public reVerify(): Observable<any> {
+    if(this.isLoggedIn()) {
+      let data = this.get('/api/auth/re-verify');
+      return data;
+    }
+  }
+
   public logout() {
     this._token = '';
     window.localStorage.removeItem('jwt');

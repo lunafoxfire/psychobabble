@@ -108,6 +108,21 @@ export class AuthController {
     }
   }
 
+  public static async resendVerification(req, res) {
+    if(req.jwt && req.jwt.id && req.jwt.email) {
+      User.resendValidationEmail(req.jwt.email);
+      res.status(200);
+      res.json({
+        message: "Email Sent"
+      })
+    } else {
+      res.status(500);
+      res.json({
+        message: "Something went wrong"
+      })
+    }
+  }
+
   public static loginLocal(req, res) {
     let loginName = req.body.loginName;
     passport.authenticate('local', (err, user, info) => {

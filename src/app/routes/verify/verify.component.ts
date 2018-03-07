@@ -22,4 +22,10 @@ export class VerifyComponent implements OnInit {
       this.router.navigateByUrl('/');
     });
   }
+
+  public resendVerify() {
+    this.auth.reVerify().subscribe((data) => {
+      console.log(data);
+    })
+  }
 }

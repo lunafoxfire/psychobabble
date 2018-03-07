@@ -178,6 +178,12 @@ export class User {
     });
   }
 
+  public static async resendValidationEmail(email) {
+    let user = await this.findByEmailAsync(email);
+    user.validationToken = await ValidationToken.generateValidTokenAsync();
+    user.sendValidationEmail();
+  }
+
   /** Sends the user an email to reset their password if they exist in database */
   public static async sendPassResetEmail(email, host) {
     let user = await this.findByEmailAsync(email);

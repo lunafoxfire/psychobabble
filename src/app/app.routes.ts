@@ -12,6 +12,7 @@ import { RegisterComponent } from './routes/register/register.component';
 import { VideoComponent } from './routes/video/video.component';
 import { ProgramComponent } from './routes/program/program.component';
 import { VerifyComponent } from './routes/verify/verify.component';
+import { ResetComponent } from './routes/reset/reset.component';
 
 // Admin
 import { FeedComponent } from './routes/admin/feed/feed.component';
@@ -35,7 +36,7 @@ export const ROUTES: Routes = [
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'program', component: ProgramComponent },
-  { path: 'verify',   component: VerifyComponent },
+  { path: 'verify', component: VerifyComponent },
   { path: 'playlists', component: PlaylistsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
@@ -44,6 +45,7 @@ export const ROUTES: Routes = [
   { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'password-reset', component: ResetComponent },
   { path: '**', redirectTo: '/not-found' },
 
   { path: 'test',   component: ApiCallTestComponent },

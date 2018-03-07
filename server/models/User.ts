@@ -178,6 +178,12 @@ export class User {
     });
   }
 
+  public static async resendValidationEmail(email) {
+    let user = await this.findByEmailAsync(email);
+    user.validationToken = await ValidationToken.generateValidTokenAsync();
+    user.sendValidationEmail();
+  }
+
   /** Sends the user an email to reset their password if they exist in database */
   public static async sendPassResetEmail(email, host) {
     let user = await this.findByEmailAsync(email);
@@ -200,6 +206,28 @@ export class User {
         console.log(`SendGrid Error: ${err.code} - ${err.message}`);
       });
       return true;
+    }
+  }
+
+  public static async resendPasswordResetEmail(userId, host) {
+    let user = await getRepository(User).findOneById(userId);
+    return await this.sendPassResetEmail(user.email, host);
+  }
+
+  public static async changePassword(newPass, userId) {
+    let userRepo = getRepository(User);
+    let user = await userRepo.findOneById(userId);
+    if(user.passResetToken.expiration <= new Date().getTime()) {
+      return 0;
+    } else {
+      let newHash = this.hashPassword(newPass, user.salt);
+      if(newHash === user.hash) {
+        return 1;
+      } else {
+        user.hash = newHash;
+        userRepo.save(user);
+        return 2;
+      }
     }
   }
 

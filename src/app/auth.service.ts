@@ -31,6 +31,13 @@ export class AuthService {
     }
   }
 
+  public reVerify(): Observable<any> {
+    if(this.isLoggedIn()) {
+      let data = this.get('/api/auth/re-verify');
+      return data;
+    }
+  }
+
   public logout() {
     this._token = '';
     window.localStorage.removeItem('jwt');
@@ -54,6 +61,16 @@ export class AuthService {
 
   public passReset(email): Observable<any> {
     let data = this.post('api/auth/reset', {email: email});
+    return data;
+  }
+
+  public makeNewPass(newPass, userId): Observable<any> {
+    let data = this.post('api/auth/change-password', {newPass: newPass, userId: userId});
+    return data;
+  }
+
+  public resendPassReset(userId): Observable<any> {
+    let data = this.post('api/auth/resend', {userId: userId});
     return data;
   }
 

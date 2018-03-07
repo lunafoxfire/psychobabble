@@ -41,7 +41,6 @@ export class Video {
   /** Saves a new Video to the database. */
   public static async uploadAsync(videoOptions: VideoUploadOptions): Promise<Video> {
     let videoRepo = await getRepository(Video);
-    // let video = await videoRepo.findOneById(videoOptions.id);
     let tags: Tag[] = [];
     if (videoOptions.tags) {
       await Promise.all(videoOptions.tags.map(async (tagName) => {
@@ -55,6 +54,20 @@ export class Video {
       newVideo.description = videoOptions.description;
       newVideo.tags = tags;
     return videoRepo.save(newVideo);
+  }
+
+  public static async deleteVideoId(videoId) {
+    let videoRepo = await getRepository(Video);
+    let videoToDelete = await videoRepo.findOneById(videoId);
+    await videoRepo.remove(videoToDelete);
+    let check = await videoRepo.findOneById(videoId);
+    if(check) {
+      console.log(videoId);
+      return false;
+    } else {
+      console.log(videoId);
+      return true;
+    }
   }
 }
 

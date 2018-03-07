@@ -61,7 +61,6 @@ export class AuthController {
       }
       return s3.getSignedUrl('putObject', params, function (err, url) {
         if(!err) {
-          console.log(url);
           res.status(200);
           res.json({
             url: url,
@@ -106,6 +105,34 @@ export class AuthController {
           message: "Something Went Wrong"
         })
       }
+    } else {
+      res.status(401);
+      res.json({
+        message: "Not Authorized"
+      })
+    }
+  }
+
+  public static async removeVideo(req, res) {
+    if(req.jwt.role === "ADMIN") {
+      let deleted = await Video.deleteVideoId(req.body.videoId).then((bool) => {
+        if(bool) {
+          res.status(200);
+          res.json({
+            message: "Temporary Video Id Removed"
+          })
+        } else {
+          res.status(500);
+          res.json({
+            message: "Deletion Failed"
+          })
+        }
+      }).catch(() => {
+        res.status(500);
+        res.json({
+          message: "Deletion Failed"
+        })
+      });
     } else {
       res.status(401);
       res.json({

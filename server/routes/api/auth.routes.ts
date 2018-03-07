@@ -23,3 +23,7 @@ router.post('/upload', auth, AuthController.getBucket);
 //Post /api/auth/videos
 // Params: url, videoId
 router.post('/video', auth, AuthController.uploadVideo);
+
+//Post /api/auth/upload-fail
+// Params: videoId
+router.post('/upload-fail', auth, AuthController.removeVideo);

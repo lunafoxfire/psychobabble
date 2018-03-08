@@ -14,6 +14,8 @@ import { router } from './routes/routes';
 import { createConnection } from 'typeorm';
 import { User } from './models/User';
 import { Role, RoleType } from './models/Role';
+import { SoftSkill, SoftSkillType } from './models/SoftSkill';
+import { Tag, TagType } from './models/Tag';
 
 console.log(
 `===============================
@@ -29,6 +31,8 @@ console.log("Connecting to the database...");
 createConnection()
   .then(async connection => {
     await Role.syncRolesToDbAsync();
+    await SoftSkill.syncSoftSkillsToDbAsync();
+    await Tag.syncTagsToDbAsync();
     await User.generateDefaultAdminIfNoAdminAsync();
     console.log("Successfully connected to the database.");
   })

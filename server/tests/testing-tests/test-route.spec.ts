@@ -16,3 +16,14 @@ describe('test route', () => {
       });
   });
 });
+
+describe('test route 2', () => {
+  it('should return 200 OK', (done) => {
+    chai.request(app)
+      .get('/test-route-2')
+      .end((err, res) => {
+        expect(res).to.have.status(200);
+        done();
+      });
+  });
+});

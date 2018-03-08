@@ -1,3 +1,8 @@
 <p>
   videos works!
 </p>
+<video #myVideo width="320" height="240">
+  <source src="https://s3.amazonaws.com/epicodus-internship/admin/4e7bd64f-1b3a-4913-acd3-b52a141f99c7.mp4" type="video/mp4">
+</video>
+<button type="button" name="button" (click)="playPause()">Play</button>
+<a routerLink="/admin/videos/upload">Upload New Video</a>

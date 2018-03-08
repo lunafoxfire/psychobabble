@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, getRepository } from "typeorm";
 import { Program } from './Program';
-import { Tag, TagName } from "./Tag";
+import { Tag, TagType } from "./Tag";
 import { Response } from "./Response";
 
 /** A video object. */
@@ -43,8 +43,8 @@ export class Video {
     let videoRepo = await getRepository(Video);
     let tags: Tag[] = [];
     if (videoOptions.tags) {
-      await Promise.all(videoOptions.tags.map(async (tagName) => {
-        tags.push(await Tag.findByNameAsync(tagName));
+      await Promise.all(videoOptions.tags.map(async (tagType) => {
+        tags.push(await Tag.findByNameAsync(tagType));
         return;
       }));
     }
@@ -80,5 +80,5 @@ export interface VideoUploadOptions {
   /** A description of this video. */
   description: string;
   /** All tags associated with this video. Optional. */
-  tags?: TagName[];
+  tags?: TagType[];
 }

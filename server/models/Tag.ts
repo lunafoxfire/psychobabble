@@ -16,32 +16,32 @@ export class Tag {
   @ManyToMany(type => Video, videos => videos.tags)
   videos: Video[];
 
-  /** Saves all tags in the TagNames enum to the database. */
+  /** Saves all tags in the TagTypes enum to the database. */
   public static async syncTagsToDbAsync() {
     let tagRepo = getRepository(Tag);
-    let tagList = Object.values(TagName);
-    await Promise.all(tagList.map(async (tagName) => {
-      let tagFinder = await tagRepo.findOne({name: tagName});
+    let tagList = Object.values(TagType);
+    await Promise.all(tagList.map(async (tagType) => {
+      let tagFinder = await tagRepo.findOne({name: tagType});
       if (!tagFinder) {
         let newTag = new Tag();
-        newTag.name = tagName;
+        newTag.name = tagType;
         await tagRepo.save(newTag);
       }
       return;
     }));
   }
 
-  /** Retrieves a Tag from the database by its TagName */
-  public static async findByNameAsync(tagName: TagName): Promise<Tag> {
-    return getRepository(Tag).findOne({name: tagName});
+  /** Retrieves a Tag from the database by its TagType */
+  public static async findByNameAsync(tagType: TagType): Promise<Tag> {
+    return getRepository(Tag).findOne({name: tagType});
   }
 }
 
 /** Enumerated list of all tag names. */
-export enum TagName {
-  Test1 = "test1",
-  Test2 = "test2",
-  Test3 = "test3",
-  Test4 = "test4",
-  Test5 = "test5",
+export enum TagType {
+  Customer = "Customer",
+  Angry = "Angry",
+  Criticism = "Criticism",
+  Pressure = "Pressure",
+  Self = "Self",
 }

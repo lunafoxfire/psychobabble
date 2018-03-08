@@ -35,9 +35,9 @@ export class App {
         await SoftSkill.syncSoftSkillsToDbAsync();
         await Tag.syncTagsToDbAsync();
         await User.generateDefaultAdminIfNoAdminAsync();
+        console.log("Successfully connected to the database.");
       })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
-    console.log("Successfully connected to the database.");
 
     let app = express();
     if (process.env.NODE_ENV === 'development') { app.use(logger('dev')); } // Log http requests in dev mode

@@ -51,10 +51,7 @@ export class App {
   static async initAsync(): Promise<any> {
     this.showStartupMessage();
 
-    // Only allow connection to be created once, especially for testing
-    if (!this.connection) {
-      this.connection = await this.connectToDb();
-    }
+    this.connection = await this.connectToDb();
 
     let app = express();
     if (process.env.NODE_ENV === 'development') { app.use(logger('dev')); } // Log http requests in dev mode

@@ -7,12 +7,12 @@ export let app;
 
 // Runs before any tests
 before("Initialize app", async function() {
-  console.log("Testing startup");
+  console.log("Testing startup...\n");
   app = await App.initAsync();
-})
+});
 
-describe('App', function() {
-  it('should be initialized', function() {
+describe("App", function() {
+  it("should be initialized", function() {
     expect(app).to.not.equal(undefined);
-  })
-})
+  });
+});

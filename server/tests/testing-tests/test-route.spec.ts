@@ -7,23 +7,27 @@ import { app } from './../../app';
 chai.use(chaiHttp);
 
 describe('test route', () => {
-  it('should return 200 OK', (done) => {
-    chai.request(app)
+  it('should return 200 OK', async () => {
+    chai.request(await app)
       .get('/test-route')
-      .end((err, res) => {
+      .then((res) => {
         expect(res).to.have.status(200);
-        done();
+      })
+      .catch((err) => {
+        throw err;
       });
   });
 });
 
 describe('test route 2', () => {
-  it('should return 200 OK', (done) => {
-    chai.request(app)
+  it('should return 200 OK', async () => {
+    chai.request(await app)
       .get('/test-route-2')
-      .end((err, res) => {
+      .then((res) => {
         expect(res).to.have.status(200);
-        done();
+      })
+      .catch((err) => {
+        throw err;
       });
   });
 });

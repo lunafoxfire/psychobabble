@@ -30,11 +30,13 @@ export class App {
     // Get database connection and initialize data
     console.log("Connecting to the database...");
     await createConnection()
+      .then(async (connection) => {
+        await Role.syncRolesToDbAsync();
+        await SoftSkill.syncSoftSkillsToDbAsync();
+        await Tag.syncTagsToDbAsync();
+        await User.generateDefaultAdminIfNoAdminAsync();
+      })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
-    await Role.syncRolesToDbAsync();
-    await SoftSkill.syncSoftSkillsToDbAsync();
-    await Tag.syncTagsToDbAsync();
-    await User.generateDefaultAdminIfNoAdminAsync();
     console.log("Successfully connected to the database.");
 
     let app = express();

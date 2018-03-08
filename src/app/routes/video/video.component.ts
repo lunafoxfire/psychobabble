@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './../../auth.service';
+import { VideoService } from './video.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class VideoComponent implements OnInit {
   constructor(
-    public auth: AuthService,
+    public auth: VideoService,
     public http: HttpClient,
     public router: Router
   ) { }

@@ -18,7 +18,6 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
-
   public login(credentials: LoginCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/login', credentials);
     return this.interceptToken(baseRequest);
@@ -42,21 +41,6 @@ export class AuthService {
     this._token = '';
     window.localStorage.removeItem('jwt');
     this.router.navigateByUrl('/');
-  }
-
-  public fileUpload(): Observable<any> {
-    let result = this.post('/api/videos/generate-video-url', {video: null});
-    return result;
-  }
-
-  public makeVideo(url, videoId): Observable<any> {
-    let result = this.post('/api/videos/upload', {url: url, videoId: videoId});
-    return result;
-  }
-
-  public deleteVideo(videoId): Observable<any> {
-    let data = this.post('api/videos/upload-fail', {videoId: videoId});
-    return data;
   }
 
   public passReset(email): Observable<any> {

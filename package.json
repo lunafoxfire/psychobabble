@@ -15,7 +15,7 @@
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "schema:reset": "npm run schema:drop && npm run migrations:run",
     "db:gen-test-data": "npm run schema:reset && ts-node ./server/bin/gen-test-data.ts",
-    "test": "set NODE_ENV=test && mocha -r ts-node/register ./server/**/*.spec.ts"
+    "test": "set NODE_ENV=testing && mocha -r ts-node/register ./server/**/*.spec.ts"
   },
   "private": true,
   "dependencies": {

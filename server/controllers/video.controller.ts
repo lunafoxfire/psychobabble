@@ -7,13 +7,13 @@ export class VideoController {
     if(req.jwt.role = "ADMIN") {
       let s3 = new AWS.S3();
       s3.config.update({
-        accessKeyId: process.env.VIDEO_ACCESS_KEY,
-        secretAccessKey: process.env.VIDEO_SECRET_KEY
+        accessKeyId: process.env.S3_ACCESS_KEY,
+        secretAccessKey: process.env.S3_SECRET_KEY
       })
       let videoId = await Video.createEmptyVideo()
       let params = {
         ACL: "public-read",
-        Bucket: process.env.BUCKET_NAME,
+        Bucket: process.env.S3_BUCKET_NAME,
         ContentType: 'video/mp4',
         Expires: 100,
         Key: req.jwt.username+"/"+videoId+".mp4",
@@ -23,7 +23,7 @@ export class VideoController {
           res.status(200);
           res.json({
             url: url,
-            reference: `${process.env.BUCKET_NAME}/${req.jwt.username}/${videoId}.mp4`,
+            reference: `${process.env.S3_BUCKET_NAME}/${req.jwt.username}/${videoId}.mp4`,
             acl: params.ACL,
             bucket: params.Bucket,
             key: params.Key,

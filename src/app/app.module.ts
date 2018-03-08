@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 // Services
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
+import { VideoService } from './routes/video/video.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -69,6 +70,7 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
   ],
   providers: [
     AuthService,
+    VideoService,
     TimedRedirectService,
     AuthGuardService,
     HomeGuardService,

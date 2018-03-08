@@ -2,6 +2,7 @@
 
 # secrets
 secrets.json
+server-env.json
 
 # compiled output
 /dist

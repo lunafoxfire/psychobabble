@@ -20,7 +20,6 @@ import { SplashComponent } from './routes/splash/splash.component';
 import { LogInComponent } from './routes/login/login.component';
 import { RegisterComponent } from './routes/register/register.component';
 import { VideoComponent } from './routes/video/video.component';
-import { ProgramComponent } from './routes/program/program.component';
 import { VerifyComponent } from './routes/verify/verify.component';
 import { ResetComponent } from './routes/reset/reset.component';
 import { ChangePasswordComponent } from './routes/change-password/change-password.component';
@@ -49,7 +48,6 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
     LogInComponent,
     RegisterComponent,
     VideoComponent,
-    ProgramComponent,
     FeedComponent,
     VideosComponent,
     ClientsComponent,

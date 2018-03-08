@@ -39,9 +39,14 @@ export class SoftSkill {
 
 /** Enumerated list of all soft skill names. */
 export enum SoftSkillType {
-  Test1 = "test1",
-  Test2 = "test2",
-  Test3 = "test3",
-  Test4 = "test4",
-  Test5 = "test5",
+  StrongWorkEthic = "Strong Work Ethic",
+  PositiveAttitude = "Positive Attitude",
+  GoodCommunicationSkills = "Good Communication Skills",
+  TimeManagementAbilities = "Time Management Abilities",
+  ProblemSolvingSkills = "Problem-Solving Skills",
+  ActingAsATeamPlayer = "Acting as a Team Player",
+  SelfConfidence = "Self-Confidence",
+  AbilityToAcceptCriticism = "Ability to Accept and Learn From Criticism",
+  FlexibilityAdaptability = "Flexibility/Adaptability",
+  WorkingWellUnderPressure = "Working Well Under Pressure",
 }

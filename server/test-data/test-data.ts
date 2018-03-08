@@ -4,7 +4,7 @@ import { ProgramRequest, NewProgramRequestOptions } from './../models/ProgramReq
 import { Response } from './../models/Response';
 import { Role, RoleType } from './../models/Role';
 import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
-import { Tag, TagName } from './../models/Tag';
+import { Tag, TagType } from './../models/Tag';
 import { User, UserRegistrationOptions } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { Video, VideoUploadOptions } from './../models/Video';
@@ -77,22 +77,22 @@ const TestVideos = [
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yee.mp4",
     description: "Yeeeeee",
-    tags: [TagName.Test1, TagName.Test2, TagName.Test3]
+    tags: [TagType.Customer, TagType.Angry, TagType.Criticism]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/testvideo2.mp4",
     description: "A man with a mission",
-    tags: [TagName.Test2, TagName.Test4]
+    tags: [TagType.Angry, TagType.Pressure]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/anime.mp4",
     description: "anime is real",
-    tags: [TagName.Test5]
+    tags: [TagType.Self]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/congrats.mp4",
     description: "you did it",
-    tags: [TagName.Test1, TagName.Test3]
+    tags: [TagType.Customer, TagType.Pressure]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/friends.mp4",
@@ -102,17 +102,17 @@ const TestVideos = [
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/hello.mp4",
     description: "is it me you're looking for?",
-    tags: [TagName.Test1, TagName.Test2, TagName.Test3, TagName.Test4, TagName.Test5]
+    tags: [TagType.Customer, TagType.Angry, TagType.Criticism, TagType.Pressure, TagType.Self]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/nuts.mp4",
     description: "",
-    tags: [TagName.Test4]
+    tags: [TagType.Pressure]
   },
   {
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/stats.mp4",
     description: null,
-    tags: [TagName.Test4, TagName.Test2]
+    tags: [TagType.Pressure, TagType.Angry]
   },
 ];
 
@@ -261,17 +261,17 @@ const TestProgramRequests = [
   {
     clientIndex: 0,
     text: "Make me a pizza!",
-    softSkills: [SoftSkillType.Test1, SoftSkillType.Test2, SoftSkillType.Test3]
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills]
   },
   {
     clientIndex: 0,
     text: "Zoombinis!",
-    softSkills: [SoftSkillType.Test4, SoftSkillType.Test5]
+    softSkills: [SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
   },
   {
     clientIndex: 1,
     text: "Find good employee pl0x",
-    softSkills: [SoftSkillType.Test1, SoftSkillType.Test2, SoftSkillType.Test3, SoftSkillType.Test4, SoftSkillType.Test5]
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills, SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
   },
 ]
 

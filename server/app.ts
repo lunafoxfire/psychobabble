@@ -8,36 +8,53 @@ import * as passport from 'passport';
 import * as crypto from 'crypto';
 import * as cors from 'cors';
 import 'reflect-metadata';
+import './logging/console-extensions';
 import './config/config';
 import './config/passport';
 import { router } from './routes/routes';
-import { createConnection } from 'typeorm';
+import { Connection, createConnection } from 'typeorm';
 import { User } from './models/User';
 import { Role, RoleType } from './models/Role';
 import { SoftSkill, SoftSkillType } from './models/SoftSkill';
 import { Tag, TagType } from './models/Tag';
 
 export class App {
-  /** Returns a promise wrapper for the Express app */
-  static async initAsync(): Promise<any> {
-    console.log(
+  private static connection: Connection;
+
+  /** Very important function. */
+  private static showStartupMessage() {
+    console.logInEnvironment({exclude: ['testing']},
       "===============================\n" +
       "==           WELCOME         ==\n" +
       "==============================="
     );
-    console.log(`Node environment: ${process.env.NODE_ENV}\n`);
+    console.logInEnvironment({exclude: ['testing']}, `Node environment: ${process.env.NODE_ENV}\n`);
+  }
 
-    // Get database connection and initialize data
-    console.log("Connecting to the database...");
-    await createConnection()
+  /** Connects to the database with the default connection. */
+  private static async connectToDb(): Promise<Connection> {
+    console.logInEnvironment({exclude: ['testing']}, "Connecting to the database...");
+    let connection = createConnection();
+    connection
       .then(async (connection) => {
         await Role.syncRolesToDbAsync();
         await SoftSkill.syncSoftSkillsToDbAsync();
         await Tag.syncTagsToDbAsync();
         await User.generateDefaultAdminIfNoAdminAsync();
-        console.log("Successfully connected to the database.");
+        console.logInEnvironment({exclude: ['testing']}, "Successfully connected to the database.");
       })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
+    return connection;
+  }
+
+  /** Returns a promise wrapper for the Express app. */
+  static async initAsync(): Promise<any> {
+    this.showStartupMessage();
+
+    // Only allow connection to be created once, especially for testing
+    if (!this.connection) {
+      this.connection = await this.connectToDb();
+    }
 
     let app = express();
     if (process.env.NODE_ENV === 'development') { app.use(logger('dev')); } // Log http requests in dev mode

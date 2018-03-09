@@ -1,8 +1,12 @@
 <h1>Register</h1>
 <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
   <label for="register-username">Username:</label>
-  <input id="register-username" type="text" ngModel name="username" required>
-
+  <input #username="ngModel" id="register-username" type="text" ngModel name="username" required>
+  <div *ngIf="username.invalid && (username.dirty || username.touched)">
+    <div *ngIf="username.errors.required">
+      Username is required
+    </div>
+  </div>
   <label for="register-email">Email:</label>
   <input id="register-email" type="email" ngModel name="email" required>
 

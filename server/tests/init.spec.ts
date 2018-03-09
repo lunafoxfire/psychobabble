@@ -3,6 +3,10 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import { App } from './../app';
 
+// Documentation:
+// http://chaijs.com/api/bdd/
+// https://mochajs.org/
+
 export let app;
 
 // Runs before any tests

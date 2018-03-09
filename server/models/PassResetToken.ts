@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
 import { User } from './User';
 import * as crypto from 'crypto';
 
@@ -20,14 +20,4 @@ export class PassResetToken {
   /** The User this token is associated with. */
   @OneToOne(type => User)
   user: User;
-
-  public static async generatePassTokenAsync() {
-    let tokenRepo = getRepository(PassResetToken);
-    let minBeforeExpire = 15;
-    let newToken = new PassResetToken();
-    newToken.code = crypto.randomBytes(8).toString('hex');
-    newToken.expiration = new Date().getTime() + (minBeforeExpire * 60 * 1000);
-    await tokenRepo.save(newToken);
-    return newToken;
-  }
 }

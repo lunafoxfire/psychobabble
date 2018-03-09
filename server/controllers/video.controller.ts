@@ -1,16 +1,25 @@
+import { fixThis } from './../utility/fix-this';
 import * as AWS from 'aws-sdk';
 import { Video } from './../models/Video';
 import { RoleType } from './../models/Role';
+import { VideoService } from './../services/video.service';
 
 export class VideoController {
-  public static async generateVideoUrl(req, res) {
+  private videoService: VideoService;
+
+  constructor(videoService: VideoService = null) {
+    this.videoService = videoService || new VideoService();
+    fixThis(this, VideoController);
+  }
+
+  public async generateVideoUrl(req, res) {
     if(req.jwt.role = "ADMIN") {
       let s3 = new AWS.S3();
       s3.config.update({
         accessKeyId: process.env.S3_ACCESS_KEY,
         secretAccessKey: process.env.S3_SECRET_KEY
       })
-      let videoId = await Video.createEmptyVideo()
+      let videoId = await this.videoService.createEmptyVideo()
       let params = {
         ACL: "public-read",
         Bucket: process.env.S3_BUCKET_NAME,
@@ -46,9 +55,9 @@ export class VideoController {
     }
   }
 
-  public static async uploadVideo(req, res) {
+  public async uploadVideo(req, res) {
     if(req.jwt.role = "Admin") {
-      let result = await Video.uploadAsync({
+      let result = await this.videoService.uploadAsync({
         id: req.body.videoId,
         url: req.body.url,
         description: null // TODO: Actually get description and tags from form
@@ -72,9 +81,9 @@ export class VideoController {
     }
   }
 
-  public static async removeVideo(req, res) {
+  public async removeVideo(req, res) {
     if(req.jwt.role === "ADMIN") {
-      let deleted = await Video.deleteVideoId(req.body.videoId).then((bool) => {
+      let deleted = await this.videoService.deleteVideoId(req.body.videoId).then((bool) => {
         if(bool) {
           res.status(200);
           res.json({

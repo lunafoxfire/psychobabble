@@ -1,10 +1,19 @@
+import { fixThis } from './../utility/fix-this';
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
+import { AuthService } from './../services/auth.service';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
-  public static registerClient(req, res) {
+  private authService: AuthService;
+
+  constructor(authService: AuthService = null) {
+    this.authService = authService || new AuthService();
+    fixThis(this, AuthController);
+  }
+
+  public registerClient(req, res) {
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;
@@ -16,7 +25,7 @@ export class AuthController {
     }
     else {
       console.log(`Registering ${username} | ${email}...`)
-      User.registerClientAsync(username, email, password)
+      this.authService.registerClientAsync(username, email, password)
       .then((user) => {
         if (user) {
           let msg = `Registered ${username} with id ${user.id}`;
@@ -43,8 +52,8 @@ export class AuthController {
     }
   }
 
-  public static async sendReset(req, res) {
-    let sendSuccess = await User.sendPassResetEmail(req.body.email, req.headers.host);
+  public async sendReset(req, res) {
+    let sendSuccess = await this.authService.sendPassResetEmail(req.body.email, req.headers.host);
     if(sendSuccess) {
       res.status(200);
       res.json({
@@ -58,8 +67,8 @@ export class AuthController {
     }
   }
 
-  public static async resendResetEmail(req, res) {
-    let sendSuccess = await User.resendPasswordResetEmail(req.body.userId, req.headers.host);
+  public async resendResetEmail(req, res) {
+    let sendSuccess = await this.authService.resendPasswordResetEmail(req.body.userId, req.headers.host);
     if(sendSuccess) {
       res.status(200);
       res.json({
@@ -73,8 +82,8 @@ export class AuthController {
     }
   }
 
-  public static async passChange(req, res) {
-    let passChangeSuccess = await User.changePassword(req.body.newPass, req.body.userId);
+  public async passChange(req, res) {
+    let passChangeSuccess = await this.authService.changePassword(req.body.newPass, req.body.userId);
     if(passChangeSuccess === 0) {
       res.status(500);
       res.json({
@@ -93,10 +102,10 @@ export class AuthController {
     }
   }
 
-  public static verifyUser(req, res) {
+  public verifyUser(req, res) {
     console.log(req.body)
     if(req.jwt && req.jwt.id) {
-      ValidationToken.checkVerify(req.body.code, req.jwt.id).then((user) => {
+      this.authService.checkValidationCode(req.body.code, req.jwt.id).then((user) => {
         res.status(200);
         res.json({
           message: "validated",
@@ -108,9 +117,9 @@ export class AuthController {
     }
   }
 
-  public static async resendVerification(req, res) {
+  public async resendVerification(req, res) {
     if(req.jwt && req.jwt.id && req.jwt.email) {
-      User.resendValidationEmail(req.jwt.email);
+      this.authService.resendValidationEmail(req.jwt.email);
       res.status(200);
       res.json({
         message: "Email Sent"
@@ -123,7 +132,7 @@ export class AuthController {
     }
   }
 
-  public static loginLocal(req, res) {
+  public loginLocal(req, res) {
     let loginName = req.body.loginName;
     passport.authenticate('local', (err, user, info) => {
       console.log(`Logging in ${loginName}...`)

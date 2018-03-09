@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 import { ProgramRequest } from "./ProgramRequest";
 
 /** Represents a soft skill that a client can request. */
@@ -15,26 +15,6 @@ export class SoftSkill {
   /** All requests requesting this soft skill. */
   @ManyToMany(type => ProgramRequest, programRequests => programRequests.softSkills)
   programRequests: ProgramRequest[];
-
-  /** Saves all soft skills in the SoftSkillNames enum to the database. */
-  public static async syncSoftSkillsToDbAsync() {
-    let skillRepo = getRepository(SoftSkill);
-    let skillList = Object.values(SoftSkillType);
-    await Promise.all(skillList.map(async (skillName) => {
-      let skillFinder = await skillRepo.findOne({name: skillName});
-      if (!skillFinder) {
-        let newSoftSkill = new SoftSkill();
-        newSoftSkill.name = skillName;
-        await skillRepo.save(newSoftSkill);
-      }
-      return;
-    }));
-  }
-
-  /** Retrieves a soft skill from the database by its SoftSkillType */
-  public static async findByNameAsync(skillName: SoftSkillType): Promise<SoftSkill> {
-    return getRepository(SoftSkill).findOne({name: skillName});
-  }
 }
 
 /** Enumerated list of all soft skill names. */

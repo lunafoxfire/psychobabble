@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 import { Video } from "./Video";
 
 /** Descriptive tag for a video. */
@@ -15,26 +15,6 @@ export class Tag {
   /** All videos with this tag. */
   @ManyToMany(type => Video, videos => videos.tags)
   videos: Video[];
-
-  /** Saves all tags in the TagTypes enum to the database. */
-  public static async syncTagsToDbAsync() {
-    let tagRepo = getRepository(Tag);
-    let tagList = Object.values(TagType);
-    await Promise.all(tagList.map(async (tagType) => {
-      let tagFinder = await tagRepo.findOne({name: tagType});
-      if (!tagFinder) {
-        let newTag = new Tag();
-        newTag.name = tagType;
-        await tagRepo.save(newTag);
-      }
-      return;
-    }));
-  }
-
-  /** Retrieves a Tag from the database by its TagType */
-  public static async findByNameAsync(tagType: TagType): Promise<Tag> {
-    return getRepository(Tag).findOne({name: tagType});
-  }
 }
 
 /** Enumerated list of all tag names. */

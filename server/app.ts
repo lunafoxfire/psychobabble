@@ -8,36 +8,50 @@ import * as passport from 'passport';
 import * as crypto from 'crypto';
 import * as cors from 'cors';
 import 'reflect-metadata';
+import './utility/console-extensions';
 import './config/config';
-import './config/passport';
-import { router } from './routes/routes';
+import { loadPassport} from './config/passport';
+import { loadRoutes } from './routes/routes';
 import { createConnection } from 'typeorm';
-import { User } from './models/User';
-import { Role, RoleType } from './models/Role';
-import { SoftSkill, SoftSkillType } from './models/SoftSkill';
-import { Tag, TagType } from './models/Tag';
+import { AuthService } from './services/auth.service';
+import { RoleService } from './services/role.service';
+import { SoftSkillService } from './services/soft-skill.service';
+import { TagService } from './services/tag.service';
 
 export class App {
-  /** Returns a promise wrapper for the Express app */
-  static async initAsync(): Promise<any> {
-    console.log(
+  /** Very important function. */
+  private static showStartupMessage() {
+    console.logInEnvironment({exclude: ['testing']},
       "===============================\n" +
       "==           WELCOME         ==\n" +
       "==============================="
     );
-    console.log(`Node environment: ${process.env.NODE_ENV}\n`);
+    console.logInEnvironment({exclude: ['testing']}, `Node environment: ${process.env.NODE_ENV}\n`);
+  }
 
-    // Get database connection and initialize data
-    console.log("Connecting to the database...");
+  /** Connects to the database with the default connection. */
+  private static async connectToDb() {
+    console.logInEnvironment({exclude: ['testing']}, "Connecting to the database...");
     await createConnection()
       .then(async (connection) => {
-        await Role.syncRolesToDbAsync();
-        await SoftSkill.syncSoftSkillsToDbAsync();
-        await Tag.syncTagsToDbAsync();
-        await User.generateDefaultAdminIfNoAdminAsync();
+        console.logInEnvironment({exclude: ['testing']}, "Loading initial data...");
+        let roleService = new RoleService();
+        let softSkillService = new SoftSkillService();
+        let tagService = new TagService();
+        let authService = new AuthService();
+        await roleService.syncRolesToDbAsync();
+        await softSkillService.syncSoftSkillsToDbAsync();
+        await tagService.syncTagsToDbAsync();
+        await authService.generateDefaultAdminIfNoAdminAsync();
+        console.logInEnvironment({exclude: ['testing']}, "Successfully connected to the database.");
       })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
-    console.log("Successfully connected to the database.");
+  }
+
+  /** Returns a promise wrapper for the Express app. */
+  static async initAsync(): Promise<any> {
+    this.showStartupMessage();
+    await this.connectToDb();
 
     let app = express();
     if (process.env.NODE_ENV === 'development') { app.use(logger('dev')); } // Log http requests in dev mode
@@ -51,8 +65,9 @@ export class App {
     app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
     // Load api routes with passport
+    loadPassport();
     app.use(passport.initialize());
-    app.use(router);
+    app.use(loadRoutes());
 
     // Load Angular and let it handle view routes
     app.get('**', function(req, res, next) {

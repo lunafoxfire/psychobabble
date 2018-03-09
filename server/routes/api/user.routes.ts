@@ -3,9 +3,14 @@ import { auth } from './../../config/auth';
 import { UserController } from './../../controllers/user.controller';
 
 // prefix: /api/users/...
-export let router = express.Router();
+export function loadRoutes() {
+  let router = express.Router();
+  let userCtrl = new UserController();
 
-// GET /api/users/:userId/profile
-// auth: logged-in
-// Get user info for profile page
-router.get('/:userId/profile', auth, (req, res) => {res.status(501)});
+  // GET /api/users/:userId/profile
+  // auth: logged-in
+  // Get user info for profile page
+  router.get('/:userId/profile', auth, (req, res) => {res.status(501)});
+
+  return router;
+}

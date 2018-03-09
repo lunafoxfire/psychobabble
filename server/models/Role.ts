@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { User } from "./User";
 
 /** User roles defining permissions. */
@@ -15,26 +15,6 @@ export class Role {
   /** All users with this Role */
   @OneToMany(type => User, users => users.role)
   users: User[];
-
-  /** Saves all roles in the RoleTypes enum to the database. */
-  public static async syncRolesToDbAsync() {
-    let roleRepo = getRepository(Role);
-    let roleList = Object.values(RoleType);
-    await Promise.all(roleList.map(async (roleType) => {
-      let roleFinder = await roleRepo.findOne({name: roleType});
-      if (!roleFinder) {
-        let newRole = new Role();
-        newRole.name = roleType;
-        await roleRepo.save(newRole);
-      }
-      return;
-    }));
-  }
-
-  /** Retrieves a Role from the database by its RoleType */
-  public static async findByNameAsync(roleType: RoleType): Promise<Role> {
-    return getRepository(Role).findOne({name: roleType});
-  }
 }
 
 /** Enumerated list of all role names. */

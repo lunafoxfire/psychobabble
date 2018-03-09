@@ -2,15 +2,12 @@ require('./server/config/config');
 
 switch (process.env.NODE_ENV) {
   case "production":
-      process.env.POSTGRES_PASSWORD = process.env.POSTGRES_PROD_PASSWORD;
       process.env.POSTGRES_DATABASE = process.env.POSTGRES_PROD_DATABASE;
     break;
   case "development":
-      process.env.POSTGRES_PASSWORD = process.env.POSTGRES_DEV_PASSWORD;
       process.env.POSTGRES_DATABASE = process.env.POSTGRES_DEV_DATABASE;
     break;
   case "testing":
-      process.env.POSTGRES_PASSWORD = process.env.POSTGRES_TEST_PASSWORD;
       process.env.POSTGRES_DATABASE = process.env.POSTGRES_TEST_DATABASE;
     break;
   default:

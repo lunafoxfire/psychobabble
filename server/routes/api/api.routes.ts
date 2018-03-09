@@ -1,17 +1,21 @@
 import * as express from 'express';
-import { router as authRoutes } from './auth.routes';
-import { router as requestRoutes } from './program-request.routes';
-import { router as programRoutes } from './program.routes';
-import { router as responseRoutes } from './response.routes';
-import { router as userRoutes } from './user.routes';
-import { router as videoRoutes } from './video.routes';
+import { loadRoutes as loadAuthRoutes } from './auth.routes';
+import { loadRoutes as loadRequestRoutes } from './program-request.routes';
+import { loadRoutes as loadProgramRoutes } from './program.routes';
+import { loadRoutes as loadResponseRoutes } from './response.routes';
+import { loadRoutes as loadUserRoutes } from './user.routes';
+import { loadRoutes as loadVideoRoutes } from './video.routes';
 
 // prefix: /api/...
-export let router = express.Router();
+export function loadRoutes() {
+  let router = express.Router();
 
-router.use('/auth', authRoutes);
-router.use('/program-requests', requestRoutes);
-router.use('/programs', programRoutes);
-router.use('/responses', responseRoutes);
-router.use('/users', userRoutes);
-router.use('/videos', videoRoutes);
+  router.use('/auth', loadAuthRoutes());
+  router.use('/program-requests', loadRequestRoutes());
+  router.use('/programs', loadProgramRoutes());
+  router.use('/responses', loadResponseRoutes());
+  router.use('/users', loadUserRoutes());
+  router.use('/videos', loadVideoRoutes());
+
+  return router;
+}

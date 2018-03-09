@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, getRepository } from "typeorm";
-import { SoftSkill, SoftSkillType } from "./SoftSkill";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
+import { SoftSkill } from "./SoftSkill";
 import { User } from "./User";
 
 /** Represents a request by a client for a new Program to be created */
@@ -21,31 +21,4 @@ export class ProgramRequest {
   @ManyToMany(type => SoftSkill, softSkills => softSkills.programRequests)
   @JoinTable()
   softSkills: SoftSkill[];
-
-  /** Saves a new ProgramRequest to the database. */
-  public static async saveNewAsync(requestOptions: NewProgramRequestOptions): Promise<ProgramRequest> {
-    let requestRepo = getRepository(ProgramRequest);
-    let softSkills: SoftSkill[] = [];
-    if (requestOptions.softSkills) {
-      await Promise.all(requestOptions.softSkills.map(async (skillType) => {
-        softSkills.push(await SoftSkill.findByNameAsync(skillType));
-        return;
-      }));
-    }
-    let newRequest = new ProgramRequest();
-      newRequest.client = requestOptions.client;
-      newRequest.text = requestOptions.text;
-      newRequest.softSkills = softSkills;
-    return requestRepo.save(newRequest);
-  }
-}
-
-/** All options required to create a new ProgramRequest. */
-export interface NewProgramRequestOptions {
-  /** Client that entered this request. */
-  client: User;
-  /** Text describing the requested Program. */
-  text: string;
-  /** Soft Skills to be included in the requested Program. Optional. */
-  softSkills?: SoftSkillType[];
 }

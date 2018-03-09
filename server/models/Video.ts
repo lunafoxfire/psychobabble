@@ -1,6 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, getRepository } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Program } from './Program';
-import { Tag, TagType } from "./Tag";
+import { Tag } from "./Tag";
 import { Response } from "./Response";
 
 /** A video object. */
@@ -30,55 +30,4 @@ export class Video {
   /** All subject Responses to this video. */
   @OneToMany(type => Response, responses => responses.video)
   responses: Response[];
-
-  public static async createEmptyVideo(): Promise<string> {
-    let videoRepo = getRepository(Video);
-    let video = new Video();
-    await videoRepo.save(video);
-    return video.id;
-  }
-
-  /** Saves a new Video to the database. */
-  public static async uploadAsync(videoOptions: VideoUploadOptions): Promise<Video> {
-    let videoRepo = await getRepository(Video);
-    let tags: Tag[] = [];
-    if (videoOptions.tags) {
-      await Promise.all(videoOptions.tags.map(async (tagType) => {
-        tags.push(await Tag.findByNameAsync(tagType));
-        return;
-      }));
-    }
-    let newVideo = new Video();
-      newVideo.id = videoOptions.id
-      newVideo.url = videoOptions.url;
-      newVideo.description = videoOptions.description;
-      newVideo.tags = tags;
-    return videoRepo.save(newVideo);
-  }
-
-  public static async deleteVideoId(videoId) {
-    let videoRepo = await getRepository(Video);
-    let videoToDelete = await videoRepo.findOneById(videoId);
-    await videoRepo.remove(videoToDelete);
-    let check = await videoRepo.findOneById(videoId);
-    if(check) {
-      console.log(videoId);
-      return false;
-    } else {
-      console.log(videoId);
-      return true;
-    }
-  }
-}
-
-/** All options required to create a new Video. */
-export interface VideoUploadOptions {
-  /** The id where this video will be stored */
-  id: string;
-  /** The URL where this video is stored. */
-  url: string;
-  /** A description of this video. */
-  description: string;
-  /** All tags associated with this video. Optional. */
-  tags?: TagType[];
 }

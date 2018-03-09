@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import './../config/config';
 import { createConnection } from 'typeorm';
-import { TestData } from './../test-data/test-data';
+import { TestData } from './../data/test-data';
 
 console.log(
 `===============================

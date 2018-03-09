@@ -1,8 +1,5 @@
-import {
-  Entity, Column, PrimaryGeneratedColumn, OneToOne,
-  Repository, getRepository
-} from "typeorm";
-import { User, UserService } from "./User";
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from "typeorm";
+import { User } from "./User";
 import * as crypto from 'crypto';
 
 @Entity('validation_tokens')
@@ -23,36 +20,4 @@ export class ValidationToken {
   /** The User this token is associated with. */
   @OneToOne(type => User)
   user: User;
-}
-
-export class ValidationTokenService {
-  public tokenRepo: Repository<ValidationToken>;
-  private userService: UserService;
-
-  constructor(tokenRepo: Repository<ValidationToken> = null, userService: UserService = null) {
-    this.tokenRepo = tokenRepo || getRepository(ValidationToken);
-    this.userService = userService || new UserService();
-  }
-
-  /** Generates a new token not yet associated with any User. */
-  public async generateValidTokenAsync() {
-    let minBeforeExpire = 15;
-    let newToken = new ValidationToken();
-    newToken.code = crypto.randomBytes(3).toString('hex');
-    newToken.expiration = new Date().getTime() + (minBeforeExpire * 60 * 1000);
-    await this.tokenRepo.save(newToken);
-    return newToken;
-  }
-
-  /** Checks if the code provided matches the user's token. */
-  public async checkVerify(code: string, userId: string) {
-    let currentUser = await this.userService.userRepo.findOneById(userId);
-    if(currentUser.validationToken.code === code && currentUser.validationToken.expiration >= new Date().getTime()) {
-      currentUser.validated = true;
-      this.userService.userRepo.save(currentUser);
-      return currentUser;
-    } else {
-      return currentUser;
-    }
-  }
 }

@@ -1,7 +1,4 @@
-import {
-  Entity, Column, PrimaryGeneratedColumn, ManyToOne,
-  Repository, getRepository
-} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { User } from "./User";
 import { Video } from "./Video";
 import { Program } from "./Program";
@@ -39,38 +36,5 @@ export class Response {
 
   /** The Program that this Response belongs to. */
   @ManyToOne(type => Program, program => program.responses)
-  program: Program;
-}
-
-export class ResponseService {
-  public responseRepo: Repository<Response>;
-
-  constructor(responseRepo: Repository<Response> = null) {
-    this.responseRepo = responseRepo || getRepository(Response);
-  }
-
-  /** Saves a new Response to the database. */
-  public async saveNewAsync(responseOptions: NewResponseOptions) {
-    let newResponse = new Response();
-      newResponse.audio_url = responseOptions.audio_url;
-      newResponse.text_version = null; // TODO: generate this
-      newResponse.score = null;
-      newResponse.reviewed = false;
-      newResponse.subject = responseOptions.subject;
-      newResponse.video = responseOptions.video;
-      newResponse.program = responseOptions.program;
-    return this.responseRepo.save(newResponse);
-  }
-}
-
-/** All options required to create a new Response. */
-export interface NewResponseOptions {
-  /** URL of the subject's audio response to the video. */
-  audio_url: string;
-  /** The subject that this Response belongs to. */
-  subject: User;
-  /** The Video that this was a Response to. */
-  video: Video;
-  /** The Program that this Response belongs to. */
   program: Program;
 }

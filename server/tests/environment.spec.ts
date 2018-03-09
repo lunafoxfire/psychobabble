@@ -1,7 +1,7 @@
 import 'mocha';
 import * as chai from 'chai';
 import { expect } from 'chai';
-import { App } from './../app';
+import { app } from './init.spec';
 
 describe("Environment variables", function() {
   describe("NODE_ENV", function() {

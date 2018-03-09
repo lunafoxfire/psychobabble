@@ -1,14 +1,15 @@
 import { fixThis } from './../utility/fix-this';
 import * as passport from 'passport';
-import { User, UserService } from './../models/User';
+import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
+import { AuthService } from './../services/auth.service';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
 export class AuthController {
-  private userService: UserService;
+  private authService: AuthService;
 
-  constructor(userService: UserService = null) {
-    this.userService = userService || new UserService();
+  constructor(authService: AuthService = null) {
+    this.authService = authService || new AuthService();
     fixThis(this, AuthController);
   }
 
@@ -24,7 +25,7 @@ export class AuthController {
     }
     else {
       console.log(`Registering ${username} | ${email}...`)
-      this.userService.registerClientAsync(username, email, password)
+      this.authService.registerClientAsync(username, email, password)
       .then((user) => {
         if (user) {
           let msg = `Registered ${username} with id ${user.id}`;
@@ -52,7 +53,7 @@ export class AuthController {
   }
 
   public async sendReset(req, res) {
-    let sendSuccess = await this.userService.sendPassResetEmail(req.body.email, req.headers.host);
+    let sendSuccess = await this.authService.sendPassResetEmail(req.body.email, req.headers.host);
     if(sendSuccess) {
       res.status(200);
       res.json({
@@ -67,7 +68,7 @@ export class AuthController {
   }
 
   public async resendResetEmail(req, res) {
-    let sendSuccess = await this.userService.resendPasswordResetEmail(req.body.userId, req.headers.host);
+    let sendSuccess = await this.authService.resendPasswordResetEmail(req.body.userId, req.headers.host);
     if(sendSuccess) {
       res.status(200);
       res.json({
@@ -82,7 +83,7 @@ export class AuthController {
   }
 
   public async passChange(req, res) {
-    let passChangeSuccess = await this.userService.changePassword(req.body.newPass, req.body.userId);
+    let passChangeSuccess = await this.authService.changePassword(req.body.newPass, req.body.userId);
     if(passChangeSuccess === 0) {
       res.status(500);
       res.json({
@@ -104,7 +105,7 @@ export class AuthController {
   public verifyUser(req, res) {
     console.log(req.body)
     if(req.jwt && req.jwt.id) {
-      ValidationToken.checkVerify(req.body.code, req.jwt.id).then((user) => {
+      this.authService.checkValidationCode(req.body.code, req.jwt.id).then((user) => {
         res.status(200);
         res.json({
           message: "validated",
@@ -118,7 +119,7 @@ export class AuthController {
 
   public async resendVerification(req, res) {
     if(req.jwt && req.jwt.id && req.jwt.email) {
-      this.userService.resendValidationEmail(req.jwt.email);
+      this.authService.resendValidationEmail(req.jwt.email);
       res.status(200);
       res.json({
         message: "Email Sent"

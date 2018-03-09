@@ -10,13 +10,13 @@ import * as cors from 'cors';
 import 'reflect-metadata';
 import './utility/console-extensions';
 import './config/config';
-import './config/passport';
+import { loadPassport} from './config/passport';
 import { loadRoutes } from './routes/routes';
-import { Connection, createConnection } from 'typeorm';
-import { User, UserService } from './models/User';
-import { Role, RoleType } from './models/Role';
-import { SoftSkill, SoftSkillType } from './models/SoftSkill';
-import { Tag, TagType } from './models/Tag';
+import { createConnection } from 'typeorm';
+import { AuthService } from './services/auth.service';
+import { RoleService } from './services/role.service';
+import { SoftSkillService } from './services/soft-skill.service';
+import { TagService } from './services/tag.service';
 
 export class App {
   /** Very important function. */
@@ -34,11 +34,15 @@ export class App {
     console.logInEnvironment({exclude: ['testing']}, "Connecting to the database...");
     await createConnection()
       .then(async (connection) => {
-        let userService = new UserService();
-        await Role.syncRolesToDbAsync();
-        await SoftSkill.syncSoftSkillsToDbAsync();
-        await Tag.syncTagsToDbAsync();
-        await userService.generateDefaultAdminIfNoAdminAsync();
+        console.logInEnvironment({exclude: ['testing']}, "Loading initial data...");
+        let roleService = new RoleService();
+        let softSkillService = new SoftSkillService();
+        let tagService = new TagService();
+        let authService = new AuthService();
+        await roleService.syncRolesToDbAsync();
+        await softSkillService.syncSoftSkillsToDbAsync();
+        await tagService.syncTagsToDbAsync();
+        await authService.generateDefaultAdminIfNoAdminAsync();
         console.logInEnvironment({exclude: ['testing']}, "Successfully connected to the database.");
       })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
@@ -61,6 +65,7 @@ export class App {
     app.use(express.static(path.join(__dirname, '../dist'))); // Add Angular build folder to static files
 
     // Load api routes with passport
+    loadPassport();
     app.use(passport.initialize());
     app.use(loadRoutes());
 

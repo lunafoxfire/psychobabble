@@ -1,13 +1,22 @@
 import { getRepository } from 'typeorm';
-import { Program, NewProgramOptions, ProgramService } from './../models/Program';
-import { ProgramRequest, NewProgramRequestOptions, ProgramRequestService } from './../models/ProgramRequest';
-import { Response, ResponseService } from './../models/Response';
-import { Role, RoleType, RoleService } from './../models/Role';
-import { SoftSkill, SoftSkillType, SoftSkillService } from './../models/SoftSkill';
-import { Tag, TagType, TagService } from './../models/Tag';
-import { User, UserRegistrationOptions, UserService } from './../models/User';
-import { ValidationToken, ValidationTokenService } from './../models/ValidationToken';
-import { Video, VideoUploadOptions, VideoService } from './../models/Video';
+import { Program } from './../models/Program';
+import { ProgramRequest } from './../models/ProgramRequest';
+import { Response } from './../models/Response';
+import { Role, RoleType } from './../models/Role';
+import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
+import { Tag, TagType } from './../models/Tag';
+import { User } from './../models/User';
+import { ValidationToken } from './../models/ValidationToken';
+import { Video } from './../models/Video';
+import { AuthService, UserRegistrationOptions } from './../services/auth.service';
+import { UserService } from './../services/user.service';
+import { VideoService } from './../services/video.service';
+import { ProgramRequestService } from './../services/program-request.service';
+import { ProgramService } from './../services/program.service';
+import { ResponseService } from './../services/response.service';
+import { RoleService } from './../services/role.service';
+import { SoftSkillService } from './../services/soft-skill.service';
+import { TagService } from './../services/tag.service';
 
 // =========== Users =========== //
 const TestClients: UserRegistrationOptions[] = [
@@ -286,29 +295,30 @@ export class TestData {
   static requests: ProgramRequest[] = [];
 
   public static async loadAllTestDataAsync() {
-    let roleService = new RoleService();
+    let authService = new AuthService();
     let userService = new UserService();
-    let tagService = new TagService();
     let videoService = new VideoService();
+    let requestService = new ProgramRequestService();
     let programService = new ProgramService();
     let responseService = new ResponseService();
+    let roleService = new RoleService();
     let softSkillService = new SoftSkillService();
-    let requestService = new ProgramRequestService();
+    let tagService = new TagService();
 
     console.log("Generating roles...");
     await roleService.syncRolesToDbAsync();
 
     console.log("Generating admin...");
-    this.admin = await userService.generateDefaultAdminAsync();
+    this.admin = await authService.generateDefaultAdminAsync();
 
     console.log("Generating users...");
-    await userService.generateDefaultAdminIfNoAdminAsync();
+    await authService.generateDefaultAdminIfNoAdminAsync();
     await Promise.all(TestClients.map(async (user) => {
-      this.clients.push(await userService.registerAsync(user));
+      this.clients.push(await authService.registerAsync(user));
       return;
     }));
     await Promise.all(TestSubjects.map(async (user) => {
-      this.subjects.push(await userService.registerAsync(user));
+      this.subjects.push(await authService.registerAsync(user));
       return;
     }));
 

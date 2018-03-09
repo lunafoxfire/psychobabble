@@ -3,7 +3,11 @@ import { Video } from './../models/Video';
 import { RoleType } from './../models/Role';
 
 export class VideoController {
-  public static async generateVideoUrl(req, res) {
+  constructor() {
+    // TODO: dependency injection here
+  }
+  
+  public async generateVideoUrl(req, res) {
     if(req.jwt.role = "ADMIN") {
       let s3 = new AWS.S3();
       s3.config.update({
@@ -46,7 +50,7 @@ export class VideoController {
     }
   }
 
-  public static async uploadVideo(req, res) {
+  public async uploadVideo(req, res) {
     if(req.jwt.role = "Admin") {
       let result = await Video.uploadAsync({
         id: req.body.videoId,
@@ -72,7 +76,7 @@ export class VideoController {
     }
   }
 
-  public static async removeVideo(req, res) {
+  public async removeVideo(req, res) {
     if(req.jwt.role === "ADMIN") {
       let deleted = await Video.deleteVideoId(req.body.videoId).then((bool) => {
         if(bool) {

@@ -11,16 +11,14 @@ import 'reflect-metadata';
 import './logging/console-extensions';
 import './config/config';
 import './config/passport';
-import { router } from './routes/routes';
+import { loadRoutes } from './routes/routes';
 import { Connection, createConnection } from 'typeorm';
-import { User } from './models/User';
+import { User, UserService } from './models/User';
 import { Role, RoleType } from './models/Role';
 import { SoftSkill, SoftSkillType } from './models/SoftSkill';
 import { Tag, TagType } from './models/Tag';
 
 export class App {
-  private static connection: Connection;
-
   /** Very important function. */
   private static showStartupMessage() {
     console.logInEnvironment({exclude: ['testing']},
@@ -32,26 +30,24 @@ export class App {
   }
 
   /** Connects to the database with the default connection. */
-  private static async connectToDb(): Promise<Connection> {
+  private static async connectToDb() {
     console.logInEnvironment({exclude: ['testing']}, "Connecting to the database...");
-    let connection = createConnection();
-    connection
+    await createConnection()
       .then(async (connection) => {
+        let userService = new UserService();
         await Role.syncRolesToDbAsync();
         await SoftSkill.syncSoftSkillsToDbAsync();
         await Tag.syncTagsToDbAsync();
-        await User.generateDefaultAdminIfNoAdminAsync();
+        await userService.generateDefaultAdminIfNoAdminAsync();
         console.logInEnvironment({exclude: ['testing']}, "Successfully connected to the database.");
       })
       .catch((err) => console.error("Error connecting to the database!\n" + err));
-    return connection;
   }
 
   /** Returns a promise wrapper for the Express app. */
   static async initAsync(): Promise<any> {
     this.showStartupMessage();
-
-    this.connection = await this.connectToDb();
+    await this.connectToDb();
 
     let app = express();
     if (process.env.NODE_ENV === 'development') { app.use(logger('dev')); } // Log http requests in dev mode
@@ -66,7 +62,7 @@ export class App {
 
     // Load api routes with passport
     app.use(passport.initialize());
-    app.use(router);
+    app.use(loadRoutes());
 
     // Load Angular and let it handle view routes
     app.get('**', function(req, res, next) {

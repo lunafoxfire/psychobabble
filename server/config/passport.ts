@@ -1,13 +1,14 @@
 import * as passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { User } from './../models/User';
+import { User, UserService } from './../models/User';
 
 passport.use(new LocalStrategy({
     usernameField: 'loginName',
     passwordField: 'password'
   },
   function(loginName, password, done) {
-    User.findByLoginNameAsync(loginName)
+    let userService = new UserService();
+    userService.findByLoginNameAsync(loginName)
       .then((user) => {
         if (!user) {
           return done(null, false, {

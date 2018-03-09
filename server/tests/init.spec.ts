@@ -6,6 +6,7 @@ import { App } from './../app';
 // Documentation:
 // http://chaijs.com/api/bdd/
 // https://mochajs.org/
+// https://www.npmjs.com/package/testdouble
 
 export let app;
 

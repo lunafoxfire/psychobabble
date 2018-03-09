@@ -1,12 +1,18 @@
 <h1>Register</h1>
-<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+<form #registerForm="ngForm" (ngSubmit)="form.valid && onSubmit(registerForm)">
   <label for="register-username">Username:</label>
-  <input #username="ngModel" id="register-username" type="text" ngModel name="username" required>
-  <div *ngIf="username.invalid && (username.dirty || username.touched)">
-    <div *ngIf="username.errors.required">
-      Username is required
+  <input type="text" ngModel name="firstname" #firstname="ngModel" minlength="4" maxlength="16" required username />
+    <div style="color:red" *ngIf="firstname.errors && (firstname.dirty || firstname.touched || registerForm.submitted)">
+        <p *ngIf="firstname.errors.required">
+            The name is required
+        </p>
+        <p *ngIf="firstname.errors.username">
+            No spaces allowed!! >:(
+        </p>
+        <p *ngIf="firstname.errors.minlength">
+            username must be 4 characters or more.
+        </p>
     </div>
-  </div>
   <label for="register-email">Email:</label>
   <input id="register-email" type="email" ngModel name="email" required>
 

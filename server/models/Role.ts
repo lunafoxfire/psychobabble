@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, getRepository } from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, OneToMany,
+  Repository, getRepository
+} from "typeorm";
 import { User } from "./User";
 
 /** User roles defining permissions. */
@@ -15,25 +18,32 @@ export class Role {
   /** All users with this Role */
   @OneToMany(type => User, users => users.role)
   users: User[];
+}
+
+export class RoleService {
+  public roleRepo: Repository<Role>;
+
+  constructor(roleRepo: Repository<Role> = null) {
+    this.roleRepo = roleRepo || getRepository(Role);
+  }
 
   /** Saves all roles in the RoleTypes enum to the database. */
-  public static async syncRolesToDbAsync() {
-    let roleRepo = getRepository(Role);
+  public async syncRolesToDbAsync() {
     let roleList = Object.values(RoleType);
     await Promise.all(roleList.map(async (roleType) => {
-      let roleFinder = await roleRepo.findOne({name: roleType});
+      let roleFinder = await this.roleRepo.findOne({name: roleType});
       if (!roleFinder) {
         let newRole = new Role();
         newRole.name = roleType;
-        await roleRepo.save(newRole);
+        await this.roleRepo.save(newRole);
       }
       return;
     }));
   }
 
   /** Retrieves a Role from the database by its RoleType */
-  public static async findByNameAsync(roleType: RoleType): Promise<Role> {
-    return getRepository(Role).findOne({name: roleType});
+  public async findByNameAsync(roleType: RoleType): Promise<Role> {
+    return this.roleRepo.findOne({name: roleType});
   }
 }
 

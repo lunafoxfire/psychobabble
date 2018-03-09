@@ -2,12 +2,12 @@ import {
   Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, OneToOne, JoinColumn,
   Repository, getRepository
 } from "typeorm";
-import { Role, RoleType } from "./Role";
+import { Role, RoleType, RoleService } from "./Role";
 import { ProgramRequest } from "./ProgramRequest";
 import { Program } from "./Program";
 import { Response } from "./Response";
-import { ValidationToken } from "./ValidationToken";
-import { PassResetToken } from "./PassResetToken";
+import { ValidationToken, ValidationTokenService } from "./ValidationToken";
+import { PassResetToken, PassResetTokenService } from "./PassResetToken";
 import * as sgMail from '@sendgrid/mail';
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 import { randomBytes, pbkdf2Sync } from 'crypto';
@@ -112,10 +112,21 @@ export class User {
 
 
 export class UserService {
-  private userRepo: Repository<User>
+  public userRepo: Repository<User>;
+  private roleService: RoleService;
+  private validationTokenService: ValidationTokenService;
+  private passResetTokenService: PassResetTokenService;
 
-  constructor(userRepo: Repository<User> = null) {
+  constructor(
+    userRepo: Repository<User> = null,
+    roleService: RoleService = null,
+    validationTokenService: ValidationTokenService = null,
+    passResetTokenService: PassResetTokenService = null
+  ) {
     this.userRepo = userRepo || getRepository(User);
+    this.roleService = roleService || new RoleService();
+    this.validationTokenService = validationTokenService || new ValidationTokenService();
+    this.passResetTokenService = passResetTokenService || new PassResetTokenService();
   }
 
   /** Registers a new User to the database. */
@@ -132,10 +143,10 @@ export class UserService {
         user.salt = User.genSalt();
         user.hash = User.hashPassword(regOptions.password, user.salt);
         user.date_created = new Date().getTime();
-        user.role = await Role.findByNameAsync(regOptions.roleType);
+        user.role = await this.roleService.findByNameAsync(regOptions.roleType);
         user.validated = regOptions.preValidated || false;
       if (!user.validated) {
-        user.validationToken = await ValidationToken.generateValidTokenAsync();
+        user.validationToken = await this.validationTokenService.generateValidTokenAsync();
         this.sendValidationEmail(user);
       }
       await this.userRepo.save(user);
@@ -178,10 +189,10 @@ export class UserService {
 
   /** Generates the default admin account if no admin account currently exists. */
   public async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
-    let adminRole = await Role.findByNameAsync(RoleType.Admin);
+    let adminRole = await this.roleService.findByNameAsync(RoleType.Admin);
     let adminExists = await
     //TODO:Report this bug
-    getRepository(User).findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
+    await this.userRepo.findOne({role: adminRole.id}); // Ignore this type error. TypeORM apparently has some "quirks".
     if (adminExists) {
       return null;
     }
@@ -217,7 +228,7 @@ export class UserService {
 
   public async resendValidationEmail(email) {
     let user = await this.findByEmailAsync(email);
-    user.validationToken = await ValidationToken.generateValidTokenAsync();
+    user.validationToken = await this.validationTokenService.generateValidTokenAsync();
     this.sendValidationEmail(user);
   }
 
@@ -247,13 +258,12 @@ export class UserService {
   }
 
   public async resendPasswordResetEmail(userId, host) {
-    let user = await getRepository(User).findOneById(userId);
+    let user = await this.userRepo.findOneById(userId);
     return await this.sendPassResetEmail(user.email, host);
   }
 
   public async changePassword(newPass, userId) {
-    let userRepo = getRepository(User);
-    let user = await userRepo.findOneById(userId);
+    let user = await this.userRepo.findOneById(userId);
     if(user.passResetToken.expiration <= new Date().getTime()) {
       return 0;
     } else {
@@ -262,7 +272,7 @@ export class UserService {
         return 1;
       } else {
         user.hash = newHash;
-        userRepo.save(user);
+        await this.userRepo.save(user);
         return 2;
       }
     }
@@ -270,9 +280,8 @@ export class UserService {
 
   /** Generates the url to be sent for password reset */
   public async generateResetUrl(user: User, host) {
-    let userRepo = getRepository(User);
-    user.passResetToken = await PassResetToken.generatePassTokenAsync();
-    await userRepo.save(user);
+    user.passResetToken = await this.passResetTokenService.generatePassTokenAsync();
+    await this.userRepo.save(user);
     let url = `http://${host}/reset/${user.id}/${user.passResetToken.code}`;
     console.log(url);
     return url;
@@ -280,12 +289,12 @@ export class UserService {
 
   /** Finds a user by username accounting for normalization. */
   public async findByUsernameAsync(username: string): Promise<User> {
-    return getRepository(User).findOne({normalized_username: this.normalizeField(username)});
+    return this.userRepo.findOne({normalized_username: this.normalizeField(username)});
   }
 
   /** Finds a user by email accounting for normalization. */
   public async findByEmailAsync(email: string): Promise<User> {
-    return getRepository(User).findOne({normalized_email: this.normalizeField(email)});
+    return this.userRepo.findOne({normalized_email: this.normalizeField(email)});
   }
 
   /** Finds a user by username or email for login puposes. */

@@ -1,13 +1,13 @@
 import { getRepository } from 'typeorm';
-import { Program, NewProgramOptions } from './../models/Program';
-import { ProgramRequest, NewProgramRequestOptions } from './../models/ProgramRequest';
-import { Response } from './../models/Response';
-import { Role, RoleType } from './../models/Role';
-import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
-import { Tag, TagType } from './../models/Tag';
-import { User, UserRegistrationOptions } from './../models/User';
-import { ValidationToken } from './../models/ValidationToken';
-import { Video, VideoUploadOptions } from './../models/Video';
+import { Program, NewProgramOptions, ProgramService } from './../models/Program';
+import { ProgramRequest, NewProgramRequestOptions, ProgramRequestService } from './../models/ProgramRequest';
+import { Response, ResponseService } from './../models/Response';
+import { Role, RoleType, RoleService } from './../models/Role';
+import { SoftSkill, SoftSkillType, SoftSkillService } from './../models/SoftSkill';
+import { Tag, TagType, TagService } from './../models/Tag';
+import { User, UserRegistrationOptions, UserService } from './../models/User';
+import { ValidationToken, ValidationTokenService } from './../models/ValidationToken';
+import { Video, VideoUploadOptions, VideoService } from './../models/Video';
 
 // =========== Users =========== //
 const TestClients: UserRegistrationOptions[] = [
@@ -286,30 +286,39 @@ export class TestData {
   static requests: ProgramRequest[] = [];
 
   public static async loadAllTestDataAsync() {
+    let roleService = new RoleService();
+    let userService = new UserService();
+    let tagService = new TagService();
+    let videoService = new VideoService();
+    let programService = new ProgramService();
+    let responseService = new ResponseService();
+    let softSkillService = new SoftSkillService();
+    let requestService = new ProgramRequestService();
+
     console.log("Generating roles...");
-    await Role.syncRolesToDbAsync();
+    await roleService.syncRolesToDbAsync();
 
     console.log("Generating admin...");
-    this.admin = await User.generateDefaultAdminAsync();
+    this.admin = await userService.generateDefaultAdminAsync();
 
     console.log("Generating users...");
-    await User.generateDefaultAdminIfNoAdminAsync();
+    await userService.generateDefaultAdminIfNoAdminAsync();
     await Promise.all(TestClients.map(async (user) => {
-      this.clients.push(await User.registerAsync(user));
+      this.clients.push(await userService.registerAsync(user));
       return;
     }));
     await Promise.all(TestSubjects.map(async (user) => {
-      this.subjects.push(await User.registerAsync(user));
+      this.subjects.push(await userService.registerAsync(user));
       return;
     }));
 
     console.log("Generating video tags...");
-    await Tag.syncTagsToDbAsync();
+    await tagService.syncTagsToDbAsync();
 
     console.log("Generating videos...");
     await Promise.all(TestVideos.map(async (video) => {
-      let id = await Video.createEmptyVideo();
-      this.videos.push(await Video.uploadAsync({
+      let id = await videoService.createEmptyVideo();
+      this.videos.push(await videoService.uploadAsync({
         id: id,
         url: video.url,
         description: video.description,
@@ -320,7 +329,7 @@ export class TestData {
 
     console.log("Generating programs...");
     await Promise.all(TestPrograms.map(async (program) => {
-      let newProgram = await Program.saveNewAsync({
+      let newProgram = await programService.saveNewAsync({
         description: program.description,
         expiration: program.expiration,
         videos: program.videoIndices.map(index => this.videos[index]),
@@ -333,7 +342,7 @@ export class TestData {
 
     console.log("Generating responses...");
     await Promise.all(TestReponses.map(async (response) => {
-      let newResponse = await Response.saveNewAsync({
+      let newResponse = await responseService.saveNewAsync({
         audio_url: response.audio_url,
         subject: this.subjects[response.subjectIndex],
         video: this.videos[response.videoIndex],
@@ -343,11 +352,11 @@ export class TestData {
     }));
 
     console.log("Generating soft skills...");
-    await SoftSkill.syncSoftSkillsToDbAsync();
+    await softSkillService.syncSoftSkillsToDbAsync();
 
     console.log("Generating program requests...");
     await Promise.all(TestProgramRequests.map(async (request) => {
-      let newRequest = await ProgramRequest.saveNewAsync({
+      let newRequest = await requestService.saveNewAsync({
         client: this.clients[request.clientIndex],
         text: request.text,
         softSkills: request.softSkills

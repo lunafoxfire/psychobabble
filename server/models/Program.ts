@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable, getRepository } from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, ManyToMany, JoinTable,
+  Repository, getRepository
+} from "typeorm";
 import { Video } from './Video';
 import { User } from "./User";
 import { Response } from "./Response";
@@ -38,10 +41,17 @@ export class Program {
   /** All responses by subjects to the videos in this Program. */
   @OneToMany(type => Response, responses => responses.program)
   responses: Response[];
+}
+
+export class ProgramService {
+  public programRepo: Repository<Program>;
+
+  constructor(programRepo: Repository<Program> = null) {
+    this.programRepo = programRepo || getRepository(Program);
+  }
 
   /** Saves a new Program to the database. */
-  public static async saveNewAsync(programOptions: NewProgramOptions): Promise<Program> {
-    let programRepo = await getRepository(Program);
+  public async saveNewAsync(programOptions: NewProgramOptions): Promise<Program> {
     let newProgram = new Program();
       newProgram.description = programOptions.description;
       newProgram.expiration = programOptions.expiration;
@@ -49,7 +59,7 @@ export class Program {
       newProgram.videos = programOptions.videos;
       newProgram.client = programOptions.client;
       newProgram.author = programOptions.author;
-    return programRepo.save(newProgram);
+    return this.programRepo.save(newProgram);
   }
 }
 

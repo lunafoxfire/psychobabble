@@ -1,4 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, getRepository } from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+  Repository, getRepository
+} from "typeorm";
 import { User } from "./User";
 import { Video } from "./Video";
 import { Program } from "./Program";
@@ -37,10 +40,17 @@ export class Response {
   /** The Program that this Response belongs to. */
   @ManyToOne(type => Program, program => program.responses)
   program: Program;
+}
+
+export class ResponseService {
+  public responseRepo: Repository<Response>;
+
+  constructor(responseRepo: Repository<Response> = null) {
+    this.responseRepo = responseRepo || getRepository(Response);
+  }
 
   /** Saves a new Response to the database. */
-  public static async saveNewAsync(responseOptions: NewResponseOptions) {
-    let responseRepo = await getRepository(Response);
+  public async saveNewAsync(responseOptions: NewResponseOptions) {
     let newResponse = new Response();
       newResponse.audio_url = responseOptions.audio_url;
       newResponse.text_version = null; // TODO: generate this
@@ -49,7 +59,7 @@ export class Response {
       newResponse.subject = responseOptions.subject;
       newResponse.video = responseOptions.video;
       newResponse.program = responseOptions.program;
-    return responseRepo.save(newResponse);
+    return this.responseRepo.save(newResponse);
   }
 }
 

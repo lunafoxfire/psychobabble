@@ -1,5 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable, getRepository } from "typeorm";
-import { SoftSkill, SoftSkillType } from "./SoftSkill";
+import {
+  Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinTable,
+  Repository, getRepository
+} from "typeorm";
+import { SoftSkill, SoftSkillType, SoftSkillService } from "./SoftSkill";
 import { User } from "./User";
 
 /** Represents a request by a client for a new Program to be created */
@@ -21,14 +24,23 @@ export class ProgramRequest {
   @ManyToMany(type => SoftSkill, softSkills => softSkills.programRequests)
   @JoinTable()
   softSkills: SoftSkill[];
+}
+
+export class ProgramRequestService {
+  public requestRepo: Repository<ProgramRequest>;
+  private softSkillService: SoftSkillService;
+
+  constructor(requestRepo: Repository<ProgramRequest> = null, softSkillService: SoftSkillService = null) {
+    this.requestRepo = requestRepo || getRepository(ProgramRequest);
+    this.softSkillService = softSkillService || new SoftSkillService();
+  }
 
   /** Saves a new ProgramRequest to the database. */
-  public static async saveNewAsync(requestOptions: NewProgramRequestOptions): Promise<ProgramRequest> {
-    let requestRepo = getRepository(ProgramRequest);
+  public async saveNewAsync(requestOptions: NewProgramRequestOptions): Promise<ProgramRequest> {
     let softSkills: SoftSkill[] = [];
     if (requestOptions.softSkills) {
       await Promise.all(requestOptions.softSkills.map(async (skillType) => {
-        softSkills.push(await SoftSkill.findByNameAsync(skillType));
+        softSkills.push(await this.softSkillService.findByNameAsync(skillType));
         return;
       }));
     }
@@ -36,7 +48,7 @@ export class ProgramRequest {
       newRequest.client = requestOptions.client;
       newRequest.text = requestOptions.text;
       newRequest.softSkills = softSkills;
-    return requestRepo.save(newRequest);
+    return this.requestRepo.save(newRequest);
   }
 }
 

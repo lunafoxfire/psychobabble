@@ -1,6 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, getRepository } from "typeorm";
+import {
+  Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable,
+  Repository, getRepository
+} from "typeorm";
 import { Program } from './Program';
-import { Tag, TagType } from "./Tag";
+import { Tag, TagType, TagService } from "./Tag";
 import { Response } from "./Response";
 
 /** A video object. */
@@ -30,21 +33,29 @@ export class Video {
   /** All subject Responses to this video. */
   @OneToMany(type => Response, responses => responses.video)
   responses: Response[];
+}
 
-  public static async createEmptyVideo(): Promise<string> {
-    let videoRepo = getRepository(Video);
+export class VideoService {
+  public videoRepo: Repository<Video>;
+  private tagService: TagService;
+
+  constructor(videoRepo: Repository<Video> = null, tagService: TagService = null) {
+    this.videoRepo = videoRepo || getRepository(Video);
+    this.tagService = tagService || new TagService();
+  }
+
+  public async createEmptyVideo(): Promise<string> {
     let video = new Video();
-    await videoRepo.save(video);
+    await this.videoRepo.save(video);
     return video.id;
   }
 
   /** Saves a new Video to the database. */
-  public static async uploadAsync(videoOptions: VideoUploadOptions): Promise<Video> {
-    let videoRepo = await getRepository(Video);
+  public async uploadAsync(videoOptions: VideoUploadOptions): Promise<Video> {
     let tags: Tag[] = [];
     if (videoOptions.tags) {
       await Promise.all(videoOptions.tags.map(async (tagType) => {
-        tags.push(await Tag.findByNameAsync(tagType));
+        tags.push(await this.tagService.findByNameAsync(tagType));
         return;
       }));
     }
@@ -53,14 +64,13 @@ export class Video {
       newVideo.url = videoOptions.url;
       newVideo.description = videoOptions.description;
       newVideo.tags = tags;
-    return videoRepo.save(newVideo);
+    return this.videoRepo.save(newVideo);
   }
 
-  public static async deleteVideoId(videoId) {
-    let videoRepo = await getRepository(Video);
-    let videoToDelete = await videoRepo.findOneById(videoId);
-    await videoRepo.remove(videoToDelete);
-    let check = await videoRepo.findOneById(videoId);
+  public async deleteVideoId(videoId) {
+    let videoToDelete = await this.videoRepo.findOneById(videoId);
+    await this.videoRepo.remove(videoToDelete);
+    let check = await this.videoRepo.findOneById(videoId);
     if(check) {
       console.log(videoId);
       return false;

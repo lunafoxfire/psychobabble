@@ -6,7 +6,7 @@ import { App } from './../app';
 export let app;
 
 // Runs before any tests
-before("Initialize app", async function() {
+before("Initialize app", async function() { // linter can't find 'before' even though it exists?
   console.log("Testing startup...\n");
   app = await App.initAsync();
 });

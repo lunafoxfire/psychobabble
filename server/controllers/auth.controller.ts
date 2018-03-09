@@ -1,5 +1,5 @@
-import * as passport from 'passport';
 import { fixThis } from './../utility/fix-this';
+import * as passport from 'passport';
 import { User, UserService } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 

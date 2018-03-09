@@ -1,3 +1,4 @@
+import { fixThis } from './../utility/fix-this';
 import * as AWS from 'aws-sdk';
 import { Video } from './../models/Video';
 import { RoleType } from './../models/Role';
@@ -5,8 +6,9 @@ import { RoleType } from './../models/Role';
 export class VideoController {
   constructor() {
     // TODO: dependency injection here
+    fixThis(this, VideoController);
   }
-  
+
   public async generateVideoUrl(req, res) {
     if(req.jwt.role = "ADMIN") {
       let s3 = new AWS.S3();

@@ -8,7 +8,7 @@ import * as passport from 'passport';
 import * as crypto from 'crypto';
 import * as cors from 'cors';
 import 'reflect-metadata';
-import './logging/console-extensions';
+import './utility/console-extensions';
 import './config/config';
 import './config/passport';
 import { loadRoutes } from './routes/routes';

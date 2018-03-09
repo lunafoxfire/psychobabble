@@ -1,4 +1,5 @@
 import * as passport from 'passport';
+import { fixThis } from './../utility/fix-this';
 import { User, UserService } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 
@@ -8,16 +9,10 @@ export class AuthController {
 
   constructor(userService: UserService = null) {
     this.userService = userService || new UserService();
-
-    let ctrlMethods = Object.getOwnPropertyNames(AuthController.prototype);
-    ctrlMethods.forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
+    fixThis(this, AuthController);
   }
 
   public registerClient(req, res) {
-    console.log("###################################");
-    console.log(this);
     let username = req.body.username;
     let email = req.body.email;
     let password = req.body.password;

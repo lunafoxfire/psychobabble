@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm, FormGroup, FormControl, Validators, NgControl } from '@angular/forms';
+import { NgForm, AbstractControl, ValidatorFn } from '@angular/forms';
 import { AuthService, RegisterCredentials } from './../../auth.service';
+
 @Component({
   selector: 'register',
   styleUrls: [ './register.component.scss' ],

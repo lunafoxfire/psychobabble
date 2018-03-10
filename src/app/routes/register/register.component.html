@@ -1,13 +1,24 @@
 <h1>Register</h1>
-<form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+<form #registerForm="ngForm" (ngSubmit)="registerForm.valid && onSubmit(registerForm)">
   <label for="register-username">Username:</label>
-  <input id="register-username" type="text" ngModel name="username" required>
-
+  <input type="text" ngModel name="username" #username="ngModel" minlength="4" maxlength="16" required username />
+  <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched || registerForm.submitted)">
+      <p *ngIf="username.errors.required">Username is required</p>
+      <p *ngIf="username.errors.username">Not a valid username</p>
+      <p *ngIf="username.errors.minlength">Username must be 4 characters or more.</p>
+  </div>
   <label for="register-email">Email:</label>
-  <input id="register-email" type="email" ngModel name="email" required>
-
+  <input id="register-email" type="email" #email="ngModel" ngModel name="email" required email>
+  <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched || registerForm.submitted)">
+    <p *ngIf="email.errors.required">email is required</p>
+    <p *ngIf="email.errors.email">Not a valid email</p>
+  </div>
   <label for="register-password">Password:</label>
-  <input id="register-password" type="password" ngModel name="password" required>
-
+  <input id="register-password" type="password" ngModel #password="ngModel" name="password" minlength="6" maxlength="16" required password>
+  <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched || registerForm.submitted)">
+    <p *ngIf="password.errors.required">password is required</p>
+    <p *ngIf="password.errors.minlength">password must be 6 characters or more.</p>
+    <p *ngIf="password.errors.password">Not a valid password</p>
+  </div>
   <button type="submit">Submit</button>
 </form>

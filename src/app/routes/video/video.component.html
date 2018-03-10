@@ -1,5 +1,5 @@
 <h1>UPLOAD TEH VIDJAH</h1>
 <form method="post" (ngSubmit)="sendVideo(file)" enctype="multipart/form-data" novalidate>
-  <input #file ngModel type="file" name="file">
+  <input #file ngModel type="file" name="file" accept="video/mp4">
   <input type="submit" name="submit" value="Upload to Amazon S3" />
 </form>

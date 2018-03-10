@@ -1,8 +1,8 @@
-import { FormValidatorDirective } from './form-validator.directive';
+import { UsernameValidatorDirective } from './form-validator.directive';
 
-describe('FormValidatorDirective', () => {
+describe('UsernameValidatorDirective', () => {
   it('should create an instance', () => {
-    const directive = new FormValidatorDirective();
+    const directive = new UsernameValidatorDirective();
     expect(directive).toBeTruthy();
   });
 });

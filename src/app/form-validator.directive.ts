@@ -3,12 +3,49 @@ import { AbstractControl, ValidatorFn, Validator, FormControl, NG_VALIDATORS } f
 
 
 @Directive({
-  selector: '[username][ngModel]',
+  selector: '[email][ngModel]',
   providers: [
-    { provide: NG_VALIDATORS, useExisting: FormValidatorDirective, multi: true }
+    { provide: NG_VALIDATORS, useExisting: EmailValidatorDirective, multi: true }
   ]
 })
-export class FormValidatorDirective implements Validator {
+
+export class EmailValidatorDirective implements Validator {
+  public validator: ValidatorFn;
+
+  constructor() {
+    this.validator = this.validateEmailFactory();
+  }
+
+  private validateEmailFactory() : ValidatorFn {
+    return (c: AbstractControl) => {
+      let yes = c.value
+      if(yes) {
+        let isValid = yes.match(/^\w+@\w+\.\w+$/g);
+        if(isValid) {
+          return null
+        } else {
+          return {
+            username: {
+              valid: false
+            }
+          }
+        }
+      }
+    }
+  }
+
+  validate(c: FormControl) {
+    return this.validator(c);
+  }
+}
+
+@Directive({
+  selector: '[username][ngModel]',
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: UsernameValidatorDirective, multi: true }
+  ]
+})
+export class UsernameValidatorDirective implements Validator {
   public validator: ValidatorFn;
 
   constructor() {

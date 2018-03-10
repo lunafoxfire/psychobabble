@@ -41,7 +41,7 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
-import { FormValidatorDirective } from './form-validator.directive';
+import { UsernameValidatorDirective, EmailValidatorDirective } from './form-validator.directive';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,8 @@ import { FormValidatorDirective } from './form-validator.directive';
     VerifyComponent,
     ResetComponent,
     ChangePasswordComponent,
-    FormValidatorDirective,
+    UsernameValidatorDirective,
+    EmailValidatorDirective
   ],
   imports: [
     BrowserModule,

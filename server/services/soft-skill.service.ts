@@ -23,9 +23,7 @@ export class SoftSkillService {
   }
 
   public async getAllSkills() {
-    console.log("$$$$$$$$$$$$$$$$$$$$$$$$");
     let skills = await this.softSkillRepo.find();
-    console.log(skills);
     return skills;
   }
 

@@ -14,7 +14,6 @@ export class RequestsService {
 
   public getSkills(): Observable<any> {
     let result = this.auth.get('/api/program-requests/get-soft-skills');
-    console.log("*******************************");
     return result;
   }
 }

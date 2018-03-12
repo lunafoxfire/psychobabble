@@ -10,15 +10,17 @@ export class ProgramRequestController {
   }
 
   public async getAllSoftSkills(req, res) {
-    console.log("%%%%%%%%%%%%%%%%%%");
     let skills = await this.softSkillService.getAllSkills().catch((err) => {
       console.log(err);
+      res.status(400);
+      res.json({
+        message: "something went wrong"
+      })
     });
-    console.log(skills);
     if(skills) {
       res.status(200);
       res.json({
-        thing: skills
+        skillArray: skills
       })
     } else {
       res.status(400);

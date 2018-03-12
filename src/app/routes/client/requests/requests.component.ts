@@ -16,11 +16,13 @@ export class RequestsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getSoftSkills();
   }
 
   private getSoftSkills() {
     this.service.getSkills().subscribe((data) => {
-      console.log(data);
+      this.softSkills = data['skillArray'];
+      console.log(this.softSkills);
     });
   }
 

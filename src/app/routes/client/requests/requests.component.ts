@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { RequestsService } from './requests.service';
 
 @Component({
   selector: 'requests',
@@ -6,10 +8,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./requests.component.scss']
 })
 export class RequestsComponent implements OnInit {
+  public softSkills: any[];
 
-  constructor() { }
+  constructor(
+    public http: HttpClient,
+    public service: RequestsService
+  ) { }
 
   ngOnInit() {
+  }
+
+  private getSoftSkills() {
+    this.service.getSkills().subscribe((data) => {
+      console.log(data);
+    });
   }
 
 }

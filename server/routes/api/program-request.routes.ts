@@ -39,5 +39,10 @@ export function loadRoutes() {
   // Route for a client to cancel a pending request
   router.post('/:clientId/:requestId/cancel', auth, (req, res) => {res.status(501)});
 
+  // GET /api/program-requests/get-soft-skills
+  // auth: CLIENT
+  // Gets all soft skills for request form
+  router.get('/get-soft-skills', (req, res) => {res.status(501).send()});
+
   return router;
 }

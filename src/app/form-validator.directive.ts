@@ -19,7 +19,7 @@ export class PasswordValidatorDirective implements Validator {
     return (c: AbstractControl) => {
       let yes = c.value
       if(yes) {
-        /** Must contain one Uppercase or Lowercase, must contain one Digit, 6 characters or longer */
+        /** Must contain one Letter, must contain one Digit, 6 characters or longer */
         let isValid = yes.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/g);
         if(isValid) {
           return null
@@ -57,7 +57,8 @@ export class EmailValidatorDirective implements Validator {
     return (c: AbstractControl) => {
       let yes = c.value
       if(yes) {
-        let isValid = yes.match(/^\w+@\w+\.\w+$/g);
+        // words@words.words
+        let isValid = yes.match(/^.+@\w+\.\w+$/g);
         if(isValid) {
           return null
         } else {

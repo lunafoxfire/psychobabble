@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestsService } from './requests.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'requests',
@@ -8,7 +9,7 @@ import { RequestsService } from './requests.service';
   styleUrls: ['./requests.component.scss']
 })
 export class RequestsComponent implements OnInit {
-  public softSkills: any[];
+  public softSkills: Observable<any>;
 
   constructor(
     public http: HttpClient,
@@ -16,12 +17,11 @@ export class RequestsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getSoftSkills();
   }
 
   private getSoftSkills() {
-    this.service.getSkills().subscribe((data) => {
-      console.log(data);
-    });
+    this.softSkills = this.service.getSkills();
   }
 
 }

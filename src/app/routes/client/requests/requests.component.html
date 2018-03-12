@@ -1,4 +1,6 @@
 <button type="button" name="button" (click)="getSoftSkills()">test</button>
-<div *ngFor="let skill of softSkills | async">
 
+
+<div *ngFor="let skill of (softSkills | async)?.skillArray">
+  <p>{{skill.name}}</p>
 </div>

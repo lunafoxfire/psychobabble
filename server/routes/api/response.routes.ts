@@ -16,7 +16,7 @@ export function loadRoutes() {
   // GET /api/responses/:responseId
   // auth: ADMIN
   // Get details of a particular response
-  router.get('/:responseId', auth, (req, res) => {res.status(501).send()});
+  router.get('/:responseId(\\d+)', auth, (req, res) => {res.status(501).send()});
 
   // POST /api/responses/submit
   // auth: SUBJECT

@@ -22,6 +22,8 @@ export class AuthController {
       res.json({
         message: "One or more required fields were missing"
       });
+      console.log("$$$$$$$$$$$$$$$$$$$$$$$$");
+      console.log(res);
     }
     else {
       console.log(`Registering ${username} | ${email}...`)
@@ -133,6 +135,7 @@ export class AuthController {
   }
 
   public loginLocal(req, res) {
+    console.log(req.body);
     let loginName = req.body.loginName;
     passport.authenticate('local', (err, user, info) => {
       console.log(`Logging in ${loginName}...`)

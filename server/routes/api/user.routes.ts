@@ -10,7 +10,7 @@ export function loadRoutes() {
   // GET /api/users/:userId/profile
   // auth: logged-in
   // Get user info for profile page
-  router.get('/:userId/profile', auth, (req, res) => {res.status(501)});
+  router.get('/:userId/profile', auth, (req, res) => {res.status(501).send()});
 
   return router;
 }

@@ -51,6 +51,7 @@ export class App {
   /** Returns a promise wrapper for the Express app. */
   static async initAsync(): Promise<any> {
     this.showStartupMessage();
+    // TODO: Connecting breaks in testing environment?
     await this.connectToDb();
 
     let app = express();

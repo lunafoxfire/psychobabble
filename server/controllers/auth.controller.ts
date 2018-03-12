@@ -13,44 +13,54 @@ export class AuthController {
     fixThis(this, AuthController);
   }
 
-  public registerClient(req, res) {
-    let username = req.body.username;
-    let email = req.body.email;
-    let password = req.body.password;
-    if (!username || !email || !password) {
-      res.status(400);
-      res.json({
-        message: "One or more required fields were missing"
-      });
-      console.log("$$$$$$$$$$$$$$$$$$$$$$$$");
-      console.log(res);
+  public async registerClient(req, res) {
+    try {
+      if (!req.body) {
+        res.status(400);
+        res.json({
+          message: "No parameters were sent"
+        });
+        return;
+      }
+      let username = req.body.username;
+      let email = req.body.email;
+      let password = req.body.password;
+      if (!username || !email || !password) {
+        res.status(400);
+        res.json({
+          message: "One or more required fields were missing"
+        });
+        return;
+      }
+      console.logDev(`Registering ${username} | ${email}...`);
+      let user = await this.authService.registerClientAsync(username, email, password);
+      if (user) {
+        let msg = `Registered ${username} with id ${user.id}`;
+        console.logDev(msg);
+        res.status(200);
+        res.json({
+          message: msg,
+          token: user.generateJwt()
+        });
+        return;
+      }
+      else {
+        let msg = `Username or email taken`;
+        console.logDev(msg);
+        res.status(422);
+        res.json({
+          message: msg
+        });
+        return;
+      }
     }
-    else {
-      console.log(`Registering ${username} | ${email}...`)
-      this.authService.registerClientAsync(username, email, password)
-      .then((user) => {
-        if (user) {
-          let msg = `Registered ${username} with id ${user.id}`;
-          console.log(msg);
-          res.status(200);
-          res.json({
-            message: msg,
-            token: user.generateJwt()
-          });
-        }
-        else {
-          let msg = `Username or email taken`;
-          console.log(msg);
-          res.status(422);
-          res.json({
-            message: msg
-          });
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500);
-      })
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
     }
   }
 
@@ -105,7 +115,7 @@ export class AuthController {
   }
 
   public verifyUser(req, res) {
-    console.log(req.body)
+    console.logDev(req.body)
     if(req.jwt && req.jwt.id) {
       this.authService.checkValidationCode(req.body.code, req.jwt.id).then((user) => {
         res.status(200);
@@ -135,18 +145,18 @@ export class AuthController {
   }
 
   public loginLocal(req, res) {
-    console.log(req.body);
+    console.logDev(req.body);
     let loginName = req.body.loginName;
     passport.authenticate('local', (err, user, info) => {
-      console.log(`Logging in ${loginName}...`)
+      console.logDev(`Logging in ${loginName}...`)
       if (err) {
-        console.error(err);
+        console.logDev(err);
         res.status(500).json(err);
         return;
       }
       if (user) {
         let msg = `Successfully logged in ${loginName}`;
-        console.log(msg);
+        console.logDev(msg);
         res.status(200);
         res.json({
           message: msg,
@@ -155,7 +165,7 @@ export class AuthController {
       }
       else {
         let msg = `Login failed: ${info.message}`;
-        console.log(msg);
+        console.logDev(msg);
         res.status(401).json(info);
       }
     })(req, res);

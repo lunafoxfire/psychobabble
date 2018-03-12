@@ -16,6 +16,6 @@ export function loadRoutes() {
   router.use('/responses', loadResponseRoutes());
   router.use('/users', loadUserRoutes());
   router.use('/videos', loadVideoRoutes());
-
+  
   return router;
 }

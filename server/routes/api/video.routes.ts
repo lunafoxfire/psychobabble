@@ -6,13 +6,14 @@ import { VideoController } from './../../controllers/video.controller';
 // prefix: /api/videos/...
 export function loadRoutes() {
   let router = express.Router();
+
   let videoCtrl = new VideoController();
 
   // GET /api/videos/
   // params: page
   // auth: ADMIN
   // Get list of videos for admin, by page
-  router.get('/', auth, (req, res) => {res.status(501)});
+  router.get('/', auth, (req, res) => {res.status(501).send()});
 
   // POST /api/videos/generate-video-url
   // auth: ADMIN

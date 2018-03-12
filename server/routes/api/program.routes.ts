@@ -16,12 +16,12 @@ export function loadRoutes() {
   // params: page
   // auth: CLIENT
   // Get all programs created for this client, by page
-  router.get('/:clientId', auth, (req, res) => {res.status(501).send()});
+  router.get('/:clientId(\\d+)', auth, (req, res) => {res.status(501).send()});
 
   // GET /api/programs/:clientId/:programId
   // auth: CLIENT
   // Get the details and results of a particular program for this client
-  router.get('/:clientId/:programId', auth, (req, res) => {res.status(501).send()});
+  router.get('/:clientId(\\d+)/:programId(\\d+)', auth, (req, res) => {res.status(501).send()});
 
   return router;
 }

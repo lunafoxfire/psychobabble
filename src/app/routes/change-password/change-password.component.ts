@@ -9,6 +9,7 @@ import { AuthService } from './../../auth.service';
 })
 export class ChangePasswordComponent implements OnInit {
   private userId: string;
+  private token: string;
   constructor(
     public auth: AuthService,
     public route: ActivatedRoute,
@@ -18,12 +19,13 @@ export class ChangePasswordComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userId = params['uid'];
+      this.token = params['prt'];
     });
   }
 
   public submitNew(newPassword){
     console.log(this.userId);
-    this.auth.makeNewPass(newPassword.value, this.userId).subscribe((data) => {
+    this.auth.makeNewPass(newPassword.value, this.userId, this.token).subscribe((data) => {
       console.log(data);
       this.router.navigateByUrl('/');
     })

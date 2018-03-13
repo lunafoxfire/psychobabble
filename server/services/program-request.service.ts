@@ -27,6 +27,7 @@ export class ProgramRequestService {
         return;
       }));
     }
+    console.log(softSkills);
     let newRequest = new ProgramRequest();
       newRequest.client = requestOptions.client;
       newRequest.text = requestOptions.text;

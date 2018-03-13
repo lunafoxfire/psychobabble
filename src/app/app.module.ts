@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/video/video.service';
+import { RequestsService } from './routes/client/requests/requests.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -79,6 +80,7 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
     AuthGuardService,
     HomeGuardService,
     LoginGuardService,
+    RequestsService,
   ],
   bootstrap: [AppComponent]
 })

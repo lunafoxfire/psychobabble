@@ -11,7 +11,17 @@ export function loadRoutes() {
   // params: page
   // auth: ADMIN
   // Get all unfufilled requests for admin feed, by page
-  router.get('/pending', auth, (req, res) => {res.status(501).send()});
+  router.get('/pending', auth,(req, res) => {res.status(501).send("a;sdjf;asdjf")});
+
+  // GET /api/program-requests/get-soft-skills
+  // Gets all soft skills for request form
+  router.get('/get-soft-skills', requestCtrl.getAllSoftSkills);
+
+  // POST /api/program-requests/make-request
+  // params: nameArray
+  // auth: CLIENT
+  // Make Program Request
+  router.post('/make-request', auth, requestCtrl.makeProgramRequest);
 
   // GET /api/program-requests/:requestId
   // auth: ADMIN
@@ -38,6 +48,7 @@ export function loadRoutes() {
   // auth: CLIENT
   // Route for a client to cancel a pending request
   router.post('/:clientId(\\d+)/:requestId(\\d+)/cancel', auth, (req, res) => {res.status(501).send()});
+
 
   return router;
 }

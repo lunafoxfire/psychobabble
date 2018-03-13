@@ -22,10 +22,15 @@ export class RequestsComponent implements OnInit {
   }
 
   public submitRequest(form) {
+    console.log(form.value);
     let nameArray = new Array<string>();
     Object.keys(form.value).forEach(function(key) {
       if(form.value[key]) {
-        nameArray.push(key);
+        if(key === "details") {
+          nameArray.push(form.value[key]);
+        } else {
+          nameArray.push(key);
+        }
       }
     });
     console.log(nameArray);

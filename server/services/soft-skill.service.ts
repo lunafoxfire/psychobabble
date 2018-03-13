@@ -28,7 +28,10 @@ export class SoftSkillService {
   }
 
   /** Retrieves a soft skill from the database by its SoftSkillType */
-  public async findByNameAsync(skillName: SoftSkillType): Promise<SoftSkill> {
+  public async findByNameAsync(skillName: string): Promise<SoftSkill> {
     return this.softSkillRepo.findOne({name: skillName});
+  }
+  public async findByIdAsync(skillId: number): Promise<SoftSkill> {
+    return this.softSkillRepo.findOne({id: skillId});
   }
 }

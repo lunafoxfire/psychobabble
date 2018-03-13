@@ -23,4 +23,9 @@ export class VideoService {
     let data = this.auth.post('api/videos/upload-fail', {videoId: videoId});
     return data;
   }
+
+  public getAllVideos(): Observable<any> {
+    let result = this.auth.get('/api/videos/get-videos');
+    return result;
+  }
 }

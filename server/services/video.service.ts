@@ -52,6 +52,10 @@ export class VideoService {
       return true;
     }
   }
+
+  public async getAllVideos() {
+    return await this.videoRepo.find();
+  }
 }
 
 /** All options required to create a new Video. */

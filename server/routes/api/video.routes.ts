@@ -32,5 +32,10 @@ export function loadRoutes() {
   // Deletes dummy video if upload failed
   router.post('/upload-fail', auth, videoCtrl.removeVideo);
 
+  // Post /api/videos/get-videos
+  // auth: ADMIN
+  // Retrieves all videos from the database
+  router.get('/get-videos', auth, videoCtrl.getVideos);
+
   return router;
 }

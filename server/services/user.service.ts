@@ -46,8 +46,10 @@ export class UserService {
   /** Returns true if at least one admin exists in the database. */
   public async doesAdminExistAsync(): Promise<boolean> {
     let adminRole = await this.roleService.findByNameAsync(RoleType.Admin);
+    console.log(adminRole);
     //TODO: Report this bug
     let adminExists = await this.userRepo.findOne({role: adminRole.id}); // Ignore this type error.
-    return (adminExists !== null);
+    console.log(adminExists);
+    return (adminExists !== undefined || adminExists !== null);
   }
 }

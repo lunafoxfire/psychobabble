@@ -60,12 +60,14 @@ export class ProgramRequestController {
 
   public async makeProgramRequest(req, res) {
     if(req.jwt.role === "CLIENT") {
-      let details = req.body.nameArray.pop().toString();
-      let skillIds = req.body.nameArray.map(function(id) {
+      let expiration = new Date(req.body.request.expiration).getTime();
+      let details = req.body.request.details;
+      let skillIds = req.body.request.nameArray.map(function(id) {
         return parseInt(id);
       });
       let result = await this.programRequestService.saveNewAsync({
         client: await this.userService.findByIdAsync(req.jwt.id),
+        expiration: expiration,
         text: details,
         softSkills: skillIds
       });

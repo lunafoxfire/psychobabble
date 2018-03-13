@@ -9,6 +9,6 @@
 <div *ngIf="!toggle">
     Requests
     <div *ngFor="let request of (requests | async)?.requests">
-      <p>{{request.client}}</p>
+      <a routerLink="request/{{request.requestId}}">{{request.client}}</a>
     </div>
 </div>

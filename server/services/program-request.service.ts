@@ -32,6 +32,7 @@ export class ProgramRequestService {
       newRequest.text = requestOptions.text;
       newRequest.dateCreated = new Date().getTime();
       newRequest.softSkills = softSkills;
+      newRequest.expiration = requestOptions.expiration;
       newRequest.closed = false;
     return this.requestRepo.save(newRequest);
   }
@@ -61,6 +62,8 @@ export interface NewProgramRequestOptions {
   client: User;
   /** Text describing the requested Program. */
   text: string;
+  /** Requested program expiration date */
+  expiration?: number;
   /** Soft Skills to be included in the requested Program. Optional. */
   softSkills?: number[];
 }

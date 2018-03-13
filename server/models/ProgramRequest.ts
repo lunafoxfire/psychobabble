@@ -17,6 +17,10 @@ export class ProgramRequest {
   @Column({type:'bigint'})
   dateCreated: number;
 
+  /** Requested Program Expiration Date */
+  @Column({type:'bigint', nullable: true})
+  expiration: number;
+
   /** Whether the Request has expired or been closed. */
   @Column()
   closed: boolean;

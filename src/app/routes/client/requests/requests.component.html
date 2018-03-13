@@ -1,6 +1,9 @@
-<button type="button" name="button" (click)="getSoftSkills()">test</button>
+<legend>DO THE STUFF WITH THE THINGS</legend>
 
-
-<div *ngFor="let skill of (softSkills | async)?.skillArray">
-  <p>{{skill.name}}</p>
-</div>
+<form #form="ngForm" (submit)="submitRequest(form)">
+  <div *ngFor="let skill of (softSkills | async)?.skillArray">
+    <input ngModel type="checkbox" name="{{skill.name}}" value="{{skill.id}}">
+    <label for="{{skill.name}}">{{skill.name}}</label>
+  </div>
+  <button type="submit" name="button">submit</button>
+</form>

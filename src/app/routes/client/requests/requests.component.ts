@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
   templateUrl: './requests.component.html',
   styleUrls: ['./requests.component.scss']
 })
+
 export class RequestsComponent implements OnInit {
   public softSkills: Observable<any>;
 
@@ -17,11 +18,19 @@ export class RequestsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSoftSkills();
-  }
-
-  private getSoftSkills() {
     this.softSkills = this.service.getSkills();
   }
 
+  public submitRequest(form) {
+    let nameArray = new Array<string>();
+    Object.keys(form.value).forEach(function(key) {
+      if(form.value[key]) {
+        nameArray.push(key);
+      }
+    });
+    console.log(nameArray);
+    this.service.makeRequest({nameArray: nameArray}).subscribe((data) => {
+      console.log(data);
+    })
+  }
 }

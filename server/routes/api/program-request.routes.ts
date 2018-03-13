@@ -14,9 +14,14 @@ export function loadRoutes() {
   router.get('/pending', auth,(req, res) => {res.status(501).send("a;sdjf;asdjf")});
 
   // GET /api/program-requests/get-soft-skills
-  // auth: CLIENT
   // Gets all soft skills for request form
   router.get('/get-soft-skills', requestCtrl.getAllSoftSkills);
+
+  // POST /api/program-requests/make-request
+  // params: nameArray
+  // auth: CLIENT
+  // Make Program Request
+  router.post('/make-request', auth, requestCtrl.makeProgramRequest);
 
   // GET /api/program-requests/:requestId
   // auth: ADMIN

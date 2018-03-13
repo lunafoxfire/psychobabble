@@ -22,12 +22,11 @@ export class ProgramRequestService {
   public async saveNewAsync(requestOptions: NewProgramRequestOptions): Promise<ProgramRequest> {
     let softSkills: SoftSkill[] = [];
     if (requestOptions.softSkills) {
-      await Promise.all(requestOptions.softSkills.map(async (skillType) => {
-        softSkills.push(await this.softSkillService.findByNameAsync(skillType));
+      await Promise.all(requestOptions.softSkills.map(async (skillId) => {
+        softSkills.push(await this.softSkillService.findByIdAsync(skillId));
         return;
       }));
     }
-    console.log(softSkills);
     let newRequest = new ProgramRequest();
       newRequest.client = requestOptions.client;
       newRequest.text = requestOptions.text;
@@ -43,5 +42,5 @@ export interface NewProgramRequestOptions {
   /** Text describing the requested Program. */
   text: string;
   /** Soft Skills to be included in the requested Program. Optional. */
-  softSkills?: SoftSkillType[];
+  softSkills?: number[];
 }

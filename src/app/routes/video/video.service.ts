@@ -14,13 +14,18 @@ export class VideoService {
     return result;
   }
 
-  public makeVideo(url, videoId): Observable<any> {
-    let result = this.auth.post('/api/videos/upload', {url: url, videoId: videoId});
+  public makeVideo(url, videoId, description): Observable<any> {
+    let result = this.auth.post('/api/videos/upload', {url: url, videoId: videoId, description: description});
     return result;
   }
 
   public deleteVideo(videoId): Observable<any> {
     let data = this.auth.post('api/videos/upload-fail', {videoId: videoId});
     return data;
+  }
+
+  public getAllVideos(): Observable<any> {
+    let result = this.auth.get('/api/videos/get-videos');
+    return result;
   }
 }

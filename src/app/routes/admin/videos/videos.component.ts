@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { VideoService } from './../../video/video.service';
 
 @Component({
   selector: 'videos',
@@ -6,12 +8,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./videos.component.scss']
 })
 export class VideosComponent implements OnInit {
+  public videos: Observable<any>;
+
   @ViewChild('myVideo') myVideo: any;
   played: boolean;
-  constructor() { }
+  constructor(
+    public service: VideoService
+  ) { }
 
   ngOnInit() {
+    this.videos = this.service.getAllVideos();
   }
+
   public playPause() {
     if(!this.played) {
       this.played = true;

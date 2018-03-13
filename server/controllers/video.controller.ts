@@ -12,6 +12,29 @@ export class VideoController {
     fixThis(this, VideoController);
   }
 
+  public async getVideos(req, res) {
+    if(req.jwt.role === "ADMIN") {
+      let videos = await this.videoService.getAllVideos().catch((err) => {
+        console.log(err);
+        res.status(400);
+        res.json({
+          message: "something went wrong"
+        })
+      });
+      if(videos) {
+        res.status(200);
+        res.json({
+          videos: videos
+        })
+      } else {
+        res.status(400);
+        res.json({
+          message: "something went wrong"
+        })
+      }
+    }
+  }
+
   public async generateVideoUrl(req, res) {
     if(req.jwt.role = "ADMIN") {
       let s3 = new AWS.S3();
@@ -60,7 +83,7 @@ export class VideoController {
       let result = await this.videoService.uploadAsync({
         id: req.body.videoId,
         url: req.body.url,
-        description: null // TODO: Actually get description and tags from form
+        description: req.body.description // TODO: Tags
       });
       if(result) {
         res.status(200);

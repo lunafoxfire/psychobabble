@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { RequestsService } from './requests.service';
 import { Observable } from 'rxjs/Observable';
 
@@ -13,7 +12,6 @@ export class RequestsComponent implements OnInit {
   public softSkills: Observable<any>;
 
   constructor(
-    public http: HttpClient,
     public service: RequestsService
   ) { }
 

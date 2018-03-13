@@ -21,7 +21,7 @@ export function loadRoutes() {
   router.post('/generate-video-url', auth, videoCtrl.generateVideoUrl);
 
   // POST /api/videos/upload
-  // params: url, videoId
+  // params: url, videoId, description
   // auth: ADMIN
   // Saves a video to the database using the previously generated URL
   router.post('/upload', auth, videoCtrl.uploadVideo);

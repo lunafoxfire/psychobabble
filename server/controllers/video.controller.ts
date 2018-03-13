@@ -60,7 +60,7 @@ export class VideoController {
       let result = await this.videoService.uploadAsync({
         id: req.body.videoId,
         url: req.body.url,
-        description: null // TODO: Actually get description and tags from form
+        description: req.body.description // TODO: Tags
       });
       if(result) {
         res.status(200);

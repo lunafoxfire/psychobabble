@@ -1,5 +1,9 @@
 <h1>UPLOAD TEH VIDJAH</h1>
-<form method="post" (ngSubmit)="sendVideo(file)" enctype="multipart/form-data" novalidate>
+<form #form="ngForm" (ngSubmit)="form.valid && sendVideo(file, description)" enctype="multipart/form-data">
   <input #file ngModel type="file" name="file" accept="video/mp4">
+  <textarea #description="ngModel" ngModel name="name" rows="8" cols="80" required></textarea>
+  <div style="color:red" *ngIf="description.errors && (description.dirty || description.touched || form.submitted)">
+      <p *ngIf="description.errors.required">Description is required</p>
+  </div>
   <input type="submit" name="submit" value="Upload to Amazon S3" />
 </form>

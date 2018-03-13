@@ -1,3 +1,7 @@
-<p>
-  feed works!
-</p>
+<h2><a (click)="showPrograms()">Programs |</a><a (click)="showRequests()"> Requests</a></h2>
+<div *ngIf="toggle">
+    Programs
+</div>
+<div *ngIf="!toggle">
+    Requests
+</div>

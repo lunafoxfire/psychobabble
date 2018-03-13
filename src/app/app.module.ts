@@ -9,6 +9,7 @@ import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
 import { RequestsService } from './routes/client/requests/requests.service';
+import { FeedService } from './routes/admin/feed/feed.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -81,6 +82,7 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
     HomeGuardService,
     LoginGuardService,
     RequestsService,
+    FeedService,
   ],
   bootstrap: [AppComponent]
 })

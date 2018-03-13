@@ -48,6 +48,6 @@ export class UserService {
     let adminRole = await this.roleService.findByNameAsync(RoleType.Admin);
     //TODO: Report this bug
     let adminExists = await this.userRepo.findOne({role: adminRole.id}); // Ignore this type error.
-    return (adminExists !== undefined || adminExists !== null);
+    return (adminExists !== undefined && adminExists !== null);
   }
 }

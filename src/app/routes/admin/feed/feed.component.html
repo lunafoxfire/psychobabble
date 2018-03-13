@@ -1,7 +1,14 @@
 <h2><a (click)="showPrograms()">Programs |</a><a (click)="showRequests()"> Requests</a></h2>
 <div *ngIf="toggle">
     Programs
+    <div *ngFor="let program of (programs | async)?.programs">
+      <p>{{program.client}}</p>
+      <p><small>{{program.author}}</small></p>
+    </div>
 </div>
 <div *ngIf="!toggle">
     Requests
+    <div *ngFor="let request of (requests | async)?.requests">
+      <p>{{request.client}}</p>
+    </div>
 </div>

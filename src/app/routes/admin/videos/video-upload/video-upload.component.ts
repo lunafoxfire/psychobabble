@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss']
+  templateUrl: './video-upload.component.html',
+  styleUrls: ['./video-upload.component.scss']
 })
 
 export class VideoUploadComponent implements OnInit {

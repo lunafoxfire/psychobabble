@@ -30,8 +30,28 @@ export class ProgramRequestService {
     let newRequest = new ProgramRequest();
       newRequest.client = requestOptions.client;
       newRequest.text = requestOptions.text;
+      newRequest.dateCreated = new Date().getTime();
       newRequest.softSkills = softSkills;
+      newRequest.closed = false;
     return this.requestRepo.save(newRequest);
+  }
+
+  public async getRequests(page, resultCount) {
+    let requests = await this.requestRepo.find({
+      where: {
+        "closed": "false"
+      },
+      order: {
+        "dateCreated": "ASC"
+      },
+      skip: (page*resultCount),
+      take: resultCount });
+    return requests.map(function(request) {
+      return {
+        client: request.client.username,
+        requestId: request.id
+      }
+    });
   }
 }
 

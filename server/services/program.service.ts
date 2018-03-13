@@ -2,6 +2,7 @@ import { Repository, getRepository } from 'typeorm';
 import { Program } from './../models/Program';
 import { Video } from './../models/Video';
 import { User } from './../models/User';
+import { UserService } from './user.service';
 
 export class ProgramService {
   private programRepo: Repository<Program>;
@@ -20,6 +21,22 @@ export class ProgramService {
       newProgram.client = programOptions.client;
       newProgram.author = programOptions.author;
     return this.programRepo.save(newProgram);
+  }
+
+  public async getPrograms(page, resultCount) {
+    let programs = await this.programRepo.createQueryBuilder("program")
+    .where("program.expiration >= :currentTime", { currentTime: new Date().getTime()})
+    .skip(page*resultCount)
+    .take(resultCount)
+    .orderBy("program.expiration", "DESC")
+    .getMany();
+    return programs.map(function(program) {
+      return {
+        client: program.client.username,
+        author: program.author.username,
+        programId: program.id
+      }
+    });
   }
 }
 

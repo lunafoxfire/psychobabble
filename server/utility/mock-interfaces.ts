@@ -2,6 +2,8 @@
 export class MockReq {
     public jwt: any;
     public body: any;
+    public query: any;
+    public headers: any;
 }
 
 /** Interface for mocking express results. */

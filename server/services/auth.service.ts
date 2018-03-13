@@ -108,9 +108,11 @@ export class AuthService {
     });
   }
 
-  public async changePassword(newPass, userId) {
+  public async changePassword(newPass, userId, token) {
     let user = await this.userService.findByIdAsync(userId);
-    if(user.passResetToken.expiration <= new Date().getTime()) {
+    if (user.passResetToken.code !== token) {
+      return 0;
+    } else if (user.passResetToken.expiration <= new Date().getTime()) {
       return 0;
     } else {
       let newHash = User.hashPassword(newPass, user.salt);

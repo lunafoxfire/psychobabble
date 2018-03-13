@@ -48,8 +48,8 @@ export class AuthService {
     return data;
   }
 
-  public makeNewPass(newPass, userId): Observable<any> {
-    let data = this.post('api/auth/change-password', {newPass: newPass, userId: userId});
+  public makeNewPass(newPass, userId, token): Observable<any> {
+    let data = this.post('api/auth/change-password', {newPass: newPass, userId: userId, token: token});
     return data;
   }
 

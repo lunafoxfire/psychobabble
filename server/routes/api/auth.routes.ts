@@ -32,7 +32,7 @@ export function loadRoutes() {
   // POST /api/auth/reset
   // Params: email
   // Attempts to send a password reset email to the email entered
-  router.post('/reset', authCtrl.sendReset);
+  router.post('/reset', authCtrl.sendResetEmail);
 
   // POST /api/auth/change-password
   // Params: newPass, userId

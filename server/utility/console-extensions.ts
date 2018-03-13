@@ -1,6 +1,8 @@
 interface Console {
     /** Displays a console log only if NODE_ENV meets the given conditions. */
     logInEnvironment(environmentConditions: LogEnvironmentConditions, message: any);
+    /** Displays a console log only if NODE_ENV is 'development'. */
+    logDev(message: any);
 }
 
 console.logInEnvironment = function (environmentConditions: LogEnvironmentConditions, message: any) {
@@ -16,6 +18,10 @@ console.logInEnvironment = function (environmentConditions: LogEnvironmentCondit
     }
   }
   if (doLog) { console.log(message); }
+}
+
+console.logDev = function(message: any) {
+  console.logInEnvironment({include: ['development']}, message);
 }
 
 interface LogEnvironmentConditions {

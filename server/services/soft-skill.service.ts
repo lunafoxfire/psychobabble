@@ -23,8 +23,7 @@ export class SoftSkillService {
   }
 
   public async getAllSkills() {
-    let skills = await this.softSkillRepo.find();
-    return skills;
+    return await this.softSkillRepo.find();
   }
 
   /** Retrieves a soft skill from the database by its SoftSkillType */

@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./feed.component.scss']
 })
 export class FeedComponent implements OnInit {
-
+  public toggle: boolean = true;
   constructor() { }
 
   ngOnInit() {
   }
 
+  showPrograms() {
+    this.toggle = true;
+  }
+
+  showRequests() {
+    this.toggle = false;
+  }
 }

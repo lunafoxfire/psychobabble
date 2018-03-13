@@ -21,7 +21,7 @@ export class VideoComponent implements OnInit {
 
   }
 
-  public sendVideo(file) {
+  public sendVideo(file, description) {
     if(file) {
       this.auth.fileUpload().subscribe((result) => {
         if(!result["message"]) {
@@ -35,7 +35,7 @@ export class VideoComponent implements OnInit {
           };
           this.http.put(result["url"], file.files[0], httpOptions).subscribe((response) => {
             let reference = `https://s3.amazonaws.com/${result["reference"]}`
-            this.auth.makeVideo(reference, result["videoId"]).subscribe((result) => {
+            this.auth.makeVideo(reference, result["videoId"], description.value).subscribe((result) => {
               console.log(result);
               this.router.navigateByUrl('/');
             });

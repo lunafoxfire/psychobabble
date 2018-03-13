@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RequestsService } from './requests.service';
 import { Observable } from 'rxjs/Observable';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'requests',
@@ -10,30 +11,58 @@ import { Observable } from 'rxjs/Observable';
 
 export class RequestsComponent implements OnInit {
   public softSkills: Observable<any>;
+  public toggle: boolean = false;
+  public weekFromNow: string;
 
   constructor(
-    public service: RequestsService
-  ) { }
+    public service: RequestsService,
+    public router: Router
+  ) {
+    let date = new Date()
+    let month = this.padMonth(date);
+    this.weekFromNow = (`${date.getFullYear()}-${month}-${date.getDate() + 7}`);
+  }
 
   ngOnInit() {
     this.softSkills = this.service.getSkills();
   }
 
+  private padMonth(date) {
+    let current = (date.getMonth() + 1).toString();
+    if(current.length < 2) {
+      let newMonth = "0" + current;
+      return newMonth;
+    } else {
+      return current;
+    }
+  }
+
+  public switchToggle() {
+    this.toggle = !this.toggle
+  }
+
   public submitRequest(form) {
-    console.log(form.value);
-    let nameArray = new Array<string>();
+    let nameArray = new Array<any>();
+    let request = {
+      nameArray: nameArray,
+      details: null,
+      expiration: null
+    }
+    let details;
     Object.keys(form.value).forEach(function(key) {
       if(form.value[key]) {
         if(key === "details") {
-          nameArray.push(form.value[key]);
+          request.details = form.value[key];
+        } else if(key === "expiration") {
+          request.expiration = form.value[key];
         } else {
           nameArray.push(key);
         }
       }
     });
-    console.log(nameArray);
-    this.service.makeRequest({nameArray: nameArray}).subscribe((data) => {
+    this.service.makeRequest(request).subscribe((data) => {
       console.log(data);
+      this.router.navigateByUrl('/');
     })
   }
 }

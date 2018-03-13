@@ -117,11 +117,12 @@ export class AuthService {
   }
 
   // TODO: Add params to options
-  public get<T>(route: string): Observable<T> {
+  public get<T>(route: string, body?: any): Observable<T> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.getToken()}`
-      })
+      }),
+      body: body
     };
     return this.http.get<T>(route, httpOptions);
   }

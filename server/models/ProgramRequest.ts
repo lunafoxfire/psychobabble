@@ -13,8 +13,20 @@ export class ProgramRequest {
   @Column({nullable: true})
   text: string;
 
+  /** Creation Date */
+  @Column({type:'bigint'})
+  dateCreated: number;
+
+  /** Requested Program Expiration Date */
+  @Column({type:'bigint', nullable: true})
+  expiration: number;
+
+  /** Whether the Request has expired or been closed. */
+  @Column()
+  closed: boolean;
+
   /** Client that entered this request. */
-  @ManyToOne(type => User, user => user.programRequests)
+  @ManyToOne(type => User, user => user.programRequests, {eager: true})
   client: User;
 
   /** Soft Skills to be included in the requested Program. */

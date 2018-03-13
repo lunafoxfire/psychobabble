@@ -18,11 +18,14 @@ export class ProgramRequestController {
 
   public async makeProgramRequest(req, res) {
     if(req.jwt.role === "CLIENT") {
-      console.log(req.body.nameArray);
+      let details = req.body.nameArray.pop().toString();
+      let skillIds = req.body.nameArray.map(function(id) {
+        return parseInt(id);
+      });
       let result = await this.programRequestService.saveNewAsync({
         client: await this.userService.findByIdAsync(req.jwt.id),
-        text: "Change Me",
-        softSkills: req.body.nameArray
+        text: details,
+        softSkills: skillIds
       });
       if(result) {
         res.status(200);

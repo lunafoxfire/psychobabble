@@ -2,8 +2,9 @@
 
 <form #form="ngForm" (submit)="submitRequest(form)">
   <div *ngFor="let skill of (softSkills | async)?.skillArray">
-    <input ngModel type="checkbox" name="{{skill.name}}" value="{{skill.id}}">
+    <input ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}">
     <label for="{{skill.name}}">{{skill.name}}</label>
   </div>
+  <textarea ngModel name="details" rows="8" cols="80">Additional details you'd like us to know</textarea>
   <button type="submit" name="button">submit</button>
 </form>

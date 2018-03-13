@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VideoService } from './video.service';
+import { VideoService } from './../video.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./video.component.scss']
 })
 
-export class VideoComponent implements OnInit {
+export class VideoUploadComponent implements OnInit {
   constructor(
     public auth: VideoService,
     public http: HttpClient,

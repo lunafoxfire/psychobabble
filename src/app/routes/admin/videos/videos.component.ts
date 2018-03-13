@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { VideoService } from './../../video/video.service';
+import { VideoService } from './video.service';
 
 @Component({
   selector: 'videos',

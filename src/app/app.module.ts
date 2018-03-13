@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 // Services
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
-import { VideoService } from './routes/video/video.service';
+import { VideoService } from './routes/admin/videos/video.service';
 import { RequestsService } from './routes/client/requests/requests.service';
 
 // Route guards
@@ -21,7 +21,7 @@ import { AppComponent } from './app.component';
 import { SplashComponent } from './routes/splash/splash.component';
 import { LogInComponent } from './routes/login/login.component';
 import { RegisterComponent } from './routes/register/register.component';
-import { VideoComponent } from './routes/video/video.component';
+import { VideoUploadComponent } from './routes/admin/videos/video-upload/video-upload.component';
 import { VerifyComponent } from './routes/verify/verify.component';
 import { ResetComponent } from './routes/reset/reset.component';
 import { ChangePasswordComponent } from './routes/change-password/change-password.component';
@@ -50,7 +50,7 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
     SplashComponent,
     LogInComponent,
     RegisterComponent,
-    VideoComponent,
+    VideoUploadComponent,
     FeedComponent,
     VideosComponent,
     ClientsComponent,

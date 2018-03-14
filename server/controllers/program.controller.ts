@@ -1,14 +1,17 @@
 import { fixThis } from './../utility/fix-this';
 import { ProgramService } from './../services/program.service';
 import { ProgramRequestService } from './../services/program-request.service';
+import { UserService } from './../services/user.service';
 
 export class ProgramController {
   private programService: ProgramService;
   private programRequestService: ProgramRequestService;
+  private userService: UserService;
 
-  constructor(programService: ProgramService = null, programRequestService: ProgramRequestService = null) {
+  constructor(programService: ProgramService = null, programRequestService: ProgramRequestService = null, userService: UserService = null) {
     this.programService = programService || new ProgramService();
     this.programRequestService = programRequestService || new ProgramRequestService();
+    this.userService = userService || new UserService();
 
     fixThis(this, ProgramController);
   }
@@ -23,8 +26,8 @@ export class ProgramController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
-        req.body.program.author = req.jwt.username;
-        console.log(req.body);
+        req.body.program.author = await this.userService.findByIdAsync(req.jwt.id);
+        req.body.program.client = await this.userService.findByUsernameAsync(req.body.program.client);
         let programs = await this.programService.saveNewAsync(req.body.program);
         let request = await this.programRequestService.fulfillRequest(req.body.requestId);
         if(programs && request) {

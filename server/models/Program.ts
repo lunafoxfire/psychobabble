@@ -18,7 +18,7 @@ export class Program {
   @Column({type:'bigint', nullable: true})
   expiration: number;
 
-  /** Whether the Program has expired or been closed. */
+  /** Whether the Program has been closed. */
   @Column()
   closed: boolean;
 

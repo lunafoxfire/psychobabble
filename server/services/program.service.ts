@@ -29,23 +29,28 @@ export class ProgramService {
       newProgram.videos = videos;
       newProgram.client = programOptions.client;
       newProgram.author = programOptions.author;
+      console.log(newProgram);
     return this.programRepo.save(newProgram);
   }
 
   public async getPrograms(page, resultCount) {
     let programs = await this.programRepo.createQueryBuilder("program")
-    .where("program.expiration >= :currentTime", { currentTime: new Date().getTime()})
+    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .innerJoinAndSelect("program.client", "client", "program.closed = :closed", { closed: false })
+    .innerJoinAndSelect("program.author", "author", "program.closed = :closed", { closed: false })
     .skip(page*resultCount)
     .take(resultCount)
     .orderBy("program.expiration", "DESC")
     .getMany();
-    return programs.map(function(program) {
+    let thingToReturn =  programs.map(function(program) {
       return {
+        description: program.description,
         client: program.client.username,
         author: program.author.username,
         programId: program.id
       }
     });
+    return thingToReturn;
   }
 }
 

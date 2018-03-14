@@ -18,6 +18,7 @@ import { ChangePasswordComponent } from './routes/change-password/change-passwor
 import { FeedComponent } from './routes/admin/feed/feed.component';
 import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
+import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
@@ -38,6 +39,7 @@ export const ROUTES: Routes = [
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
+  { path: 'admin/feed/requests/:id', component: ProgramDesignComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },

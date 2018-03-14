@@ -63,6 +63,49 @@ export class ProgramRequestController {
     }
   }
 
+  public async getRequestDetails(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "ADMIN") {
+        let request = await this.programRequestService.getRequestDetails(req.params.requestId);
+        if(request) {
+          res.status(200);
+          res.json({
+            request: request,
+            message: "Grabbed all the things"
+          })
+          return;
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async makeProgramRequest(req, res) {
     try {
       if (!req.jwt) {

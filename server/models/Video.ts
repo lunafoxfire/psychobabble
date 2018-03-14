@@ -10,6 +10,10 @@ export class Video {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  /** Video Title */
+  @Column({nullable: true})
+  title: string
+
   /** The URL where this video is stored. Nullable. */
   @Column({nullable: true})
   url: string;

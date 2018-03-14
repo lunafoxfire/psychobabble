@@ -18,4 +18,9 @@ export class FeedService {
     let result = this.auth.get('api/program-requests/pending', {page: page, resultCount: resultCount});
     return result;
   }
+
+  public getRequestDetails(requestId): Observable<any> {
+    let result = this.auth.get('api/program-requests/'+requestId);
+    return result;
+  }
 }

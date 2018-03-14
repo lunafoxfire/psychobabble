@@ -19,7 +19,7 @@ export class ProgramRequest {
 
   /** Requested Program Expiration Date */
   @Column({type:'bigint', nullable: true})
-  expiration: number;
+  expiration: any;
 
   /** Whether the Request has expired or been closed. */
   @Column()
@@ -30,7 +30,7 @@ export class ProgramRequest {
   client: User;
 
   /** Soft Skills to be included in the requested Program. */
-  @ManyToMany(type => SoftSkill, softSkills => softSkills.programRequests)
+  @ManyToMany(type => SoftSkill, softSkills => softSkills.programRequests, {eager: true})
   @JoinTable()
   softSkills: SoftSkill[];
 }

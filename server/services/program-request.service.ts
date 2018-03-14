@@ -67,11 +67,19 @@ export class ProgramRequestService {
     let thingToReturn = {
       dateCreated: UnixToDate(request.dateCreated),
       expiration: expiration,
+      unixExpiration: request.expiration,
       text: request.text,
       client: request.client.username,
       softSkills: request.softSkills
     }
     return thingToReturn;
+  }
+
+  public async fulfillRequest(requestId) {
+    let request = await this.requestRepo.findOneById(requestId);
+    request.closed = true;
+    this.requestRepo.save(request);
+    return request;
   }
 }
 

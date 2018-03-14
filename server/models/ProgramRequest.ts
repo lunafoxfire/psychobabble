@@ -21,7 +21,7 @@ export class ProgramRequest {
   @Column({type:'bigint', nullable: true})
   expiration: any;
 
-  /** Whether the Request has expired or been closed. */
+  /** Whether the Request has been fulfilled. */
   @Column()
   closed: boolean;
 

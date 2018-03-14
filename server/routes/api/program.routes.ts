@@ -10,7 +10,7 @@ export function loadRoutes() {
   // POST /api/programs/new
   // auth: ADMIN
   // Route for an admin to create a new program for a client
-  router.post('/new', auth, (req, res) => {res.status(501).send()});
+  router.post('/new', auth, programCtrl.makeProgram);
 
   // GET /api/programs/get-all
   // auth: ADMIN

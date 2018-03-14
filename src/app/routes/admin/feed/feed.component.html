@@ -2,7 +2,7 @@
 <div *ngIf="toggle">
     Programs
     <div *ngFor="let program of (programs | async)?.programs">
-      <p>{{program.client}}</p>
+      <a routerLink="programs/{{program.programId}}">{{program.client}}</a>
       <p><small>{{program.author}}</small></p>
     </div>
 </div>

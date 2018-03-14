@@ -3,6 +3,7 @@ import { ProgramRequest } from './../models/ProgramRequest';
 import { User } from './../models/User';
 import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 import { SoftSkillService } from './soft-skill.service';
+import { UnixToDate } from './../utility/unix-date';
 
 export interface ProgramRequestServiceDependencies {
   requestRepo: Repository<ProgramRequest>;
@@ -53,6 +54,24 @@ export class ProgramRequestService {
         requestId: request.id
       }
     });
+  }
+
+  public async getRequestDetails(requestId) {
+    let request =  await this.requestRepo.findOneById(requestId);
+    let expiration;
+    if(parseInt(request.expiration) === 0) {
+      expiration = "None Requested"
+    } else {
+      expiration = UnixToDate(request.expiration);
+    }
+    let thingToReturn = {
+      dateCreated: UnixToDate(request.dateCreated),
+      expiration: expiration,
+      text: request.text,
+      client: request.client.username,
+      softSkills: request.softSkills
+    }
+    return thingToReturn;
   }
 }
 

@@ -45,9 +45,10 @@ export function loadRoutes() {
   router.get('/:clientId(\\d+)/:requestId(\\d+)', auth, (req, res) => {res.status(501).send()});
 
   // GET /api/program-requests/:requestId
+  // params: requestId
   // auth: ADMIN
   // Get details of a particular request
-  router.get('/:requestId(\\d+)', auth, (req, res) => {res.status(501).send()});
+  router.get('/:requestId', auth, requestCtrl.getRequestDetails);
 
   return router;
 }

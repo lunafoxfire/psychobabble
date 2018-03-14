@@ -36,6 +36,7 @@ export class VideoService {
       newVideo.id = videoOptions.id
       newVideo.url = videoOptions.url;
       newVideo.description = videoOptions.description;
+      newVideo.title = videoOptions.title;
       newVideo.tags = tags;
     return this.videoRepo.save(newVideo);
   }
@@ -66,6 +67,8 @@ export interface VideoUploadOptions {
   url: string;
   /** A description of this video. */
   description: string;
+  /** Title of video */
+  title: string;
   /** All tags associated with this video. Optional. */
   tags?: TagType[];
 }

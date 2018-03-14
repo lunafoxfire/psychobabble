@@ -1,0 +1,17 @@
+<h1>{{(request | async)?.request.client}}</h1>
+<p><small>{{(request | async)?.request.dateCreated}}</small></p>
+<p>Requested Expiration Date: {{(request | async)?.request.expiration}}
+<p>{{(request | async)?.request.text}}</p>
+<div *ngFor="let skill of (request | async)?.request.softSkills">
+  <p>{{skill.name}}</p>
+</div>
+
+<button type="button" name="button" (click)="createProgram()">Create Program</button>
+
+<div *ngFor="let video of (videos | async)?.videos">
+  <div *ngIf="checkIfAdded(video.id)">
+    <h4>{{video.title}}</h4>
+    <p>{{video.description}}</p>
+    <button type="button" name="button" (click)="addToProgram(video.id)">Add</button>
+  </div>
+</div>

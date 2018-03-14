@@ -9,7 +9,7 @@ import { LoginGuardService as LoginGuard } from './login-guard.service';
 import { SplashComponent } from './routes/splash/splash.component';
 import { LogInComponent } from './routes/login/login.component';
 import { RegisterComponent } from './routes/register/register.component';
-import { VideoComponent } from './routes/video/video.component';
+import { VideoUploadComponent } from './routes/admin/videos/video-upload/video-upload.component';
 import { VerifyComponent } from './routes/verify/verify.component';
 import { ResetComponent } from './routes/reset/reset.component';
 import { ChangePasswordComponent } from './routes/change-password/change-password.component';
@@ -37,7 +37,7 @@ export const ROUTES: Routes = [
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/videos/upload', component: VideoComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
+  { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },

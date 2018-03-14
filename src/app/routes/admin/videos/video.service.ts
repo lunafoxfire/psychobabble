@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../../auth.service';
+import { AuthService } from '../../../auth.service';
 
 @Injectable()
 export class VideoService {

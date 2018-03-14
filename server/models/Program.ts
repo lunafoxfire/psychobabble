@@ -28,7 +28,7 @@ export class Program {
   videos: Video[];
 
   /** The client this program was created for. */
-  @ManyToOne(type => User, user => user.clientPrograms)
+  @ManyToOne(type => User, user => user.clientPrograms, {eager: true})
   client: User;
 
   /** The admin that created this program. */

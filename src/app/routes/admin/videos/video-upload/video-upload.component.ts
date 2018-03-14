@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { VideoService } from './video.service';
+import { VideoService } from './../video.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss']
+  templateUrl: './video-upload.component.html',
+  styleUrls: ['./video-upload.component.scss']
 })
 
-export class VideoComponent implements OnInit {
+export class VideoUploadComponent implements OnInit {
   constructor(
     public auth: VideoService,
     public http: HttpClient,

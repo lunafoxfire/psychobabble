@@ -12,13 +12,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProgramDesignComponent implements OnInit {
   public request: Observable<any>;
   public videos: Observable<any>;
-  private programVideos: number[] = new Array<number>();
+  private programVideos: string[] = new Array<string>();
   public requestId: string;
 
   constructor(
     private service: FeedService,
     private videoService: VideoService,
     public route: ActivatedRoute,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -43,8 +44,19 @@ export class ProgramDesignComponent implements OnInit {
     return notAdded;
   }
 
-  public createProgram() {
-
+  public async createProgram() {
+    this.request.subscribe((data) => {
+      let program = {
+        videos: this.programVideos,
+        client: data.request.client,
+        expiration: data.request.unixExpiration,
+        description: null
+      }
+      this.service.makeProgram(program, this.requestId).subscribe((result) => {
+        console.log(result);
+        this.router.navigateByUrl('/');
+      })
+    });
   }
 
 }

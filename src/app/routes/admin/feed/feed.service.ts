@@ -23,4 +23,10 @@ export class FeedService {
     let result = this.auth.get('api/program-requests/'+requestId);
     return result;
   }
+
+  public makeProgram(program, requestId): Observable<any> {
+    console.log(program);
+    let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
+    return result;
+  }
 }

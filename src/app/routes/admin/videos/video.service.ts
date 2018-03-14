@@ -14,8 +14,8 @@ export class VideoService {
     return result;
   }
 
-  public makeVideo(url, videoId, description): Observable<any> {
-    let result = this.auth.post('/api/videos/upload', {url: url, videoId: videoId, description: description});
+  public makeVideo(url, videoId, description, title): Observable<any> {
+    let result = this.auth.post('/api/videos/upload', {url: url, videoId: videoId, description: description, title: title});
     return result;
   }
 

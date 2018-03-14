@@ -1,5 +1,6 @@
 <div *ngFor="let video of (videos | async)?.videos">
-  <video #myVideo width="320" height="240" autoplay>
+  <h2>{{video.title}}</h2>
+  <video #myVideo width="320" height="240" controls>
     <source src="{{video.url}}" type="video/mp4">
   </video>
   <p>{{video.description}}</p>

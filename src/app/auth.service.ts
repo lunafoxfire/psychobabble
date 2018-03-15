@@ -95,6 +95,15 @@ export class AuthService {
     return this.isRole(AuthRole.Subject);
   }
 
+  public isVerified(): boolean {
+    const tokenPayload = this.getTokenPayload();
+    if(tokenPayload.validated) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public getTokenPayload(): TokenPayload {
     const token = this.getToken();
     if (token) {
@@ -121,7 +130,6 @@ export class AuthService {
     }
   }
 
-  // TODO: Add params to options
   public get<T>(route: string, body?: any): Observable<T> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -146,11 +154,19 @@ export class AuthService {
     localStorage.setItem('jwt', _token);
   }
 
+  public saveResponseUrl(_resUrl: string) {
+    localStorage.setItem('resUrl', _resUrl);
+  }
+
   private getToken(): string {
     if (!this._token) {
       this._token = localStorage.getItem('jwt');
     }
     return this._token;
+  }
+
+  public getResponseUrl(): string {
+    return localStorage.getItem('resUrl');
   }
 
   private interceptToken(baseRequest: Observable<any>): Observable<any> {

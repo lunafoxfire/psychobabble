@@ -18,6 +18,8 @@ import { HomeGuardService } from './home-guard.service';
 import { LoginGuardService } from './login-guard.service';
 import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
+import { ResponseGuardService } from './response-guard.service';
+import { VerifyGuardService } from './verify-guard.service';
 
 // General routes
 import { SplashComponent } from './routes/splash/splash.component';
@@ -48,7 +50,6 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
-import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
 import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 // Imported modules
@@ -80,7 +81,6 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
     ProgramDesignComponent,
     ResponseEvaluationComponent,
     EvaluationComponent,
-    RegisterLoginComponent,
     SubjectVerificationComponent,
     ProgramDetailsComponent
   ],
@@ -101,6 +101,8 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
     LoginGuardService,
     FeedService,
     ClientService,
+    ResponseGuardService,
+    VerifyGuardService,
   ],
   bootstrap: [AppComponent]
 })

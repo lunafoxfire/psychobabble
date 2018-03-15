@@ -24,4 +24,9 @@ export class ClientService {
     let result = this.auth.get('/api/programs/'+this.auth.getTokenPayload().id);
     return result;
   }
+
+  public getProgramDetails(programId): Observable<any> {
+    let result = this.auth.get('/api/programs/client/'+programId);
+    return result;
+  }
 }

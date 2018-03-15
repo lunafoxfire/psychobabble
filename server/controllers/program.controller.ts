@@ -103,6 +103,49 @@ export class ProgramController {
     }
   }
 
+  public async getProgramDetails(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "CLIENT") {
+        req.body.client = await this.userService.findByIdAsync(req.jwt.id);
+        let program = await this.programService.getDetails(req.params.programId, req.body.client);
+        if(program) {
+          res.status(200);
+          res.json({
+            program: program,
+            message: "Grabbed program details"
+          })
+        } else {
+          res.status(401);
+          res.json({
+            message: "Not Authorized or Program Not Found"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async getClientPrograms(req, res) {
     try {
       if(!req.jwt) {

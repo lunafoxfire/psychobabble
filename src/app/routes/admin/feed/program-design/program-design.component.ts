@@ -23,7 +23,7 @@ export class ProgramDesignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.requestId = params['id'];
       this.request = this.service.getRequestDetails(this.requestId);
     });

@@ -53,6 +53,7 @@ import { SubjectVerificationComponent } from './routes/subject/subject-verificat
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
+import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,8 @@ import { MaterialModule } from './_imports/material.module';
     ResponseEvaluationComponent,
     EvaluationComponent,
     RegisterLoginComponent,
-    SubjectVerificationComponent
+    SubjectVerificationComponent,
+    ProgramDetailsComponent
   ],
   imports: [
     BrowserModule,

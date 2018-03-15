@@ -52,6 +52,24 @@ export class ProgramService {
     });
     return thingToReturn;
   }
+
+  public async getClientPrograms(clientId) {
+    let programs = await this.programRepo.createQueryBuilder("program")
+    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .innerJoin("program.client", "client", "program.closed = :closed", { closed: false })
+    .where("program.client.id = :clientId", { clientId: clientId})
+    // .skip(page*resultCount)
+    // .take(resultCount)
+    .orderBy("program.expiration", "DESC")
+    .getMany();
+    let thingToReturn =  programs.map(function(program) {
+      return {
+        description: program.description,
+        programId: program.id
+      }
+    });
+    return thingToReturn;
+  }
 }
 
 /** All options required to create a new Program. */

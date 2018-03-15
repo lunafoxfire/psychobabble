@@ -9,8 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
-import { RequestsService } from './routes/client/requests/requests.service';
 import { FeedService } from './routes/admin/feed/feed.service';
+import { ClientService } from './routes/client/client.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -47,6 +47,9 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
+import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
+import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
+import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
@@ -75,6 +78,9 @@ import { MaterialModule } from './_imports/material.module';
     PasswordValidatorDirective,
     ProgramDesignComponent,
     ResponseEvaluationComponent,
+    EvaluationComponent,
+    RegisterLoginComponent,
+    SubjectVerificationComponent
   ],
   imports: [
     BrowserModule,
@@ -91,8 +97,8 @@ import { MaterialModule } from './_imports/material.module';
     AuthGuardService,
     HomeGuardService,
     LoginGuardService,
-    RequestsService,
     FeedService,
+    ClientService,
   ],
   bootstrap: [AppComponent]
 })

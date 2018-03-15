@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, NgControl } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthService } from './auth.service';
@@ -47,6 +48,9 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 
+// Imported modules
+import { MaterialModule } from './_imports/material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,12 +74,14 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
     EmailValidatorDirective,
     PasswordValidatorDirective,
     ProgramDesignComponent,
-    ResponseEvaluationComponent
+    ResponseEvaluationComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     RouterModule.forRoot(ROUTES),
   ],
   providers: [

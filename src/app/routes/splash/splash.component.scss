@@ -1,1 +1,17 @@
+.splash-spacer {
+  visibility: hidden;
+  height: 130px;
+}
 
+.splash-container {
+  display: flex;
+  justify-content: center;
+}
+
+.jumbotron {
+  padding: 70px 50px;
+
+  h1 {
+    font-size: 70px;
+  }
+}

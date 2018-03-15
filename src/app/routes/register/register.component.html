@@ -1,24 +1,39 @@
-<h1>Register</h1>
-<form #registerForm="ngForm" (ngSubmit)="registerForm.valid && onSubmit(registerForm)">
-  <label for="register-username">Username:</label>
-  <input type="text" ngModel name="username" #username="ngModel" minlength="4" maxlength="16" required username />
-  <div style="color:red" *ngIf="username.errors && (username.dirty || username.touched || registerForm.submitted)">
-      <p *ngIf="username.errors.required">Username is required</p>
-      <p *ngIf="username.errors.username">Not a valid username</p>
-      <p *ngIf="username.errors.minlength">Username must be 4 characters or more.</p>
-  </div>
-  <label for="register-email">Email:</label>
-  <input id="register-email" type="email" #email="ngModel" ngModel name="email" required email>
-  <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched || registerForm.submitted)">
-    <p *ngIf="email.errors.required">email is required</p>
-    <p *ngIf="email.errors.email">Not a valid email</p>
-  </div>
-  <label for="register-password">Password:</label>
-  <input id="register-password" type="password" ngModel #password="ngModel" name="password" minlength="6" maxlength="16" required password>
-  <div style="color:red" *ngIf="password.errors && (password.dirty || password.touched || registerForm.submitted)">
-    <p *ngIf="password.errors.required">password is required</p>
-    <p *ngIf="password.errors.minlength">password must be 6 characters or more.</p>
-    <p *ngIf="password.errors.password">Not a valid password</p>
-  </div>
-  <button type="submit">Submit</button>
-</form>
+<mat-card>
+  <mat-card-title>
+    <h1>Register</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <form #registerForm="ngForm" (ngSubmit)="registerForm.valid && onSubmit(registerForm)">
+      <mat-form-field>
+        <input ngModel matInput type="text"
+          placeholder="Username" name="username" #username="ngModel"
+          minlength="4" maxlength="16" required username
+        />
+        <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+        <mat-error *ngIf="username.errors?.username">Not a valid username</mat-error>
+        <mat-error *ngIf="username.errors?.minlength">Username must be 4 characters or more.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input ngModel matInput type="email"
+          placeholder="Email" name="email" #email="ngModel"
+          required email
+        />
+        <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
+        <mat-error *ngIf="email.errors?.email">Not a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input ngModel matInput type="password"
+          placeholder="Password" name="password" #password="ngModel"
+          minlength="6" maxlength="16" required password
+        />
+        <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
+        <mat-error *ngIf="password.errors?.minlength">Password must be 6 characters or more</mat-error>
+        <mat-error *ngIf="password.errors?.password">Not a valid password</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>

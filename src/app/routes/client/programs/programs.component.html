@@ -1,3 +1,4 @@
-<p>
-  programs works!
-</p>
+<div *ngFor="let program of (programs | async)?.programs">
+  <a routerLink="programs/{{program.programId}}">{{program.description}}</a>
+  <p><small>{{program.programId}}</small></p>
+</div>

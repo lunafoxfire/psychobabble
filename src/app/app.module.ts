@@ -8,8 +8,8 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
-import { RequestsService } from './routes/client/requests/requests.service';
 import { FeedService } from './routes/admin/feed/feed.service';
+import { ClientService } from './routes/client/client.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -85,8 +85,8 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
     AuthGuardService,
     HomeGuardService,
     LoginGuardService,
-    RequestsService,
     FeedService,
+    ClientService,
   ],
   bootstrap: [AppComponent]
 })

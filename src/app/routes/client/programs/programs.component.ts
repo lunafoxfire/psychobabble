@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { ClientService } from './../client.service';
 
 @Component({
   selector: 'programs',
@@ -6,10 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./programs.component.scss']
 })
 export class ProgramsComponent implements OnInit {
+  public programs: Observable<any>;
 
-  constructor() { }
+  constructor(
+    public service: ClientService
+  ) { }
 
   ngOnInit() {
+    this.programs = this.service.getClientPrograms();
   }
 
 }

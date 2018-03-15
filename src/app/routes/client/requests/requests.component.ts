@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestsService } from './requests.service';
+import { ClientService } from './../client.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class RequestsComponent implements OnInit {
   public weekFromNow: string;
 
   constructor(
-    public service: RequestsService,
+    public service: ClientService,
     public router: Router
   ) {
     let date = new Date()

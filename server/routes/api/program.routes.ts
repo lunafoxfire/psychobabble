@@ -26,7 +26,7 @@ export function loadRoutes() {
   // params: page
   // auth: CLIENT
   // Get all programs created for this client, by page
-  router.get('/:clientId(\\d+)', auth, (req, res) => {res.status(501).send()});
+  router.get('/:clientId', auth, programCtrl.getClientPrograms);
 
   return router;
 }

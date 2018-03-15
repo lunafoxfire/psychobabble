@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService, RegisterCredentials } from './../../../auth.service';
+import { Router } from '@angular/router';
+import { AuthService, RegisterCredentials, LoginCredentials } from './../../../auth.service';
 
 @Component({
   selector: 'register-login',
@@ -11,7 +12,8 @@ export class RegisterLoginComponent implements OnInit {
   public toggle: boolean = true;
 
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -27,9 +29,15 @@ export class RegisterLoginComponent implements OnInit {
 
   public onRegister(registerForm: NgForm) {
     let credentials = registerForm.value as RegisterCredentials;
+    this.auth.registerSubject(credentials).subscribe(() => {
+      this.router.navigateByUrl('/verification');//TODO: Pass program id along with link
+    });
   }
 
-  public onLogin(form) {
-
+  public onLogin(loginForm: NgForm) {
+    let credentials = loginForm.value as LoginCredentials;
+    this.auth.login(credentials).subscribe(() => {
+      this.router.navigateByUrl('/program');//TODO: Navigate back to evaluation
+    });
   }
 }

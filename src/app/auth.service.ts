@@ -18,6 +18,11 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
+  public registerSubject(credentials: RegisterCredentials): Observable<any> {
+    let baseRequest = this.http.post('/api/auth/subject/register', credentials);
+    return this.interceptToken(baseRequest);
+  }
+
   public login(credentials: LoginCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/login', credentials);
     return this.interceptToken(baseRequest);

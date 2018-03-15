@@ -12,6 +12,11 @@ export function loadRoutes() {
   // Registers a new user as a client
   router.post('/client/register', authCtrl.registerClient);
 
+  // Post /api/auth/subject/register
+  // params: username, email, password
+  // Registers a new user as a subject
+  router.post('/subject/register', authCtrl.registerSubject);
+
   // POST /api/auth/login
   // params: loginName, password
   // Logs a user in

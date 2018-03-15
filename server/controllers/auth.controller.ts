@@ -64,6 +64,57 @@ export class AuthController {
     }
   }
 
+  public async registerSubject(req, res) {
+    try {
+      if (!req.body) {
+        res.status(400);
+        res.json({
+          message: "Request body was missing"
+        });
+        return;
+      }
+      let username = req.body.username;
+      let email = req.body.email;
+      let password = req.body.password;
+      if (!username || !email || !password) {
+        res.status(400);
+        res.json({
+          message: "One or more required fields were missing"
+        });
+        return;
+      }
+      console.logDev(`Registering ${username} | ${email}...`);
+      let user = await this.authService.registerSubjectAsync(username, email, password);
+      if (user) {
+        let msg = `Registered ${username} with id ${user.id}`;
+        console.logDev(msg);
+        res.status(200);
+        res.json({
+          message: msg,
+          token: user.generateJwt()
+        });
+        return;
+      }
+      else {
+        let msg = `Username or email taken`;
+        console.logDev(msg);
+        res.status(422);
+        res.json({
+          message: msg
+        });
+        return;
+      }
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async loginLocal(req, res) {
     if (!req.body) {
       res.status(400);
@@ -105,6 +156,8 @@ export class AuthController {
       }
     })(req, res);
   }
+
+
 
   public async sendResetEmail(req, res) {
     try {

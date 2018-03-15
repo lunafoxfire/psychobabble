@@ -20,7 +20,6 @@ export class LogInComponent {
     this.auth.login(credentials).subscribe(() => {
       let resUrl = this.auth.getResponseUrl();
       if(resUrl && this.auth.isSubject()) {
-        console.log(resUrl);
         this.router.navigateByUrl(`/${resUrl}`);
       } else {
         this.router.navigateByUrl('/');

@@ -170,7 +170,7 @@ export class AuthService {
   }
 
   public clearResponseUrl() {
-    localStorage.setItem('resUrl', null);
+    localStorage.removeItem('resUrl');
   }
 
   private interceptToken(baseRequest: Observable<any>): Observable<any> {

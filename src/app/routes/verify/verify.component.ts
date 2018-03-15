@@ -19,8 +19,7 @@ export class VerifyComponent implements OnInit {
   public sendCode(code) {
     this.auth.verify(code.value).subscribe(() => {
       let resUrl = this.auth.getResponseUrl();
-      console.log(`/${resUrl}`)
-      if(resUrl) {
+      if(resUrl && this.auth.isSubject()) {
         this.router.navigateByUrl(`/${resUrl}`);
       } else {
         this.router.navigateByUrl('/');

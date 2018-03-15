@@ -26,12 +26,10 @@ export class FeedComponent implements OnInit {
   showPrograms() {
     this.toggle = true;
     this.page = 0;
-    console.log(this.programs);
   }
 
   showRequests() {
     this.toggle = false;
     this.page = 0;
-    console.log(this.requests);
   }
 }

@@ -18,14 +18,18 @@ export class VerifyComponent implements OnInit {
 
   public sendCode(code) {
     this.auth.verify(code.value).subscribe(() => {
-      console.log(this.auth.getTokenPayload());
-      this.router.navigateByUrl('/');
+      let resUrl = this.auth.getResponseUrl();
+      console.log(`/${resUrl}`)
+      if(resUrl) {
+        this.router.navigateByUrl(`/${resUrl}`);
+      } else {
+        this.router.navigateByUrl('/');
+      }
     });
   }
 
   public resendVerify() {
     this.auth.reVerify().subscribe((data) => {
-      console.log(data);
     })
   }
 }

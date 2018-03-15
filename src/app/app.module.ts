@@ -50,7 +50,6 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
-import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
@@ -81,7 +80,6 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
     ProgramDesignComponent,
     ResponseEvaluationComponent,
     EvaluationComponent,
-    SubjectVerificationComponent,
     ProgramDetailsComponent
   ],
   imports: [

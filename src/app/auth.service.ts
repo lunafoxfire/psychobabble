@@ -169,6 +169,10 @@ export class AuthService {
     return localStorage.getItem('resUrl');
   }
 
+  public clearResponseUrl() {
+    localStorage.setItem('resUrl', null);
+  }
+
   private interceptToken(baseRequest: Observable<any>): Observable<any> {
     const request = baseRequest.pipe(
       map((data: ResponseToken) => {

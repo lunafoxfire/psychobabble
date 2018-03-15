@@ -53,7 +53,6 @@ export class ProgramDesignComponent implements OnInit {
         description: null
       }
       this.service.makeProgram(program, this.requestId).subscribe((result) => {
-        console.log(result);
         this.router.navigateByUrl('/');
       })
     });

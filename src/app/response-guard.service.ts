@@ -13,10 +13,15 @@ export class ResponseGuardService implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): boolean {
     const requiredRole = route.data.requireRole;
     if(!this.auth.isLoggedIn()) {
-      this.auth.saveResponseUrl(this.router.url);
+      this.auth.saveResponseUrl(`${route.url[0].path}/${route.url[1].path}`);
       this.router.navigateByUrl('/register');
       return false;
     }
+    if (requiredRole && !this.auth.isRole(requiredRole)) {
+      this.router.navigateByUrl('/');
+      return false;
+    }
+    this.auth.clearResponseUrl();
     return true
   }
 }

@@ -18,7 +18,13 @@ export class LogInComponent {
   public onSubmit(loginForm: NgForm) {
     let credentials = loginForm.value as LoginCredentials;
     this.auth.login(credentials).subscribe(() => {
-      this.router.navigateByUrl('/');
+      let resUrl = this.auth.getResponseUrl();
+      if(resUrl && this.auth.isSubject()) {
+        console.log(resUrl);
+        this.router.navigateByUrl(`/${resUrl}`);
+      } else {
+        this.router.navigateByUrl('/');
+      }
     });
   }
 }

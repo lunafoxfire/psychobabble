@@ -14,6 +14,7 @@ export class VerifyGuardService implements CanActivate {
     if(this.auth.isVerified()) {
       return true;
     } else {
+      this.router.navigateByUrl('/verify');
       return false;
     }
   }

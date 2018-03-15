@@ -30,7 +30,6 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
 
 // Subject
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
-import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -42,7 +41,6 @@ export const ROUTES: Routes = [
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'verify',   component: VerifyComponent },
-  { path: 'verification', component: SubjectVerificationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Subject} },
   { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'programs/:id', component: EvaluationComponent, canActivate: [ResponseGuard, VerifyGuard], data: {requireRole: AuthRole.Subject} },
   { path: 'programs/client/:id', component: ProgramDetailsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client}},

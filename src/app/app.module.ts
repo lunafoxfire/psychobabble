@@ -46,6 +46,9 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
+import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
+import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
+import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +73,10 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
     EmailValidatorDirective,
     PasswordValidatorDirective,
     ProgramDesignComponent,
-    ResponseEvaluationComponent
+    ResponseEvaluationComponent,
+    EvaluationComponent,
+    RegisterLoginComponent,
+    SubjectVerificationComponent
   ],
   imports: [
     BrowserModule,

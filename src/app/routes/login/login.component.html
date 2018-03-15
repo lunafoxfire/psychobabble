@@ -1,11 +1,26 @@
-<h1>Log In</h1>
-<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-  <label for="login-name">Username or Email:</label>
-  <input id="login-name" type="text" ngModel name="loginName">
+<mat-card>
+  <mat-card-title>
+    <h1>Log In</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <mat-form-field>
+        <input matInput ngModel #loginName="ngModel" type="text"
+          placeholder="Username or Email" name="loginName"
+          required
+        />
+      </mat-form-field>
 
-  <label for="login-password">Password:</label>
-  <input id="login-password" type="password" ngModel name="password">
+      <mat-form-field>
+        <input matInput ngModel #password="ngModel" type="password"
+          placeholder="Password" name="password"
+          required
+        />
+        <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
+      </mat-form-field>
 
-  <button type="submit">Submit</button>
-</form>
-<a routerLink="/password-reset"><small>Forgot your password?</small></a>
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+
+  </mat-card-content>
+</mat-card>

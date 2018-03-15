@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, NgControl } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthService } from './auth.service';
@@ -50,6 +51,9 @@ import { EvaluationComponent } from './routes/subject/evaluation/evaluation.comp
 import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
 import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
+// Imported modules
+import { MaterialModule } from './_imports/material.module';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,6 +86,8 @@ import { SubjectVerificationComponent } from './routes/subject/subject-verificat
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
     RouterModule.forRoot(ROUTES),
   ],
   providers: [

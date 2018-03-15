@@ -4,6 +4,8 @@ import { AuthRole } from './auth.service';
 import { AuthGuardService as AuthGuard } from './auth-guard.service';
 import { HomeGuardService as HomeGuard } from './home-guard.service';
 import { LoginGuardService as LoginGuard } from './login-guard.service';
+import { ResponseGuardService as ResponseGuard } from './response-guard.service';
+import { VerifyGuardService as VerifyGuard } from './verify-guard.service';
 
 // General
 import { SplashComponent } from './routes/splash/splash.component';
@@ -24,11 +26,10 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
+import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
 
 // Subject
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
-import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
-import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
 
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -39,11 +40,10 @@ export const ROUTES: Routes = [
   { path: '', component: SplashComponent, canActivate: [HomeGuard] },
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
-  { path: 'register-login', component: RegisterLoginComponent, canActivate: [LoginGuard] },
   { path: 'verify',   component: VerifyComponent },
-  { path: 'verification', component: SubjectVerificationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Subject} },
   { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
-  { path: 'programs/:id', component: EvaluationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Subject} },
+  { path: 'programs/:id', component: EvaluationComponent, canActivate: [ResponseGuard, VerifyGuard], data: {requireRole: AuthRole.Subject} },
+  { path: 'programs/client/:id', component: ProgramDetailsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client}},
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },

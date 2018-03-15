@@ -20,7 +20,7 @@ export function loadRoutes() {
   // GET /api/programs/:clientId/:programId
   // auth: CLIENT
   // Get the details and results of a particular program for this client
-  router.get('/:clientId(\\d+)/:programId(\\d+)', auth, (req, res) => {res.status(501).send()});
+  router.get('/client/:programId', auth, programCtrl.getProgramDetails);
 
   // GET /api/programs/:clientId
   // params: page

@@ -23,7 +23,7 @@ export class ProgramDesignComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.requestId = params['id'];
       this.request = this.service.getRequestDetails(this.requestId);
     });
@@ -53,7 +53,6 @@ export class ProgramDesignComponent implements OnInit {
         description: null
       }
       this.service.makeProgram(program, this.requestId).subscribe((result) => {
-        console.log(result);
         this.router.navigateByUrl('/');
       })
     });

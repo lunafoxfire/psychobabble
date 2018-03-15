@@ -11,6 +11,7 @@ import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
 import { RequestsService } from './routes/client/requests/requests.service';
 import { FeedService } from './routes/admin/feed/feed.service';
+import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -36,6 +37,9 @@ import { ClientsComponent } from './routes/admin/clients/clients.component';
 // Client routes
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
+
+// Subject routes
+import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
 
 // Error routes
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -75,6 +79,7 @@ import { MaterialModule } from './_imports/material.module';
     PasswordValidatorDirective,
     ProgramDesignComponent,
     ResponseEvaluationComponent,
+    AudioRecorderComponent,
   ],
   imports: [
     BrowserModule,
@@ -93,6 +98,7 @@ import { MaterialModule } from './_imports/material.module';
     LoginGuardService,
     RequestsService,
     FeedService,
+    AudioRecorderService,
   ],
   bootstrap: [AppComponent]
 })

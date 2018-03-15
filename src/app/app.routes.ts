@@ -25,6 +25,9 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
+// Subject
+import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
+
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
 import { UnauthorizedComponent } from './routes/error/unauthorized/unauthorized.component';
@@ -48,5 +51,6 @@ export const ROUTES: Routes = [
   { path: 'password-reset', component: ResetComponent },
   { path: 'reset/:uid/:prt', component: ChangePasswordComponent },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'record-test', component: AudioRecorderComponent },
   { path: '**', redirectTo: '/not-found' },
 ];

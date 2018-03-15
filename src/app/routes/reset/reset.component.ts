@@ -18,7 +18,6 @@ export class ResetComponent implements OnInit {
 
   public resetSubmit(email) {
     this.auth.passReset(email.value).subscribe((data) => {
-      console.log(data);
     })
   }
 

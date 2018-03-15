@@ -70,6 +70,15 @@ export class ProgramService {
     });
     return thingToReturn;
   }
+
+  public async getDetails(programId, client: User) {
+    let program = await this.programRepo.findOneById(programId);
+    if(program.client.id === client.id) {
+      return program;
+    } else {
+      return null;
+    }
+  }
 }
 
 /** All options required to create a new Program. */

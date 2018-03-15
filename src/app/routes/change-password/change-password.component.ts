@@ -24,16 +24,13 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   public submitNew(newPassword){
-    console.log(this.userId);
     this.auth.makeNewPass(newPassword.value, this.userId, this.token).subscribe((data) => {
-      console.log(data);
       this.router.navigateByUrl('/');
     })
   }
 
   public resend() {
     this.auth.resendPassReset(this.userId).subscribe((data) => {
-      console.log(data);
     })
   }
 }

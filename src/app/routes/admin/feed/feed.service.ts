@@ -25,7 +25,6 @@ export class FeedService {
   }
 
   public makeProgram(program, requestId): Observable<any> {
-    console.log(program);
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;
   }

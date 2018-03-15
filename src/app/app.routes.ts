@@ -25,6 +25,11 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
+// Subject
+import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
+import { RegisterLoginComponent } from './routes/subject/register-login/register-login.component';
+import { SubjectVerificationComponent } from './routes/subject/subject-verification/subject-verification.component';
+
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
 import { UnauthorizedComponent } from './routes/error/unauthorized/unauthorized.component';
@@ -34,8 +39,11 @@ export const ROUTES: Routes = [
   { path: '', component: SplashComponent, canActivate: [HomeGuard] },
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
+  { path: 'register-login', component: RegisterLoginComponent, canActivate: [LoginGuard] },
   { path: 'verify',   component: VerifyComponent },
+  { path: 'verification', component: SubjectVerificationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Subject} },
   { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
+  { path: 'programs/:id', component: EvaluationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Subject} },
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },

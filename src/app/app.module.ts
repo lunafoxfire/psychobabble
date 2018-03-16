@@ -11,6 +11,7 @@ import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
 import { FeedService } from './routes/admin/feed/feed.service';
 import { ClientService } from './routes/client/client.service';
+import { SubjectService } from './routes/subject/subject.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -101,6 +102,7 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
     ClientService,
     ResponseGuardService,
     VerifyGuardService,
+    SubjectService
   ],
   bootstrap: [AppComponent]
 })

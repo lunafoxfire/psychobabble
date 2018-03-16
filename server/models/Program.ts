@@ -23,7 +23,7 @@ export class Program {
   closed: boolean;
 
   /** All videos in the Program's playlist. */
-  @ManyToMany(type => Video, video => video.programs)
+  @ManyToMany(type => Video, video => video.programs, {eager: true})
   @JoinTable()
   videos: Video[];
 

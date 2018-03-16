@@ -64,7 +64,7 @@ export class User {
   clientPrograms: Program[];
 
   /** All responses to Program videos this user has made as a subject. */
-  @OneToMany(type => Response, responses => responses.subject)
+  @OneToMany(type => Response, responses => responses.subject, {eager: true})
   responses: Response[];
 
   /** Generated token to verify this User's email. */

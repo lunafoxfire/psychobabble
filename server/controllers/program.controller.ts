@@ -199,17 +199,18 @@ export class ProgramController {
       }
       if(req.jwt.role === "SUBJECT") {
         let subject = await this.userService.findByIdAsync(req.jwt.id);
-        let programs = await this.programService.getCurrentVideo(req.params.programId, subject);
-        if(programs) {
+        let video = await this.programService.getCurrentVideo(req.params.programId, subject);
+        if(video) {
           res.status(200);
           res.json({
-            programs: programs,
+            video: video,
             message: "Grabbed all the things"
           })
+          return;
         } else {
           res.status(500);
           res.json({
-            message: "Unknown error"
+            message: "All Videos Watched"
           });
           return;
         }

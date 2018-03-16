@@ -1,3 +1,3 @@
 <div *ngFor="let program of (programs | async)?.programs">
-  <a routerLink="client/{{program.programId}}"><small>{{program.programId}}</small></a>
+  <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
 </div>

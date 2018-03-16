@@ -10,6 +10,10 @@ export class Program {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  /** Job title this program is for */
+  @Column()
+  jobTitle: string;
+
   /** Description of the playlist. Nullable. */
   @Column({nullable: true})
   description: string;

@@ -9,6 +9,10 @@ export class ProgramRequest {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  /** Job title the requested program is for */
+  @Column()
+  jobTitle: string;
+
   /** Text describing the requested Program. Nullable. */
   @Column({nullable: true})
   text: string;

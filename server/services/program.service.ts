@@ -29,7 +29,7 @@ export class ProgramService {
       newProgram.videos = videos;
       newProgram.client = programOptions.client;
       newProgram.author = programOptions.author;
-      console.log(newProgram);
+      newProgram.jobTitle = programOptions.jobTitle;
     return this.programRepo.save(newProgram);
   }
 
@@ -47,7 +47,8 @@ export class ProgramService {
         description: program.description,
         client: program.client.username,
         author: program.author.username,
-        programId: program.id
+        programId: program.id,
+        jobTitle: program.jobTitle,
       }
     });
     return thingToReturn;
@@ -112,4 +113,6 @@ export interface NewProgramOptions {
   client: User;
   /** The admin that created this program. */
   author: User;
+  /** Job title this program is for */
+  jobTitle: string;
 }

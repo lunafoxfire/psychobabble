@@ -1,6 +1,7 @@
 <legend>DO THE STUFF WITH THE THINGS</legend>
 
 <form #form="ngForm" (submit)="form.valid && submitRequest(form)">
+  <input type="text" name="job-title" ngModel required placeholder="Job Title">
   <div *ngFor="let skill of (softSkills | async)?.skillArray">
     <input ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}">
     <label for="{{skill.name}}">{{skill.name}}</label>

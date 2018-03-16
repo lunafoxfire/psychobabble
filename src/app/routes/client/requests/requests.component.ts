@@ -46,7 +46,8 @@ export class RequestsComponent implements OnInit {
     let request = {
       nameArray: nameArray,
       details: null,
-      expiration: null
+      expiration: null,
+      jobTitle: null,
     }
     let details;
     Object.keys(form.value).forEach(function(key) {
@@ -55,6 +56,8 @@ export class RequestsComponent implements OnInit {
           request.details = form.value[key];
         } else if(key === "expiration") {
           request.expiration = form.value[key];
+        } else if(key === "job-title") {
+          request.jobTitle = form.value[key];
         } else {
           nameArray.push(key);
         }

@@ -1,6 +1,7 @@
 import 'mocha';
 import * as chai from 'chai';
 import { expect } from 'chai';
+import * as td from 'testdouble';
 import { App } from './../app';
 
 // Documentation:
@@ -12,6 +13,7 @@ export let app;
 
 // Runs before any tests
 before("Initialize app", async function() { // linter can't find 'before' even though it exists?
+  td.reset();
   console.log("Testing startup...\n");
   app = await App.initAsync();
 });

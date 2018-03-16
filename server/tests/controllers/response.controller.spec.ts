@@ -2,26 +2,48 @@ import 'mocha';
 import * as chai from 'chai';
 import { expect } from 'chai';
 import * as td from 'testdouble';
+import { Repository } from 'typeorm';
 import { MockReq, MockRes } from './../../utility/mock-interfaces';
 import { ResponseController } from './../../controllers/response.controller';
 import { ResponseService } from './../../services/response.service';
+import { UserService } from './../../services/user.service';
+import { VideoService } from './../../services/video.service';
+import { ProgramService } from './../../services/program.service';
+import { Response } from './../../models/Response';
+import { User } from './../../models/User';
+import { Video } from './../../models/Video';
+import { Program } from './../../models/Program';
 import { RoleType } from './../../models/Role';
 
-describe("ResponseController", function() {
+describe.only("ResponseController", function() {
   let responseController: ResponseController;
   let responseService: ResponseService;
+  let userService: UserService;
+  let videoService: VideoService;
+  let programService: ProgramService;
   let req: MockReq;
   let res: MockRes;
 
   beforeEach(function() {
     responseService = td.object<ResponseService>(new ResponseService);
-    responseController = new ResponseController(responseService);
+    userService = td.object<UserService>(new UserService);
+    videoService = td.object<VideoService>(new VideoService);
+    programService = td.object<ProgramService>(new ProgramService);
+    responseController = new ResponseController({
+      responseService: responseService,
+      userService: userService,
+      videoService: videoService,
+      programService: programService
+    });
     req = new MockReq();
     res = new MockRes();
   });
 
   afterEach(function() {
     td.reset();
+    responseService = undefined;
+    userService = undefined;
+    videoService = undefined;
     responseService = undefined;
     responseController = undefined;
     req = undefined;
@@ -38,6 +60,11 @@ describe("ResponseController", function() {
   });
 
   describe("beginResponseProcess method", async function() {
+    let resultResponse: Response;
+    let resultSubject: User;
+    let resultVideo: Video;
+    let resultProgram: Program;
+
     beforeEach(function() {
       req.jwt = {
         id: "abcde",
@@ -47,6 +74,32 @@ describe("ResponseController", function() {
         videoId: "video123",
         programId: "program123"
       };
+      resultSubject = td.object<User>(new User);
+      resultSubject.id = "subject123";
+      resultVideo = td.object<Video>(new Video);
+      resultProgram = td.object<Program>(new Program);
+      resultResponse = td.object<Response>(new Response);
+      resultResponse.id = "response123";
+      resultResponse.subject = resultSubject;
+
+      responseService.repo = td.object<Repository<Response>>(new Repository<Response>());
+      userService.repo = td.object<Repository<User>>(new Repository<User>());
+      videoService.repo = td.object<Repository<Video>>(new Repository<Video>());
+      programService.repo = td.object<Repository<Program>>(new Repository<Program>());
+
+      td.when(userService.repo.findOneById(req.jwt.id))
+        .thenResolve(resultSubject);
+      td.when(videoService.repo.findOneById(req.body.videoId))
+        .thenResolve(resultVideo);
+      td.when(programService.repo.findOneById(req.body.programId))
+        .thenResolve(resultProgram);
+      td.when(responseService.saveNewAsync(td.matchers.anything()))
+        .thenResolve(resultResponse);
+      td.when(responseService.generateAudioUrlAsync(resultResponse, td.matchers.anything()))
+        .thenDo(async () => {
+          resultResponse.audio_url = "www.audio.com";
+          return "www.signedurl.com"
+        });
     });
 
     it("should return 401 status if jwt is missing", async function() {
@@ -106,15 +159,30 @@ describe("ResponseController", function() {
 
     it("should return the new response's id on success", async function() {
       await responseController.beginResponseProcess(req, res);
-      expect(res.json().responseId).to.equal("qwerty");
+      expect(res.json().response.id).to.equal("response123");
     });
 
-    it("should return the AWS S3 link to save the audio recording", async function() {
+    it("should return the new response's audioUrl on success", async function() {
       await responseController.beginResponseProcess(req, res);
-      expect(res.json().audioUrl).to.equal("http://testurl.com");
+      expect(res.json().response.audioUrl).to.equal("www.audio.com");
+    });
+
+    it("should return the signed S3 bucket url on success", async function() {
+      await responseController.beginResponseProcess(req, res);
+      expect(res.json().aws.signedUrl).to.equal("www.signedurl.com");
+    });
+
+    it("should return the aws header params on success", async function() {
+      await responseController.beginResponseProcess(req, res);
+      expect(res.json().aws.acl).to.exist;
+      expect(res.json().aws.bucket).to.exist;
+      expect(res.json().aws.key).to.exist;
+      expect(res.json().aws.contentType).to.exist;
     });
 
     it("should return 500 status if an error is thrown", async function() {
+      td.when(responseService.saveNewAsync(td.matchers.anything()))
+        .thenThrow(new Error("test error"));
       await responseController.beginResponseProcess(req, res);
       expect(res.status()).to.equal(500);
       expect(res.json().message).to.exist;

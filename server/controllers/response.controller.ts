@@ -6,14 +6,24 @@ import { VideoService } from './../services/video.service';
 import { ProgramService } from './../services/program.service';
 import { RoleType } from './../models/Role';
 
-export class ResponseController {
+export interface ResponseControllerDependencies {
   responseService: ResponseService;
   userService: UserService;
   videoService: VideoService;
   programService: ProgramService;
+}
 
-  constructor(responseService: ResponseService = null) {
-    this.responseService = responseService || new ResponseService();
+export class ResponseController {
+  private responseService: ResponseService;
+  private userService: UserService;
+  private videoService: VideoService;
+  private programService: ProgramService;
+
+  constructor(dependencies: ResponseControllerDependencies = null) {
+    this.responseService = dependencies ? dependencies.responseService : new ResponseService();
+    this.userService = dependencies ? dependencies.userService : new UserService();
+    this.videoService = dependencies ? dependencies.videoService : new VideoService();
+    this.programService = dependencies ? dependencies.programService : new ProgramService();
     fixThis(this, ResponseController);
   }
 
@@ -32,20 +42,40 @@ export class ResponseController {
         res.json({
           message: "Unauthorized"
         });
+        return;
       }
       let newResponse = await this.responseService.saveNewAsync({
         audio_url: null,
-        subject: await this.userService.findByIdAsync(req.jwt.id),
-        video: await this.videoService.findByIdAsync(req.body.videoId),
-        program: await this.programService.findByIdAsync(req.body.programId),
+        subject: await this.userService.repo.findOneById(req.jwt.id),
+        video: await this.videoService.repo.findOneById(req.body.videoId),
+        program: await this.programService.repo.findOneById(req.body.programId),
       });
-      await newResponse.generateAudioUrlAsync();
-      await this.responseService.saveAsync();
+
+      let awsParams = {
+        ACL: "public-read",
+        Bucket: process.env.S3_BUCKET_NAME,
+        ContentType: 'audio/wav',
+        Expires: 100,
+        Key: `subjects/${newResponse.subject.id}/audio/${newResponse.id}.wav`,
+      };
+
+      let signedUrl = await this.responseService.generateAudioUrlAsync(newResponse, awsParams);
       res.status(200);
       res.json({
         message: "New response initialized",
-        audioUrl: newResponse.audio_url
-      })
+        response: {
+          id: newResponse.id,
+          audioUrl: newResponse.audio_url
+        },
+        aws: {
+          signedUrl: signedUrl,
+          acl: awsParams.ACL,
+          bucket: awsParams.Bucket,
+          key: awsParams.Key,
+          contentType: awsParams.ContentType
+        }
+      });
+      return;
     }
     catch (err) {
       console.logDev(err);

@@ -50,7 +50,8 @@ export class ProgramDesignComponent implements OnInit {
         videos: this.programVideos,
         client: data.request.client,
         expiration: data.request.unixExpiration,
-        description: null
+        description: null,
+        jobTitle: data.request.jobTitle,
       }
       this.service.makeProgram(program, this.requestId).subscribe((result) => {
         this.router.navigateByUrl('/');

@@ -35,6 +35,7 @@ export class ProgramRequestService {
       newRequest.softSkills = softSkills;
       newRequest.expiration = requestOptions.expiration;
       newRequest.closed = false;
+      newRequest.jobTitle = requestOptions.jobTitle;
     return this.requestRepo.save(newRequest);
   }
 
@@ -51,7 +52,8 @@ export class ProgramRequestService {
     return requests.map(function(request) {
       return {
         client: request.client.username,
-        requestId: request.id
+        requestId: request.id,
+        jobTitle: request.jobTitle
       }
     });
   }
@@ -70,7 +72,8 @@ export class ProgramRequestService {
       unixExpiration: request.expiration,
       text: request.text,
       client: request.client.username,
-      softSkills: request.softSkills
+      softSkills: request.softSkills,
+      jobTitle: request.jobTitle
     }
     return thingToReturn;
   }
@@ -93,4 +96,6 @@ export interface NewProgramRequestOptions {
   expiration?: number;
   /** Soft Skills to be included in the requested Program. Optional. */
   softSkills?: number[];
+  /** Job title that the requested program is for */
+  jobTitle: string;
 }

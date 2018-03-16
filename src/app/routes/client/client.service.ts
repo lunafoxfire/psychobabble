@@ -14,8 +14,8 @@ export class ClientService {
     return result;
   }
 
-  public makeRequest(nameArray): Observable<any> {
-    let result = this.auth.post('/api/program-requests/make-request', nameArray);
+  public makeRequest(request): Observable<any> {
+    let result = this.auth.post('/api/program-requests/make-request', request);
     return result;
   }
 

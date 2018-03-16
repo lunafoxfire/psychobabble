@@ -21,6 +21,9 @@ export class FeedComponent implements OnInit {
   ngOnInit() {
     this.programs = this.service.getAllPrograms(this.page, this.resultCount);
     this.requests = this.service.getAllRequests(this.page, this.resultCount);
+    this.requests.subscribe((data) => {
+      console.log(data);
+    })
   }
 
   showPrograms() {

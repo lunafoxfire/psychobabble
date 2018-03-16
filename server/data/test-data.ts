@@ -84,41 +84,49 @@ const TestSubjects: UserRegistrationOptions[] = [
 // =========== Videos =========== //
 const TestVideos = [
   {
+    title: "Yeeee",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yee.mp4",
     description: "Yeeeeee",
     tags: [TagType.Customer, TagType.Angry, TagType.Criticism]
   },
   {
+    title: "Something",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/testvideo2.mp4",
     description: "A man with a mission",
     tags: [TagType.Angry, TagType.Pressure]
   },
   {
+    title: "Anime",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/anime.mp4",
     description: "anime is real",
     tags: [TagType.Self]
   },
   {
+    title: "Congrats",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/congrats.mp4",
     description: "you did it",
     tags: [TagType.Customer, TagType.Pressure]
   },
   {
+    title: "Friends",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/friends.mp4",
     description: "blank description",
     tags: []
   },
   {
+    title: "Hello",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/hello.mp4",
     description: "is it me you're looking for?",
     tags: [TagType.Customer, TagType.Angry, TagType.Criticism, TagType.Pressure, TagType.Self]
   },
   {
+    title: "Nuts",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/nuts.mp4",
     description: "",
     tags: [TagType.Pressure]
   },
   {
+    title: "Stats",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/stats.mp4",
     description: null,
     tags: [TagType.Pressure, TagType.Angry]
@@ -128,24 +136,28 @@ const TestVideos = [
 // =========== Programs =========== //
 const TestPrograms = [
   {
+    jobTitle: "Doot dooter",
     description: "Test Program 1",
     expiration: null,
     videoIndices: [0, 1, 2, 3],
     clientIndex: 0
   },
   {
+    jobTitle: "Spoon collector",
     description: "Test Program 2",
     expiration: null,
     videoIndices: [4, 5, 6, 7],
     clientIndex: 1
   },
   {
+    jobTitle: "Astronaut",
     description: "Test Program 3",
     expiration: null,
     videoIndices: [1, 7, 4],
     clientIndex: 1
   },
   {
+    jobTitle: "Cat",
     description: "Test Program 4",
     expiration: null,
     videoIndices: [5],
@@ -153,131 +165,134 @@ const TestPrograms = [
   },
 ];
 
-// =========== Programs =========== //
+// =========== Responses =========== //
 const TestReponses = [
-  {
-    audio_url: "",
-    subjectIndex: 0,
-    videoIndex: 0,
-    programIndex: 0
-  },
-  {
-    audio_url: "",
-    subjectIndex: 0,
-    videoIndex: 1,
-    programIndex: 0
-  },
-  {
-    audio_url: "",
-    subjectIndex: 0,
-    videoIndex: 2,
-    programIndex: 0
-  },
-  {
-    audio_url: "",
-    subjectIndex: 0,
-    videoIndex: 3,
-    programIndex: 0
-  },
-  {
-    audio_url: "",
-    subjectIndex: 1,
-    videoIndex: 4,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 1,
-    videoIndex: 5,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 1,
-    videoIndex: 6,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 1,
-    videoIndex: 7,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 2,
-    videoIndex: 1,
-    programIndex: 2
-  },
-  {
-    audio_url: "",
-    subjectIndex: 2,
-    videoIndex: 4,
-    programIndex: 2
-  },
-  {
-    audio_url: "",
-    subjectIndex: 2,
-    videoIndex: 7,
-    programIndex: 2
-  },
-  {
-    audio_url: "",
-    subjectIndex: 3,
-    videoIndex: 4,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 3,
-    videoIndex: 5,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 3,
-    videoIndex: 6,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 3,
-    videoIndex: 7,
-    programIndex: 1
-  },
-  {
-    audio_url: "",
-    subjectIndex: 4,
-    videoIndex: 1,
-    programIndex: 2
-  },
-  {
-    audio_url: "",
-    subjectIndex: 4,
-    videoIndex: 4,
-    programIndex: 2
-  },
-  {
-    audio_url: "",
-    subjectIndex: 4,
-    videoIndex: 7,
-    programIndex: 2
-  },
+//   {
+//     audio_url: "",
+//     subjectIndex: 0,
+//     videoIndex: 0,
+//     programIndex: 0
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 0,
+//     videoIndex: 1,
+//     programIndex: 0
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 0,
+//     videoIndex: 2,
+//     programIndex: 0
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 0,
+//     videoIndex: 3,
+//     programIndex: 0
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 1,
+//     videoIndex: 4,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 1,
+//     videoIndex: 5,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 1,
+//     videoIndex: 6,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 1,
+//     videoIndex: 7,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 2,
+//     videoIndex: 1,
+//     programIndex: 2
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 2,
+//     videoIndex: 4,
+//     programIndex: 2
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 2,
+//     videoIndex: 7,
+//     programIndex: 2
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 3,
+//     videoIndex: 4,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 3,
+//     videoIndex: 5,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 3,
+//     videoIndex: 6,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 3,
+//     videoIndex: 7,
+//     programIndex: 1
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 4,
+//     videoIndex: 1,
+//     programIndex: 2
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 4,
+//     videoIndex: 4,
+//     programIndex: 2
+//   },
+//   {
+//     audio_url: "",
+//     subjectIndex: 4,
+//     videoIndex: 7,
+//     programIndex: 2
+//   },
 ];
 
-// =========== Programs =========== //
+// =========== ProgramRequests =========== //
 const TestProgramRequests = [
   {
+    jobTitle: "Pizza maker",
     clientIndex: 0,
     text: "Make me a pizza!",
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills]
   },
   {
+    jobTitle: "Angery tree stump",
     clientIndex: 0,
     text: "Zoombinis!",
     softSkills: [SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
   },
   {
+    jobTitle: "Paladin LV99",
     clientIndex: 1,
     text: "Find good employee pl0x",
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills, SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
@@ -330,6 +345,7 @@ export class TestData {
       let id = await videoService.createEmptyVideo();
       this.videos.push(await videoService.uploadAsync({
         id: id,
+        title: video.title,
         url: video.url,
         description: video.description,
         tags: video.tags
@@ -340,6 +356,7 @@ export class TestData {
     console.log("Generating programs...");
     await Promise.all(TestPrograms.map(async (program) => {
       let newProgram = await programService.saveNewAsync({
+        jobTitle: program.jobTitle,
         description: program.description,
         expiration: program.expiration,
         videos: program.videoIndices.map(index => this.videos[index]),
@@ -366,10 +383,15 @@ export class TestData {
 
     console.log("Generating program requests...");
     await Promise.all(TestProgramRequests.map(async (request) => {
+      let softSkillIds = await Promise.all(request.softSkills.map(async (softSkillName) => {
+        let softSkill = await softSkillService.findByNameAsync(softSkillName);
+        return softSkill.id;
+      }));
       let newRequest = await requestService.saveNewAsync({
+        jobTitle: request.jobTitle,
         client: this.clients[request.clientIndex],
         text: request.text,
-        softSkills: request.softSkills
+        softSkills: softSkillIds
       });
       this.requests.push(newRequest);
     }));

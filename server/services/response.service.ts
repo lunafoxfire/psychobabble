@@ -10,7 +10,7 @@ export class ResponseService {
   constructor(responseRepo: Repository<Response> = null) {
     this.responseRepo = responseRepo || getRepository(Response);
   }
-
+  
   /** Saves a new Response to the database. */
   public async saveNewAsync(responseOptions: NewResponseOptions) {
     let newResponse = new Response();

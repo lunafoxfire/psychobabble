@@ -43,6 +43,10 @@ describe("ResponseController", function() {
         id: "abcde",
         role: RoleType.Client
       };
+      req.body = {
+        videoId: "video123",
+        programId: "program123"
+      };
     });
 
     it("should return 401 status if jwt is missing", async function() {
@@ -60,7 +64,28 @@ describe("ResponseController", function() {
     });
 
     it("should return 400 status if jwt is missing role", async function() {
-      req.jwt = undefined;
+      req.jwt.role = undefined;
+      await responseController.beginResponseProcess(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if body is missing", async function() {
+      req.body = undefined;
+      await responseController.beginResponseProcess(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if body is missing videoId", async function() {
+      req.body.videoId = undefined;
+      await responseController.beginResponseProcess(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if body is missing programId", async function() {
+      req.body.programId = undefined;
       await responseController.beginResponseProcess(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;

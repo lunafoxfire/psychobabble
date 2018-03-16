@@ -143,7 +143,6 @@ export class ProgramRequestController {
         });
         return;
       } else {
-        console.log(req.body);
         let expiration = new Date(req.body.expiration).getTime();
         let details = req.body.details;
         let skillIds = req.body.nameArray.map(function(id) {

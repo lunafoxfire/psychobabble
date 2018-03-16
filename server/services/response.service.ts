@@ -6,11 +6,12 @@ import { Program } from './../models/Program';
 
 export class ResponseService {
   private responseRepo: Repository<Response>;
+  public repo = this.responseRepo;
 
   constructor(responseRepo: Repository<Response> = null) {
     this.responseRepo = responseRepo || getRepository(Response);
   }
-  
+
   /** Saves a new Response to the database. */
   public async saveNewAsync(responseOptions: NewResponseOptions) {
     let newResponse = new Response();

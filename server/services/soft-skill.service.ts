@@ -3,6 +3,7 @@ import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 
 export class SoftSkillService {
   private softSkillRepo: Repository<SoftSkill>;
+  public repo = this.softSkillRepo;
 
   constructor(softSkillRepo: Repository<SoftSkill> = null) {
     this.softSkillRepo = softSkillRepo || getRepository(SoftSkill);

@@ -9,6 +9,7 @@ export class ProgramService {
   private programRepo: Repository<Program>;
   private videoRepo: Repository<Video>;
   private userService: UserService;
+  public repo = this.programRepo;
 
   constructor(programRepo: Repository<Program> = null, videoRepo: Repository<Video> = null, userService: UserService = null) {
     this.programRepo = programRepo || getRepository(Program);

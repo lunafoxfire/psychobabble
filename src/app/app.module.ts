@@ -55,6 +55,7 @@ import { EvaluationComponent } from './routes/subject/evaluation/evaluation.comp
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
 import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
+import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { ProgramDetailsComponent } from './routes/client/programs/program-detail
     ProgramDesignComponent,
     ResponseEvaluationComponent,
     EvaluationComponent,
-    ProgramDetailsComponent
+    ProgramDetailsComponent,
+    MakeRequestComponent
   ],
   imports: [
     BrowserModule,

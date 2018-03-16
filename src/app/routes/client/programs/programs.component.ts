@@ -16,6 +16,9 @@ export class ProgramsComponent implements OnInit {
 
   ngOnInit() {
     this.programs = this.service.getClientPrograms();
+    this.programs.subscribe((data) => {
+      console.log(data);
+    })
   }
 
 }

@@ -19,6 +19,11 @@ export class AdminService {
     return result;
   }
 
+  public getClients(page, resultCount): Observable<any> {
+    let result = this.auth.get('api/users/get-clients', {page: page, resultCount: resultCount});
+    return result;
+  }
+
   public getRequestDetails(requestId): Observable<any> {
     let result = this.auth.get('api/program-requests/'+requestId);
     return result;
@@ -28,4 +33,5 @@ export class AdminService {
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;
   }
+
 }

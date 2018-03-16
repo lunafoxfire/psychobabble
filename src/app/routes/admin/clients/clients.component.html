@@ -1,3 +1,6 @@
-<p>
-  clients works!
-</p>
+<div *ngFor="let client of (clients | async)?.clients">
+  <div>
+    <h3>{{client.username}}</h3>
+    <p>{{client.email}}</p>
+  </div>
+</div>

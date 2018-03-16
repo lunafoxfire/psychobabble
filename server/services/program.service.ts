@@ -66,7 +66,8 @@ export class ProgramService {
     let thingToReturn =  programs.map(function(program) {
       return {
         description: program.description,
-        programId: program.id
+        programId: program.id,
+        jobTitle: program.jobTitle,
       }
     });
     return thingToReturn;

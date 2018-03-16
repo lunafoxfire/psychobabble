@@ -57,6 +57,25 @@ export class ProgramRequestService {
       }
     });
   }
+  public async getPendingClientRequests(page, resultCount, client) {
+    let requests = await this.requestRepo.find({
+      where: {
+        "client": client.id,
+        "closed": "false"
+      },
+      order: {
+        "dateCreated": "ASC"
+      },
+      skip: (page*resultCount),
+      take: resultCount });
+    return requests.map(function(request) {
+      return {
+        client: request.client.username,
+        requestId: request.id,
+        jobTitle: request.jobTitle
+      }
+    });
+  }
 
   public async getRequestDetails(requestId) {
     let request =  await this.requestRepo.findOneById(requestId);

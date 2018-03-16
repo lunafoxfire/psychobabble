@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AdminService } from './../admin.service';
 
 @Component({
   selector: 'clients',

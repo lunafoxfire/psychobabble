@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthService } from './auth.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
-import { FeedService } from './routes/admin/feed/feed.service';
+import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
 
@@ -102,7 +102,7 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
     AuthGuardService,
     HomeGuardService,
     LoginGuardService,
-    FeedService,
+    AdminService,
     ClientService,
     ResponseGuardService,
     VerifyGuardService,

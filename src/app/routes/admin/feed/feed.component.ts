@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FeedService } from './feed.service';
+import { AdminService } from './../admin.service';
 
 @Component({
   selector: 'feed',
@@ -15,15 +15,12 @@ export class FeedComponent implements OnInit {
   public resultCount: number = 10;
 
   constructor(
-    public service: FeedService
+    public service: AdminService
   ) { }
 
   ngOnInit() {
     this.programs = this.service.getAllPrograms(this.page, this.resultCount);
     this.requests = this.service.getAllRequests(this.page, this.resultCount);
-    this.requests.subscribe((data) => {
-      console.log(data);
-    })
   }
 
   showPrograms() {

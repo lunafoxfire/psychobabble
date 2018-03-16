@@ -143,17 +143,16 @@ export class ProgramRequestController {
         });
         return;
       } else {
-        console.log(req.body);
         let expiration = new Date(req.body.expiration).getTime();
-        let details = req.body.details;
         let skillIds = req.body.nameArray.map(function(id) {
           return parseInt(id);
         });
         let result = await this.programRequestService.saveNewAsync({
           client: await this.userService.findByIdAsync(req.jwt.id),
           expiration: expiration,
-          text: details,
-          softSkills: skillIds
+          text: req.body.details,
+          softSkills: skillIds,
+          jobTitle: req.body.jobTitle
         });
         if(result) {
           res.status(200);

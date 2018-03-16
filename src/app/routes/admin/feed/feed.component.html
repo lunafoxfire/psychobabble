@@ -2,13 +2,13 @@
 <div *ngIf="toggle">
     Programs
     <div *ngFor="let program of (programs | async)?.programs">
-      <a routerLink="programs/{{program.programId}}">{{program.client}}</a>
-      <p><small>{{program.author}}</small></p>
+      <a routerLink="programs/{{program.programId}}">{{program.jobTitle}}</a>
+      <p><small>Client: {{program.client}}, Author: {{program.author}}</small></p>
     </div>
 </div>
 <div *ngIf="!toggle">
     Requests
     <div *ngFor="let request of (requests | async)?.requests">
-      <a routerLink="requests/{{request.requestId}}">{{request.client}}</a>
+      <a routerLink="requests/{{request.requestId}}">{{request.jobTitle}} for {{request.client}}</a>
     </div>
 </div>

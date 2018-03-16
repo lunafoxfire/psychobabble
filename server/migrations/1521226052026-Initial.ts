@@ -1,15 +1,15 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class Initial1521046192611 implements MigrationInterface {
+export class Initial1521226052026 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
         await queryRunner.query(`CREATE TABLE "roles" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "soft_skills" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "program_requests" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "text" character varying, "dateCreated" bigint NOT NULL, "expiration" bigint, "closed" boolean NOT NULL, "clientId" uuid, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "program_requests" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "jobTitle" character varying NOT NULL, "text" character varying, "dateCreated" bigint NOT NULL, "expiration" bigint, "closed" boolean NOT NULL, "clientId" uuid, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "tags" ("id" SERIAL NOT NULL, "name" character varying NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "responses" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "audio_url" character varying NOT NULL, "text_version" character varying, "score" integer, "reviewed" boolean NOT NULL, "subjectId" uuid, "videoId" uuid, "programId" uuid, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "videos" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "title" character varying, "url" character varying, "description" character varying, PRIMARY KEY("id"))`);
-        await queryRunner.query(`CREATE TABLE "programs" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "description" character varying, "expiration" bigint, "closed" boolean NOT NULL, "clientId" uuid, "authorId" uuid, PRIMARY KEY("id"))`);
+        await queryRunner.query(`CREATE TABLE "programs" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "jobTitle" character varying NOT NULL, "description" character varying, "expiration" bigint, "closed" boolean NOT NULL, "clientId" uuid, "authorId" uuid, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "validation_tokens" ("id" SERIAL NOT NULL, "code" character varying NOT NULL, "expiration" bigint NOT NULL, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "username" character varying NOT NULL, "normalized_username" character varying NOT NULL, "email" character varying, "normalized_email" character varying, "salt" character varying NOT NULL, "hash" character varying NOT NULL, "date_created" bigint NOT NULL, "validated" boolean NOT NULL, "roleId" integer, "validationTokenId" integer, "passResetTokenId" integer, PRIMARY KEY("id"))`);
         await queryRunner.query(`CREATE TABLE "pass_reset_tokens" ("id" SERIAL NOT NULL, "code" character varying NOT NULL, "expiration" bigint NOT NULL, PRIMARY KEY("id"))`);

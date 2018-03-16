@@ -3,6 +3,7 @@ import { Role, RoleType } from './../models/Role';
 
 export class RoleService {
   private roleRepo: Repository<Role>;
+  public repo = this.roleRepo;
 
   constructor(roleRepo: Repository<Role> = null) {
     this.roleRepo = roleRepo || getRepository(Role);

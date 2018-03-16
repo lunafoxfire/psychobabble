@@ -13,6 +13,7 @@ export interface ProgramRequestServiceDependencies {
 export class ProgramRequestService {
   private requestRepo: Repository<ProgramRequest>;
   private softSkillService: SoftSkillService;
+  public repo = this.requestRepo;
 
   constructor(dependencies: ProgramRequestServiceDependencies = null) {
     this.requestRepo = dependencies ? dependencies.requestRepo : getRepository(ProgramRequest);

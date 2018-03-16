@@ -12,6 +12,7 @@ import { VideoService } from './routes/admin/videos/video.service';
 import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
+import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -39,6 +40,9 @@ import { ClientsComponent } from './routes/admin/clients/clients.component';
 // Client routes
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
+
+// Subject routes
+import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
 
 // Error routes
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -85,7 +89,8 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
     EvaluationComponent,
     ProgramDetailsComponent,
     MakeRequestComponent,
-    RequestDetailsComponent
+    RequestDetailsComponent,
+    AudioRecorderComponent,
   ],
   imports: [
     BrowserModule,
@@ -106,7 +111,8 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
     ClientService,
     ResponseGuardService,
     VerifyGuardService,
-    SubjectService
+    SubjectService,
+    AudioRecorderService,
   ],
   bootstrap: [AppComponent]
 })

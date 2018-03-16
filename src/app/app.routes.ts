@@ -33,6 +33,9 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
 // Subject
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
 
+// Subject
+import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
+
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
 import { UnauthorizedComponent } from './routes/error/unauthorized/unauthorized.component';
@@ -60,5 +63,6 @@ export const ROUTES: Routes = [
   { path: 'password-reset', component: ResetComponent },
   { path: 'reset/:uid/:prt', component: ChangePasswordComponent },
   { path: 'not-found', component: NotFoundComponent },
+  { path: 'record-test', component: AudioRecorderComponent },
   { path: '**', redirectTo: '/not-found' },
 ];

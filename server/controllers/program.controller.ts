@@ -12,7 +12,6 @@ export class ProgramController {
     this.programService = programService || new ProgramService();
     this.programRequestService = programRequestService || new ProgramRequestService();
     this.userService = userService || new UserService();
-
     fixThis(this, ProgramController);
   }
 

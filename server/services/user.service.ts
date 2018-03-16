@@ -50,4 +50,25 @@ export class UserService {
     let adminExists = await this.userRepo.findOne({role: adminRole.id}); // Ignore this type error.
     return (adminExists !== undefined && adminExists !== null);
   }
+
+  /** Gets all clients for admin (paginated) */
+  public async getClients(page, resultCount) {
+    let clientRole = await this.roleService.findByNameAsync(RoleType.Client);
+    let clients = await this.userRepo.find({
+      where: {
+        "role": clientRole.id
+      },
+      order: {
+        "username": "ASC"
+      },
+      skip: (page*resultCount),
+      take: resultCount });
+    return clients.map(function(client) {
+      return {
+        username: client.username,
+        clientId: client.id,
+        email: client.email,
+      }
+    });
+  }
 }

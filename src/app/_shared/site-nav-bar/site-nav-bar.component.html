@@ -1,8 +1,8 @@
 <!-- TODO: Change content via authentication -->
 <mat-toolbar color="primary">
   <div class="nav-links-right">
-    <a mat-button routerLink="/">Home</a>
-    <a mat-button *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Playlists</a>
+    <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/">Home</a>
+    <a mat-button *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Programs</a>
     <a mat-button *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
 
     <a mat-button *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>

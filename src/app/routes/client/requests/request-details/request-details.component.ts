@@ -22,9 +22,6 @@ export class RequestDetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.requestId = params['id'];
       this.request = this.service.getRequestDetails(this.requestId);
-      this.request.subscribe((data) => {
-        console.log(data);
-      })
     })
   }
 

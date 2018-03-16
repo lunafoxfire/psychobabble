@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FeedService } from './../feed.service';
+import { AdminService } from './../../admin.service';
 import { VideoService } from './../../videos/video.service';
 import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class ProgramDesignComponent implements OnInit {
   public requestId: string;
 
   constructor(
-    private service: FeedService,
+    private service: AdminService,
     private videoService: VideoService,
     public route: ActivatedRoute,
     public router: Router

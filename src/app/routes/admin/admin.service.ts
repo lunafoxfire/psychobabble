@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../auth.service';
 
 @Injectable()
-export class FeedService {
+export class AdminService {
 
   constructor(
     private auth: AuthService
@@ -19,6 +19,11 @@ export class FeedService {
     return result;
   }
 
+  public getClients(page, resultCount): Observable<any> {
+    let result = this.auth.get('api/users/get-clients', {page: page, resultCount: resultCount});
+    return result;
+  }
+
   public getRequestDetails(requestId): Observable<any> {
     let result = this.auth.get('api/program-requests/'+requestId);
     return result;
@@ -28,4 +33,5 @@ export class FeedService {
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;
   }
+
 }

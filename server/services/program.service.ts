@@ -71,6 +71,10 @@ export class ProgramService {
     return thingToReturn;
   }
 
+  public async getCurrentVideo(programId, subject: User) {
+
+  }
+
   public async getDetails(programId, client: User) {
     let program = await this.programRepo.findOneById(programId);
     if(program.client.id === client.id) {

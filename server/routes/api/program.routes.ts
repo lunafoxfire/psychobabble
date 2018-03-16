@@ -17,6 +17,11 @@ export function loadRoutes() {
   // Get all programs for clients (paginated)
   router.get('/get-all', auth, programCtrl.getAllPrograms);
 
+  // GET /api/programs/:programId/get-video
+  // auth: SUBJECT
+  // Get a video for subject evaluation (paginated)
+  router.get(':programId/get-video', auth, programCtrl.getCurrentVideo);
+
   // GET /api/programs/:clientId/:programId
   // auth: CLIENT
   // Get the details and results of a particular program for this client

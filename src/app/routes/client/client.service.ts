@@ -28,4 +28,9 @@ export class ClientService {
     let result = this.auth.get('/api/programs/client/'+programId);
     return result;
   }
+
+  public getClientRequests(page, resultCount): Observable<any> {
+    let result = this.auth.get('/api/program-requests/client/pending/', {page: page, resultCount: resultCount});
+    return result;
+  }
 }

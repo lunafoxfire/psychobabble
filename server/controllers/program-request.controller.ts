@@ -63,6 +63,49 @@ export class ProgramRequestController {
     }
   }
 
+  public async getPendingClientRequests(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "CLIENT") {
+        let client = await this.userService.findByIdAsync(req.jwt.id)
+        let requests = await this.programRequestService.getPendingClientRequests(req.body.page, req.body.resultCount, client);
+        if(requests) {
+          res.status(200);
+          res.json({
+            requests: requests,
+            message: "Grabbed all the things"
+          })
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async getRequestDetails(req, res) {
     try {
       if(!req.jwt) {

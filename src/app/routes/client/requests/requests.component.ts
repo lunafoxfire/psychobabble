@@ -8,12 +8,17 @@ import { ClientService } from './../client.service';
   styleUrls: ['./requests.component.scss']
 })
 export class RequestsComponent implements OnInit {
-
+  public requests: Observable<any>;
+  public page: number = 0;
+  public resultCount: number = 10;
   constructor(
     public service: ClientService
   ) { }
 
   ngOnInit() {
+    this.requests = this.service.getClientRequests(this.page, this.resultCount);
+    this.requests.subscribe((data) => {
+      console.log(data);
+    })
   }
-
 }

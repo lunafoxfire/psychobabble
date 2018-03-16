@@ -23,11 +23,11 @@ export function loadRoutes() {
   // Route for a client to submit a new request
   router.post('/make-request', auth, requestCtrl.makeProgramRequest);
 
-  // GET /api/program-requests/pending/:clientId
+  // GET /api/program-requests/client/pending/
   // params: page
   // auth: CLIENT
   // List all unfufilled requests for client feed, by page
-  router.get('/pending/:clientId(\\d+)', auth, (req, res) => {res.status(501).send()});
+  router.get('/client/pending', auth, requestCtrl.getPendingClientRequests);
 
   // POST /api/program-requests/:clientId/:requestId/cancel
   // auth: CLIENT

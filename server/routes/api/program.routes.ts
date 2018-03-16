@@ -20,9 +20,9 @@ export function loadRoutes() {
   // GET /api/programs/:programId/get-video
   // auth: SUBJECT
   // Get a video for subject evaluation (paginated)
-  router.get(':programId/get-video', auth, programCtrl.getCurrentVideo);
+  router.get('/:programId/get-video', auth, programCtrl.getCurrentVideo);
 
-  // GET /api/programs/:clientId/:programId
+  // GET /api/programs/client/:programId
   // auth: CLIENT
   // Get the details and results of a particular program for this client
   router.get('/client/:programId', auth, programCtrl.getProgramDetails);

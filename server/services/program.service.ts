@@ -72,7 +72,22 @@ export class ProgramService {
   }
 
   public async getCurrentVideo(programId, subject: User) {
-
+    let program = await this.programRepo.findOneById(programId);
+    let video = null;
+    for(let i = 0; i < program.videos.length; i++) {
+      let match = false;
+      for(let j = 0; j < subject.responses.length; i++) {
+        if(subject.responses[j].video.id === program.videos[i].id) {
+          match = true;
+          break;
+        }
+      }
+      if(!match) {
+        video = program.videos[i];
+        break;
+      }
+    }
+    return video;
   }
 
   public async getDetails(programId, client: User) {

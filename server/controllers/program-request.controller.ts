@@ -63,6 +63,49 @@ export class ProgramRequestController {
     }
   }
 
+  public async getPendingClientRequests(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "CLIENT") {
+        let client = await this.userService.findByIdAsync(req.jwt.id)
+        let requests = await this.programRequestService.getPendingClientRequests(req.body.page, req.body.resultCount, client);
+        if(requests) {
+          res.status(200);
+          res.json({
+            requests: requests,
+            message: "Grabbed all the things"
+          })
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async getRequestDetails(req, res) {
     try {
       if(!req.jwt) {
@@ -73,6 +116,49 @@ export class ProgramRequestController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
+        let request = await this.programRequestService.getRequestDetails(req.params.requestId);
+        if(request) {
+          res.status(200);
+          res.json({
+            request: request,
+            message: "Grabbed all the things"
+          })
+          return;
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
+  public async getClientRequestDetails(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "CLIENT") {
         let request = await this.programRequestService.getRequestDetails(req.params.requestId);
         if(request) {
           res.status(200);
@@ -145,15 +231,15 @@ export class ProgramRequestController {
       } else {
         console.log(req.body);
         let expiration = new Date(req.body.expiration).getTime();
-        let details = req.body.details;
         let skillIds = req.body.nameArray.map(function(id) {
           return parseInt(id);
         });
         let result = await this.programRequestService.saveNewAsync({
           client: await this.userService.findByIdAsync(req.jwt.id),
           expiration: expiration,
-          text: details,
-          softSkills: skillIds
+          text: req.body.details,
+          softSkills: skillIds,
+          jobTitle: req.body.jobTitle,
         });
         if(result) {
           res.status(200);

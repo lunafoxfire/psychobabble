@@ -1,17 +1,4 @@
-<legend>DO THE STUFF WITH THE THINGS</legend>
-
-<form #form="ngForm" (submit)="form.valid && submitRequest(form)">
-  <input type="text" name="job-title" ngModel required placeholder="Job Title">
-  <div *ngFor="let skill of (softSkills | async)?.skillArray">
-    <input ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}">
-    <label for="{{skill.name}}">{{skill.name}}</label>
-  </div>
-  <button type="button" name="button" (click)="switchToggle()">Click For Expiration Date</button>
-  <div *ngIf="toggle">
-    <label for="expiration">Expiration</label>
-    <input ngModel name="expiration" type="date" min="{{weekFromNow}}">
-  </div>
-  <label for="details">Additional Details</label>
-  <textarea ngModel name="details" rows="8" cols="80" required></textarea>
-  <button type="submit" name="button">submit</button>
-</form>
+<a routerLink="new">Request new Program</a>
+<div *ngFor="let request of (requests | async)?.requests">
+  <a routerLink="client/{{request.requestId}}">{{request.jobTitle}}</a>
+</div>

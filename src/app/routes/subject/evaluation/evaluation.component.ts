@@ -40,4 +40,8 @@ export class EvaluationComponent implements OnInit {
   public videoEnd() {
     this.toggle = true;
   }
+
+  public disableRightClick() {
+    return false;
+  }
 }

@@ -1,4 +1,4 @@
 <a routerLink="new">Request new Program</a>
 <div *ngFor="let request of (requests | async)?.requests">
-  <h1>{{request.jobTitle}}</h1>
+  <a routerLink="client/{{request.requestId}}">{{request.jobTitle}}</a>
 </div>

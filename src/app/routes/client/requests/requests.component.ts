@@ -17,8 +17,5 @@ export class RequestsComponent implements OnInit {
 
   ngOnInit() {
     this.requests = this.service.getClientRequests(this.page, this.resultCount);
-    this.requests.subscribe((data) => {
-      console.log(data);
-    })
   }
 }

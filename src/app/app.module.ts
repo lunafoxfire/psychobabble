@@ -61,6 +61,7 @@ import { MaterialModule } from './_imports/material.module';
 import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
 import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
 import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
+import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
     MakeRequestComponent,
     RequestDetailsComponent,
     AudioRecorderComponent,
+    ClientDetailsComponent,
   ],
   imports: [
     BrowserModule,

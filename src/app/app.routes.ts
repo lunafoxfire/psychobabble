@@ -22,6 +22,7 @@ import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
+import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
@@ -44,18 +45,19 @@ export const ROUTES: Routes = [
   { path: 'login', component: LogInComponent, canActivate: [LoginGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [LoginGuard] },
   { path: 'verify',   component: VerifyComponent },
-  { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
-  { path: 'programs/:id', component: EvaluationComponent, canActivate: [ResponseGuard, VerifyGuard], data: {requireRole: AuthRole.Subject} },
-  { path: 'programs/client/:id', component: ProgramDetailsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client}},
-  { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
-  { path: 'requests/new', component: MakeRequestComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
-  { path: 'requests/client/:id', component: RequestDetailsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Client} },
-  { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/feed/requests/:id', component: ProgramDesignComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/feed/programs/:id', component: ResponseEvaluationComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
-  { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {requireRole: AuthRole.Admin} },
+  { path: 'programs', component: ProgramsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]} },
+  { path: 'programs/:id', component: EvaluationComponent, canActivate: [ResponseGuard, VerifyGuard], data: {allowedRoles: [AuthRole.Subject]} },
+  { path: 'programs/client/:id', component: ProgramDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]}},
+  { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]} },
+  { path: 'requests/new', component: MakeRequestComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]} },
+  { path: 'requests/client/:id', component: RequestDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client, AuthRole.Admin]} },
+  { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/feed/requests/:id', component: ProgramDesignComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/feed/programs/:id', component: ResponseEvaluationComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/clients/:id', component: ClientDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'password-reset', component: ResetComponent },

@@ -29,6 +29,11 @@ export class AdminService {
     return result;
   }
 
+  public getClientDetails(clientId): Observable<any> {
+    let result = this.auth.get('api/users/'+clientId);
+    return result;
+  }
+
   public makeProgram(program, requestId): Observable<any> {
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;

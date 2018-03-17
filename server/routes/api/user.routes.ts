@@ -17,5 +17,10 @@ export function loadRoutes() {
   // Get all clients for admin
   router.get('/get-clients', auth, userCtrl.getClients);
 
+  // GET /api/users/:userId
+  // auth: ADMIN
+  // Get details of a specific client for admin
+  router.get('/:clientId', auth, userCtrl.getClientDetails);
+
   return router;
 }

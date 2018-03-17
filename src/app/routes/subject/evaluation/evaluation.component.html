@@ -1,5 +1,5 @@
 <h1>{{(video | async)?.video.title}}</h1>
-<video #myVideo width="320" height="240" src="{{(video | async)?.video.url}}" (ended)="videoEnd()"></video>
+<video #myVideo width="320" height="240" src="{{(video | async)?.video.url}}" (ended)="videoEnd()" (contextmenu)="disableRightClick()"></video>
 <button type="button" name="button" (click)="playVideo()">Play</button>
 <p>{{(video | async)?.video.description}}</p>
 <h1 *ngIf="toggle">RECORDING!!!!!!!</h1>

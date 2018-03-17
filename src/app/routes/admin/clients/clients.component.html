@@ -1,6 +1,6 @@
 <div *ngFor="let client of (clients | async)?.clients">
   <div>
-    <h3>{{client.username}}</h3>
+    <h3><a routerLink="{{client.clientId}}">{{client.username}}</a></h3>
     <p>{{client.email}}</p>
   </div>
 </div>

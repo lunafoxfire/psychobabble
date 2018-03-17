@@ -23,6 +23,8 @@ import { ClientsComponent } from './routes/admin/clients/clients.component';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
+import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
+import { ClientRequestDetailsComponent } from './routes/admin/clients/client-details/client-request-details/client-request-details.component';
 
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
@@ -58,6 +60,8 @@ export const ROUTES: Routes = [
   { path: 'admin/feed/programs/:id', component: ResponseEvaluationComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/clients/:id', component: ClientDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/clients/:cid/program/:pid', component: ClientProgramDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/clients/:cid/request/:rid', component: ClientRequestDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'already-logged-in', component: AlreadyLoggedInComponent, canActivate: [LoginGuard]  },
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'password-reset', component: ResetComponent },

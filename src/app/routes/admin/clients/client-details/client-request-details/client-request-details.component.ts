@@ -9,6 +9,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./client-request-details.component.scss']
 })
 export class ClientRequestDetailsComponent implements OnInit {
+  public clientId: string;
+  public requestId: string;
+  public request: Observable<any>;
 
   constructor(
     public service: AdminService,
@@ -16,6 +19,10 @@ export class ClientRequestDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.route.params.subscribe((params) => {
+      this.clientId = params['cid'];
+      this.requestId = params['rid'];
+    })
   }
 
 }

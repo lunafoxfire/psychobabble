@@ -76,7 +76,6 @@ export class UserService {
   /** Gets details of a specific client for admin */
   public async getClientDetails(clientId) {
     let client = await this.userRepo.findOneById(clientId, {relations: ['clientPrograms','programRequests']});
-    console.log(client);
     return {
       username: client.username,
       email: client.email,

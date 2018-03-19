@@ -1,8 +1,8 @@
 <h1>{{(client | async)?.client.username}}</h1>
 <p>{{(client | async)?.client.email}}</p>
 <div *ngFor="let program of (client | async)?.client.programs">
-  <a routerLink="/programs/client/{{program.id}}">{{program.jobTitle}}</a>
+  <a routerLink="program/{{program.id}}">{{program.jobTitle}}</a>
 </div>
 <div *ngFor="let request of (client | async)?.client.requests">
-  <a routerLink="/requests/client/{{request.id}}">{{request.jobTitle}}</a>
+  <a routerLink="request/{{request.id}}">{{request.jobTitle}}</a>
 </div>

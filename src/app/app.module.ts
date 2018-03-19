@@ -65,7 +65,6 @@ import { MakeRequestComponent } from './routes/client/requests/make-request/make
 import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
-import { ClientRequestDetailsComponent } from './routes/admin/clients/client-details/client-request-details/client-request-details.component';
 import { ProfileComponent } from './routes/profile/profile.component';
 
 @NgModule({
@@ -99,7 +98,6 @@ import { ProfileComponent } from './routes/profile/profile.component';
     AudioRecorderComponent,
     ClientDetailsComponent,
     ClientProgramDetailsComponent,
-    ClientRequestDetailsComponent,
     ProfileComponent,
   ],
   imports: [
@@ -123,7 +121,7 @@ import { ProfileComponent } from './routes/profile/profile.component';
     VerifyGuardService,
     SubjectService,
     AudioRecorderService,
-EvaluationService,
+    EvaluationService,
     ProfileService,
   ],
   bootstrap: [AppComponent]

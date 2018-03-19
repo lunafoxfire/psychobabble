@@ -13,5 +13,6 @@
     <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/register">Register</a>
     <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/login">Log In</a>
     <a mat-button *ngIf="auth.isLoggedIn()" routerLink="/logout" (click)="auth.logout()">Log Out</a>
+    <a mat-button *ngIf="auth.isLoggedIn()" routerLink"/profile">Profile</a>
   </div>
 </mat-toolbar>

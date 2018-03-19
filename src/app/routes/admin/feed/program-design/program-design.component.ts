@@ -14,6 +14,8 @@ export class ProgramDesignComponent implements OnInit {
   public videos: Observable<any>;
   private programVideos: string[] = new Array<string>();
   public requestId: string;
+  public videoPage: number = 0;
+  public videoResultCount: number = 10;
 
   constructor(
     private service: AdminService,
@@ -27,11 +29,15 @@ export class ProgramDesignComponent implements OnInit {
       this.requestId = params['id'];
       this.request = this.service.getRequestDetails(this.requestId);
     });
-    this.videos = this.videoService.getAllVideos();
+    this.videos = this.videoService.getAllVideos(this.videoPage, this.videoResultCount);
   }
 
   public addToProgram(videoId) {
     this.programVideos.push(videoId);
+  }
+
+  public searchVideos(searchTerm) {
+    this.videos = this.videoService.getAllVideos(this.videoPage, this.videoResultCount, searchTerm.value);
   }
 
   public checkIfAdded(videoId) {

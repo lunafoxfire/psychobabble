@@ -7,7 +7,8 @@
 </div>
 
 <button type="button" name="button" (click)="createProgram()">Create Program</button>
-
+<input type="text" #videoSearch ngModel>
+<button type="button" name="button" (click)="searchVideos(videoSearch)">search</button>
 <div *ngFor="let video of (videos | async)?.videos">
   <div *ngIf="checkIfAdded(video.id)">
     <h4>{{video.title}}</h4>

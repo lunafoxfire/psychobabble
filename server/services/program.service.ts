@@ -39,7 +39,7 @@ export class ProgramService {
     .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
     .innerJoinAndSelect("program.client", "client", "program.closed = :closed", { closed: false })
     .innerJoinAndSelect("program.author", "author", "program.closed = :closed", { closed: false })
-    .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%'})
+    .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .skip(page*resultCount)
     .take(resultCount)
     .orderBy("program.expiration", "DESC")

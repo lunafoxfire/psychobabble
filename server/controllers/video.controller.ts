@@ -14,7 +14,7 @@ export class VideoController {
 
   public async getVideos(req, res) {
     if(req.jwt.role === "ADMIN") {
-      let videos = await this.videoService.getAllVideos().catch((err) => {
+      let videos = await this.videoService.getAllVideos(req.query.page, req.query.resultCount, req.query.searchTerm).catch((err) => {
         console.log(err);
         res.status(400);
         res.json({

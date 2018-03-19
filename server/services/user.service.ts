@@ -76,10 +76,10 @@ export class UserService {
   /** Gets details of a specific client for admin */
   public async getClientDetails(clientId) {
     let client = await this.userRepo.createQueryBuilder("client")
+    .where("client.id = :id", { id: clientId})
     .innerJoinAndSelect("client.programRequests", "request", "request.closed = :closed", { closed: false })
     .innerJoinAndSelect("client.clientPrograms", "program", "program.closed = :closed", { closed: false })
-    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .andWhere("client.id = :id", { id: clientId})
+    .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
     .getOne();
     return {
       username: client.username,

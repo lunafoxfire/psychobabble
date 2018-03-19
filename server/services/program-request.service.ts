@@ -43,7 +43,7 @@ export class ProgramRequestService {
   public async getRequests(page, resultCount, searchTerm) {
     let requests = await this.requestRepo.createQueryBuilder("request")
     .innerJoinAndSelect("request.client", "client", "request.closed = :closed", { closed: false })
-    .where("UPPER(request.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%'})
+    .where("UPPER(request.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .skip(page*resultCount)
     .take(resultCount)
     .orderBy("request.dateCreated", "ASC")

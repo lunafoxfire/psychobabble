@@ -55,8 +55,12 @@ export class VideoService {
     }
   }
 
-  public async getAllVideos() {
-    return await this.videoRepo.find();
+  public async getAllVideos(page, resultCount, searchTerm) {
+    return await this.videoRepo.createQueryBuilder("video")
+    .where("UPPER(video.title) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .skip(page*resultCount)
+    .take(resultCount)
+    .getMany();
   }
 }
 

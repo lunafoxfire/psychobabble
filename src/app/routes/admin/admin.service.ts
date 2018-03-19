@@ -16,7 +16,7 @@ export class AdminService {
     return result;
   }
 
-  public getAllRequests(page, resultCount, searchTerm?): Observable<any> {
+  public getAllRequests(page, resultCount, searchTerm = ''): Observable<any> {
     let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
     let result = this.auth.get('api/program-requests/pending', params);
     return result;

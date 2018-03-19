@@ -44,9 +44,6 @@ export class ProgramService {
     .take(resultCount)
     .orderBy("program.expiration", "DESC")
     .getMany();
-    console.logDev("********************")
-    console.logDev(searchTerm);
-    console.logDev("********************")
     let thingToReturn =  programs.map(function(program) {
       return {
         description: program.description,

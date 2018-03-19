@@ -13,6 +13,7 @@ import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
 import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
+import { EvaluationService } from './routes/subject/evaluation/evaluation.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -119,6 +120,7 @@ import { ClientRequestDetailsComponent } from './routes/admin/clients/client-det
     VerifyGuardService,
     SubjectService,
     AudioRecorderService,
+    EvaluationService,
   ],
   bootstrap: [AppComponent]
 })

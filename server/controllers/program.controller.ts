@@ -25,6 +25,7 @@ export class ProgramController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
+        console.log(req.jwt.id);//TODO: Check if user exists and if that user is an admin instead, otherwise no error is thrown when database resets on seed.
         req.body.program.author = await this.userService.findByIdAsync(req.jwt.id);
         req.body.program.client = await this.userService.findByUsernameAsync(req.body.program.client);
         let program = await this.programService.saveNewAsync(req.body.program);

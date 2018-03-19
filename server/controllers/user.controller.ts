@@ -102,7 +102,7 @@ export class UserController {
         return;
       }
       if(req.jwt.role) {
-        let user = await this.userService.getClientDetails(req.jwt.id);
+        let user = await this.userService.getProfileDetails(req.jwt.id);
         if(user) {
           res.status(200);
           res.json({

@@ -26,10 +26,6 @@ export class Response {
   @Column()
   reviewed: boolean;
 
-  /** Whether this response was completed by the Subject */
-  @Column()
-  submitted: boolean;
-
   /** The subject that this Response belongs to. */
   @ManyToOne(type => User, user => user.responses)
   subject: User;

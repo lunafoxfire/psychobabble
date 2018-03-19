@@ -21,7 +21,6 @@ export class ResponseService {
       newResponse.text_version = null; // TODO: generate this
       newResponse.score = null;
       newResponse.reviewed = false;
-      newResponse.submitted = false;
       newResponse.subject = responseOptions.subject;
       newResponse.video = responseOptions.video;
       newResponse.program = responseOptions.program;

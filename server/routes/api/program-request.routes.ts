@@ -39,11 +39,6 @@ export function loadRoutes() {
   // Get client-viewable details of a particular request
   router.get('/client/:requestId', auth, requestCtrl.getClientRequestDetails);
 
-  // GET /api/program-requests/client/:requestId
-  // auth: CLIENT
-  // Get client-viewable details of a particular request
-  router.get('/admin/:requestId', auth, requestCtrl.getClientRequestDetailsAdmin);
-
   // GET /api/program-requests/:requestId
   // params: requestId
   // auth: ADMIN

@@ -138,28 +138,28 @@ const TestPrograms = [
   {
     jobTitle: "Doot dooter",
     description: "Test Program 1",
-    expiration: null,
+    expiration: 0,
     videoIndices: [0, 1, 2, 3],
     clientIndex: 0
   },
   {
     jobTitle: "Spoon collector",
     description: "Test Program 2",
-    expiration: null,
+    expiration: 0,
     videoIndices: [4, 5, 6, 7],
     clientIndex: 1
   },
   {
     jobTitle: "Astronaut",
     description: "Test Program 3",
-    expiration: null,
+    expiration: 0,
     videoIndices: [1, 7, 4],
     clientIndex: 1
   },
   {
     jobTitle: "Cat",
     description: "Test Program 4",
-    expiration: null,
+    expiration: 0,
     videoIndices: [5],
     clientIndex: 2
   },
@@ -282,18 +282,21 @@ const TestProgramRequests = [
   {
     jobTitle: "Pizza maker",
     clientIndex: 0,
+    expiration: 0,
     text: "Make me a pizza!",
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills]
   },
   {
     jobTitle: "Angery tree stump",
     clientIndex: 0,
+    expiration: 0,
     text: "Zoombinis!",
     softSkills: [SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
   },
   {
     jobTitle: "Paladin LV99",
     clientIndex: 1,
+    expiration: 0,
     text: "Find good employee pl0x",
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills, SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
   },
@@ -390,6 +393,7 @@ export class TestData {
       let newRequest = await requestService.saveNewAsync({
         jobTitle: request.jobTitle,
         client: this.clients[request.clientIndex],
+        expiration: 0,
         text: request.text,
         softSkills: softSkillIds
       });

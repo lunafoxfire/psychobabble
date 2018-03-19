@@ -1,3 +1,2 @@
-<p>
-  client-request-details works!
-</p>
+<h1>{{(request | async)?.request.jobTitle}}</h1>
+<p>{{(request | async)?.request.expiration}}</p>

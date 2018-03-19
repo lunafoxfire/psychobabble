@@ -11,7 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ClientProgramDetailsComponent implements OnInit {
   public clientId: string;
   public programId: string;
-  public request: Observable<any>;
+  public generatedUrl: string;
+  public program: Observable<any>;
 
   constructor(
     public service: AdminService,
@@ -22,6 +23,11 @@ export class ClientProgramDetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.clientId = params['cid'];
       this.programId = params['pid'];
+      this.program = this.service.getProgramDetails(this.programId, this.clientId);
+      this.program.subscribe(data => {
+        console.log(data);
+      })
+      this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
     })
   }
 

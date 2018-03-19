@@ -32,12 +32,17 @@ export function loadRoutes() {
   // POST /api/program-requests/:clientId/:requestId/cancel
   // auth: CLIENT
   // Route for a client to cancel a pending request
-  router.post('/:clientId(\\d+)/:requestId(\\d+)/cancel', auth, (req, res) => {res.status(501).send()});
+  router.post('/client/:requestId/cancel', auth, (req, res) => {res.status(501).send()});
 
   // GET /api/program-requests/client/:requestId
   // auth: CLIENT
   // Get client-viewable details of a particular request
   router.get('/client/:requestId', auth, requestCtrl.getClientRequestDetails);
+
+  // GET /api/program-requests/client/:requestId
+  // auth: CLIENT
+  // Get client-viewable details of a particular request
+  router.get('/admin/:requestId', auth, requestCtrl.getClientRequestDetailsAdmin);
 
   // GET /api/program-requests/:requestId
   // params: requestId

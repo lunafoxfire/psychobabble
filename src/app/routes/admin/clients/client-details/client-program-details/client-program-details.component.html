@@ -1,3 +1,5 @@
-<p>
-  client-program-details works!
-</p>
+<h1>Program Id: {{(program | async)?.program.jobTitle}}</h1>
+<h3>Link for this program: {{generatedUrl}}</h3>
+<div *ngFor="let video of (program | async)?.program.videos">
+  <p>{{video.url}}</p>
+</div>

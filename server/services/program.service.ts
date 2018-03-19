@@ -9,12 +9,13 @@ export class ProgramService {
   private programRepo: Repository<Program>;
   private videoRepo: Repository<Video>;
   private userService: UserService;
-  public repo = this.programRepo;
+  public repo;
 
   constructor(programRepo: Repository<Program> = null, videoRepo: Repository<Video> = null, userService: UserService = null) {
     this.programRepo = programRepo || getRepository(Program);
     this.videoRepo = videoRepo || getRepository(Video);
     this.userService = userService || new UserService();
+    this.repo = this.programRepo;
   }
 
   /** Saves a new Program to the database. */

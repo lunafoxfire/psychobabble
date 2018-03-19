@@ -7,10 +7,11 @@ import { Program } from './../models/Program';
 
 export class ResponseService {
   private responseRepo: Repository<Response>;
-  public repo = this.responseRepo;
+  public repo;
 
   constructor(responseRepo: Repository<Response> = null) {
     this.responseRepo = responseRepo || getRepository(Response);
+    this.repo = this.responseRepo;
   }
 
   /** Saves a new Response to the database. */

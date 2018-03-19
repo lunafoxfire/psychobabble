@@ -37,7 +37,7 @@ export class ResponseController {
           ['videoId', 400, "Missing 'videoId' in request body"],
           ['programId', 400, "Missing 'programId' in request body"]]
       )) { return; }
-      if (req.jwt.role !== RoleType.Client) {
+      if (req.jwt.role !== RoleType.Subject) {
         res.status(401);
         res.json({
           message: "Unauthorized"

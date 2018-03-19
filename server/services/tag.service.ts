@@ -3,10 +3,11 @@ import { Tag, TagType } from './../models/Tag';
 
 export class TagService {
   private tagRepo: Repository<Tag>;
-  public repo = this.tagRepo;
+  public repo;
 
   constructor(tagRepo: Repository<Tag> = null) {
     this.tagRepo = tagRepo || getRepository(Tag);
+    this.repo = this.tagRepo;
   }
 
   /** Saves all tags in the TagTypes enum to the database. */

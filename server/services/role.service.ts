@@ -3,10 +3,11 @@ import { Role, RoleType } from './../models/Role';
 
 export class RoleService {
   private roleRepo: Repository<Role>;
-  public repo = this.roleRepo;
+  public repo;
 
   constructor(roleRepo: Repository<Role> = null) {
     this.roleRepo = roleRepo || getRepository(Role);
+    this.repo = this.roleRepo;
   }
 
   /** Saves all roles in the RoleTypes enum to the database. */

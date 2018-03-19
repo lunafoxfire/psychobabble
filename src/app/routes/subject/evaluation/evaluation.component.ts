@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { merge } from 'rxjs/observable/merge';
+import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
 import { EvaluationService } from './evaluation.service';
 
@@ -9,9 +11,9 @@ import { EvaluationService } from './evaluation.service';
   styleUrls: ['./evaluation.component.scss']
 })
 export class EvaluationComponent implements OnInit {
-  public programId: string;
   @ViewChild('evalVideo') videoElement;
-  public video: Observable<any>;
+  public programId: Observable<string>;
+  public currentVideo: Observable<Video>;
   public state: EvalState;
 
   constructor(
@@ -19,24 +21,43 @@ export class EvaluationComponent implements OnInit {
     public route: ActivatedRoute
   ) {
     this.state = EvalState.Initial;
+    // Extract programId as observable from route params observable
+    this.programId = Observable.create((observer) => {
+      this.route.params.subscribe((params) => {
+        observer.next(params.id);
+      });
+    });
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
-      this.state = EvalState.LoadingVideo;
-      this.programId = params.id;
-      this.video = this.evalService.getCurrentVideo(this.programId);
-    });
+    this.loadNextVideo();
+  }
 
-    this.video.subscribe((video) => {
-      this.state = EvalState.AwaitingPlay;
+  public loadNextVideo() {
+    this.programId.subscribe((programId) => {
+      this.state = EvalState.LoadingVideo;
+      // Extract curentVideo as an observable from getCurrentVideo response
+      this.currentVideo = Observable.create((observer) => {
+        this.evalService.getCurrentVideo(programId).subscribe((data) => {
+          observer.next(data.video);
+          this.state = EvalState.AwaitingPlay;
+        });
+      });
     });
   }
 
   public playVideo() {
     if (this.state === EvalState.AwaitingPlay) {
-      this.videoElement.nativeElement.play();
-      this.state = EvalState.Playing;
+      zip(this.programId, this.currentVideo).subscribe((zippedData) => {
+        let programId = zippedData[0];
+        let videoId = zippedData[1].id;
+        // Begin video playback after response process has successfully started
+        this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
+          console.log(data);
+          this.videoElement.nativeElement.play();
+          this.state = EvalState.Playing;
+        });
+      });
     }
   }
 
@@ -66,4 +87,11 @@ enum EvalState {
   Recording = 'recording',
   GetNextVideo = 'get-next-video',
   Done = 'done'
+}
+
+interface Video {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
 }

@@ -11,7 +11,7 @@ export class Response {
   id: string;
 
   /** URL of the subject's audio response to the video. */
-  @Column()
+  @Column({nullable: true})
   audio_url: string;
 
   /** Speech-to-text parse of the audio response. Nullable. */

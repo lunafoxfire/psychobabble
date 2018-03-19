@@ -88,4 +88,8 @@ export class UserService {
       requests: client.programRequests
     }
   }
+
+  public async getProfileDetails(userId) {
+    return await this.userRepo.findOneById(userId);
+  }
 }

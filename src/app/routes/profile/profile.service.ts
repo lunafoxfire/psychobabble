@@ -10,7 +10,7 @@ export class ProfileService {
   ) { }
 
   public getProfile(): Observable<any> {
-    let result = this.auth.get('/api/user/profile');
+    let result = this.auth.get('/api/users/profile');
     return result;
   }
 }

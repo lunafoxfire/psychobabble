@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SubjectService } from './../subject.service';
+import { ActivatedRoute } from '@angular/router';
+import { EvaluationService } from './evaluation.service';
 
 @Component({
   selector: 'evaluation',
@@ -9,35 +9,57 @@ import { SubjectService } from './../subject.service';
   styleUrls: ['./evaluation.component.scss']
 })
 export class EvaluationComponent implements OnInit {
-  public video: Observable<any>;
   public programId: string;
-  public toggle: boolean = false;
-
-  @ViewChild('myVideo') myVideo: any;
-  played: boolean;
+  @ViewChild('evalVideo') videoElement;
+  public video: Observable<any>;
+  public state: EvalState;
 
   constructor(
-    private service: SubjectService,
-    public route: ActivatedRoute,
-    public roter: Router
-  ) { }
+    public evalService: EvaluationService,
+    public route: ActivatedRoute
+  ) {
+    this.state = EvalState.Initial;
+  }
 
   ngOnInit() {
     this.route.params.subscribe((params) => {
-      this.programId = params['id'];
-      this.video = this.service.getCurrentVideo(this.programId);
+      this.state = EvalState.LoadingVideo;
+      this.programId = params.id;
+      this.video = this.evalService.getCurrentVideo(this.programId);
+    });
+
+    this.video.subscribe((video) => {
+      this.state = EvalState.AwaitingPlay;
     });
   }
 
   public playVideo() {
-    if(!this.played) {
-      this.played = true;
-      let video = this.myVideo.nativeElement;
-      video.play();
+    if (this.state === EvalState.AwaitingPlay) {
+      this.videoElement.nativeElement.play();
+      this.state = EvalState.Playing;
     }
   }
 
   public videoEnd() {
-    this.toggle = true;
+    this.state = EvalState.AwaitingRecord;
   }
+
+  public startRecording() {
+    this.state = EvalState.Recording;
+  }
+
+  public endRecording() {
+    this.state = EvalState.GetNextVideo;
+  }
+}
+
+enum EvalState {
+  Initial =  'initial',
+  LoadingVideo = 'loading-video',
+  AwaitingPlay = 'awaiting-play',
+  Playing = 'playing',
+  AwaitingRecord = 'awaiting-record',
+  Recording = 'recording',
+  GetNextVideo = 'get-next-video',
+  Done = 'done'
 }

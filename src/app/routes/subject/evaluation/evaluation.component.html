@@ -1,5 +1,5 @@
+<p>State: {{state}}</p>
 <h1>{{(video | async)?.video.title}}</h1>
-<video #myVideo width="320" height="240" src="{{(video | async)?.video.url}}" (ended)="videoEnd()"></video>
-<button type="button" name="button" (click)="playVideo()">Play</button>
+<video #evalVideo width="320" height="240" src="{{(video | async)?.video.url}}" (ended)="videoEnd()"></video>
+<button type="button" name="play-button" (click)="playVideo()">Play</button>
 <p>{{(video | async)?.video.description}}</p>
-<h1 *ngIf="toggle">RECORDING!!!!!!!</h1>

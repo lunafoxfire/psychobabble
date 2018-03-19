@@ -10,7 +10,7 @@ export function loadRoutes() {
   // GET /api/users/profile
   // auth: logged-in
   // Get user info for profile page
-  router.get('/profile', auth, (req, res) => {res.status(501).send()});
+  router.get('/profile', auth, userCtrl.getProfile);
 
   // GET /api/users/get-clients
   // auth: ADMIN

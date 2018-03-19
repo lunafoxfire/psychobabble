@@ -13,6 +13,7 @@ import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
 import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
+import { ProfileService } from './routes/profile/profile.service';
 
 // Route guards
 import { AuthGuardService } from './auth-guard.service';
@@ -64,6 +65,7 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
 import { ClientRequestDetailsComponent } from './routes/admin/clients/client-details/client-request-details/client-request-details.component';
+import { ProfileComponent } from './routes/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -97,6 +99,7 @@ import { ClientRequestDetailsComponent } from './routes/admin/clients/client-det
     ClientDetailsComponent,
     ClientProgramDetailsComponent,
     ClientRequestDetailsComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +122,7 @@ import { ClientRequestDetailsComponent } from './routes/admin/clients/client-det
     VerifyGuardService,
     SubjectService,
     AudioRecorderService,
+    ProfileService,
   ],
   bootstrap: [AppComponent]
 })

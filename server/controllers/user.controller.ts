@@ -91,4 +91,46 @@ export class UserController {
       return;
     }
   }
+
+  public async getProfile(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role) {
+        let user = await this.userService.getClientDetails(req.jwt.id);
+        if(user) {
+          res.status(200);
+          res.json({
+            user: user,
+            message: "Grabbed all the things"
+          })
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
 }

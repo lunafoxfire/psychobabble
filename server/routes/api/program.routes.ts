@@ -27,6 +27,11 @@ export function loadRoutes() {
   // Get the details and results of a particular program for this client
   router.get('/client/:programId', auth, programCtrl.getProgramDetails);
 
+  // GET /api/programs/admin/:programId
+  // auth: CLIENT
+  // Get the details and results of a particular program for this client
+  router.get('/:clientId/:programId', auth, programCtrl.getProgramDetailsAdmin);
+
   // GET /api/programs/:clientId
   // params: page
   // auth: CLIENT

@@ -22,6 +22,10 @@ export class ClientRequestDetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.clientId = params['cid'];
       this.requestId = params['rid'];
+      this.request = this.service.getClientRequestDetails(this.requestId);
+      this.request.subscribe(data => {
+        console.log(data);
+      })
     })
   }
 

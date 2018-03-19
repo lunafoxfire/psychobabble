@@ -15,6 +15,7 @@ import { VideoUploadComponent } from './routes/admin/videos/video-upload/video-u
 import { VerifyComponent } from './routes/verify/verify.component';
 import { ResetComponent } from './routes/reset/reset.component';
 import { ChangePasswordComponent } from './routes/change-password/change-password.component';
+import { ProfileComponent } from './routes/profile/profile.component';
 
 // Admin
 import { FeedComponent } from './routes/admin/feed/feed.component';
@@ -66,6 +67,7 @@ export const ROUTES: Routes = [
   { path: 'unauthorized', component: UnauthorizedComponent },
   { path: 'password-reset', component: ResetComponent },
   { path: 'reset/:uid/:prt', component: ChangePasswordComponent },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin, AuthRole.Client, AuthRole.Subject]}},
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' },
 ];

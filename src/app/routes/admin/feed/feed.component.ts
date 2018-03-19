@@ -23,13 +23,21 @@ export class FeedComponent implements OnInit {
     this.requests = this.service.getAllRequests(this.page, this.resultCount);
   }
 
-  showPrograms() {
+  public showPrograms() {
     this.toggle = true;
     this.page = 0;
   }
 
-  showRequests() {
+  public showRequests() {
     this.toggle = false;
     this.page = 0;
+  }
+
+  public searchRequests(searchTerm) {
+    this.requests = this.service.getAllRequests(this.page, this.resultCount, searchTerm.value);
+  }
+
+  public searchPrograms(searchTerm) {
+    this.programs = this.service.getAllPrograms(this.page, this.resultCount, searchTerm.value);
   }
 }

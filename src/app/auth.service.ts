@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators/map';
 import { Router } from '@angular/router';
@@ -130,12 +130,12 @@ export class AuthService {
     }
   }
 
-  public get<T>(route: string, body?: any): Observable<T> {
+  public get<T>(route: string, params?: HttpParams): Observable<T> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.getToken()}`
       }),
-      body: body
+      params: params
     };
     return this.http.get<T>(route, httpOptions);
   }

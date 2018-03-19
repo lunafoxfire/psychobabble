@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../auth.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class ClientService {
@@ -25,7 +26,8 @@ export class ClientService {
   }
 
   public getClientRequests(page, resultCount): Observable<any> {
-    let result = this.auth.get('/api/program-requests/client/pending/', {page: page, resultCount: resultCount});
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount);
+    let result = this.auth.get('/api/program-requests/client/pending/', params);
     return result;
   }
 

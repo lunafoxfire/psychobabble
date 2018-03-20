@@ -63,15 +63,6 @@ export class UserService {
     .orderBy("client.username", "ASC")
     .getMany();
 
-    let clients2 = await this.userRepo.find({
-      where: {
-        "role": clientRole.id
-      },
-      order: {
-        "username": "ASC"
-      },
-      skip: (page*resultCount),
-      take: resultCount });
     return clients.map(function(client) {
       return {
         username: client.username,
@@ -82,11 +73,17 @@ export class UserService {
   }
 
   /** Gets details of a specific client for admin */
-  public async getClientDetails(clientId) {
+  public async getClientDetails(clientId, params) {
+    if(params.requestSearchTerm === 'undefined') {
+      params.requestSearchTerm = '';
+    }
+    if(params.programSearchTerm === 'undefined') {
+      params.programSearchTerm = '';
+    }
     let client = await this.userRepo.createQueryBuilder("client")
     .where("client.id = :id", { id: clientId})
-    .innerJoinAndSelect("client.programRequests", "request", "request.closed = :closed", { closed: false })
-    .innerJoinAndSelect("client.clientPrograms", "program", "program.closed = :closed", { closed: false })
+    .innerJoinAndSelect("client.programRequests", "request", "request.closed = :closed AND UPPER(request.jobTitle) LIKE :requestSearchTerm", { closed: false, requestSearchTerm: '%'+params.requestSearchTerm.toUpperCase()+'%' })
+    .innerJoinAndSelect("client.clientPrograms", "program", "program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
     .getOne();
     return {

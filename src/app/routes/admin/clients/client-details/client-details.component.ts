@@ -33,7 +33,7 @@ export class ClientDetailsComponent implements OnInit {
     })
   }
 
-  public programSearch(searchTerm) {
+  public searchPrograms(searchTerm) {
     let parameters = {
       clientId: this.clientId,
       programPage: this.programPage,
@@ -44,7 +44,7 @@ export class ClientDetailsComponent implements OnInit {
     this.client = this.service.getClientDetails(parameters);
   }
 
-  public requestSearch(searchTerm) {
+  public searchRequests(searchTerm) {
     let parameters = {
       clientId: this.clientId,
       programPage: this.programPage,

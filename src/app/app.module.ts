@@ -12,7 +12,7 @@ import { VideoService } from './routes/admin/videos/video.service';
 import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
-import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
+import { AudioRecorderService } from './routes/subject/evaluation/audio-recorder.service';
 import { EvaluationService } from './routes/subject/evaluation/evaluation.service';
 import { ProfileService } from './routes/profile/profile.service';
 
@@ -44,7 +44,7 @@ import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 
 // Subject routes
-import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
+import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
 
 // Error routes
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -56,7 +56,6 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
-import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
@@ -95,7 +94,6 @@ import { ProfileComponent } from './routes/profile/profile.component';
     ProgramDetailsComponent,
     MakeRequestComponent,
     RequestDetailsComponent,
-    AudioRecorderComponent,
     ClientDetailsComponent,
     ClientProgramDetailsComponent,
     ProfileComponent,

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { merge } from 'rxjs/observable/merge';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
 import { EvaluationService } from './evaluation.service';
+import { AudioRecorderService } from './audio-recorder.service';
 
 @Component({
   selector: 'evaluation',
@@ -19,6 +19,7 @@ export class EvaluationComponent implements OnInit {
 
   constructor(
     public evalService: EvaluationService,
+    public recorder: AudioRecorderService,
     public route: ActivatedRoute
   ) {
     this.state = EvalState.Initial;
@@ -73,16 +74,21 @@ export class EvaluationComponent implements OnInit {
     }
   }
 
-  public disableRightClick() {
-    return false;
-  }
-
   public startRecording() {
-    this.state = EvalState.Recording;
+    if (this.state === EvalState.AwaitingRecord) {
+      this.recorder.startSession();
+      this.state = EvalState.Recording;
+    }
   }
 
-  public endRecording() {
-    this.state = EvalState.GetNextVideo;
+  public stopRecording() {
+    if (this.state === EvalState.Recording) {
+      this.recorder.endSession()
+        .then((arrayBuffer) => {
+          console.log(arrayBuffer);
+        });
+      this.state = EvalState.FinalizeResponse;
+    }
   }
 }
 
@@ -93,6 +99,7 @@ enum EvalState {
   Playing = 'playing',
   AwaitingRecord = 'awaiting-record',
   Recording = 'recording',
+  FinalizeResponse = 'finalize-response',
   GetNextVideo = 'get-next-video',
   Done = 'done'
 }

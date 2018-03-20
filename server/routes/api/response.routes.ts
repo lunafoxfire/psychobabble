@@ -23,7 +23,7 @@ export function loadRoutes() {
   // auth: SUBJECT
   // params: responseId
   // Gets audio url to save the Subject's recording
-  router.post('/generate-audio-url', auth, responseCtrl.generateAudioUrl);
+  router.get('/generate-audio-url', auth, responseCtrl.generateAudioUrl);
 
   // POST /api/responses/submit-failed
   // auth: SUBJECT

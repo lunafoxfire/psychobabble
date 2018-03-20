@@ -59,7 +59,8 @@ export class ResponseController {
       if (!newResponse) { throw new Error("Could not create new response object"); }
       res.status(200);
       res.json({
-        message: "New response initialized"
+        message: "New response initialized",
+        responseId: newResponse.id
       });
       return;
     }

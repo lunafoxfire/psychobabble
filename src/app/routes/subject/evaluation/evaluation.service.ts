@@ -18,6 +18,6 @@ export class EvaluationService {
       programId: programId,
       videoId: videoId
     };
-    return this.auth.post(`/api/responses/start`, reqBody);
+    return this.auth.post(`/api/responses/initialize`, reqBody);
   }
 }

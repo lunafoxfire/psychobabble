@@ -14,6 +14,7 @@ export class EvaluationComponent implements OnInit {
   @ViewChild('evalVideo') videoElement;
   public programId: Observable<string>;
   public currentVideo: Observable<Video>;
+  public currentResponseId: Observable<string>;
   public state: EvalState;
 
   constructor(
@@ -51,18 +52,25 @@ export class EvaluationComponent implements OnInit {
       zip(this.programId, this.currentVideo).subscribe((zippedData) => {
         let programId = zippedData[0];
         let videoId = zippedData[1].id;
+        // Extract currentResponseId as observable from beginResponseProcess response
+        this.currentResponseId = Observable.create((observer) => {
+          this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
+            observer.next(data.responseId);
+          });
+        });
         // Begin video playback after response process has successfully started
-        this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
-          console.log(data);
+        this.currentResponseId.subscribe((responseId) => {
           this.videoElement.nativeElement.play();
           this.state = EvalState.Playing;
-        });
+        })
       });
     }
   }
 
   public videoEnd() {
-    this.state = EvalState.AwaitingRecord;
+    if (this.state === EvalState.Playing) {
+      this.state = EvalState.AwaitingRecord;
+    }
   }
 
   public disableRightClick() {

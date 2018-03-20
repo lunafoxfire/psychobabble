@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AdminService } from './../../admin.service';
 
 @Component({
   selector: 'response-evaluation',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./response-evaluation.component.scss']
 })
 export class ResponseEvaluationComponent implements OnInit {
+  public responses: Observable<any>;
 
-  constructor() { }
+  constructor(
+    public service: AdminService
+  ) { }
 
   ngOnInit() {
+    this.responses;
   }
 
+  public rateResponse(rating) {
+    console.log("NOT IMPLEMENTED YET YOU BUGGER!!")
+  }
 }

@@ -38,10 +38,15 @@ import { ChangePasswordComponent } from './routes/change-password/change-passwor
 import { FeedComponent } from './routes/admin/feed/feed.component';
 import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
+import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
+import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
 
 // Client routes
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
+import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
+import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
+import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
 
 // Subject routes
 import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
@@ -57,15 +62,10 @@ import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorD
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
+import { ProfileComponent } from './routes/profile/profile.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
-import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
-import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
-import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
-import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
-import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
-import { ProfileComponent } from './routes/profile/profile.component';
 
 @NgModule({
   declarations: [

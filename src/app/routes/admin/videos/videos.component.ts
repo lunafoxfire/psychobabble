@@ -9,6 +9,8 @@ import { VideoService } from './video.service';
 })
 export class VideosComponent implements OnInit {
   public videos: Observable<any>;
+  public page: number = 0;
+  public resultCount: number = 10;
 
   @ViewChild('myVideo') myVideo: any;
   played: boolean;
@@ -17,14 +19,10 @@ export class VideosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.videos = this.service.getAllVideos();
+    this.videos = this.service.getAllVideos(this.page, this.resultCount);
   }
 
-  public playPause() {
-    if(!this.played) {
-      this.played = true;
-      let video = this.myVideo.nativeElement;
-      video.play();
-    }
+  public searchVideos(searchTerm) {
+    this.videos = this.service.getAllVideos(this.page, this.resultCount, searchTerm.value);
   }
 }

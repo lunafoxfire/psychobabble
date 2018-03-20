@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../../auth.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class VideoService {
@@ -24,8 +25,9 @@ export class VideoService {
     return data;
   }
 
-  public getAllVideos(): Observable<any> {
-    let result = this.auth.get('/api/videos/get-videos');
+  public getAllVideos(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
+    let result = this.auth.get('/api/videos/get-videos', params);
     return result;
   }
 }

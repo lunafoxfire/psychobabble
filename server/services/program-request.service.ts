@@ -40,16 +40,15 @@ export class ProgramRequestService {
     return this.requestRepo.save(newRequest);
   }
 
-  public async getRequests(page, resultCount) {
-    let requests = await this.requestRepo.find({
-      where: {
-        "closed": "false"
-      },
-      order: {
-        "dateCreated": "ASC"
-      },
-      skip: (page*resultCount),
-      take: resultCount });
+  public async getRequests(page, resultCount, searchTerm) {
+    let requests = await this.requestRepo.createQueryBuilder("request")
+    .innerJoinAndSelect("request.client", "client", "request.closed = :closed", { closed: false })
+    .where("UPPER(request.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .skip(page*resultCount)
+    .take(resultCount)
+    .orderBy("request.dateCreated", "ASC")
+    .getMany();
+
     return requests.map(function(request) {
       return {
         client: request.client.username,

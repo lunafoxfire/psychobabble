@@ -85,7 +85,7 @@ const TestSubjects: UserRegistrationOptions[] = [
 const TestVideos = [
   {
     title: "Yeeee",
-    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yee.mp4",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yeee.mp4",
     description: "Yeeeeee",
     tags: [TagType.Customer, TagType.Angry, TagType.Criticism]
   },

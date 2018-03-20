@@ -1,10 +1,14 @@
 <h1>{{(client | async)?.client.username}}</h1>
 <p>{{(client | async)?.client.email}}</p>
 <h1>PROGRAMS</h1>
+<input type="text" #programSearch>
+<button type="button" name="button" (click)="searchPrograms(programSearch)">search</button>
 <div *ngFor="let program of (client | async)?.client.programs">
   <a routerLink="program/{{program.id}}">{{program.jobTitle}}</a>
 </div>
 <h1>REQUESTS</h1>
+<input type="text" #requestSearch>
+<button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
 <div *ngFor="let request of (client | async)?.client.requests">
   <a routerLink="/admin/feed/requests/{{request.id}}">{{request.jobTitle}}</a>
 </div>

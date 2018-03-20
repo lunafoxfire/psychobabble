@@ -31,7 +31,7 @@ export class ProgramRequestController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
-        let requests = await this.programRequestService.getRequests(req.body.page, req.body.resultCount);
+        let requests = await this.programRequestService.getRequests(req.query.page, req.query.resultCount, req.query.searchTerm);
         if(requests) {
           res.status(200);
           res.json({

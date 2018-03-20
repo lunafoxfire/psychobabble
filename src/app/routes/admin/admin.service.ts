@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../auth.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class AdminService {
@@ -9,18 +10,21 @@ export class AdminService {
     private auth: AuthService
   ) { }
 
-  public getAllPrograms(page, resultCount): Observable<any> {
-    let result = this.auth.get('api/programs/get-all', {page: page, resultCount: resultCount});
+  public getAllPrograms(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
+    let result = this.auth.get('api/programs/get-all', params);
     return result;
   }
 
-  public getAllRequests(page, resultCount): Observable<any> {
-    let result = this.auth.get('api/program-requests/pending', {page: page, resultCount: resultCount});
+  public getAllRequests(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
+    let result = this.auth.get('api/program-requests/pending', params);
     return result;
   }
 
-  public getClients(page, resultCount): Observable<any> {
-    let result = this.auth.get('api/users/get-clients', {page: page, resultCount: resultCount});
+  public getClients(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
+    let result = this.auth.get('api/users/get-clients', params);
     return result;
   }
 
@@ -29,8 +33,10 @@ export class AdminService {
     return result;
   }
 
-  public getClientDetails(clientId): Observable<any> {
-    let result = this.auth.get('api/users/'+clientId);
+  public getClientDetails(parameters: GetClientDetailsParameters): Observable<any> {
+    let params = new HttpParams().append("programPage", parameters.programPage).append("programSearchTerm", parameters.programSearchTerm).append("requestPage", parameters.requestPage).append("requestSearchTerm", parameters.requestSearchTerm).append("resultCount", parameters.resultCount);
+    console.log(params);
+    let result = this.auth.get('api/users/'+parameters.clientId, params);
     return result;
   }
 
@@ -44,4 +50,13 @@ export class AdminService {
     return result;
   }
 
+}
+
+export interface GetClientDetailsParameters {
+  clientId: string;
+  programPage: any;
+  programSearchTerm?: string;
+  requestPage: any;
+  requestSearchTerm?: string;
+  resultCount: any;
 }

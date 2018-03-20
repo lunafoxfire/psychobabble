@@ -71,7 +71,7 @@ export class ProgramController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
-        let programs = await this.programService.getPrograms(req.body.page, req.body.resultCount);
+        let programs = await this.programService.getPrograms(req.query.page, req.query.resultCount, req.query.searchTerm);
         if(programs) {
           res.status(200);
           res.json({

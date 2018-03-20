@@ -20,4 +20,8 @@ export class ClientsComponent implements OnInit {
     this.clients = this.service.getClients(this.page, this.resultCount);
   }
 
+  searchClients(searchTerm) {
+    this.clients = this.service.getClients(this.page, this.resultCount, searchTerm.value);
+  }
+
 }

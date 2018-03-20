@@ -1,3 +1,5 @@
+<input type="text" ngModel #clientSearch>
+<button type="button" name="button" (click)="searchClients(clientSearch)">search</button>
 <div *ngFor="let client of (clients | async)?.clients">
   <div>
     <h3><a routerLink="{{client.clientId}}">{{client.username}}</a></h3>

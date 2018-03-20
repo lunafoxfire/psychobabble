@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../../auth.service';
 
@@ -19,5 +20,11 @@ export class EvaluationService {
       videoId: videoId
     };
     return this.auth.post(`/api/responses/initialize`, reqBody);
+  }
+
+  public generateAudioUrl(responseId: string): Observable<any> {
+    let params = new HttpParams()
+      .append('responseId', responseId);
+    return this.auth.get(`/api/responses/generate-audio-url`, params);
   }
 }

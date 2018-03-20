@@ -25,10 +25,17 @@ export function loadRoutes() {
   // Gets audio url to save the Subject's recording
   router.get('/generate-audio-url', auth, responseCtrl.generateAudioUrl);
 
-  // POST /api/responses/submit-failed
+  // POST /api/responses/save-success
   // auth: SUBJECT
+  // params: responseId
+  // Called when the client successfully saves the audio to the S3 bucket
+  router.post('/save-success', auth, (req, res) => {res.status(501).send()});
+
+  // POST /api/responses/save-failed
+  // auth: SUBJECT
+  // params: responseId
   // Called if the client fails when saving the audio to the S3 bucket
-  router.post('/submit-failed', auth, (req, res) => {res.status(501).send()});
+  router.post('/save-failed', auth, (req, res) => {res.status(501).send()});
 
   // GET /api/responses/:responseId
   // auth: ADMIN

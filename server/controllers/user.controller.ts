@@ -60,8 +60,7 @@ export class UserController {
         return;
       }
       if(req.jwt.role === "ADMIN") {
-        //TODO: DO THIS TOMORROW YOU DUMB DUMB DUMB
-        let client = await this.userService.getClientDetails(req.params.clientId);
+        let client = await this.userService.getClientDetails(req.params.clientId, req.query);
         if(client) {
           res.status(200);
           res.json({

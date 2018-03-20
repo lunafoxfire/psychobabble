@@ -1,5 +1,7 @@
+<p>ProgramId: {{programId | async}}</p>
 <p>State: {{state}}</p>
-<h1>{{(video | async)?.video.title}}</h1>
-<video #evalVideo width="320" height="240" src="{{(video | async)?.video.url}}" (ended)="videoEnd()" (contextmenu)="disableRightClick()"></video>
+<h1>{{(currentVideo | async)?.title}}</h1>
+<video #evalVideo width="320" height="240" src="{{(currentVideo | async)?.url}}" (ended)="videoEnd()" (contextmenu)="disableRightClick()"></video>
 <button type="button" name="play-button" (click)="playVideo()">Play</button>
-<p>{{(video | async)?.video.description}}</p>
+<p>{{(currentVideo | async)?.description}}</p>
+<audio-recorder></audio-recorder>

@@ -3,10 +3,11 @@ import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 
 export class SoftSkillService {
   private softSkillRepo: Repository<SoftSkill>;
-  public repo = this.softSkillRepo;
+  public repo: Repository<SoftSkill>;
 
   constructor(softSkillRepo: Repository<SoftSkill> = null) {
     this.softSkillRepo = softSkillRepo || getRepository(SoftSkill);
+    this.repo = this.softSkillRepo;
   }
 
   /** Saves all soft skills in the SoftSkillNames enum to the database. */

@@ -11,11 +11,12 @@ export interface UserServiceDependencies {
 export class UserService {
   private userRepo: Repository<User>;
   private roleService: RoleService;
-  public repo = this.userRepo;
+  public repo: Repository<User>;
 
   constructor(dependencies: UserServiceDependencies = null) {
     this.userRepo = dependencies ? dependencies.userRepo : getRepository(User);
     this.roleService = dependencies ? dependencies.roleService : new RoleService();
+    this.repo = this.userRepo;
   }
 
   /** Saves a user to the database. */

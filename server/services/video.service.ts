@@ -11,11 +11,12 @@ export interface VideoServiceDependencies {
 export class VideoService {
   private videoRepo: Repository<Video>;
   private tagService: TagService;
-  public repo = this.videoRepo;
+  public repo: Repository<Video>;
 
   constructor(dependencies: VideoServiceDependencies = null) {
     this.videoRepo = dependencies ? dependencies.videoRepo : getRepository(Video);
     this.tagService = dependencies ? dependencies.tagService : new TagService();
+    this.repo = this.videoRepo;
   }
 
   public async createEmptyVideo(): Promise<string> {

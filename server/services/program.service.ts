@@ -9,12 +9,13 @@ export class ProgramService {
   private programRepo: Repository<Program>;
   private videoRepo: Repository<Video>;
   private userService: UserService;
-  public repo = this.programRepo;
+  public repo: Repository<Program>;
 
   constructor(programRepo: Repository<Program> = null, videoRepo: Repository<Video> = null, userService: UserService = null) {
     this.programRepo = programRepo || getRepository(Program);
     this.videoRepo = videoRepo || getRepository(Video);
     this.userService = userService || new UserService();
+    this.repo = this.programRepo;
   }
 
   /** Saves a new Program to the database. */
@@ -80,7 +81,7 @@ export class ProgramService {
     let video = null;
     for(let i = 0; i < program.videos.length; i++) {
       let match = false;
-      for(let j = 0; j < subject.responses.length; i++) {
+      for(let j = 0; j < subject.responses.length; j++) {
         if(subject.responses[j].video.id === program.videos[i].id) {
           match = true;
           break;

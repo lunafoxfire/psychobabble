@@ -11,7 +11,7 @@ export class Response {
   id: string;
 
   /** URL of the subject's audio response to the video. */
-  @Column()
+  @Column({nullable: true})
   audio_url: string;
 
   /** Speech-to-text parse of the audio response. Nullable. */
@@ -25,10 +25,6 @@ export class Response {
   /** Whether this Response has been reviewed by an admin. */
   @Column()
   reviewed: boolean;
-
-  /** Whether this response was completed by the Subject */
-  @Column()
-  submitted: boolean;
 
   /** The subject that this Response belongs to. */
   @ManyToOne(type => User, user => user.responses)

@@ -13,15 +13,22 @@ export function loadRoutes() {
   // Get all unanalyzed responses for admin feed, by page
   router.get('/pending', auth, (req, res) => {res.status(501).send()});
 
-  // POST /api/responses/start
+  // POST /api/responses/initialize
   // auth: SUBJECT
+  // params: videoId, programId
   // Route for a subject to begin the response process
-  router.post('/start', auth, responseCtrl.beginResponseProcess);
+  router.post('/initialize', auth, responseCtrl.beginResponseProcess);
 
-  // POST /api/responses/submit
+  // POST /api/responses/generate-audio-url
   // auth: SUBJECT
-  // Route for a subject to submit a response to a video
-  router.post('/submit', auth, (req, res) => {res.status(501).send()});
+  // params: responseId
+  // Gets audio url to save the Subject's recording
+  router.get('/generate-audio-url', auth, responseCtrl.generateAudioUrl);
+
+  // POST /api/responses/submit-failed
+  // auth: SUBJECT
+  // Called if the client fails when saving the audio to the S3 bucket
+  router.post('/submit-failed', auth, (req, res) => {res.status(501).send()});
 
   // GET /api/responses/:responseId
   // auth: ADMIN

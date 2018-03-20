@@ -98,7 +98,10 @@ export class ProgramService {
   public async getDetails(programId, client: User) {
     let program = await this.programRepo.findOneById(programId);
     if(program.client.id === client.id) {
-      return program;
+      return {
+        jobTitle: program.jobTitle,
+        videos: program.videos
+      };
     } else {
       return null;
     }

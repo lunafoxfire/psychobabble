@@ -3,7 +3,7 @@ import { Tag, TagType } from './../models/Tag';
 
 export class TagService {
   private tagRepo: Repository<Tag>;
-  public repo;
+  public repo: Repository<Tag>;
 
   constructor(tagRepo: Repository<Tag> = null) {
     this.tagRepo = tagRepo || getRepository(Tag);

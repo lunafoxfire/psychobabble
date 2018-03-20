@@ -11,7 +11,7 @@ export interface VideoServiceDependencies {
 export class VideoService {
   private videoRepo: Repository<Video>;
   private tagService: TagService;
-  public repo;
+  public repo: Repository<Video>;
 
   constructor(dependencies: VideoServiceDependencies = null) {
     this.videoRepo = dependencies ? dependencies.videoRepo : getRepository(Video);

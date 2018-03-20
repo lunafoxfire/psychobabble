@@ -7,7 +7,7 @@ import { Program } from './../models/Program';
 
 export class ResponseService {
   private responseRepo: Repository<Response>;
-  public repo;
+  public repo: Repository<Response>;
 
   constructor(responseRepo: Repository<Response> = null) {
     this.responseRepo = responseRepo || getRepository(Response);

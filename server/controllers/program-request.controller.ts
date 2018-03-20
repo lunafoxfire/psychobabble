@@ -73,8 +73,7 @@ export class ProgramRequestController {
         return;
       }
       if(req.jwt.role === "CLIENT") {
-        let client = await this.userService.findByIdAsync(req.jwt.id)
-        let requests = await this.programRequestService.getPendingClientRequests(req.body.page, req.body.resultCount, client);
+        let requests = await this.programRequestService.getPendingClientRequests(req.query.page, req.query.resultCount, req.jwt.id, req.query.searchTerm);
         if(requests) {
           res.status(200);
           res.json({

@@ -23,7 +23,7 @@ export class TagService {
       return;
     }));
   }
-
+  //TODO: Add video tags or something for video search
   /** Retrieves a Tag from the database by its TagType */
   public async findByNameAsync(tagType: TagType): Promise<Tag> {
     return this.tagRepo.findOne({name: tagType});

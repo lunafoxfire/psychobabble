@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EvaluationService } from './evaluation.service';
 import { AudioRecorderService } from './audio-recorder.service';
 
@@ -20,7 +21,8 @@ export class EvaluationComponent implements OnInit {
   constructor(
     public evalService: EvaluationService,
     public recorder: AudioRecorderService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public http: HttpClient
   ) {
     this.state = EvalState.Initial;
     // Extract programId as observable from route params observable
@@ -85,9 +87,34 @@ export class EvaluationComponent implements OnInit {
     if (this.state === EvalState.Recording) {
       this.recorder.endSession()
         .then((arrayBuffer) => {
-          console.log(arrayBuffer);
+          this.state = EvalState.FinalizeResponse;
+          let audioFile = new File([arrayBuffer], 'tmp.wav', { type: 'audio/wav' });
+          console.log(audioFile);
+          this.currentResponseId.subscribe((responseId) => {
+            console.log(responseId);
+            this.evalService.generateAudioUrl(responseId)
+              .subscribe((data) => {
+                console.log(data);
+                const httpOptions = {
+                  headers: new HttpHeaders({
+                    "Key": data.aws.key,
+                    "ACL": data.aws.acl,
+                    "Bucket": data.aws.bucket,
+                    "Content-Type": data.aws.contentType
+                  })
+                };
+                console.log(httpOptions);
+                this.http.put(data.aws.signedUrl, audioFile, httpOptions)
+                  .subscribe((result) => {
+                    // Successfully saved
+                    console.log(result);
+                  }, (error) => {
+                    // Delete response on fail
+                    console.log(error);
+                  });
+              });
+          });
         });
-      this.state = EvalState.FinalizeResponse;
     }
   }
 }

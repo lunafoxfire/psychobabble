@@ -80,8 +80,8 @@ export class ResponseController {
         ['jwt', 401, "Missing auth token",
           ['id', 400, "Malformed auth token"],
           ['role', 400, "Malformed auth token"]],
-        ['body', 400, "Request body missing",
-          ['responseId', 400, "Missing 'videoId' in request body"]]
+        ['query', 400, "Request body missing",
+          ['responseId', 400, "Missing 'responseId' in request query params"]]
       )) { return; }
       if (req.jwt.role !== RoleType.Subject) {
         res.status(401);
@@ -90,7 +90,7 @@ export class ResponseController {
         });
         return;
       }
-      let response = this.responseService.repo.findOneById(req.body.responseId);
+      let response = await this.responseService.repo.findOneById(req.query.responseId, {relations: ['subject']});
       if (!response) { throw new Error("Response does not exist!"); }
       let awsParams = {
         ACL: "public-read",

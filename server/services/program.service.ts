@@ -45,15 +45,24 @@ export class ProgramService {
     .take(resultCount)
     .orderBy("program.expiration", "DESC")
     .getMany();
-    let thingToReturn =  programs.map(function(program) {
-      return {
-        description: program.description,
-        client: program.client.username,
-        author: program.author.username,
-        programId: program.id,
-        jobTitle: program.jobTitle,
-      }
-    });
+
+    let programCount = await this.programRepo.createQueryBuilder("program")
+    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .andWhere("program.closed = :closed", { closed: false })
+    .getCount();
+
+    let thingToReturn = {
+      programs: programs.map(function(program) {
+        return {
+          description: program.description,
+          client: program.client.username,
+          author: program.author.username,
+          programId: program.id,
+          jobTitle: program.jobTitle,
+        }
+      }),
+      programCount: programCount
+    }
     return thingToReturn;
   }
 

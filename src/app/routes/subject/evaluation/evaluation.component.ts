@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EvaluationService } from './evaluation.service';
 import { AudioRecorderService } from './audio-recorder.service';
+import { AuthService } from '../../../auth.service';
 
 @Component({
   selector: 'evaluation',
@@ -22,7 +23,8 @@ export class EvaluationComponent implements OnInit {
     public evalService: EvaluationService,
     public recorder: AudioRecorderService,
     public route: ActivatedRoute,
-    public http: HttpClient
+    public http: HttpClient,
+    public auth: AuthService
   ) {
     this.state = EvalState.Initial;
     // Extract programId as observable from route params observable
@@ -89,12 +91,9 @@ export class EvaluationComponent implements OnInit {
         .then((arrayBuffer) => {
           this.state = EvalState.FinalizeResponse;
           let audioFile = new File([arrayBuffer], 'tmp.wav', { type: 'audio/wav' });
-          console.log(audioFile);
           this.currentResponseId.subscribe((responseId) => {
-            console.log(responseId);
             this.evalService.generateAudioUrl(responseId)
               .subscribe((data) => {
-                console.log(data);
                 const httpOptions = {
                   headers: new HttpHeaders({
                     "Key": data.aws.key,
@@ -103,19 +102,30 @@ export class EvaluationComponent implements OnInit {
                     "Content-Type": data.aws.contentType
                   })
                 };
-                console.log(httpOptions);
                 this.http.put(data.aws.signedUrl, audioFile, httpOptions)
                   .subscribe((result) => {
-                    // Successfully saved
-                    console.log(result);
+                    this.auth.post(`/api/responses/save-success`, responseId)
+                      .subscribe((response) => {
+                        this.responseSuccess();
+                      });
                   }, (error) => {
-                    // Delete response on fail
-                    console.log(error);
+                    this.auth.post(`/api/responses/save-failed`, responseId)
+                      .subscribe((response) => {
+                        this.responseSuccess();
+                      });
                   });
               });
           });
         });
     }
+  }
+
+  public responseSuccess() {
+    console.log('YEY');
+  }
+
+  public responseFailure() {
+    console.log('BOO');
   }
 }
 

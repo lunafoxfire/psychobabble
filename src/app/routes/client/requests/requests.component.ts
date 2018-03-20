@@ -18,4 +18,8 @@ export class RequestsComponent implements OnInit {
   ngOnInit() {
     this.requests = this.service.getClientRequests(this.page, this.resultCount);
   }
+
+  public searchRequests(searchTerm) {
+    this.requests = this.service.getClientRequests(this.page, this.resultCount, searchTerm.value);
+  }
 }

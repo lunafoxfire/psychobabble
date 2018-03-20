@@ -57,17 +57,15 @@ export class ProgramRequestService {
       }
     });
   }
-  public async getPendingClientRequests(page, resultCount, client) {
-    let requests = await this.requestRepo.find({
-      where: {
-        "client": client.id,
-        "closed": "false"
-      },
-      order: {
-        "dateCreated": "ASC"
-      },
-      skip: (page*resultCount),
-      take: resultCount });
+  public async getPendingClientRequests(page, resultCount, clientId, searchTerm) {
+    let requests = await this.requestRepo.createQueryBuilder("request")
+    .where("request.closed = :closed", { closed: false })
+    .innerJoinAndSelect("request.client", "client", "client.id = :clientId", { clientId: clientId })
+    .andWhere("UPPER(request.jobTitle) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .orderBy("request.dateCreated", "ASC")
+    .skip(page*resultCount)
+    .take(resultCount)
+    .getMany();
     return requests.map(function(request) {
       return {
         client: request.client.username,

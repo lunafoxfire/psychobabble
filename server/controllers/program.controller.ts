@@ -199,7 +199,7 @@ export class ProgramController {
         return;
       }
       if(req.jwt.role === "CLIENT") {
-        let programs = await this.programService.getClientPrograms(req.params.clientId);
+        let programs = await this.programService.getClientPrograms(req.params.clientId, req.query);
         if(programs) {
           res.status(200);
           res.json({

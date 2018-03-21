@@ -91,14 +91,7 @@ export class ResponseController {
       }
       let response = await this.responseService.repo.findOneById(req.query.responseId, {relations: ['subject']});
       if (!response) { throw new Error("Response does not exist!"); }
-      let awsParams = {
-        ACL: "public-read",
-        Bucket: process.env.S3_BUCKET_NAME,
-        ContentType: 'audio/wav',
-        Expires: 100,
-        Key: `subjects/${response.subject.id}/audio/${response.id}.wav`,
-      };
-      let signedUrl = await this.responseService.generateAudioUrlAsync(response, awsParams);
+      let signedUrl = await this.responseService.generateAudioUrlAsync(response);
       if (!signedUrl) { throw new Error("Could not generate signed URL"); }
       res.status(200);
       res.json({
@@ -107,13 +100,7 @@ export class ResponseController {
           id: response.id,
           audioUrl: response.audio_url
         },
-        aws: {
-          signedUrl: signedUrl,
-          acl: awsParams.ACL,
-          bucket: awsParams.Bucket,
-          key: awsParams.Key,
-          contentType: awsParams.ContentType
-        }
+        signedUrl: signedUrl
       });
       return;
     }

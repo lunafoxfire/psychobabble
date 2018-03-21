@@ -94,25 +94,25 @@ export class EvaluationComponent implements OnInit {
           this.currentResponseId.subscribe((responseId) => {
             this.evalService.generateAudioUrl(responseId)
               .subscribe((data) => {
+                console.log(data);
                 const httpOptions = {
                   headers: new HttpHeaders({
-                    "Key": data.aws.key,
-                    "ACL": data.aws.acl,
-                    "Bucket": data.aws.bucket,
-                    "Content-Type": data.aws.contentType
+                    'Content-Type': 'audio/wav'
                   })
                 };
-                this.http.put(data.aws.signedUrl, audioFile, httpOptions)
+                this.http.put(data.signedUrl, audioFile, httpOptions)
                   .subscribe((result) => {
-                    this.auth.post(`/api/responses/save-success`, {responseId: responseId})
-                      .subscribe((response) => {
-                        this.responseSuccess();
-                      });
+                    console.log(result);
+                    // this.auth.post(`/api/responses/save-success`, {responseId: responseId})
+                    //   .subscribe((response) => {
+                    //     this.responseSuccess();
+                    //   });
                   }, (error) => {
-                    this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
-                      .subscribe((response) => {
-                        this.responseSuccess();
-                      });
+                    console.log(error);
+                    // this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
+                    //   .subscribe((response) => {
+                    //     this.responseSuccess();
+                    //   });
                   });
               });
           });

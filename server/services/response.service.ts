@@ -1,3 +1,5 @@
+import * as speech from '@google-cloud/speech';
+import * as request from 'request';
 import { S3 } from 'aws-sdk';
 import { Repository, getRepository } from 'typeorm';
 import { Response } from './../models/Response';
@@ -44,7 +46,7 @@ export class ResponseService {
             reject(err);
           }
           else {
-            response.audio_url = `${process.env.S3_BUCKET_NAME}/${awsParams.Key}`;
+            response.audio_url = `https://s3.amazonaws.com/${process.env.S3_BUCKET_NAME}/${awsParams.Key}`;
             await this.responseRepo.save(response);
             resolve(url);
           }
@@ -52,6 +54,41 @@ export class ResponseService {
       });
     }
     return getUrlAsync();
+  }
+
+  public async doSpeechToTextAsync(response: Response) {
+    console.logDev(`Begining transcription for response ${response.id}`);
+    console.log("$$$$$$$$$$$$$$$$$$$$$$$");
+    console.log(response.audio_url);
+    request.get(response.audio_url, (error, response, body) => {
+      if (error) { console.logDev(error); }
+      else {
+        const client = new speech.SpeechClient();
+        const config = {
+          encoding: 'LINEAR16',
+          sampleRateHertz: 44100,
+          languageCode: 'en-US'
+        };
+        const audio = {
+          content: body.toString('base64')
+        };
+        const request = {
+          config: config,
+          audio: audio
+        };
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        client.recognize(request)
+          .then((data) => {
+            const transcription = data[0].results
+              .map(result => result.alternatives[0].transcript)
+              .join('\n');
+            console.log(`Transcription: `, transcription);
+          })
+          .catch((err) => {
+            console.logDev(err);
+          });
+      }
+    });
   }
 }
 

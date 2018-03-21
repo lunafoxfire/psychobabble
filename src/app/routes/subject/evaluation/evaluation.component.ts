@@ -104,12 +104,12 @@ export class EvaluationComponent implements OnInit {
                 };
                 this.http.put(data.aws.signedUrl, audioFile, httpOptions)
                   .subscribe((result) => {
-                    this.auth.post(`/api/responses/save-success`, responseId)
+                    this.auth.post(`/api/responses/save-success`, {responseId: responseId})
                       .subscribe((response) => {
                         this.responseSuccess();
                       });
                   }, (error) => {
-                    this.auth.post(`/api/responses/save-failed`, responseId)
+                    this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
                       .subscribe((response) => {
                         this.responseSuccess();
                       });

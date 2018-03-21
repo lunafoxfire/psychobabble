@@ -28,11 +28,13 @@ export class FeedComponent implements OnInit {
   public showPrograms() {
     this.toggle = true;
     this.page = 0;
+    this.programs = this.service.getAllPrograms(this.page, this.resultCount);
   }
 
   public showRequests() {
     this.toggle = false;
     this.page = 0;
+    this.requests = this.service.getAllRequests(this.page, this.resultCount);
   }
 
   public searchRequests(searchTerm) {
@@ -46,6 +48,10 @@ export class FeedComponent implements OnInit {
   public nextPage(pageEvent) {
     this.page = pageEvent.pageIndex;
     this.resultCount = pageEvent.pageSize;
-    this.programs = this.service.getAllPrograms(this.page, this.resultCount);
+    if(this.toggle) {
+      this.programs = this.service.getAllPrograms(this.page, this.resultCount);
+    } else {
+      this.requests = this.service.getAllRequests(this.page, this.resultCount);
+    }
   }
 }

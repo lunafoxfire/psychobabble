@@ -16,7 +16,8 @@
     Requests
     <input type="text" ngModel #requestSearch>
     <button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
-    <div *ngFor="let request of (requests | async)?.requests">
+    <div *ngFor="let request of (requests | async)?.requests.requests">
       <a routerLink="requests/{{request.requestId}}">{{request.jobTitle}} for {{request.client}}</a>
     </div>
+    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
 </div>

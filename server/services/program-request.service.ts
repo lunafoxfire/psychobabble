@@ -50,14 +50,22 @@ export class ProgramRequestService {
     .orderBy("request.dateCreated", "ASC")
     .getMany();
 
-    return requests.map(function(request) {
-      return {
-        client: request.client.username,
-        requestId: request.id,
-        jobTitle: request.jobTitle
-      }
-    });
+    let requestCount = await this.requestRepo.createQueryBuilder("request")
+    .where("request.closed = :closed", { closed: false })
+    .getCount();
+
+    return {
+      requests: requests.map(function(request) {
+        return {
+          client: request.client.username,
+          requestId: request.id,
+          jobTitle: request.jobTitle
+        }
+      }),
+      requestCount: requestCount
+    }
   }
+
   public async getPendingClientRequests(page, resultCount, clientId, searchTerm) {
     let requests = await this.requestRepo.createQueryBuilder("request")
     .where("request.closed = :closed", { closed: false })

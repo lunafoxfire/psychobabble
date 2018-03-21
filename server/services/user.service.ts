@@ -2,19 +2,27 @@ import { Repository, getRepository } from 'typeorm';
 import { User } from './../models/User';
 import { RoleType } from './../models/Role';
 import { RoleService } from './role.service';
+import { ProgramRequest } from './../models/ProgramRequest'
+import { Program } from './../models/Program'
 
 export interface UserServiceDependencies {
   userRepo: Repository<User>;
+  requestRepo: Repository<ProgramRequest>;
+  programRepo: Repository<Program>;
   roleService: RoleService;
 }
 
 export class UserService {
   private userRepo: Repository<User>;
+  private requestRepo: Repository<ProgramRequest>;
+  private programRepo: Repository<Program>;
   private roleService: RoleService;
   public repo: Repository<User>;
 
   constructor(dependencies: UserServiceDependencies = null) {
     this.userRepo = dependencies ? dependencies.userRepo : getRepository(User);
+    this.requestRepo = dependencies ? dependencies.requestRepo : getRepository(ProgramRequest);
+    this.programRepo = dependencies ? dependencies.programRepo : getRepository(Program);
     this.roleService = dependencies ? dependencies.roleService : new RoleService();
     this.repo = this.userRepo;
   }
@@ -68,7 +76,7 @@ export class UserService {
     .where("client.role = :clientRole", { clientRole: clientRole.id })
     .andWhere("UPPER(client.normalized_username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .getCount();
-    
+
     return {
       clients: clients.map(function(client) {
         return {
@@ -89,17 +97,41 @@ export class UserService {
     if(params.programSearchTerm === 'undefined') {
       params.programSearchTerm = '';
     }
-    let client = await this.userRepo.createQueryBuilder("client")
-    .where("client.id = :id", { id: clientId})
-    .innerJoinAndSelect("client.programRequests", "request", "request.closed = :closed AND UPPER(request.jobTitle) LIKE :requestSearchTerm", { closed: false, requestSearchTerm: '%'+params.requestSearchTerm.toUpperCase()+'%' })
-    .innerJoinAndSelect("client.clientPrograms", "program", "program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
+    let client = await this.userRepo.findOneById(clientId);
+
+    let requests = await this.requestRepo.createQueryBuilder("request")
+    .innerJoinAndSelect("request.client", "client", "client.id = :id", { id: clientId })
+    .where("request.closed = :closed AND UPPER(request.jobTitle) LIKE :requestSearchTerm", { closed: false, requestSearchTerm: '%'+params.requestSearchTerm.toUpperCase()+'%' })
+    .skip(params.requestPage*params.requestResultCount)
+    .take(params.requestResultCount)
+    .getMany();
+
+    let requestCount = await this.requestRepo.createQueryBuilder("request")
+    .innerJoinAndSelect("request.client", "client", "client.id = :id", { id: clientId })
+    .where("request.closed = :closed AND UPPER(request.jobTitle) LIKE :requestSearchTerm", { closed: false, requestSearchTerm: '%'+params.requestSearchTerm.toUpperCase()+'%' })
+    .getCount();
+
+    let programs = await this.programRepo.createQueryBuilder("program")
+    .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
+    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .getOne();
+    .skip(params.programPage*params.programResultCount)
+    .take(params.programResultCount)
+    .getMany()
+
+    let programCount = await this.programRepo.createQueryBuilder("program")
+    .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
+    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
+    .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .getCount()
+
     return {
       username: client.username,
       email: client.email,
-      programs: client.clientPrograms,
-      requests: client.programRequests
+      programs: programs,
+      requests: requests,
+      requestCount: requestCount,
+      programCount: programCount,
     }
   }
 

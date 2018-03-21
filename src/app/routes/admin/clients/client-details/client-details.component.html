@@ -6,9 +6,11 @@
 <div *ngFor="let program of (client | async)?.client.programs">
   <a routerLink="program/{{program.id}}">{{program.jobTitle}}</a>
 </div>
+<mat-paginator [length]="(client | async)?.client.programCount" [pageSize]="programResultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextProgramPage($event)"></mat-paginator>
 <h1>REQUESTS</h1>
 <input type="text" #requestSearch>
 <button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
 <div *ngFor="let request of (client | async)?.client.requests">
   <a routerLink="/admin/feed/requests/{{request.id}}">{{request.jobTitle}}</a>
 </div>
+<mat-paginator [length]="(client | async)?.client.requestCount" [pageSize]="requestResultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextRequestPage($event)"></mat-paginator>

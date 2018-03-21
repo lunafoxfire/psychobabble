@@ -34,7 +34,7 @@ export class AdminService {
   }
 
   public getClientDetails(parameters: GetClientDetailsParameters): Observable<any> {
-    let params = new HttpParams().append("programPage", parameters.programPage).append("programSearchTerm", parameters.programSearchTerm).append("requestPage", parameters.requestPage).append("requestSearchTerm", parameters.requestSearchTerm).append("resultCount", parameters.resultCount);
+    let params = new HttpParams().append("programPage", parameters.programPage).append("programSearchTerm", parameters.programSearchTerm).append("requestPage", parameters.requestPage).append("requestSearchTerm", parameters.requestSearchTerm).append("programResultCount", parameters.programResultCount).append("requestResultCount", parameters.requestResultCount);
     console.log(params);
     let result = this.auth.get('api/users/'+parameters.clientId, params);
     return result;
@@ -58,5 +58,6 @@ export interface GetClientDetailsParameters {
   programSearchTerm?: string;
   requestPage: any;
   requestSearchTerm?: string;
-  resultCount: any;
+  programResultCount: any;
+  requestResultCount: any;
 }

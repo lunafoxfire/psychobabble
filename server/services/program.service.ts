@@ -47,8 +47,10 @@ export class ProgramService {
     .getMany();
 
     let programCount = await this.programRepo.createQueryBuilder("program")
-    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .andWhere("program.closed = :closed", { closed: false })
+    .innerJoinAndSelect("program.client", "client", "program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .innerJoinAndSelect("program.author", "author", "program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .where("program.closed = :closed", { closed: false })
+    .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .getCount();
 
     let thingToReturn = {

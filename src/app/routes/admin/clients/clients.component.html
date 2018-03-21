@@ -1,6 +1,7 @@
 <input type="text" ngModel #clientSearch>
 <button type="button" name="button" (click)="searchClients(clientSearch)">search</button>
-<div *ngFor="let client of (clients | async)?.clients">
+<mat-paginator [length]="(clients | async)?.clients.clientCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+<div *ngFor="let client of (clients | async)?.clients.clients">
   <div>
     <h3><a routerLink="{{client.clientId}}">{{client.username}}</a></h3>
     <p>{{client.email}}</p>

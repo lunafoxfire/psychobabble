@@ -16,6 +16,8 @@ export class ProgramDesignComponent implements OnInit {
   public requestId: string;
   public videoPage: number = 0;
   public videoResultCount: number = 10;
+  public pageSizeOptions = [1, 5, 10, 25, 50, 100];
+  public videoSearchTerm: string;
 
   constructor(
     private service: AdminService,
@@ -37,7 +39,8 @@ export class ProgramDesignComponent implements OnInit {
   }
 
   public searchVideos(searchTerm) {
-    this.videos = this.videoService.getAllVideos(this.videoPage, this.videoResultCount, searchTerm.value);
+    this.videoSearchTerm = searchTerm.value
+    this.videos = this.videoService.getAllVideos(this.videoPage, this.videoResultCount, this.videoSearchTerm);
   }
 
   public checkIfAdded(videoId) {
@@ -65,4 +68,9 @@ export class ProgramDesignComponent implements OnInit {
     });
   }
 
+  public nextPage(pageEvent) {
+    this.videoPage = pageEvent.pageIndex;
+    this.videoResultCount = pageEvent.pageSize;
+    this.videos = this.videoService.getAllVideos(this.videoPage, this.videoResultCount, this.videoSearchTerm);
+  }
 }

@@ -64,6 +64,7 @@ export class MakeRequestComponent implements OnInit {
       }
     });
     this.service.makeRequest(request).subscribe((data) => {
+      console.log(data);
       this.router.navigateByUrl('/');
     })
   }

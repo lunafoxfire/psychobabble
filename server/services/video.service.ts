@@ -57,11 +57,16 @@ export class VideoService {
   }
 
   public async getAllVideos(page, resultCount, searchTerm) {
-    return await this.videoRepo.createQueryBuilder("video")
-    .where("UPPER(video.title) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
-    .skip(page*resultCount)
-    .take(resultCount)
-    .getMany();
+    return {
+      videos: await this.videoRepo.createQueryBuilder("video")
+        .where("UPPER(video.title) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+        .skip(page*resultCount)
+        .take(resultCount)
+        .getMany(),
+      videoCount: await this.videoRepo.createQueryBuilder("video")
+        .where("UPPER(video.title) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+        .getCount()
+    }
   }
 }
 

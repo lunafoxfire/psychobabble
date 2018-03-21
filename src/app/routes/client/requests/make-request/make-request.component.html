@@ -1,5 +1,5 @@
 <legend>DO THE STUFF WITH THE THINGS</legend>
-<form #form (submit)="form.valid && submitRequest(form)">
+<form #form="ngForm" (submit)="form.valid && submitRequest(form)">
   <input type="text" name="job-title" ngModel required placeholder="Job Title">
   <div *ngFor="let skill of (softSkills | async)?.skillArray">
     <mat-checkbox ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}"></mat-checkbox>
@@ -15,8 +15,8 @@
   <button type="submit" name="button">submit</button>
 </form>
 
-<mat-autocomplete>
+<!-- <mat-autocomplete>
   <mat-option *ngFor="let skill of (softSkills | async)?.skillArray" [value]="skill.id">
     {{ skill.name }}
   </mat-option>
-</mat-autocomplete>
+</mat-autocomplete> -->

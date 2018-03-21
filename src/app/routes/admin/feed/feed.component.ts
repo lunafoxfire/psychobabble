@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AdminService } from './../admin.service';
+import { PageEvent } from '@angular/material';
 
 @Component({
   selector: 'feed',
@@ -40,5 +41,11 @@ export class FeedComponent implements OnInit {
 
   public searchPrograms(searchTerm) {
     this.programs = this.service.getAllPrograms(this.page, this.resultCount, searchTerm.value);
+  }
+
+  public nextPage(pageEvent) {
+    this.page = pageEvent.pageIndex;
+    this.resultCount = pageEvent.pageSize;
+    this.programs = this.service.getAllPrograms(this.page, this.resultCount);
   }
 }

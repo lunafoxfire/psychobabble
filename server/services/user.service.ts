@@ -64,13 +64,21 @@ export class UserService {
     .orderBy("client.username", "ASC")
     .getMany();
 
-    return clients.map(function(client) {
-      return {
-        username: client.username,
-        clientId: client.id,
-        email: client.email,
-      }
-    });
+    let clientCount = await this.userRepo.createQueryBuilder("client")
+    .where("client.role = :clientRole", { clientRole: clientRole.id })
+    .andWhere("UPPER(client.normalized_username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .getCount();
+    
+    return {
+      clients: clients.map(function(client) {
+        return {
+          username: client.username,
+          clientId: client.id,
+          email: client.email,
+        }
+      }),
+      clientCount: clientCount
+    }
   }
 
   /** Gets details of a specific client for admin */

@@ -51,7 +51,7 @@ export class ResponseController {
       let program = await this.programService.repo.findOneById(req.body.programId);
       if (!program) { throw new Error("Program does not exist!"); }
       let newResponse = await this.responseService.saveNewAsync({
-        audio_url: null,
+        gs_path: null,
         subject: subject,
         video: video,
         program: program,
@@ -98,7 +98,7 @@ export class ResponseController {
         message: "Audio url generated successfully",
         response: {
           id: response.id,
-          audioUrl: response.audio_url
+          audioUrl: response.gs_path
         },
         signedUrl: signedUrl
       });

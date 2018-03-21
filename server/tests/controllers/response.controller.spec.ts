@@ -97,7 +97,7 @@ describe.only("ResponseController", function() {
         .thenResolve(resultResponse);
       td.when(responseService.generateAudioUrlAsync(resultResponse, td.matchers.anything()))
         .thenDo(async () => {
-          resultResponse.audio_url = "www.audio.com";
+          resultResponse.gs_path = "www.audio.com";
           return "www.signedurl.com"
         });
     });

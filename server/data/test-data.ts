@@ -168,109 +168,109 @@ const TestPrograms = [
 // =========== Responses =========== //
 const TestReponses = [
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 0,
 //     videoIndex: 0,
 //     programIndex: 0
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 0,
 //     videoIndex: 1,
 //     programIndex: 0
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 0,
 //     videoIndex: 2,
 //     programIndex: 0
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 0,
 //     videoIndex: 3,
 //     programIndex: 0
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 1,
 //     videoIndex: 4,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 1,
 //     videoIndex: 5,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 1,
 //     videoIndex: 6,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 1,
 //     videoIndex: 7,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 2,
 //     videoIndex: 1,
 //     programIndex: 2
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 2,
 //     videoIndex: 4,
 //     programIndex: 2
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 2,
 //     videoIndex: 7,
 //     programIndex: 2
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 3,
 //     videoIndex: 4,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 3,
 //     videoIndex: 5,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 3,
 //     videoIndex: 6,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 3,
 //     videoIndex: 7,
 //     programIndex: 1
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 4,
 //     videoIndex: 1,
 //     programIndex: 2
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 4,
 //     videoIndex: 4,
 //     programIndex: 2
 //   },
 //   {
-//     audio_url: "",
+//     gs_path: "",
 //     subjectIndex: 4,
 //     videoIndex: 7,
 //     programIndex: 2
@@ -373,7 +373,7 @@ export class TestData {
     console.log("Generating responses...");
     await Promise.all(TestReponses.map(async (response) => {
       let newResponse = await responseService.saveNewAsync({
-        audio_url: response.audio_url,
+        gs_path: response.gs_path,
         subject: this.subjects[response.subjectIndex],
         video: this.videos[response.videoIndex],
         program: this.programs[response.programIndex]

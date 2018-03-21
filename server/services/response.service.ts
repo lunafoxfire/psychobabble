@@ -20,7 +20,7 @@ export class ResponseService {
   /** Saves a new Response to the database. */
   public async saveNewAsync(responseOptions: NewResponseOptions) {
     let newResponse = new Response();
-      newResponse.audio_url = responseOptions.audio_url;
+      newResponse.gs_path = responseOptions.gs_path;
       newResponse.text_version = null; // TODO: generate this
       newResponse.score = null;
       newResponse.reviewed = false;
@@ -31,23 +31,26 @@ export class ResponseService {
   }
 
   /** Generates a signed url for storing the audio in google bucket */
-  // TODO: Generate audio url
   public async generateAudioUrlAsync(response: Response): Promise<any> {
-    if (response.audio_url) {
+    if (response.gs_path) {
       return null;
     }
     const storage = new Storage();
-    const bucket = 'soft-skills-tester';
-    const file = `subjects/${response.subject.id}/audio/${response.id}.wav`;
+    const bucketName = 'soft-skills-tester';
+    const filePath = `subjects/${response.subject.id}/audio/${response.id}.wav`;
     const expiration = new Date().getTime() + 300000 // 5 min expiration
     const signOptions = {
       action: 'write',
       expires: expiration,
       contentType: "audio/wav"
-    }
+    };
+    // Save path
+    response.gs_path = `${bucketName}/${filePath}`;
+    await this.responseRepo.save(response);
+    // Get signed url
     return storage
-      .bucket(bucket)
-      .file(file)
+      .bucket(bucketName)
+      .file(filePath)
       .getSignedUrl(signOptions)
       .then((response) => {
         return response[0];
@@ -58,8 +61,8 @@ export class ResponseService {
     return;
     // console.logDev(`Begining transcription for response ${response.id}`);
     // console.log("$$$$$$$$$$$$$$$$$$$$$$$");
-    // console.log(response.audio_url);
-    // request.get(response.audio_url, (error, response, body) => {
+    // console.log(response.gs_path);
+    // request.get(response.gs_path, (error, response, body) => {
     //   if (error) { console.logDev(error); }
     //   else {
     //     const client = new speech.SpeechClient();
@@ -96,7 +99,7 @@ export class ResponseService {
 /** All options required to create a new Response. */
 export interface NewResponseOptions {
   /** URL of the subject's audio response to the video. */
-  audio_url: string;
+  gs_path: string;
   /** The subject that this Response belongs to. */
   subject: User;
   /** The Video that this was a Response to. */

@@ -76,13 +76,22 @@ export class ProgramRequestService {
     .skip(page*resultCount)
     .take(resultCount)
     .getMany();
-    return requests.map(function(request) {
-      return {
-        client: request.client.username,
-        requestId: request.id,
-        jobTitle: request.jobTitle
-      }
-    });
+
+    let requestCount = await this.requestRepo.createQueryBuilder("request")
+    .where("request.closed = :closed", { closed: false }).innerJoinAndSelect("request.client", "client", "client.id = :clientId", { clientId: clientId })
+    .andWhere("UPPER(request.jobTitle) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .getCount();
+
+    return {
+      requests:  requests.map(function(request) {
+        return {
+          client: request.client.username,
+          requestId: request.id,
+          jobTitle: request.jobTitle
+        }
+      }),
+      requestCount: requestCount
+    }
   }
 
   public async getRequestDetails(requestId) {

@@ -94,7 +94,6 @@ export class EvaluationComponent implements OnInit {
           this.currentResponseId.subscribe((responseId) => {
             this.evalService.generateAudioUrl(responseId)
               .subscribe((data) => {
-                console.log(data);
                 const httpOptions = {
                   headers: new HttpHeaders({
                     'Content-Type': 'audio/wav'
@@ -102,13 +101,11 @@ export class EvaluationComponent implements OnInit {
                 };
                 this.http.put(data.signedUrl, audioFile, httpOptions)
                   .subscribe((result) => {
-                    console.log(result);
                     // this.auth.post(`/api/responses/save-success`, {responseId: responseId})
                     //   .subscribe((response) => {
                     //     this.responseSuccess();
                     //   });
                   }, (error) => {
-                    console.log(error);
                     // this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
                     //   .subscribe((response) => {
                     //     this.responseSuccess();

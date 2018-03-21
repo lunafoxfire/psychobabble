@@ -113,16 +113,14 @@ export class UserService {
 
     let programs = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
-    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
-    .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .where("program.closed = :closed AND program.expiration >= :currentTime AND UPPER(program.jobTitle) LIKE :programSearchTerm OR program.closed = :closed AND program.expiration = :zero AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, currentTime: new Date().getTime(), zero: 0, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .skip(params.programPage*params.programResultCount)
     .take(params.programResultCount)
     .getMany()
 
     let programCount = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
-    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
-    .andWhere("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
+    .where("program.closed = :closed AND program.expiration >= :currentTime AND UPPER(program.jobTitle) LIKE :programSearchTerm OR program.closed = :closed AND program.expiration = :zero AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, currentTime: new Date().getTime(), zero: 0, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .getCount()
 
     return {

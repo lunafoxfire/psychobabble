@@ -116,20 +116,6 @@ export class AuthService {
     }
   }
 
-  public ajax<T>(method: 'GET' | 'POST', route: string, payload: object = null): Observable<T> {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: `Bearer ${this.getToken()}`
-      })
-    };
-    if (method === 'GET') {
-      return this.http.get<T>(route, httpOptions);
-    }
-    if (method === 'POST') {
-      return this.http.post<T>(route, payload, httpOptions);
-    }
-  }
-
   public get<T>(route: string, params?: HttpParams): Observable<T> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -140,7 +126,7 @@ export class AuthService {
     return this.http.get<T>(route, httpOptions);
   }
 
-  public post<T>(route: string, body): Observable<T> {
+  public post<T>(route: string, body?): Observable<T> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: `Bearer ${this.getToken()}`

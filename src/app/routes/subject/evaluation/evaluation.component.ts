@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { merge } from 'rxjs/observable/merge';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EvaluationService } from './evaluation.service';
+import { AudioRecorderService } from './audio-recorder.service';
+import { AuthService } from '../../../auth.service';
 
 @Component({
   selector: 'evaluation',
@@ -19,7 +21,10 @@ export class EvaluationComponent implements OnInit {
 
   constructor(
     public evalService: EvaluationService,
-    public route: ActivatedRoute
+    public recorder: AudioRecorderService,
+    public route: ActivatedRoute,
+    public http: HttpClient,
+    public auth: AuthService
   ) {
     this.state = EvalState.Initial;
     // Extract programId as observable from route params observable
@@ -73,16 +78,54 @@ export class EvaluationComponent implements OnInit {
     }
   }
 
-  public disableRightClick() {
-    return false;
-  }
-
   public startRecording() {
-    this.state = EvalState.Recording;
+    if (this.state === EvalState.AwaitingRecord) {
+      this.recorder.startSession();
+      this.state = EvalState.Recording;
+    }
   }
 
-  public endRecording() {
-    this.state = EvalState.GetNextVideo;
+  public stopRecording() {
+    if (this.state === EvalState.Recording) {
+      this.recorder.endSession()
+        .then((arrayBuffer) => {
+          this.state = EvalState.FinalizeResponse;
+          let audioFile = new File([arrayBuffer], 'tmp.wav', { type: 'audio/wav' });
+          this.currentResponseId.subscribe((responseId) => {
+            this.evalService.generateAudioUrl(responseId)
+              .subscribe((data) => {
+                const httpOptions = {
+                  headers: new HttpHeaders({
+                    "Key": data.aws.key,
+                    "ACL": data.aws.acl,
+                    "Bucket": data.aws.bucket,
+                    "Content-Type": data.aws.contentType
+                  })
+                };
+                this.http.put(data.aws.signedUrl, audioFile, httpOptions)
+                  .subscribe((result) => {
+                    this.auth.post(`/api/responses/save-success`, {responseId: responseId})
+                      .subscribe((response) => {
+                        this.responseSuccess();
+                      });
+                  }, (error) => {
+                    this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
+                      .subscribe((response) => {
+                        this.responseSuccess();
+                      });
+                  });
+              });
+          });
+        });
+    }
+  }
+
+  public responseSuccess() {
+    console.log('YEY');
+  }
+
+  public responseFailure() {
+    console.log('BOO');
   }
 }
 
@@ -93,6 +136,7 @@ enum EvalState {
   Playing = 'playing',
   AwaitingRecord = 'awaiting-record',
   Recording = 'recording',
+  FinalizeResponse = 'finalize-response',
   GetNextVideo = 'get-next-video',
   Done = 'done'
 }

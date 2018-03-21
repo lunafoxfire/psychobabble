@@ -35,7 +35,6 @@ import { RequestDetailsComponent } from './routes/client/requests/request-detail
 
 // Subject
 import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
-import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
 
 // Error
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';

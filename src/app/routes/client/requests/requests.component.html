@@ -1,3 +1,5 @@
+<input type="text" #search ngModel>
+<button type="button" name="button" (click)="searchRequests(search)">search</button>
 <a routerLink="new">Request new Program</a>
 <div *ngFor="let request of (requests | async)?.requests">
   <a routerLink="client/{{request.requestId}}">{{request.jobTitle}}</a>

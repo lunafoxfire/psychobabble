@@ -20,13 +20,14 @@ export class ClientService {
     return result;
   }
 
-  public getClientPrograms(): Observable<any> {
-    let result = this.auth.get('/api/programs/'+this.auth.getTokenPayload().id);
+  public getClientPrograms(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
+    let result = this.auth.get('/api/programs/'+this.auth.getTokenPayload().id, params);
     return result;
   }
 
-  public getClientRequests(page, resultCount): Observable<any> {
-    let params = new HttpParams().append("page", page).append("resultCount", resultCount);
+  public getClientRequests(page, resultCount, searchTerm = ''): Observable<any> {
+    let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
     let result = this.auth.get('/api/program-requests/client/pending/', params);
     return result;
   }

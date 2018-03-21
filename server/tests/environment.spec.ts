@@ -151,4 +151,13 @@ describe("Environment variables", function() {
       expect(process.env.S3_SECRET_KEY).to.not.be.empty;
     });
   });
+
+  describe("GOOGLE_APPLICATION_CREDENTIALS", function() {
+    it("should be definied", function() {
+      expect(process.env.GOOGLE_APPLICATION_CREDENTIALS).to.exist;
+    });
+    it("should not be empty", function() {
+      expect(process.env.GOOGLE_APPLICATION_CREDENTIALS).to.not.be.empty;
+    });
+  });
 });

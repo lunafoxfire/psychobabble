@@ -78,10 +78,9 @@ export class ResponseController {
     try {
       if(!reqRequire(req, res,
         ['jwt', 401, "Missing auth token",
-          ['id', 400, "Malformed auth token"],
           ['role', 400, "Malformed auth token"]],
-        ['body', 400, "Request body missing",
-          ['responseId', 400, "Missing 'videoId' in request body"]]
+        ['query', 400, "Request body missing",
+          ['responseId', 400, "Missing 'responseId' in request query params"]]
       )) { return; }
       if (req.jwt.role !== RoleType.Subject) {
         res.status(401);
@@ -90,7 +89,7 @@ export class ResponseController {
         });
         return;
       }
-      let response = this.responseService.repo.findOneById(req.body.responseId);
+      let response = await this.responseService.repo.findOneById(req.query.responseId, {relations: ['subject']});
       if (!response) { throw new Error("Response does not exist!"); }
       let awsParams = {
         ACL: "public-read",
@@ -115,6 +114,40 @@ export class ResponseController {
           key: awsParams.Key,
           contentType: awsParams.ContentType
         }
+      });
+      return;
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
+  public async responseCreationSuccess(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['role', 400, "Malformed auth token"]],
+        ['body', 400, "Request body missing",
+          ['responseId', 400, "Missing 'responseId' in request body"]]
+      )) { return; }
+      if (req.jwt.role !== RoleType.Subject) {
+        res.status(401);
+        res.json({
+          message: "Unauthorized"
+        });
+        return;
+      }
+      let response = await this.responseService.repo.findOneById(req.body.responseId);
+      if (!response) { throw new Error("Response does not exist!"); }
+      this.responseService.doSpeechToTextAsync(response);
+      res.status(204);
+      res.json({
+        message: "Response recieved"
       });
       return;
     }

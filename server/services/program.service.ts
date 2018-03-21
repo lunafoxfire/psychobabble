@@ -57,13 +57,13 @@ export class ProgramService {
     return thingToReturn;
   }
 
-  public async getClientPrograms(clientId) {
+  public async getClientPrograms(clientId, params) {
     let programs = await this.programRepo.createQueryBuilder("program")
     .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .innerJoin("program.client", "client", "program.closed = :closed", { closed: false })
+    .innerJoin("program.client", "client", "program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm", { closed: false, searchTerm: '%'+params.searchTerm.toUpperCase()+'%' })
     .where("program.client.id = :clientId", { clientId: clientId})
-    // .skip(page*resultCount)
-    // .take(resultCount)
+    .skip(params.page*params.resultCount)
+    .take(params.resultCount)
     .orderBy("program.expiration", "DESC")
     .getMany();
     let thingToReturn =  programs.map(function(program) {
@@ -98,7 +98,10 @@ export class ProgramService {
   public async getDetails(programId, client: User) {
     let program = await this.programRepo.findOneById(programId);
     if(program.client.id === client.id) {
-      return program;
+      return {
+        jobTitle: program.jobTitle,
+        videos: program.videos
+      };
     } else {
       return null;
     }

@@ -11,6 +11,7 @@ export class VideosComponent implements OnInit {
   public videos: Observable<any>;
   public page: number = 0;
   public resultCount: number = 10;
+  public pageSizeOptions = [1, 5, 10, 25, 50, 100];
 
   @ViewChild('myVideo') myVideo: any;
   played: boolean;
@@ -24,5 +25,11 @@ export class VideosComponent implements OnInit {
 
   public searchVideos(searchTerm) {
     this.videos = this.service.getAllVideos(this.page, this.resultCount, searchTerm.value);
+  }
+
+  public nextPage(pageEvent) {
+    this.page = pageEvent.pageIndex;
+    this.resultCount = pageEvent.pageSize;
+    this.videos = this.service.getAllVideos(this.page, this.resultCount);
   }
 }

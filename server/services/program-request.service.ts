@@ -51,7 +51,8 @@ export class ProgramRequestService {
     .getMany();
 
     let requestCount = await this.requestRepo.createQueryBuilder("request")
-    .where("request.closed = :closed", { closed: false })
+    .innerJoinAndSelect("request.client", "client", "request.closed = :closed", { closed: false })
+    .where("UPPER(request.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .getCount();
 
     return {

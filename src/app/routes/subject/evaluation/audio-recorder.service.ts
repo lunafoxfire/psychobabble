@@ -26,18 +26,24 @@ export class AudioRecorderService {
     return this.isRecording;
   }
 
-  public startSession(callback: {(arrayBuffer: any): void}) {
+  public startSession() {
     if (!this.isRecording) {
       this.recorder.start();
       this.isRecording = true;
-      this.recorder.ondataavailable = callback;
     }
   }
 
-  public endSession() {
+  /** Returns a promise containing the recorded data as an arrayBuffer */
+  public endSession(): Promise<any> {
     if (this.isRecording) {
       this.recorder.stop();
       this.isRecording = false;
+      return new Promise((resolve, reject) => {
+        this.recorder.ondataavailable = (arrayBuffer) => {
+          resolve(arrayBuffer);
+        };
+      });
     }
+    return null;
   }
 }

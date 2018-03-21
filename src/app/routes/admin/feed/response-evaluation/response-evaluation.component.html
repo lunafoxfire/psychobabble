@@ -1,3 +1,7 @@
-<p>
-  response-evaluation works!
-</p>
+<p>responses below</p>
+<div *ngFor="let response of (responses | async)?.responses">
+  <audio src="{{response.url}}">
+
+  </audio>
+</div>
+<p>responses above</p>

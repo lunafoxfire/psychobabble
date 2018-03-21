@@ -23,6 +23,9 @@ export class ProgramDetailsComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.programId = params['id'];
       this.program = this.service.getProgramDetails(this.programId);// TODO: Make this not pass down entire User
+      this.program.subscribe(data => {
+        console.log(data);
+      })
       this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
     })
   }

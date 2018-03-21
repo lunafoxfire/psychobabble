@@ -12,7 +12,7 @@ import { VideoService } from './routes/admin/videos/video.service';
 import { AdminService } from './routes/admin/admin.service';
 import { ClientService } from './routes/client/client.service';
 import { SubjectService } from './routes/subject/subject.service';
-import { AudioRecorderService } from './routes/subject/audio-recorder/audio-recorder.service';
+import { AudioRecorderService } from './routes/subject/evaluation/audio-recorder.service';
 import { EvaluationService } from './routes/subject/evaluation/evaluation.service';
 import { ProfileService } from './routes/profile/profile.service';
 
@@ -38,13 +38,18 @@ import { ChangePasswordComponent } from './routes/change-password/change-passwor
 import { FeedComponent } from './routes/admin/feed/feed.component';
 import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
+import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
+import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
 
 // Client routes
 import { ProgramsComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
+import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
+import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
+import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
 
 // Subject routes
-import { AudioRecorderComponent } from './routes/subject/audio-recorder/audio-recorder.component';
+import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
 
 // Error routes
 import { NotFoundComponent } from './routes/error/not-found/not-found.component';
@@ -56,16 +61,10 @@ import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.compone
 import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
-import { EvaluationComponent } from './routes/subject/evaluation/evaluation.component';
+import { ProfileComponent } from './routes/profile/profile.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
-import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
-import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
-import { RequestDetailsComponent } from './routes/client/requests/request-details/request-details.component';
-import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
-import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
-import { ProfileComponent } from './routes/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +94,6 @@ import { ProfileComponent } from './routes/profile/profile.component';
     ProgramDetailsComponent,
     MakeRequestComponent,
     RequestDetailsComponent,
-    AudioRecorderComponent,
     ClientDetailsComponent,
     ClientProgramDetailsComponent,
     ProfileComponent,

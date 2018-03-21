@@ -1,7 +1,0 @@
-<p>Recording supported?: {{isRecordingSupported}}</p>
-<button (click)="startRecord()">Start</button>
-<button (click)="stopRecord()">Stop</button>
-
-<div *ngIf="recordingUrl">
-  <a [href]="recordingUrl" download="recording.wav">Download</a>
-</div>

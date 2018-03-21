@@ -25,7 +25,11 @@ export class SoftSkillService {
   }
 
   public async getAllSkills() {
-    return await this.softSkillRepo.find();
+    return await this.softSkillRepo.find({
+      order: {
+        "name": "ASC"
+      }
+    });
   }
 
   /** Retrieves a soft skill from the database by its SoftSkillType */

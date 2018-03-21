@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ClientService } from './../../client.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
+import { FormControl } from '@angular/forms';
+import { startWith } from 'rxjs/operators/startWith';
+import { map } from 'rxjs/operators/map';
 
 @Component({
   selector: 'requests',
@@ -13,7 +16,9 @@ export class MakeRequestComponent implements OnInit {
   public softSkills: Observable<any>;
   public toggle: boolean = false;
   public weekFromNow: string;
-
+  public myControl: FormControl = new FormControl();
+  public filteredOptions: Observable<string[]>;
+  public tempOptions: string[];
   constructor(
     public service: ClientService,
     public router: Router
@@ -25,6 +30,18 @@ export class MakeRequestComponent implements OnInit {
 
   ngOnInit() {
     this.softSkills = this.service.getSkills();
+    this.softSkills.subscribe(data => {
+      this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val, data))
+      );
+    })
+  }
+
+  private filter(val: string, data): string[] {
+    return data.skillArray.filter(option =>
+    option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
   }
 
   private padMonth(date) {

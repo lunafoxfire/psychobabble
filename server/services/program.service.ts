@@ -70,21 +70,28 @@ export class ProgramService {
 
   public async getClientPrograms(clientId, params) {
     let programs = await this.programRepo.createQueryBuilder("program")
-    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .innerJoin("program.client", "client", "program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm", { closed: false, searchTerm: '%'+params.searchTerm.toUpperCase()+'%' })
-    .where("program.client.id = :clientId", { clientId: clientId})
+    .innerJoinAndSelect("program.client", "client", "client.id = :clientId", { clientId: clientId })
+    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration >= :currentTime OR program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration = :zero", { closed: false, currentTime: new Date().getTime(), searchTerm: '%'+params.searchTerm.toUpperCase()+'%', zero: 0 })
     .skip(params.page*params.resultCount)
     .take(params.resultCount)
     .orderBy("program.expiration", "DESC")
     .getMany();
-    let thingToReturn =  programs.map(function(program) {
-      return {
-        description: program.description,
-        programId: program.id,
-        jobTitle: program.jobTitle,
-      }
-    });
-    return thingToReturn;
+
+    let programCount = await this.programRepo.createQueryBuilder("program")
+    .innerJoinAndSelect("program.client", "client", "client.id = :clientId", { clientId: clientId })
+    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration >= :currentTime OR program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration = :zero", { closed: false, currentTime: new Date().getTime(), searchTerm: '%'+params.searchTerm.toUpperCase()+'%', zero: 0 })
+    .getCount();
+
+    return {
+      programs: programs.map(function(program) {
+        return {
+          description: program.description,
+          programId: program.id,
+          jobTitle: program.jobTitle,
+        }
+      }),
+      programCount: programCount
+    }
   }
 
   public async getCurrentVideo(programId, subject: User) {

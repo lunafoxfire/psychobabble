@@ -11,6 +11,9 @@ export class RequestsComponent implements OnInit {
   public requests: Observable<any>;
   public page: number = 0;
   public resultCount: number = 10;
+  public pageSizeOptions = [1, 5, 10, 25, 50, 100];
+  public searchTerm: string;
+
   constructor(
     public service: ClientService
   ) { }
@@ -20,6 +23,13 @@ export class RequestsComponent implements OnInit {
   }
 
   public searchRequests(searchTerm) {
-    this.requests = this.service.getClientRequests(this.page, this.resultCount, searchTerm.value);
+    this.searchTerm = searchTerm.value;
+    this.requests = this.service.getClientRequests(this.page, this.resultCount, this.searchTerm);
+  }
+
+  public nextPage(pageEvent) {
+    this.page = pageEvent.pageIndex;
+    this.resultCount = pageEvent.pageSize;
+    this.requests = this.service.getClientRequests(this.page, this.resultCount, this.searchTerm);
   }
 }

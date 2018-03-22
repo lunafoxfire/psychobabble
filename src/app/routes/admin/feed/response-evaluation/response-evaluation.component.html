@@ -1,6 +1,6 @@
 <p>responses below</p>
-<div *ngFor="let response of (responses | async)?.responses">
-  <audio src="{{response.url}}">
+<div *ngFor="let subject of (subjects | async)?.subjects.subjects">
+  <audio src="{{subject.username}}">
 
   </audio>
 </div>

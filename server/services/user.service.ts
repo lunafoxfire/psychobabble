@@ -89,6 +89,31 @@ export class UserService {
     }
   }
 
+  /** Gets all subjects that have responded to a program (paginated) */
+  public async getProgramSubjects(programId) {
+    let subjectRole = await this.roleService.findByNameAsync(RoleType.Subject);
+    let subjects = await this.userRepo.createQueryBuilder("subject")
+    .innerJoin("subject.responses", "response")
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .getMany();
+
+    let subjectCount = await this.userRepo.createQueryBuilder("subject")
+    .innerJoin("subject.responses", "response")
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .getCount();
+
+    return {
+      subjects: subjects.map(function(subject) {
+        return {
+          username: subject.username,
+          subjectId: subject.id,
+          email: subject.email,
+        }
+      }),
+      subjectCount: subjectCount
+    }
+  }
+
   /** Gets details of a specific client for admin */
   public async getClientDetails(clientId, params) {
     if(params.requestSearchTerm === 'undefined') {

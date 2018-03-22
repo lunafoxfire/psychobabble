@@ -1,7 +1,3 @@
-<p>responses below</p>
 <div *ngFor="let subject of (subjects | async)?.subjects.subjects">
-  <audio src="{{subject.username}}">
-
-  </audio>
+  <a routerLink="subject/{{subject.subjectId}}/responses">{{subject.username}}</a>
 </div>
-<p>responses above</p>

@@ -12,6 +12,7 @@ export class ProgramDetailsComponent implements OnInit {
   public program: Observable<any>;
   public programId: string;
   public generatedUrl: string;
+  public topSubjects: Observable<any>;
 
   constructor(
     private service: ClientService,
@@ -22,10 +23,8 @@ export class ProgramDetailsComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((params) => {
       this.programId = params['id'];
-      this.program = this.service.getProgramDetails(this.programId);// TODO: Make this not pass down entire User
-      this.program.subscribe(data => {
-        console.log(data);
-      })
+      this.program = this.service.getProgramDetails(this.programId);
+      this.topSubjects = this.service.getTopSubjects(this.programId);
       this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
     })
   }

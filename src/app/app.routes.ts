@@ -25,6 +25,7 @@ import { ProgramDesignComponent } from './routes/admin/feed/program-design/progr
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
+import { ScoringComponent } from './routes/admin/feed/response-evaluation/scoring/scoring.component';
 
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
@@ -57,6 +58,7 @@ export const ROUTES: Routes = [
   { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/feed/requests/:id', component: ProgramDesignComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/feed/programs/:id', component: ResponseEvaluationComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
+  { path: 'admin/feed/programs/:pid/subject/:sid/responses', component: ScoringComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/clients', component: ClientsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/clients/:id', component: ClientDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/clients/:cid/program/:pid', component: ClientProgramDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },

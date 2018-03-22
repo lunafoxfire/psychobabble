@@ -17,6 +17,11 @@ export function loadRoutes() {
   // Get all clients for admin
   router.get('/get-clients', auth, userCtrl.getClients);
 
+  // GET /api/users/get-clients
+  // auth: ADMIN
+  // Get all clients for admin
+  router.get('/:programId/top-subjects', auth, userCtrl.getTopSubjects);
+
   // GET /api/users/:programId/subjects
   // auth: ADMIN
   // Get all clients for admin

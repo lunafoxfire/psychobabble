@@ -114,6 +114,27 @@ export class UserService {
     }
   }
 
+  /** Get the top subjects for a program by average response score to that program */
+  public async getTopSubjects(programId) {
+    let subjects = await this.userRepo.createQueryBuilder("subject")
+    .innerJoinAndSelect("subject.responses", "response")
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .getMany();
+
+    let thingToReturn = [];
+    subjects.forEach(function(subject) {
+      let totalScore: number = 0;
+      let numberOfResponses: number = 0;
+      subject.responses.forEach(function(response) {
+        numberOfResponses++;
+        totalScore += response.score;
+      })
+      let averageScore = totalScore/numberOfResponses;
+      thingToReturn.push(`${averageScore}: ${subject.email}`);
+    })
+    return thingToReturn;
+  }
+
   /** Gets details of a specific client for admin */
   public async getClientDetails(clientId, params) {
     if(params.requestSearchTerm === 'undefined') {

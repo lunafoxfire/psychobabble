@@ -49,6 +49,17 @@ export class AdminService {
     return result;
   }
 
+  public getSubjectResponses(programId, subjectId): Observable<any> {
+    let params = new HttpParams().append("programId", programId).append("subjectId", subjectId);
+    let result = this.auth.get('/api/responses/pending', params);
+    return result;
+  }
+
+  public getTopSubjects(programId): Observable<any> {
+    let result = this.auth.get('/api/users/'+programId+'/top-subjects');
+    return result;
+  }
+
   public makeProgram(program, requestId): Observable<any> {
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;

@@ -96,10 +96,6 @@ export class ResponseController {
       res.status(200);
       res.json({
         message: "Audio url generated successfully",
-        response: {
-          id: response.id,
-          audioUrl: response.audio_gs_path
-        },
         signedUrl: signedUrl
       });
       return;

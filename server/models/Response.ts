@@ -12,7 +12,7 @@ export class Response {
 
   /** URL of the subject's audio response to the video. */
   @Column({nullable: true})
-  gs_path: string;
+  audio_gs_path: string;
 
   /** Speech-to-text parse of the audio response. Nullable. */
   @Column({nullable: true})
@@ -39,16 +39,16 @@ export class Response {
   program: Program;
 
   public getGoogleStorageUri(): string {
-    if (!this.gs_path) {
+    if (!this.audio_gs_path) {
       return null;
     }
-    return `gs://${this.gs_path}`;
+    return `gs://${this.audio_gs_path}`;
   }
 
   public getResourceUrl(): string {
-    if (!this.gs_path) {
+    if (!this.audio_gs_path) {
       return null;
     }
-    return `https://storage.cloud.google.com/${this.gs_path}`;
+    return `https://storage.cloud.google.com/${this.audio_gs_path}`;
   }
 }

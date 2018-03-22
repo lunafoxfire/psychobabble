@@ -1,7 +1,5 @@
 import * as Storage from '@google-cloud/storage';
 import * as speech from '@google-cloud/speech';
-import * as request from 'request';
-import * as fs from 'fs';
 import { Repository, getRepository } from 'typeorm';
 import { Response } from './../models/Response';
 import { User } from './../models/User';
@@ -20,7 +18,7 @@ export class ResponseService {
   /** Saves a new Response to the database. */
   public async saveNewAsync(responseOptions: NewResponseOptions) {
     let newResponse = new Response();
-      newResponse.gs_path = responseOptions.gs_path;
+      newResponse.audio_gs_path = responseOptions.audio_gs_path;
       newResponse.text_version = null; // TODO: generate this
       newResponse.score = null;
       newResponse.reviewed = false;
@@ -30,9 +28,9 @@ export class ResponseService {
     return this.responseRepo.save(newResponse);
   }
 
-  /** Generates a signed url for storing the audio in google bucket */
+  /** Generates a signed url for storing the audio in google bucket. */
   public async generateAudioUrlAsync(response: Response): Promise<any> {
-    if (response.gs_path) {
+    if (response.audio_gs_path) {
       return null;
     }
     const storage = new Storage();
@@ -45,7 +43,7 @@ export class ResponseService {
       contentType: "audio/wav"
     };
     // Save path
-    response.gs_path = `${bucketName}/${filePath}`;
+    response.audio_gs_path = `${bucketName}/${filePath}`;
     await this.responseRepo.save(response);
     // Get signed url
     return storage
@@ -57,49 +55,43 @@ export class ResponseService {
       });
   }
 
-  public async doSpeechToTextAsync(response: Response) {
-    return;
-    // console.logDev(`Begining transcription for response ${response.id}`);
-    // console.log("$$$$$$$$$$$$$$$$$$$$$$$");
-    // console.log(response.gs_path);
-    // request.get(response.gs_path, (error, response, body) => {
-    //   if (error) { console.logDev(error); }
-    //   else {
-    //     const client = new speech.SpeechClient();
-    //     const config = {
-    //       encoding: 'LINEAR16',
-    //       sampleRateHertz: 44100,
-    //       languageCode: 'en-US'
-    //     };
-    //     const audio = {
-    //       content: body.toString('base64')
-    //     };
-    //     const request = {
-    //       config: config,
-    //       audio: audio
-    //     };
-    //     console.log("Writing file");
-    //     fs.appendFileSync('testfile.wav', body);
-    //     console.log("Sending to google...");
-    //     client.recognize(request)
-    //       .then((data) => {
-    //         const transcription = data[0].results
-    //           .map(result => result.alternatives[0].transcript)
-    //           .join('\n');
-    //         console.log(`Transcription: `, transcription);
-    //       })
-    //       .catch((err) => {
-    //         console.logDev(err);
-    //       });
-    //   }
-    // });
+  /** Transcribes the audio of a response using Google Cloud Speech. Returns a promise with the transcription. */
+  public async doSpeechToTextAsync(response: Response): Promise<string> {
+    console.logDev(`Starting transciption for response: ${response.id}`);
+    const client = new speech.SpeechClient();
+    const request = {
+      config: {
+        encoding: 'LINEAR16',
+        sampleRateHertz: 44100,
+        languageCode: 'en-US'
+      },
+      audio: {
+        uri: response.getGoogleStorageUri()
+      }
+    };
+    return client.longRunningRecognize(request)
+      .then((data) => {
+        const operation = data[0];
+        return operation.promise();
+      })
+      .then(async (data) => {
+        const transcription = data[0].results
+          .map(result => {
+            return result.alternatives[0].transcript;
+          })
+          .join('\n');
+        response.text_version = transcription;
+        await this.responseRepo.save(response);
+        console.logDev(`Completed transcription for: ${response.id}`);
+        return transcription;
+      });
   }
 }
 
 /** All options required to create a new Response. */
 export interface NewResponseOptions {
   /** URL of the subject's audio response to the video. */
-  gs_path: string;
+  audio_gs_path: string;
   /** The subject that this Response belongs to. */
   subject: User;
   /** The Video that this was a Response to. */

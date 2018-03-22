@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AdminService } from './../../admin.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'response-evaluation',
@@ -8,14 +9,22 @@ import { AdminService } from './../../admin.service';
   styleUrls: ['./response-evaluation.component.scss']
 })
 export class ResponseEvaluationComponent implements OnInit {
-  public responses: Observable<any>;
-
+  public subjects: Observable<any>;
+  public programId: string;
   constructor(
-    public service: AdminService
+    public service: AdminService,
+    public route: ActivatedRoute,
+    public router: Router
   ) { }
 
   ngOnInit() {
-    this.responses;
+    this.route.params.subscribe((params) => {
+      this.programId = params['id'];
+      this.subjects = this.service.getProgramSubjects(this.programId);
+      this.subjects.subscribe(data => {
+        console.log(data);
+      })
+    });
   }
 
   public rateResponse(rating) {

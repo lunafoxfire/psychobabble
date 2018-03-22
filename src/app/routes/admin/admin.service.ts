@@ -22,6 +22,11 @@ export class AdminService {
     return result;
   }
 
+  public getProgramSubjects(programId): Observable<any> {
+    let result = this.auth.get('api/users/'+programId+'/subjects');
+    return result;
+  }
+
   public getClients(page, resultCount, searchTerm = ''): Observable<any> {
     let params = new HttpParams().append("page", page).append("resultCount", resultCount).append("searchTerm", searchTerm);
     let result = this.auth.get('api/users/get-clients', params);

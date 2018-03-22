@@ -34,7 +34,7 @@ export class ResponseService {
       return null;
     }
     const storage = new Storage();
-    const bucketName = 'soft-skills-tester';
+    const bucketName = (process.env.NODE_ENV === 'production') ? 'soft-skills-tester' : 'soft-skills-tester-dev';
     const filePath = `subjects/${response.subject.id}/audio/${response.id}.wav`;
     const expiration = new Date().getTime() + 300000 // 5 min expiration
     const signOptions = {
@@ -61,8 +61,6 @@ export class ResponseService {
     const client = new speech.SpeechClient();
     const request = {
       config: {
-        encoding: 'LINEAR16',
-        sampleRateHertz: 44100,
         languageCode: 'en-US'
       },
       audio: {

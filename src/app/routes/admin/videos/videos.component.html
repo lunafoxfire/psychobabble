@@ -1,7 +1,8 @@
 <a routerLink="/admin/videos/upload">Upload New Video</a>
 <input type="text" #videoSearch ngModel>
 <button type="button" name="button" (click)="searchVideos(videoSearch)">search</button>
-<div *ngFor="let video of (videos | async)?.videos">
+<mat-paginator [length]="(videos | async)?.videos.videoCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+<div *ngFor="let video of (videos | async)?.videos.videos">
   <h2>{{video.title}}</h2>
   <video #myVideo width="320" height="240" controls>
     <source src="{{video.url}}" type="video/mp4">

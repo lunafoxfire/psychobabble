@@ -7,13 +7,17 @@
       <a routerLink="programs/{{program.programId}}">{{program.jobTitle}}</a>
       <p><small>Client: {{program.client}}, Author: {{program.author}}</small></p>
     </div>
-    <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="pageEvent = $event"></mat-paginator>
+    <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+    <div *ngIf="pageEvent">
+      <h1>{{page}}</h1>
+    </div>
 </div>
 <div *ngIf="!toggle">
     Requests
     <input type="text" ngModel #requestSearch>
     <button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
-    <div *ngFor="let request of (requests | async)?.requests">
+    <div *ngFor="let request of (requests | async)?.requests.requests">
       <a routerLink="requests/{{request.requestId}}">{{request.jobTitle}} for {{request.client}}</a>
     </div>
+    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
 </div>

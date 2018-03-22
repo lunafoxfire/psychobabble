@@ -86,6 +86,14 @@ export class ResponseService {
         return transcription;
       });
   }
+
+  public async getSubjectResponses(query) {
+    return await this.responseRepo.createQueryBuilder("response")
+    .innerJoin("response.subject", "subject", "subject.id = :subjectId", { subjectId: query.subjectId })
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: query.programId})
+    .where("response.reviewed = :reviewed", { reviewed: false })
+    .getMany();
+  }
 }
 
 /** All options required to create a new Response. */

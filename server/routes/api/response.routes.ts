@@ -11,7 +11,7 @@ export function loadRoutes() {
   // params: page
   // auth: ADMIN
   // Get all unanalyzed responses for admin feed, by page
-  router.get('/pending', auth, (req, res) => {res.status(501).send()});
+  router.get('/pending', auth, responseCtrl.getSubjectResponses);
 
   // POST /api/responses/initialize
   // auth: SUBJECT
@@ -36,11 +36,6 @@ export function loadRoutes() {
   // params: responseId
   // Called if the client fails when saving the audio to the S3 bucket
   router.post('/save-failed', auth, responseCtrl.responseCreationFail);
-
-  // GET /api/responses/:responseId
-  // auth: ADMIN
-  // Get details of a particular response
-  router.get('/:responseId', auth, (req, res) => {res.status(501).send()});
 
   return router;
 }

@@ -182,4 +182,46 @@ export class ResponseController {
       return;
     }
   }
+
+  public async getSubjectResponses(req, res) {
+    try {
+      if(!req.jwt) {
+        res.status(401);
+        res.json({
+          message: "Missing authentication token"
+        });
+        return;
+      }
+      if(req.jwt.role === "ADMIN") {
+        let responses = await this.responseService.getSubjectResponses(req.query);
+        if(responses) {
+          res.status(200);
+          res.json({
+            responses: responses,
+            message: "Grabbed all the things"
+          })
+        } else {
+          res.status(500);
+          res.json({
+            message: "Unknown error"
+          });
+          return;
+        }
+      } else {
+        res.status(401);
+        res.json({
+          message: "Not Authorized"
+        });
+        return;
+      }
+    }
+    catch(err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
 }

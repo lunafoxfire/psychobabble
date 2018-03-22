@@ -2,10 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EvaluationService } from './evaluation.service';
+import { EvaluationService, Video } from './evaluation.service';
 import { AudioRecorderService } from './audio-recorder.service';
-import { AuthService } from '../../../auth.service';
 
 @Component({
   selector: 'evaluation',
@@ -22,12 +20,9 @@ export class EvaluationComponent implements OnInit {
   constructor(
     public evalService: EvaluationService,
     public recorder: AudioRecorderService,
-    public route: ActivatedRoute,
-    public http: HttpClient,
-    public auth: AuthService
+    public route: ActivatedRoute
   ) {
     this.state = EvalState.Initial;
-    // Extract programId as observable from route params observable
     this.programId = Observable.create((observer) => {
       this.route.params.subscribe((params) => {
         observer.next(params.id);
@@ -42,11 +37,13 @@ export class EvaluationComponent implements OnInit {
   public loadNextVideo() {
     this.programId.subscribe((programId) => {
       this.state = EvalState.LoadingVideo;
-      // Extract curentVideo as an observable from getCurrentVideo response
-      this.evalService.getCurrentVideo(programId).subscribe((data) => {
+      this.evalService.getCurrentVideo(programId).then((video) => {
         this.currentVideo = Observable.create((observer) => {
-          observer.next(data.video);
+          observer.next(video);
         });
+        if (!video) {
+          this.playlistOver();
+        }
       });
     });
   }
@@ -62,12 +59,10 @@ export class EvaluationComponent implements OnInit {
       zip(this.programId, this.currentVideo).subscribe((zippedData) => {
         let programId = zippedData[0];
         let videoId = zippedData[1].id;
-        // Extract currentResponseId as observable from beginResponseProcess response
-        this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
+        this.evalService.beginResponseProcess(programId, videoId).then((newResponseId) => {
           this.currentResponseId = Observable.create((observer) => {
-            observer.next(data.responseId);
+            observer.next(newResponseId);
           });
-          // Begin video playback after response process has successfully started
           this.videoElement.nativeElement.play();
           this.state = EvalState.Playing;
         });
@@ -90,43 +85,46 @@ export class EvaluationComponent implements OnInit {
 
   public stopRecording() {
     if (this.state === EvalState.Recording) {
-      this.recorder.endSession()
-        .then((arrayBuffer) => {
-          this.state = EvalState.FinalizeResponse;
-          let audioFile = new File([arrayBuffer], 'tmp.wav', { type: 'audio/wav' });
-          this.currentResponseId.subscribe((responseId) => {
-            this.evalService.generateAudioUrl(responseId)
-              .subscribe((data) => {
-                const httpOptions = {
-                  headers: new HttpHeaders({
-                    'Content-Type': 'audio/wav'
-                  })
-                };
-                this.http.put(data.signedUrl, audioFile, httpOptions)
-                  .subscribe((result) => {
-                    console.log(result);
-                    this.auth.post(`/api/responses/save-success`, {responseId: responseId})
-                      .subscribe((response) => {
-                        this.responseSuccess();
-                      });
-                  }, (error) => {
-                    this.auth.post(`/api/responses/save-failed`, {responseId: responseId})
-                      .subscribe((response) => {
-                        this.responseFailure();
-                      });
-                  });
-              });
+      this.recorder.endSession().then((arrayBuffer) => {
+        this.state = EvalState.FinalizeResponse;
+        let audioFile = new File([arrayBuffer], 'tmp.wav', { type: 'audio/wav' });
+        this.currentResponseId.subscribe((responseId) => {
+          this.evalService.saveAudioToResponse(responseId, audioFile).then((result) => {
+            if(result === true) {
+              this.responseSaveSuccess()
+            }
+            else {
+              this.responseSaveFailure();
+            }
           });
         });
+      });
     }
   }
 
-  public responseSuccess() {
-    console.log('YEY');
+  public responseSaveSuccess() {
+    if (this.state === EvalState.FinalizeResponse) {
+      this.state = EvalState.GetNextVideo;
+      this.loadNextVideo();
+    }
   }
 
-  public responseFailure() {
-    console.log('BOO');
+  // TODO: Use this to show the user something
+  public responseSaveFailure() {
+    console.error('Something went wrong...');
+  }
+
+  // TODO: Use this method to provide a bit of buffer time before loading next video
+  public getNextVideo() {
+    if (this.state === EvalState.GetNextVideo) {
+      this.loadNextVideo();
+    }
+  }
+
+  public playlistOver() {
+    if (this.state === EvalState.LoadingVideo) {
+      this.state = EvalState.Done;
+    }
   }
 }
 
@@ -140,11 +138,4 @@ enum EvalState {
   FinalizeResponse = 'finalize-response',
   GetNextVideo = 'get-next-video',
   Done = 'done'
-}
-
-interface Video {
-  id: string;
-  title: string;
-  description: string;
-  url: string;
 }

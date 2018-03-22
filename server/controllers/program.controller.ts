@@ -256,9 +256,9 @@ export class ProgramController {
           })
           return;
         } else {
-          res.status(500);
+          res.status(200);
           res.json({
-            message: "All Videos Watched"
+            message: "All videos watched"
           });
           return;
         }

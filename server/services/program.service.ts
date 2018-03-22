@@ -94,6 +94,7 @@ export class ProgramService {
     }
   }
 
+  /** Returns next video for a Subject in the Program. Returns null if no videos remain. */
   public async getCurrentVideo(programId, subject: User) {
     let program = await this.programRepo.findOneById(programId);
     let video = null;

@@ -60,7 +60,8 @@ export class ProgramRequestService {
         return {
           client: request.client.username,
           requestId: request.id,
-          jobTitle: request.jobTitle
+          jobTitle: request.jobTitle,
+          text: request.text
         }
       }),
       requestCount: requestCount
@@ -87,7 +88,8 @@ export class ProgramRequestService {
         return {
           client: request.client.username,
           requestId: request.id,
-          jobTitle: request.jobTitle
+          jobTitle: request.jobTitle,
+          text: request.text
         }
       }),
       requestCount: requestCount

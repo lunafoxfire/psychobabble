@@ -1,6 +1,12 @@
-<input type="text" ngModel #search>
-<button type="button" name="button" (click)="searchPrograms(search)">search</button>
-<div *ngFor="let program of (programs | async)?.programs.programs">
-  <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
-</div>
-<mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+<mat-card>
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput type="text" ngModel placeholder="Search..." #search>
+    </mat-form-field>
+    <button mat-raised-button type="button" name="button" (click)="searchPrograms(search)">search</button>
+    <div *ngFor="let program of (programs | async)?.programs.programs">
+      <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
+    </div>
+    <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+  </mat-card-content>
+</mat-card>

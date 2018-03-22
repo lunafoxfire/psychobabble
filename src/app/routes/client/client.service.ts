@@ -42,4 +42,8 @@ export class ClientService {
     return result;
   }
 
+  public getTopSubjects(programId): Observable<any> {
+    let result = this.auth.get('/api/users/'+programId+'/top-subjects');
+    return result;
+  }
 }

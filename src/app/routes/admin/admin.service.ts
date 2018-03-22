@@ -55,6 +55,11 @@ export class AdminService {
     return result;
   }
 
+  public getTopSubjects(programId): Observable<any> {
+    let result = this.auth.get('/api/users/'+programId+'/top-subjects');
+    return result;
+  }
+
   public makeProgram(program, requestId): Observable<any> {
     let result = this.auth.post('api/programs/new', {program: program, requestId: requestId});
     return result;

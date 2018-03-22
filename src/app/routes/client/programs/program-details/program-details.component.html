@@ -3,3 +3,7 @@
 <div *ngFor="let video of (program | async)?.program.videos">
   <p>{{video.title}}</p>
 </div>
+<h1>TOP SUBJECTS</h1>
+<div *ngFor="let subject of (topSubjects | async)?.subjects">
+  <p>{{subject}}</p>
+</div>

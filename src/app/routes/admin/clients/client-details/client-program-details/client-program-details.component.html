@@ -1,5 +1,10 @@
 <h1>Program Id: {{(program | async)?.program.jobTitle}}</h1>
 <h3>Link for this program: {{generatedUrl}}</h3>
+<h1>VIDEOS</h1>
 <div *ngFor="let video of (program | async)?.program.videos">
   <p>{{video.url}}</p>
+</div>
+<h1>TOP SUBJECTS</h1>
+<div *ngFor="let subject of (topSubjects | async)?.subjects">
+  <p>{{subject}}</p>
 </div>

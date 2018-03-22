@@ -43,13 +43,18 @@ export class EvaluationComponent implements OnInit {
     this.programId.subscribe((programId) => {
       this.state = EvalState.LoadingVideo;
       // Extract curentVideo as an observable from getCurrentVideo response
-      this.currentVideo = Observable.create((observer) => {
-        this.evalService.getCurrentVideo(programId).subscribe((data) => {
+      this.evalService.getCurrentVideo(programId).subscribe((data) => {
+        this.currentVideo = Observable.create((observer) => {
           observer.next(data.video);
-          this.state = EvalState.AwaitingPlay;
         });
       });
     });
+  }
+
+  public videoLoaded() {
+    if (this.state === EvalState.LoadingVideo) {
+      this.state = EvalState.AwaitingPlay;
+    }
   }
 
   public playVideo() {
@@ -58,16 +63,14 @@ export class EvaluationComponent implements OnInit {
         let programId = zippedData[0];
         let videoId = zippedData[1].id;
         // Extract currentResponseId as observable from beginResponseProcess response
-        this.currentResponseId = Observable.create((observer) => {
-          this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
+        this.evalService.beginResponseProcess(programId, videoId).subscribe((data) => {
+          this.currentResponseId = Observable.create((observer) => {
             observer.next(data.responseId);
           });
-        });
-        // Begin video playback after response process has successfully started
-        this.currentResponseId.subscribe((responseId) => {
+          // Begin video playback after response process has successfully started
           this.videoElement.nativeElement.play();
           this.state = EvalState.Playing;
-        })
+        });
       });
     }
   }

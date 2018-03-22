@@ -166,6 +166,7 @@ export class ResponseController {
       let response = await this.responseService.repo.findOneById(req.body.responseId);
       if (!response) { throw new Error("Response does not exist!"); }
       response.audio_gs_path = null;
+      this.responseService.repo.save(response);
       res.status(204);
       res.json({
         message: "Failure successful"

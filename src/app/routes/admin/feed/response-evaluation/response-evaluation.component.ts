@@ -21,13 +21,6 @@ export class ResponseEvaluationComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.programId = params['id'];
       this.subjects = this.service.getProgramSubjects(this.programId);
-      this.subjects.subscribe(data => {
-        console.log(data);
-      })
     });
-  }
-
-  public rateResponse(rating) {
-    console.log("NOT IMPLEMENTED YET YOU BUGGER!!")
   }
 }

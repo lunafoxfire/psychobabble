@@ -5,20 +5,17 @@
     <mat-checkbox ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}"></mat-checkbox>
     <label for="{{skill.name}}">{{skill.name}}</label>
   </div>
-  <button type="button" name="button" (click)="switchToggle()">Click For Expiration Date</button>
-  <div *ngIf="toggle">
-    <label for="expiration">Expiration</label>
-    <input ngModel name="expiration" type="date" min="{{weekFromNow}}">
-  </div>
+  <label for="expiration">Expiration</label>
+  <input ngModel name="expiration" type="date" min="{{weekFromNow}}">
   <label for="details">Additional Details</label>
   <textarea ngModel name="details" rows="8" cols="80" required></textarea>
   <button type="submit" name="button">submit</button>
-  <mat-form-field>
-    <input type="text" placeholder="Pick one" [formControl]="myControl" aria-label="Number" matInput [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-      <mat-option *ngFor="let skill of filteredOptions | async" [value]="skill.name">
-        {{ skill.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
 </form>
+<mat-form-field>
+  <input type="text" placeholder="Pick one" [formControl]="myControl" aria-label="Number" matInput [matAutocomplete]="auto">
+  <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+    <mat-option *ngFor="let skill of filteredOptions | async" [value]="skill.name">
+      {{ skill.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

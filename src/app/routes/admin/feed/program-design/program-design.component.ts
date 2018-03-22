@@ -53,13 +53,13 @@ export class ProgramDesignComponent implements OnInit {
     return notAdded;
   }
 
-  public async createProgram() {
+  public async createProgram(programDescription) {
     this.request.subscribe((data) => {
       let program = {
         videos: this.programVideos,
         client: data.request.client,
         expiration: data.request.unixExpiration,
-        description: null,
+        description: programDescription.value,
         jobTitle: data.request.jobTitle,
       }
       this.service.makeProgram(program, this.requestId).subscribe((result) => {

@@ -12,7 +12,7 @@ export class Response {
 
   /** URL of the subject's audio response to the video. */
   @Column({nullable: true})
-  audio_url: string;
+  audio_gs_path: string;
 
   /** Speech-to-text parse of the audio response. Nullable. */
   @Column({nullable: true})
@@ -37,4 +37,18 @@ export class Response {
   /** The Program that this Response belongs to. */
   @ManyToOne(type => Program, program => program.responses)
   program: Program;
+
+  public getGoogleStorageUri(): string {
+    if (!this.audio_gs_path) {
+      return null;
+    }
+    return `gs://${this.audio_gs_path}`;
+  }
+
+  public getResourceUrl(): string {
+    if (!this.audio_gs_path) {
+      return null;
+    }
+    return `https://storage.cloud.google.com/${this.audio_gs_path}`;
+  }
 }

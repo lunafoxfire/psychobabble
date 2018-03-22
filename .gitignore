@@ -2,7 +2,7 @@
 
 # secrets
 server-env.json
-gcloud-credentials.json
+goog-creds.json
 
 # compiled output
 /dist

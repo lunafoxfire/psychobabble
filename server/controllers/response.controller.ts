@@ -51,7 +51,7 @@ export class ResponseController {
       let program = await this.programService.repo.findOneById(req.body.programId);
       if (!program) { throw new Error("Program does not exist!"); }
       let newResponse = await this.responseService.saveNewAsync({
-        audio_url: null,
+        audio_gs_path: null,
         subject: subject,
         video: video,
         program: program,
@@ -91,29 +91,16 @@ export class ResponseController {
       }
       let response = await this.responseService.repo.findOneById(req.query.responseId, {relations: ['subject']});
       if (!response) { throw new Error("Response does not exist!"); }
-      let awsParams = {
-        ACL: "public-read",
-        Bucket: process.env.S3_BUCKET_NAME,
-        ContentType: 'audio/wav',
-        Expires: 100,
-        Key: `subjects/${response.subject.id}/audio/${response.id}.wav`,
-      };
-      let signedUrl = await this.responseService.generateAudioUrlAsync(response, awsParams);
+      let signedUrl = await this.responseService.generateAudioUrlAsync(response);
       if (!signedUrl) { throw new Error("Could not generate signed URL"); }
       res.status(200);
       res.json({
         message: "Audio url generated successfully",
         response: {
           id: response.id,
-          audioUrl: response.audio_url
+          audioUrl: response.audio_gs_path
         },
-        aws: {
-          signedUrl: signedUrl,
-          acl: awsParams.ACL,
-          bucket: awsParams.Bucket,
-          key: awsParams.Key,
-          contentType: awsParams.ContentType
-        }
+        signedUrl: signedUrl
       });
       return;
     }
@@ -148,6 +135,41 @@ export class ResponseController {
       res.status(204);
       res.json({
         message: "Response recieved"
+      });
+      return;
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
+  public async responseCreationFail(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['role', 400, "Malformed auth token"]],
+        ['body', 400, "Request body missing",
+          ['responseId', 400, "Missing 'responseId' in request body"]]
+      )) { return; }
+      if (req.jwt.role !== RoleType.Subject) {
+        res.status(401);
+        res.json({
+          message: "Unauthorized"
+        });
+        return;
+      }
+      let response = await this.responseService.repo.findOneById(req.body.responseId);
+      if (!response) { throw new Error("Response does not exist!"); }
+      response.audio_gs_path = null;
+      this.responseService.repo.save(response);
+      res.status(204);
+      res.json({
+        message: "Failure successful"
       });
       return;
     }

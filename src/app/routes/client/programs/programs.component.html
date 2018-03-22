@@ -5,7 +5,14 @@
     </mat-form-field>
     <button mat-raised-button type="button" name="button" (click)="searchPrograms(search)">search</button>
     <div *ngFor="let program of (programs | async)?.programs.programs">
-      <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
+      <mat-card>
+        <mat-card-title>
+          <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
+        </mat-card-title>
+        <mat-card-content>
+          <p>{{program.description}}</p>
+        </mat-card-content>
+      </mat-card>
     </div>
     <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
   </mat-card-content>

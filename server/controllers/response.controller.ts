@@ -181,6 +181,13 @@ export class ResponseController {
 
   public async getSubjectResponses(req, res) {
     try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['role', 400, "Malformed auth token"]],
+        ['query', 400, "Request query params missing",
+          ['subjectId', 400, "Missing 'subjectId' in request query params"],
+          ['programId', 400, "Missing 'programId' in request query params"]]
+      )) { return; }
       if(!req.jwt) {
         res.status(401);
         res.json({

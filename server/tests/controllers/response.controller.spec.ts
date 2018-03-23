@@ -471,7 +471,7 @@ describe("ResponseController", function() {
     });
   });
 
-  describe.only("getSubjectResponses method", function() {
+  describe("getSubjectResponses method", function() {
     let resultResponses;
 
     beforeEach(function() {

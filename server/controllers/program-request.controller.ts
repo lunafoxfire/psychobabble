@@ -214,10 +214,10 @@ export class ProgramRequestController {
         });
         return;
       }
-      if (!req.body.nameArray) {
+      if (!req.body.softSkills) {
         res.status(400);
         res.json({
-          message: "nameArray parameter is missing"
+          message: "softSkills parameter is missing"
         });
         return;
       }
@@ -229,14 +229,11 @@ export class ProgramRequestController {
         return;
       } else {
         let expiration = new Date(req.body.expiration).getTime();
-        let skillIds = req.body.nameArray.map(function(id) {
-          return parseInt(id);
-        });
         let result = await this.programRequestService.saveNewAsync({
           client: await this.userService.findByIdAsync(req.jwt.id),
           expiration: expiration,
           text: req.body.details,
-          softSkills: skillIds,
+          softSkills: req.body.softSkills,
           jobTitle: req.body.jobTitle,
         });
         if(result) {

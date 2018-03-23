@@ -1,11 +1,23 @@
-<a routerLink="/admin/videos/upload">Upload New Video</a>
-<input type="text" #videoSearch ngModel>
-<button type="button" name="button" (click)="searchVideos(videoSearch)">search</button>
-<mat-paginator [length]="(videos | async)?.videos.videoCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
-<div *ngFor="let video of (videos | async)?.videos.videos">
-  <h2>{{video.title}}</h2>
-  <video #myVideo width="320" height="240" controls>
-    <source src="{{video.url}}" type="video/mp4">
-  </video>
-  <p>{{video.description}}</p>
-</div>
+<mat-card>
+  <mat-card-content>
+    <a mat-raised-button routerLink="/admin/videos/upload">Upload New Video</a>
+    <mat-form-field>
+      <input matInput type="text" #videoSearch ngModel>
+    </mat-form-field>
+    <button mat-raised-button type="button" name="button" (click)="searchVideos(videoSearch)">search</button>
+    <div *ngFor="let video of (videos | async)?.videos.videos">
+      <mat-card>
+        <mat-card-title>
+          <h2>{{video.title}}</h2>
+        </mat-card-title>
+        <mat-card-content>
+          <video #myVideo width="320" height="240" controls>
+            <source src="{{video.url}}" type="video/mp4">
+            </video>
+            <p>{{video.description}}</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <mat-paginator [length]="(videos | async)?.videos.videoCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+    </mat-card-content>
+  </mat-card>

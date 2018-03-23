@@ -7,7 +7,7 @@ import { AuthController } from './../../controllers/auth.controller';
 import { AuthService } from './../../services/auth.service';
 import { User } from './../../models/User';
 
-describe.only("AuthController", function() {
+describe("AuthController", function() {
   let authService: AuthService;
   let authController: AuthController;
   let req: MockReq;

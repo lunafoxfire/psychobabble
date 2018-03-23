@@ -23,18 +23,11 @@ export class ProgramRequestService {
 
   /** Saves a new ProgramRequest to the database. */
   public async saveNewAsync(requestOptions: NewProgramRequestOptions): Promise<ProgramRequest> {
-    let softSkills: SoftSkill[] = [];
-    if (requestOptions.softSkills) {
-      await Promise.all(requestOptions.softSkills.map(async (skillId) => {
-        softSkills.push(await this.softSkillService.findByIdAsync(skillId));
-        return;
-      }));
-    }
     let newRequest = new ProgramRequest();
       newRequest.client = requestOptions.client;
       newRequest.text = requestOptions.text;
       newRequest.dateCreated = new Date().getTime();
-      newRequest.softSkills = softSkills;
+      newRequest.softSkills = requestOptions.softSkills;
       newRequest.expiration = requestOptions.expiration;
       newRequest.closed = false;
       newRequest.jobTitle = requestOptions.jobTitle;
@@ -133,7 +126,7 @@ export interface NewProgramRequestOptions {
   /** Requested program expiration date */
   expiration?: number;
   /** Soft Skills to be included in the requested Program. Optional. */
-  softSkills?: number[];
+  softSkills?: SoftSkill[];
   /** Job title that the requested program is for */
   jobTitle: string;
 }

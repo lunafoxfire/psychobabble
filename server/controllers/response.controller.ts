@@ -194,10 +194,17 @@ export class ResponseController {
       }
       if(req.jwt.role === "ADMIN") {
         let responses = await this.responseService.getSubjectResponses(req.query);
+        let data = responses.map(function(response) {
+          return {
+            responseId: response.id,
+            text_version: response.text_version,
+            url: response.getResourceUrl()
+          }
+        })
         if(responses) {
           res.status(200);
           res.json({
-            responses: responses,
+            responses: data,
             message: "Grabbed all the things"
           })
         } else {

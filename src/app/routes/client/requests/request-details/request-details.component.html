@@ -1,2 +1,8 @@
-<h1>{{(request | async)?.request.jobTitle}}</h1>
-<p>{{(request | async)?.request.expiration}}</p>
+<mat-card>
+  <mat-card-title>
+    <h1>{{(request | async)?.request.jobTitle}}</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <p>{{(request | async)?.request.expiration}}</p>
+  </mat-card-content>
+</mat-card>

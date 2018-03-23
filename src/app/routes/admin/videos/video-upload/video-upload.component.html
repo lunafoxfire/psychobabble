@@ -1,10 +1,17 @@
-<h1>UPLOAD TEH VIDJAH</h1>
-<form #form="ngForm" (ngSubmit)="form.valid && sendVideo(file, description, title)" enctype="multipart/form-data">
-  <input #title ngModel name="title" type="text">
-  <input #file ngModel type="file" name="file" accept="video/mp4">
-  <textarea #description="ngModel" ngModel name="name" rows="8" cols="80" required></textarea>
-  <div style="color:red" *ngIf="description.errors && (description.dirty || description.touched || form.submitted)">
-      <p *ngIf="description.errors.required">Description is required</p>
-  </div>
-  <input type="submit" name="submit" value="Upload to Amazon S3" />
-</form>
+<mat-card>
+  <mat-card-content>
+    <form #form="ngForm" (ngSubmit)="form.valid && sendVideo(file, description, title)" enctype="multipart/form-data">
+      <mat-form-field>
+        <input matInput #title ngModel name="title" type="text" placeholder="Title" required>
+      </mat-form-field>
+        <input #file ngModel type="file" name="file" accept="video/mp4">
+      <mat-form-field>
+        <textarea placeholder="Description" matInput #description="ngModel" ngModel name="name" rows="8" cols="80" required></textarea>
+      </mat-form-field>
+      <div style="color:red" *ngIf="description.errors && (description.dirty || description.touched || form.submitted)">
+        <p *ngIf="description.errors.required">Description is required</p>
+      </div>
+      <button mat-raised-button type="submit" name="submit">Upload to Amazon S3</button>
+    </form>
+  </mat-card-content>
+</mat-card>

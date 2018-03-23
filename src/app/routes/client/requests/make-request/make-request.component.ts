@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'requests',
@@ -13,12 +14,16 @@ import { map } from 'rxjs/operators/map';
 })
 
 export class MakeRequestComponent implements OnInit {
-  public softSkills: Observable<any>;
+  public softSkills: Array<any>;
   public toggle: boolean = false;
   public weekFromNow: string;
   public myControl: FormControl = new FormControl();
-  public filteredOptions: Observable<string[]>;
-  public tempOptions: string[];
+  public filteredOptions: string[];
+  public chips = [];
+  public visible: boolean = true;
+  public selectable: boolean = false;
+  public removable: boolean = true;
+  public addOnBlur: boolean = true;
   constructor(
     public service: ClientService,
     public router: Router
@@ -29,19 +34,44 @@ export class MakeRequestComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.softSkills = this.service.getSkills();
-    this.softSkills.subscribe(data => {
-      this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(val => this.filter(val, data))
-      );
-    })
+    this.service.getSkills().subscribe(data => {
+      this.softSkills = data.skillArray;
+      this.myControl.valueChanges
+      .subscribe(data =>
+        this.filter(data)
+      )
+    });
   }
 
-  private filter(val: string, data): string[] {
-    return data.skillArray.filter(option =>
-    option.name.toLowerCase().indexOf(val.toLowerCase()) === 0);
+  private filter(val){
+    this.filteredOptions = this.softSkills
+      .filter(obj => obj.name.toLowerCase().indexOf(val.toString().toLowerCase()) === 0);
+    }
+
+  addChip(event: MatAutocompleteSelectedEvent, input: any): void {
+    // Define selection constant
+    const selection = event.option.value;
+    // Add chip for selected option
+    this.chips.push(selection);
+    // Remove selected option from available options and set filteredOptions
+    this.softSkills = this.softSkills.filter(obj => obj.name !== selection.name);
+    this.filteredOptions = this.softSkills;
+    // Reset the autocomplete input text value
+    if (input) {
+    input.value = '';
+    }
+  }
+
+  removeChip(chip: any): void {
+    // Find key of object in array
+    let index = this.chips.indexOf(chip);
+    // If key exists
+    if (index >= 0) {
+      // Remove key from chips array
+      this.chips.splice(index, 1);
+      // Add key to options array
+      this.softSkills.push(chip);
+    }
   }
 
   private padMonth(date) {
@@ -58,28 +88,14 @@ export class MakeRequestComponent implements OnInit {
     this.toggle = !this.toggle
   }
 
-  public submitRequest(form) {
-    let nameArray = new Array<any>();
+  public submitRequest(jobTitle, expiration, details) {
     let request = {
-      nameArray: nameArray,
-      details: null,
-      expiration: null,
-      jobTitle: null,
+      softSkills: this.chips,
+      details: details.value,
+      expiration: expiration.value,
+      jobTitle: jobTitle.value,
     }
-    let details;
-    Object.keys(form.value).forEach(function(key) {
-      if(form.value[key]) {
-        if(key === "details") {
-          request.details = form.value[key];
-        } else if(key === "expiration") {
-          request.expiration = form.value[key];
-        } else if(key === "job-title") {
-          request.jobTitle = form.value[key];
-        } else {
-          nameArray.push(key);
-        }
-      }
-    });
+    console.log(request);
     this.service.makeRequest(request).subscribe((data) => {
       console.log(data);
       this.router.navigateByUrl('/');

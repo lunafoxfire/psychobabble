@@ -157,8 +157,6 @@ export class AuthController {
     })(req, res);
   }
 
-
-
   public async sendResetEmail(req, res) {
     try {
       if (!req.body) {
@@ -386,6 +384,13 @@ export class AuthController {
         res.status(400);
         res.json({
           message: "Auth token malformed"
+        });
+        return;
+      }
+      if (req.jwt.validated) {
+        res.status(400);
+        res.json({
+          message: "Already Validated"
         });
         return;
       }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ProfileService } from './profile.service';
+import { AuthService } from './../../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'profile',
@@ -11,7 +13,9 @@ export class ProfileComponent implements OnInit {
   public user: Observable<any>;
 
   constructor(
-    public service: ProfileService
+    public service: ProfileService,
+    public auth: AuthService,
+    public router: Router
   ) { }
 
   ngOnInit() {
@@ -20,5 +24,9 @@ export class ProfileComponent implements OnInit {
       console.log(data);
     })
   }
-
+  public resendVerify() {
+    this.auth.reVerify().subscribe((data) => {
+      this.router.navigateByUrl('/verify');
+    })
+  }
 }

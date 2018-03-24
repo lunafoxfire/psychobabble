@@ -5,6 +5,7 @@ import { loadRoutes as loadProgramRoutes } from './program.routes';
 import { loadRoutes as loadResponseRoutes } from './response.routes';
 import { loadRoutes as loadUserRoutes } from './user.routes';
 import { loadRoutes as loadVideoRoutes } from './video.routes';
+import { loadRoutes as loadSoftSkillRoutes } from './soft-skill.routes';
 
 // prefix: /api/...
 export function loadRoutes() {
@@ -16,6 +17,7 @@ export function loadRoutes() {
   router.use('/responses', loadResponseRoutes());
   router.use('/users', loadUserRoutes());
   router.use('/videos', loadVideoRoutes());
-  
+  router.use('/soft-skills', loadSoftSkillRoutes());
+
   return router;
 }

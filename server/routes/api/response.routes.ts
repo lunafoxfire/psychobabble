@@ -8,8 +8,8 @@ export function loadRoutes() {
   let responseCtrl = new ResponseController();
 
   // GET /api/responses/pending
-  // params: page
   // auth: ADMIN
+  // params: subjectId, programId
   // Get all unanalyzed responses for admin feed, by page
   router.get('/pending', auth, responseCtrl.getSubjectResponses);
 

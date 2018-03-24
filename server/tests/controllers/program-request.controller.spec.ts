@@ -10,6 +10,7 @@ import { UserService } from './../../services/user.service';
 import { ProgramRequest } from './../../models/ProgramRequest';
 import { User } from './../../models/User';
 import { SoftSkill } from './../../models/SoftSkill';
+import { RoleType } from './../../models/Role';
 
 describe("ProgramRequestController", function() {
   let requestService: ProgramRequestService;
@@ -25,7 +26,6 @@ describe("ProgramRequestController", function() {
     userService = td.object<UserService>(new UserService);
     requestController = new ProgramRequestController({
       programRequestService: requestService,
-      softSkillService: softSkillService,
       userService: userService
     });
     req = new MockReq();
@@ -43,13 +43,8 @@ describe("ProgramRequestController", function() {
   });
 
   describe("constructor", function() {
-    it("should return an auth controller", function() {
+    it("should return a program request controller", function() {
       expect(requestController).to.exist;
-    });
-
-    it("should have a softSkillService injected through the constructor", function() {
-      expect(requestController).to.have.own.property('softSkillService').that.is.not.null;
-      expect(requestController).to.have.own.property('softSkillService').that.is.equal(softSkillService);
     });
 
     it("should have a programRequestService injected through the constructor", function() {
@@ -63,11 +58,372 @@ describe("ProgramRequestController", function() {
     });
   });
 
+  describe("getAllRequests method", function() {
+    beforeEach(function() {
+      req.jwt = {
+        role: RoleType.Admin
+      };
+      req.query = {
+        page: 2,
+        resultCount: 10,
+        searchTerm: "search the thing",
+      };
+      td.when(requestService.getRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenResolve({});
+    });
+
+    it("should return 401 status if jwt is missing", async function() {
+      req.jwt = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if jwt is missing role", async function() {
+      req.jwt.role = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing", async function() {
+      req.query = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing page", async function() {
+      req.query.page = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing resultCount", async function() {
+      req.query.resultCount = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing searchTerm", async function() {
+      req.query.searchTerm = undefined;
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 401 status if role is not 'ADMIN'", async function() {
+      req.jwt.role = "skjdj";
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 200 status if requests are found", async function() {
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(200);
+      expect(res.json().message).to.exist;
+    });
+
+    // TODO: Write this test to assert the data is in the correct format
+    it("should return an array of the found requests");
+
+    it("should return 500 status if an exception is thrown", async function() {
+      td.when(requestService.getRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenReject(new Error("test error"));
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 500 status if requests return null or undefined", async function() {
+      td.when(requestService.getRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenReturn(undefined);
+      await requestController.getAllRequests(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+  });
+
+  describe("getPendingClientRequests method", function() {
+    beforeEach(function() {
+      req.jwt = {
+        id: "test-user-id",
+        role: RoleType.Client
+      };
+      req.query = {
+        page: 1,
+        resultCount: 14,
+        searchTerm: "potato"
+      };
+      td.when(requestService.getPendingClientRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenReturn({});
+    });
+
+    it("should return 401 status if jwt is missing", async function() {
+      req.jwt = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if jwt is missing id", async function() {
+      req.jwt.id = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if jwt is missing role", async function() {
+      req.jwt.role = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing", async function() {
+      req.query = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing page", async function() {
+      req.query.page = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing resultCount", async function() {
+      req.query.resultCount = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if query params are missing searchTerm", async function() {
+      req.query.searchTerm = undefined;
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 401 status if role is not 'CLIENT'", async function() {
+      req.jwt.role = "jsdhf";
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 200 status if client requests are found", async function() {
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(200);
+      expect(res.json().message).to.exist;
+    });
+
+    // TODO: Write this test to assert the data is in the correct format
+    it("should return an array of the found requests");
+
+    it("should return 500 status if an exception is thrown", async function() {
+      td.when(requestService.getPendingClientRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenReject(new Error("test error"));
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 500 status if getPendingClientRequests returns null or undefined", async function() {
+      td.when(requestService.getPendingClientRequests(
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything(),
+        td.matchers.anything()
+      )).thenReject(undefined);
+      await requestController.getPendingClientRequests(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+  });
+
+  describe("getRequestDetails method", function() {
+    beforeEach(function() {
+      req.jwt = {
+        role: RoleType.Admin
+      };
+      req.params = {
+        requestId: "test-request-id"
+      };
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenResolve({});
+    });
+
+    it("should return 401 status if jwt is missing", async function() {
+      req.jwt = undefined;
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if jwt is missing role", async function() {
+      req.jwt.role = undefined;
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if route params are missing", async function() {
+      req.params = undefined;
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if route params are missing requestId", async function() {
+      req.params.requestId = undefined;
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 401 status if role is not 'ADMIN'", async function() {
+      req.jwt.role = "skdjfh";
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 200 status if details are successfully found", async function() {
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(200);
+      expect(res.json().message).to.exist;
+    });
+
+    // TODO: Write this test to assert the data is in the correct format
+    it("should return the request details");
+
+    it("should return 500 status if an exception is thrown", async function() {
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenReject(new Error("test error"));
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 500 status if request comes back undefined", async function() {
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenResolve(undefined);
+      await requestController.getRequestDetails(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+  });
+
+
+  describe("getClientRequestDetails method", function() {
+    beforeEach(function() {
+      req.jwt = {
+        role: RoleType.Client
+      };
+      req.params = {
+        requestId: "test-request-id"
+      };
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenResolve({});
+    });
+
+    it("should return 401 status if jwt is missing", async function() {
+      req.jwt = undefined;
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if jwt is missing role", async function() {
+      req.jwt.role = undefined;
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if route params are missing", async function() {
+      req.params = undefined;
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 status if route params are missing requestId", async function() {
+      req.params.requestId = undefined;
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 401 status if role is not 'ADMIN'", async function() {
+      req.jwt.role = "skdjfh";
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(401);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 200 status if details are successfully found", async function() {
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(200);
+      expect(res.json().message).to.exist;
+    });
+
+    // TODO: Write this test to assert the data is in the correct format
+    it("should return the request details");
+
+    it("should return 500 status if an exception is thrown", async function() {
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenReject(new Error("test error"));
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 500 status if request comes back undefined", async function() {
+      td.when(requestService.getRequestDetails(td.matchers.anything()))
+        .thenResolve(undefined);
+      await requestController.getClientRequestDetails(req, res);
+      expect(res.status()).to.equal(500);
+      expect(res.json().message).to.exist;
+    });
+  });
+
   describe("makeProgramRequest method", function() {
     let resultRequest;
     let resultUser;
 
     beforeEach(function() {
+      req.jwt = {
+        id: "abcde",
+        role: "CLIENT"
+      };
+      req.body = {
+        nameArray: ["testName", "testName2"]
+      };
       resultRequest = td.object<ProgramRequest>(new ProgramRequest);
       resultRequest.id = "abcde";
       resultUser = td.object<User>(new User);
@@ -84,19 +440,12 @@ describe("ProgramRequestController", function() {
 
     it("should return status 401 if jwt is missing", async function() {
       req.jwt = undefined;
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(401);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 400 if body is missing", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "CLIENT"
-      };
       req.body = undefined;
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(400);
@@ -104,78 +453,40 @@ describe("ProgramRequestController", function() {
     });
 
     it("should return status 400 if jwt is missing role", async function() {
-      req.jwt = {
-        id: "abcde",
-        // role: "CLIENT"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
+      req.jwt.role = undefined;
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 400 if jwt is missing id", async function() {
-      req.jwt = {
-        id: "abcde",
-        // role: "CLIENT"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
+      req.jwt.id = undefined;
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 400 if nameArray parameter is missing", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "CLIENT"
-      };
-      req.body = {
-        // nameArray: ["testName", "testName2"]
-      }
+      req.body.nameArray = undefined;
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 401 if jwt role is not 'CLIENT'", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "ASDFGH"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
+      req.jwt.role = "sdkjfh";
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(401);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 200 if request is saved successfully", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "CLIENT"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(200);
       expect(res.json().message).to.exist;
     });
 
     it("should return status 500 if request is not saved successfully", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "CLIENT"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
       td.when(requestService.saveNewAsync(td.matchers.anything()))
         .thenResolve(null);
       await requestController.makeProgramRequest(req, res);
@@ -184,53 +495,9 @@ describe("ProgramRequestController", function() {
     });
 
     it("should return status 500 if an exception is thrown", async function() {
-      req.jwt = {
-        id: "abcde",
-        role: "CLIENT"
-      };
-      req.body = {
-        nameArray: ["testName", "testName2"]
-      }
       td.when(requestService.saveNewAsync(td.matchers.anything()))
         .thenReject(new Error("test error"));
       await requestController.makeProgramRequest(req, res);
-      expect(res.status()).to.equal(500);
-      expect(res.json().message).to.exist;
-    });
-  });
-
-  describe("getAllSoftSkills method", function() {
-    let resultSkills;
-
-    beforeEach(function() {
-      resultSkills = [td.object<SoftSkill>(new SoftSkill), td.object<SoftSkill>(new SoftSkill)];
-      td.when(softSkillService.getAllSkills())
-        .thenResolve(resultSkills);
-    });
-
-    it("should return status 200 on success", async function() {
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.status()).to.equal(200);
-      expect(res.json().message).to.exist;
-    });
-
-    it("should return 'skillArray' array of soft skills on success", async function() {
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.json().skillArray).to.equal(resultSkills);
-    });
-
-    it("should return status 204 if no soft skills found", async function() {
-      td.when(softSkillService.getAllSkills())
-        .thenResolve([]);
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.status()).to.equal(204);
-      expect(res.json().message).to.exist;
-    });
-
-    it("should return status 500 if an exception was thrown", async function() {
-      td.when(softSkillService.getAllSkills())
-        .thenReject(new Error("test error"));
-      await requestController.getAllSoftSkills(req, res);
       expect(res.status()).to.equal(500);
       expect(res.json().message).to.exist;
     });

@@ -1,4 +1,5 @@
 import { fixThis } from './../utility/fix-this';
+import { reqRequire } from './../utility/req-require';
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
@@ -15,23 +16,15 @@ export class AuthController {
 
   public async registerClient(req, res) {
     try {
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body was missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['username', 400, "Missing 'username' in request body"],
+          ['email', 400, "Missing 'email' in request body"],
+          ['password', 400, "Missing 'password' in request body"]]
+      )) { return; }
       let username = req.body.username;
       let email = req.body.email;
       let password = req.body.password;
-      if (!username || !email || !password) {
-        res.status(400);
-        res.json({
-          message: "One or more required fields were missing"
-        });
-        return;
-      }
       console.logDev(`Registering ${username} | ${email}...`);
       let user = await this.authService.registerClientAsync(username, email, password);
       if (user) {
@@ -66,23 +59,15 @@ export class AuthController {
 
   public async registerSubject(req, res) {
     try {
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body was missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['username', 400, "Missing 'username' in request body"],
+          ['email', 400, "Missing 'email' in request body"],
+          ['password', 400, "Missing 'password' in request body"]]
+      )) { return; }
       let username = req.body.username;
       let email = req.body.email;
       let password = req.body.password;
-      if (!username || !email || !password) {
-        res.status(400);
-        res.json({
-          message: "One or more required fields were missing"
-        });
-        return;
-      }
       console.logDev(`Registering ${username} | ${email}...`);
       let user = await this.authService.registerSubjectAsync(username, email, password);
       if (user) {
@@ -116,22 +101,13 @@ export class AuthController {
   }
 
   public async loginLocal(req, res) {
-    if (!req.body) {
-      res.status(400);
-      res.json({
-        message: "Request body was missing"
-      });
-      return;
-    }
+    if(!reqRequire(req, res,
+      ['body', 400, "Request body missing",
+        ['loginName', 400, "Missing 'loginName' in request body"],
+        ['password', 400, "Missing 'password' in request body"]]
+    )) { return; }
     let loginName = req.body.loginName;
     let password = req.body.password;
-    if (!loginName || !password) {
-      res.status(400);
-      res.json({
-        message: "One or more required fields were missing"
-      });
-      return;
-    }
     passport.authenticate('local', (err, user, info) => {
       console.logDev(`Logging in ${loginName}...`);
       if (err) {
@@ -159,34 +135,12 @@ export class AuthController {
 
   public async sendResetEmail(req, res) {
     try {
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body was missing"
-        });
-        return;
-      }
-      if (!req.headers) {
-        res.status(400);
-        res.json({
-          message: "Request headers were missing"
-        });
-        return;
-      }
-      if (!req.body.email) {
-        res.status(400);
-        res.json({
-          message: "Email parameter missing"
-        });
-        return;
-      }
-      if (!req.headers.host) {
-        res.status(400);
-        res.json({
-          message: "Host header missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['email', 400, "Missing 'email' in request body"]],
+        ['headers', 400, "Request headers missing",
+          ['host', 400, "Missing 'host' in request headers"]]
+      )) { return; }
       let sendSuccess = await this.authService.sendPassResetEmail(req.body.email, req.headers.host);
       if(sendSuccess) {
         res.status(200);
@@ -214,34 +168,12 @@ export class AuthController {
 
   public async resendResetEmail(req, res) {
     try {
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body was missing"
-        });
-        return;
-      }
-      if (!req.headers) {
-        res.status(400);
-        res.json({
-          message: "Request headers were missing"
-        });
-        return;
-      }
-      if (!req.body.userId) {
-        res.status(400);
-        res.json({
-          message: "userId parameter missing"
-        });
-        return;
-      }
-      if (!req.headers.host) {
-        res.status(400);
-        res.json({
-          message: "Host header missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['userId', 400, "Missing 'userId' in request body"]],
+        ['headers', 400, "Request headers missing",
+          ['host', 400, "Missing 'host' in request headers"]]
+      )) { return; }
       let sendSuccess = await this.authService.resendPasswordResetEmail(req.body.userId, req.headers.host);
       if(sendSuccess) {
         res.status(200);
@@ -269,20 +201,12 @@ export class AuthController {
 
   public async passChange(req, res) {
     try {
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body missing"
-        });
-        return;
-      }
-      if (!req.body.newPass || !req.body.userId || !req.body.token) {
-        res.status(400);
-        res.json({
-          message: "One or more requeired parameters were missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['newPass', 400, "Missing 'newPass' in request body"],
+          ['userId', 400, "Missing 'userId' in request body"],
+          ['token', 400, "Missing 'token' in request body"]]
+      )) { return; }
       let passChangeSuccess = await this.authService.changePassword(req.body.newPass, req.body.userId, req.body.token);
       if(passChangeSuccess === 0) {
         res.status(401);
@@ -316,34 +240,12 @@ export class AuthController {
 
   public async verifyUser(req, res) {
     try {
-      if (!req.jwt) {
-        res.status(401);
-        res.json({
-          message: "Missing authentication token"
-        });
-        return;
-      }
-      if (!req.jwt.id) {
-        res.status(400);
-        res.json({
-          message: "Auth token is malformed"
-        });
-        return;
-      }
-      if (!req.body) {
-        res.status(400);
-        res.json({
-          message: "Request body is missing"
-        });
-        return;
-      }
-      if (!req.body.code) {
-        res.status(400);
-        res.json({
-          message: "Parameter 'code' is missing"
-        });
-        return;
-      }
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['code', 400, "Missing 'code' in request body"]],
+        ['jwt', 401, "Missing auth token",
+          ['id', 400, "Malformed auth token"]]
+      )) { return; }
       let user = await this.authService.checkValidationCode(req.body.code, req.jwt.id);
       if (user) {
         res.status(200);
@@ -373,21 +275,12 @@ export class AuthController {
 
   public async resendVerification(req, res) {
     try {
-      if (!req.jwt) {
-        res.status(401);
-        res.json({
-          message: "Missing authentication token"
-        });
-        return;
-      }
-      if (!req.jwt.email) {
-        res.status(400);
-        res.json({
-          message: "Auth token malformed"
-        });
-        return;
-      }
-      if (req.jwt.validated) {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['email', 400, "Malformed auth token"],
+          ['validated', 400, "Malformed auth token"]]
+      )) { return; }
+      if (req.jwt.validated === true) {
         res.status(400);
         res.json({
           message: "Already Validated"

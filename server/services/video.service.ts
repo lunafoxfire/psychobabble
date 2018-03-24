@@ -1,21 +1,21 @@
 import { Repository, getRepository } from 'typeorm';
 import { Video } from './../models/Video';
-import { Tag, TagType } from './../models/Tag';
-import { TagService } from './tag.service';
+import { SoftSkillService } from './soft-skill.service';
+import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 
 export interface VideoServiceDependencies {
   videoRepo: Repository<Video>;
-  tagService: TagService;
+  softSkillService: SoftSkillService;
 }
 
 export class VideoService {
   private videoRepo: Repository<Video>;
-  private tagService: TagService;
+  private softSkillService: SoftSkillService;
   public repo: Repository<Video>;
 
   constructor(dependencies: VideoServiceDependencies = null) {
     this.videoRepo = dependencies ? dependencies.videoRepo : getRepository(Video);
-    this.tagService = dependencies ? dependencies.tagService : new TagService();
+    this.softSkillService = dependencies ? dependencies.softSkillService : new SoftSkillService();
     this.repo = this.videoRepo;
   }
 
@@ -27,10 +27,10 @@ export class VideoService {
 
   /** Saves a new Video to the database. */
   public async uploadAsync(videoOptions: VideoUploadOptions): Promise<Video> {
-    let tags: Tag[] = [];
-    if (videoOptions.tags) {
-      await Promise.all(videoOptions.tags.map(async (tagType) => {
-        tags.push(await this.tagService.findByNameAsync(tagType));
+    let softSkills: SoftSkill[] = [];
+    if (videoOptions.softSkills) {
+      await Promise.all(videoOptions.softSkills.map(async (softSkillType) => {
+        softSkills.push(await this.softSkillService.findByNameAsync(softSkillType));
         return;
       }));
     }
@@ -39,7 +39,7 @@ export class VideoService {
       newVideo.url = videoOptions.url;
       newVideo.description = videoOptions.description;
       newVideo.title = videoOptions.title;
-      newVideo.tags = tags;
+      newVideo.softSkills = softSkills;
     return this.videoRepo.save(newVideo);
   }
 
@@ -80,6 +80,6 @@ export interface VideoUploadOptions {
   description: string;
   /** Title of video */
   title: string;
-  /** All tags associated with this video. Optional. */
-  tags?: TagType[];
+  /** All soft skills associated with this video. Optional. */
+  softSkills?: SoftSkillType[];
 }

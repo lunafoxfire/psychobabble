@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from "typeorm";
 import { ProgramRequest } from "./ProgramRequest";
+import { Video } from './Video';
 
 /** Represents a soft skill that a client can request. */
 @Entity('soft_skills')
@@ -15,6 +16,10 @@ export class SoftSkill {
   /** All requests requesting this soft skill. */
   @ManyToMany(type => ProgramRequest, programRequests => programRequests.softSkills)
   programRequests: ProgramRequest[];
+
+  /** All videos this soft skill is related too */
+  @ManyToMany(type => Video, videos => videos.softSkills)
+  videos: Video[];
 }
 
 /** Enumerated list of all soft skill names. */

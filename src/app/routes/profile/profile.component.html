@@ -1,2 +1,11 @@
-<h1>{{(user | async)?.user.username}}</h1>
-<a routerLink="/password-reset">Change Password</a>
+<mat-card>
+  <mat-card-title>
+    <h1>{{(user | async)?.user.username}}</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <button mat-raised-button type="button" *ngIf="!auth.isVerified()" (click)="resendVerify()">Resend Verification Email</button>
+    <div *ngIf="auth.isVerified()">
+      <a mat-raised-button routerLink="/password-reset">Change Password</a>
+    </div>
+  </mat-card-content>
+</mat-card>

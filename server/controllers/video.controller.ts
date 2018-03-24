@@ -83,7 +83,7 @@ export class VideoController {
       let result = await this.videoService.uploadAsync({
         id: req.body.videoId,
         url: req.body.url,
-        description: req.body.description, // TODO: Tags
+        description: req.body.description, // TODO: Soft Skills
         title: req.body.title
       });
       if(result) {

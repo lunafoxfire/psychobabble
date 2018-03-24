@@ -3,6 +3,7 @@ export class MockReq {
     public jwt: any;
     public body: any;
     public query: any;
+    public params: any;
     public headers: any;
 }
 

@@ -96,10 +96,6 @@ export class ResponseController {
       res.status(200);
       res.json({
         message: "Audio url generated successfully",
-        response: {
-          id: response.id,
-          audioUrl: response.audio_gs_path
-        },
         signedUrl: signedUrl
       });
       return;
@@ -185,6 +181,13 @@ export class ResponseController {
 
   public async getSubjectResponses(req, res) {
     try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['role', 400, "Malformed auth token"]],
+        ['query', 400, "Request query params missing",
+          ['subjectId', 400, "Missing 'subjectId' in request query params"],
+          ['programId', 400, "Missing 'programId' in request query params"]]
+      )) { return; }
       if(!req.jwt) {
         res.status(401);
         res.json({

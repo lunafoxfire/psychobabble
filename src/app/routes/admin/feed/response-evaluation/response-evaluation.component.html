@@ -1,3 +1,7 @@
 <div *ngFor="let subject of (subjects | async)?.subjects.subjects">
-  <a routerLink="subject/{{subject.subjectId}}/responses">{{subject.username}}</a>
+  <mat-card>
+    <mat-card-title>
+      <a routerLink="subject/{{subject.subjectId}}/responses">{{subject.username}}</a>
+    </mat-card-title>
+  </mat-card>
 </div>

@@ -1,24 +1,34 @@
-<legend>DO THE STUFF WITH THE THINGS</legend>
-<form #form="ngForm" (submit)="form.valid && submitRequest(form)">
-  <input type="text" name="job-title" ngModel required placeholder="Job Title">
-  <div *ngFor="let skill of (softSkills | async)?.skillArray">
-    <mat-checkbox ngModel type="checkbox" name="{{skill.id}}" value="{{skill.id}}"></mat-checkbox>
-    <label for="{{skill.name}}">{{skill.name}}</label>
-  </div>
-  <button type="button" name="button" (click)="switchToggle()">Click For Expiration Date</button>
-  <div *ngIf="toggle">
-    <label for="expiration">Expiration</label>
-    <input ngModel name="expiration" type="date" min="{{weekFromNow}}">
-  </div>
-  <label for="details">Additional Details</label>
-  <textarea ngModel name="details" rows="8" cols="80" required></textarea>
-  <button type="submit" name="button">submit</button>
-  <mat-form-field>
-    <input type="text" placeholder="Pick one" [formControl]="myControl" aria-label="Number" matInput [matAutocomplete]="auto">
-    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
-      <mat-option *ngFor="let skill of filteredOptions | async" [value]="skill.name">
-        {{ skill.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-</form>
+<mat-card>
+  <mat-card-content>
+    <form #form="ngForm" (submit)="form.valid && submitRequest(jobTitle, expiration, details)">
+      <mat-form-field>
+        <input matInput type="text" name="job-title" #jobTitle ngModel required placeholder="Job Title">
+      </mat-form-field>
+      <label for="expiration">Expiration</label>
+      <mat-form-field>
+        <input matInput ngModel #expiration name="expiration" type="date" min="{{weekFromNow}}">
+      </mat-form-field>
+      <label for="details">Additional Details</label>
+      <mat-form-field>
+        <textarea #details matInput ngModel name="details" rows="8" cols="80" required></textarea>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-chip-list #chipList>
+          <mat-chip *ngFor="let chip of chips" [selectable]="selectable" [removable]="removable" (remove)="removeChip(chip)">
+            {{chip.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+
+          <input placeholder="Select option..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [matChipInputAddOnBlur]="addOnBlur"
+          matInput [formControl]="myControl" #chipInput/>
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
+          <mat-option *ngFor="let option of filteredOptions" [value]="option">
+            {{ option.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button type="submit" name="button">submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>

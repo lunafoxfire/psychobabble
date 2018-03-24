@@ -16,7 +16,6 @@ import { createConnection } from 'typeorm';
 import { AuthService } from './services/auth.service';
 import { RoleService } from './services/role.service';
 import { SoftSkillService } from './services/soft-skill.service';
-import { TagService } from './services/tag.service';
 
 export class App {
   /** Very important function. */
@@ -37,11 +36,9 @@ export class App {
         console.logInEnvironment({exclude: ['testing']}, "Loading initial data...");
         let roleService = new RoleService();
         let softSkillService = new SoftSkillService();
-        let tagService = new TagService();
         let authService = new AuthService();
         await roleService.syncRolesToDbAsync();
         await softSkillService.syncSoftSkillsToDbAsync();
-        await tagService.syncTagsToDbAsync();
         await authService.generateDefaultAdminIfNoAdminAsync();
         console.logInEnvironment({exclude: ['testing']}, "Successfully connected to the database.");
       })

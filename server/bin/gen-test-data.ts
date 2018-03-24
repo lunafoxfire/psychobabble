@@ -17,4 +17,4 @@ createConnection()
     await TestData.loadAllTestDataAsync();
     console.log("Test data loading complete!");
   })
-  .catch((err) => console.error("An error occured!\n" + err));
+  .catch((err) => {console.error("An error occured!\n"); console.error(err)});

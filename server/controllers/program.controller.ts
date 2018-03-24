@@ -241,13 +241,7 @@ export class ProgramController {
         return;
       }
       if(req.jwt.role === "SUBJECT") {
-        let subject = await this.userService.repo.createQueryBuilder('subject')
-          .leftJoinAndSelect('subject.responses', 'responses')
-          .leftJoinAndSelect('responses.video', 'video')
-          .where('subject.id = :subjectId')
-          .setParameter('subjectId', req.jwt.id)
-          .getOne();
-        let video = await this.programService.getCurrentVideo(req.params.programId, subject);
+        let video = await this.programService.getCurrentVideo(req.params.programId, req.jwt.id);
         if(video) {
           res.status(200);
           res.json({

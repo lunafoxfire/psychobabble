@@ -4,7 +4,6 @@ import { ProgramRequest } from './../models/ProgramRequest';
 import { Response } from './../models/Response';
 import { Role, RoleType } from './../models/Role';
 import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
-import { Tag, TagType } from './../models/Tag';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { Video } from './../models/Video';
@@ -16,7 +15,6 @@ import { ProgramService } from './../services/program.service';
 import { ResponseService } from './../services/response.service';
 import { RoleService } from './../services/role.service';
 import { SoftSkillService } from './../services/soft-skill.service';
-import { TagService } from './../services/tag.service';
 
 // =========== Users =========== //
 const TestClients: UserRegistrationOptions[] = [
@@ -87,49 +85,49 @@ const TestVideos = [
     title: "Yeeee",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/yeee.mp4",
     description: "Yeeeeee",
-    tags: [TagType.Customer, TagType.Angry, TagType.Criticism]
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.TimeManagementAbilities]
   },
   {
     title: "Something",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/testvideo2.mp4",
     description: "A man with a mission",
-    tags: [TagType.Angry, TagType.Pressure]
+    softSkills: [SoftSkillType.ActingAsATeamPlayer, SoftSkillType.TimeManagementAbilities]
   },
   {
     title: "Anime",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/anime.mp4",
     description: "anime is real",
-    tags: [TagType.Self]
+    softSkills: [SoftSkillType.AbilityToAcceptCriticism]
   },
   {
     title: "Congrats",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/congrats.mp4",
     description: "you did it",
-    tags: [TagType.Customer, TagType.Pressure]
+    softSkills: [SoftSkillType.WorkingWellUnderPressure, SoftSkillType.FlexibilityAdaptability]
   },
   {
     title: "Friends",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/friends.mp4",
     description: "blank description",
-    tags: []
+    softSkills: []
   },
   {
     title: "Hello",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/hello.mp4",
     description: "is it me you're looking for?",
-    tags: [TagType.Customer, TagType.Angry, TagType.Criticism, TagType.Pressure, TagType.Self]
+    softSkills: [SoftSkillType.FlexibilityAdaptability, SoftSkillType.TimeManagementAbilities, SoftSkillType.GoodCommunicationSkills, SoftSkillType.StrongWorkEthic, SoftSkillType.SelfConfidence]
   },
   {
     title: "Nuts",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/nuts.mp4",
     description: "",
-    tags: [TagType.Pressure]
+    softSkills: [SoftSkillType.SelfConfidence]
   },
   {
     title: "Stats",
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/stats.mp4",
     description: null,
-    tags: [TagType.Pressure, TagType.Angry]
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.TimeManagementAbilities]
   },
 ];
 
@@ -321,7 +319,6 @@ export class TestData {
     let responseService = new ResponseService();
     let roleService = new RoleService();
     let softSkillService = new SoftSkillService();
-    let tagService = new TagService();
 
     console.log("Generating roles...");
     await roleService.syncRolesToDbAsync();
@@ -339,9 +336,9 @@ export class TestData {
       this.subjects.push(await authService.registerAsync(user));
       return;
     }));
-
-    console.log("Generating video tags...");
-    await tagService.syncTagsToDbAsync();
+    
+    console.log("Generating soft skills...");
+    await softSkillService.syncSoftSkillsToDbAsync();
 
     console.log("Generating videos...");
     await Promise.all(TestVideos.map(async (video) => {
@@ -351,7 +348,7 @@ export class TestData {
         title: video.title,
         url: video.url,
         description: video.description,
-        tags: video.tags
+        softSkills: video.softSkills
       }));
       return;
     }));
@@ -381,21 +378,17 @@ export class TestData {
       this.responses.push(newResponse);
     }));
 
-    console.log("Generating soft skills...");
-    await softSkillService.syncSoftSkillsToDbAsync();
-
     console.log("Generating program requests...");
     await Promise.all(TestProgramRequests.map(async (request) => {
-      let softSkillIds = await Promise.all(request.softSkills.map(async (softSkillName) => {
-        let softSkill = await softSkillService.findByNameAsync(softSkillName);
-        return softSkill.id;
+      let softSkills = await Promise.all(request.softSkills.map(async (softSkillName) => {
+        return await softSkillService.findByNameAsync(softSkillName);
       }));
       let newRequest = await requestService.saveNewAsync({
         jobTitle: request.jobTitle,
         client: this.clients[request.clientIndex],
         expiration: 0,
         text: request.text,
-        softSkills: softSkillIds
+        softSkills: softSkills
       });
       this.requests.push(newRequest);
     }));

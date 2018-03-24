@@ -4,17 +4,20 @@ import { Video } from './../models/Video';
 import { User } from './../models/User';
 import { UserService } from './user.service';
 import { VideoService } from './video.service';
+import { Response } from './../models/Response';
 
 export class ProgramService {
   private programRepo: Repository<Program>;
   private videoRepo: Repository<Video>;
+  private responseRepo: Repository<Response>;
   private userService: UserService;
   public repo: Repository<Program>;
 
-  constructor(programRepo: Repository<Program> = null, videoRepo: Repository<Video> = null, userService: UserService = null) {
+  constructor(programRepo: Repository<Program> = null, videoRepo: Repository<Video> = null, responseRepo: Repository<Response> = null, userService: UserService = null) {
     this.programRepo = programRepo || getRepository(Program);
     this.videoRepo = videoRepo || getRepository(Video);
     this.userService = userService || new UserService();
+    this.responseRepo = responseRepo || getRepository(Response);
     this.repo = this.programRepo;
   }
 
@@ -95,13 +98,23 @@ export class ProgramService {
   }
 
   /** Returns next video for a Subject in the Program. Returns null if no videos remain. */
-  public async getCurrentVideo(programId, subject: User) {
-    let program = await this.programRepo.findOneById(programId);
+
+  public async getCurrentVideo(programId: string, subjectId: string) {
+    let responses = await this.responseRepo.createQueryBuilder("response")
+    .innerJoin("response.subject", "subject", "subject.id = :subjectId", { subjectId: subjectId })
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .leftJoinAndSelect("response.video", "video")
+    .getMany();
+    let program = await this.programRepo.createQueryBuilder("program")
+    .where("program.id = :programId", { programId: programId })
+    .leftJoinAndSelect("program.videos", "video")
+    .getOne();
+
     let video = null;
     for(let i = 0; i < program.videos.length; i++) {
       let match = false;
-      for(let j = 0; j < subject.responses.length; j++) {
-        if(subject.responses[j].video.id === program.videos[i].id) {
+      for(let j = 0; j < responses.length; j++) {
+        if(program.videos[i].id === responses[j].video.id) {
           match = true;
           break;
         }

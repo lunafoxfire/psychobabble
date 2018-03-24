@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from "typeorm";
 import { Program } from './Program';
-import { Tag } from "./Tag";
+import { SoftSkill } from "./SoftSkill";
 import { Response } from "./Response";
 
 /** A video object. */
@@ -22,10 +22,10 @@ export class Video {
   @Column({nullable: true})
   description: string;
 
-  /** All tags associated with this video. */
-  @ManyToMany(type => Tag, tags => tags.videos)
+  /** All soft skills associated with this video. */
+  @ManyToMany(type => SoftSkill, softSkills => softSkills.videos)
   @JoinTable()
-  tags: Tag[];
+  softSkills: SoftSkill[];
 
   /** All Programs containing this video. */
   @ManyToMany(type => Program, program => program.videos)

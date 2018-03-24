@@ -1,22 +1,18 @@
 import { fixThis } from './../utility/fix-this';
 import { reqRequire } from './../utility/req-require';
-import { SoftSkillService } from './../services/soft-skill.service';
 import { ProgramRequestService, NewProgramRequestOptions } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
 
 export interface ProgramRequestControllerDependencies {
-  softSkillService: SoftSkillService;
   programRequestService: ProgramRequestService;
   userService: UserService;
 }
 
 export class ProgramRequestController {
-  private softSkillService: SoftSkillService;
   private programRequestService: ProgramRequestService;
   private userService: UserService;
 
   constructor(dependencies: ProgramRequestControllerDependencies = null) {
-    this.softSkillService = dependencies ? dependencies.softSkillService : new SoftSkillService();
     this.programRequestService = dependencies ? dependencies.programRequestService : new ProgramRequestService();
     this.userService = dependencies ? dependencies.userService : new UserService();
     fixThis(this, ProgramRequestController);
@@ -220,32 +216,6 @@ export class ProgramRequestController {
         } else {
           throw new Error("Could not save program request");
         }
-      }
-    }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-    }
-  }
-
-  public async getAllSoftSkills(req, res) {
-    try {
-      let skills = await this.softSkillService.getAllSkills();
-      if(skills && skills.length > 0) {
-        res.status(200);
-        res.json({
-          message: "Query successful",
-          skillArray: skills
-        });
-        return;
-      } else {
-        res.status(204);
-        res.json({
-          message: "Database table is empty..."
-        });
       }
     }
     catch (err) {

@@ -13,10 +13,6 @@ export function loadRoutes() {
   // Get all unfufilled requests for admin feed, by page
   router.get('/pending', auth, requestCtrl.getAllRequests);
 
-  // GET /api/program-requests/get-soft-skills
-  // Gets all soft skills for request form
-  router.get('/get-soft-skills', requestCtrl.getAllSoftSkills);
-
   // POST /api/program-requests/make-request
   // params: request
   // auth: CLIENT

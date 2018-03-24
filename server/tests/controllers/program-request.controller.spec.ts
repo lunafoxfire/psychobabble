@@ -12,7 +12,7 @@ import { User } from './../../models/User';
 import { SoftSkill } from './../../models/SoftSkill';
 import { RoleType } from './../../models/Role';
 
-describe.only("ProgramRequestController", function() {
+describe("ProgramRequestController", function() {
   let requestService: ProgramRequestService;
   let softSkillService: SoftSkillService;
   let userService: UserService;
@@ -26,7 +26,6 @@ describe.only("ProgramRequestController", function() {
     userService = td.object<UserService>(new UserService);
     requestController = new ProgramRequestController({
       programRequestService: requestService,
-      softSkillService: softSkillService,
       userService: userService
     });
     req = new MockReq();
@@ -46,11 +45,6 @@ describe.only("ProgramRequestController", function() {
   describe("constructor", function() {
     it("should return a program request controller", function() {
       expect(requestController).to.exist;
-    });
-
-    it("should have a softSkillService injected through the constructor", function() {
-      expect(requestController).to.have.own.property('softSkillService').that.is.not.null;
-      expect(requestController).to.have.own.property('softSkillService').that.is.equal(softSkillService);
     });
 
     it("should have a programRequestService injected through the constructor", function() {
@@ -504,43 +498,6 @@ describe.only("ProgramRequestController", function() {
       td.when(requestService.saveNewAsync(td.matchers.anything()))
         .thenReject(new Error("test error"));
       await requestController.makeProgramRequest(req, res);
-      expect(res.status()).to.equal(500);
-      expect(res.json().message).to.exist;
-    });
-  });
-
-  describe("getAllSoftSkills method", function() {
-    let resultSkills;
-
-    beforeEach(function() {
-      resultSkills = [td.object<SoftSkill>(new SoftSkill), td.object<SoftSkill>(new SoftSkill)];
-      td.when(softSkillService.getAllSkills())
-        .thenResolve(resultSkills);
-    });
-
-    it("should return status 200 on success", async function() {
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.status()).to.equal(200);
-      expect(res.json().message).to.exist;
-    });
-
-    it("should return 'skillArray' array of soft skills on success", async function() {
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.json().skillArray).to.equal(resultSkills);
-    });
-
-    it("should return status 204 if no soft skills found", async function() {
-      td.when(softSkillService.getAllSkills())
-        .thenResolve([]);
-      await requestController.getAllSoftSkills(req, res);
-      expect(res.status()).to.equal(204);
-      expect(res.json().message).to.exist;
-    });
-
-    it("should return status 500 if an exception was thrown", async function() {
-      td.when(softSkillService.getAllSkills())
-        .thenReject(new Error("test error"));
-      await requestController.getAllSoftSkills(req, res);
       expect(res.status()).to.equal(500);
       expect(res.json().message).to.exist;
     });

@@ -98,6 +98,7 @@ export class ProgramService {
   }
 
   /** Returns next video for a Subject in the Program. Returns null if no videos remain. */
+
   public async getCurrentVideo(programId: string, subjectId: string) {
     let responses = await this.responseRepo.createQueryBuilder("response")
     .innerJoin("response.subject", "subject", "subject.id = :subjectId", { subjectId: subjectId })

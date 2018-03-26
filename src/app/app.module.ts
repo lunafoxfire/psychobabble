@@ -66,6 +66,7 @@ import { ProfileComponent } from './routes/profile/profile.component';
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
 import { ScoringComponent } from './routes/admin/feed/response-evaluation/scoring/scoring.component';
+import { NewAdminComponent } from './routes/new-admin/new-admin.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ScoringComponent } from './routes/admin/feed/response-evaluation/scorin
     ClientProgramDetailsComponent,
     ProfileComponent,
     ScoringComponent,
+    NewAdminComponent,
   ],
   imports: [
     BrowserModule,

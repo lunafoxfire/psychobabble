@@ -26,6 +26,7 @@ import { ResponseEvaluationComponent } from './routes/admin/feed/response-evalua
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
 import { ScoringComponent } from './routes/admin/feed/response-evaluation/scoring/scoring.component';
+import { NewAdminComponent } from './routes/new-admin/new-admin.component';
 
 // Client
 import { ProgramsComponent } from './routes/client/programs/programs.component';
@@ -53,6 +54,7 @@ export const ROUTES: Routes = [
   { path: 'requests', component: RequestsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]} },
   { path: 'requests/new', component: MakeRequestComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client]} },
   { path: 'requests/client/:id', component: RequestDetailsComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Client, AuthRole.Admin]} },
+  { path: 'new-admin', component: NewAdminComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/feed', component: FeedComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/videos', component: VideosComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },
   { path: 'admin/videos/upload', component: VideoUploadComponent, canActivate: [AuthGuard], data: {allowedRoles: [AuthRole.Admin]} },

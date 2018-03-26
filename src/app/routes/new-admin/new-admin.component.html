@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-title>
+    <h1>Change Your Credentials</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <form #credentialsForm="ngForm" (ngSubmit)="credentialsForm.valid && onSubmit(credentialsForm)">
+      <mat-form-field>
+        <input ngModel matInput type="text"
+          placeholder="Username" name="username" #username="ngModel"
+          minlength="4" maxlength="16" required username
+        />
+        <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+        <mat-error *ngIf="username.errors?.username">Not a valid username</mat-error>
+        <mat-error *ngIf="username.errors?.minlength">Username must be 4 characters or more.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input ngModel matInput type="email"
+          placeholder="Email" name="email" #email="ngModel"
+          required email
+        />
+        <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
+        <mat-error *ngIf="email.errors?.email">Not a valid email</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input ngModel matInput type="password"
+          placeholder="Password" name="password" #password="ngModel"
+          minlength="6" maxlength="16" required password
+        />
+        <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
+        <mat-error *ngIf="password.errors?.minlength">Password must be 6 characters or more</mat-error>
+        <mat-error *ngIf="password.errors?.password">Password must contain at least one number</mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+  </mat-card-content>
+</mat-card>

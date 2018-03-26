@@ -20,13 +20,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.user = this.service.getProfile();
-    this.user.subscribe((data) => {
-      console.log(data);
-    })
   }
+
   public resendVerify() {
     this.auth.reVerify().subscribe((data) => {
       this.router.navigateByUrl('/verify');
+    })
+  }
+
+  public newAdmin(newAdminEmail) {
+    this.auth.registerAdmin(newAdminEmail.value).subscribe(data => {
+      console.log(data);
     })
   }
 }

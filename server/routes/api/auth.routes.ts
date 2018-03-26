@@ -17,6 +17,16 @@ export function loadRoutes() {
   // Registers a new user as a subject
   router.post('/subject/register', authCtrl.registerSubject);
 
+  // Post /api/auth/admin/register
+  // params: email
+  // Registers a new admin
+  router.post('/admin/register', authCtrl.registerAdmin);
+
+  // Post /api/auth/admin/change
+  // params: username, email, password
+  // Changes admins credentials
+  router.post('/admin/change', auth, authCtrl.changeAdmin);
+
   // POST /api/auth/login
   // params: loginName, password
   // Logs a user in
@@ -27,6 +37,12 @@ export function loadRoutes() {
   // auth: logged in
   // Attempts to verify a user's email with the provided code
   router.post('/verify', auth, authCtrl.verifyUser);
+
+  // POST /api/auth/verify
+  // params: code
+  // auth: logged in
+  // Attempts to verify a user's email with the provided code
+  router.post('/verify-admin', auth, authCtrl.verifyAdmin);
 
   // POST /api/auth/re-verify
   // params: code

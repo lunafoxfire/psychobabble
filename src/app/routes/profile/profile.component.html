@@ -3,7 +3,13 @@
     <h1>{{(user | async)?.user.username}}</h1>
   </mat-card-title>
   <mat-card-content>
-    <button mat-raised-button type="button" *ngIf="!auth.isVerified()" (click)="resendVerify()">Resend Verification Email</button>
+    <button mat-raised-button type="button" *ngIf="!auth.isVerified() && !auth.isAdmin()" (click)="resendVerify()">Resend Verification Email</button>
+    <form #form="ngForm" (ngSubmit)="newAdmin(newAdminEmail)" *ngIf="auth.isAdmin() && auth.isVerified()">
+      <mat-form-field>
+        <input matInput ngModel #newAdminEmail="ngModel" name="new-admin-email" type="text" email>
+      </mat-form-field>
+      <button mat-raised-button type="submit" *ngIf="auth.isAdmin() && auth.isVerified()">Make New Admin</button>
+    </form>
     <div *ngIf="auth.isVerified()">
       <a mat-raised-button routerLink="/password-reset">Change Password</a>
     </div>

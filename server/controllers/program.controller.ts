@@ -3,15 +3,21 @@ import { ProgramService } from './../services/program.service';
 import { ProgramRequestService } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
 
+export interface ProgramControllerDependencies {
+  programService: ProgramService;
+  programRequestService: ProgramRequestService;
+  userService: UserService;
+}
+
 export class ProgramController {
   private programService: ProgramService;
   private programRequestService: ProgramRequestService;
   private userService: UserService;
 
-  constructor(programService: ProgramService = null, programRequestService: ProgramRequestService = null, userService: UserService = null) {
-    this.programService = programService || new ProgramService();
-    this.programRequestService = programRequestService || new ProgramRequestService();
-    this.userService = userService || new UserService();
+  constructor(dependencies: ProgramControllerDependencies = null) {
+    this.programService = dependencies ? dependencies.programService : new ProgramService();
+    this.programRequestService = dependencies ? dependencies.programRequestService : new ProgramRequestService();
+    this.userService = dependencies ? dependencies.userService : new UserService();
     fixThis(this, ProgramController);
   }
 

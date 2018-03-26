@@ -1,7 +1,8 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire } from './../utility/req-require';
+import { reqRequire, requireRole } from './../utility/req-require';
 import { ProgramRequestService, NewProgramRequestOptions } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
+import { RoleType } from './../models/Role';
 
 export interface ProgramRequestControllerDependencies {
   programRequestService: ProgramRequestService;
@@ -28,23 +29,16 @@ export class ProgramRequestController {
           ['resultCount', 400, "Missing 'resultCount' in request query params"],
           ['searchTerm', 400, "Missing 'searchTerm' in request query params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN") {
-        let requests = await this.programRequestService.getRequests(req.query.page, req.query.resultCount, req.query.searchTerm);
-        if(requests) {
-          res.status(200);
-          res.json({
-            requests: requests,
-            message: "Grabbed all the things"
-          })
-        } else {
-          throw new Error("Error getting requests");
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let requests = await this.programRequestService.getRequests(req.query.page, req.query.resultCount, req.query.searchTerm);
+      if(requests) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
-        });
-        return;
+          requests: requests,
+          message: "Grabbed all the things"
+        })
+      } else {
+        throw new Error("Error getting requests");
       }
     }
     catch(err) {
@@ -68,30 +62,16 @@ export class ProgramRequestController {
           ['resultCount', 400, "Missing 'resultCount' in request query params"],
           ['searchTerm', 400, "Missing 'searchTerm' in request query params"]]
       )) { return; }
-      if(!req.jwt) {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Client])) { return; }
+      let requests = await this.programRequestService.getPendingClientRequests(req.query.page, req.query.resultCount, req.jwt.id, req.query.searchTerm);
+      if(requests) {
+        res.status(200);
         res.json({
-          message: "Missing authentication token"
-        });
-        return;
-      }
-      if(req.jwt.role === "CLIENT") {
-        let requests = await this.programRequestService.getPendingClientRequests(req.query.page, req.query.resultCount, req.jwt.id, req.query.searchTerm);
-        if(requests) {
-          res.status(200);
-          res.json({
-            requests: requests,
-            message: "Grabbed all the things"
-          })
-        } else {
-          throw new Error("An error occured while getting client requests");
-        }
+          requests: requests,
+          message: "Grabbed all the things"
+        })
       } else {
-        res.status(401);
-        res.json({
-          message: "Not Authorized"
-        });
-        return;
+        throw new Error("An error occured while getting client requests");
       }
     }
     catch(err) {
@@ -112,24 +92,17 @@ export class ProgramRequestController {
         ['params', 400, "Request route params missing",
           ['requestId', 400, "Missing 'requestId' in request route params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN") {
-        let request = await this.programRequestService.getRequestDetails(req.params.requestId);
-        if(request) {
-          res.status(200);
-          res.json({
-            request: request,
-            message: "Grabbed all the things"
-          })
-          return;
-        } else {
-          throw new Error("Request could not be found");
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let request = await this.programRequestService.getRequestDetails(req.params.requestId);
+      if(request) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
-        });
+          request: request,
+          message: "Grabbed all the things"
+        })
         return;
+      } else {
+        throw new Error("Request could not be found");
       }
     }
     catch(err) {
@@ -150,24 +123,17 @@ export class ProgramRequestController {
         ['params', 400, "Request route params missing",
           ['requestId', 400, "Missing 'requestId' in request route params"]]
       )) { return; }
-      if(req.jwt.role === "CLIENT") {
-        let request = await this.programRequestService.getRequestDetails(req.params.requestId);
-        if(request) {
-          res.status(200);
-          res.json({
-            request: request,
-            message: "Grabbed all the things"
-          })
-          return;
-        } else {
-          throw new Error("Request could not be found");
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Client])) { return; }
+      let request = await this.programRequestService.getRequestDetails(req.params.requestId);
+      if(request) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
-        });
+          request: request,
+          message: "Grabbed all the things"
+        })
         return;
+      } else {
+        throw new Error("Request could not be found");
       }
     }
     catch(err) {
@@ -192,30 +158,23 @@ export class ProgramRequestController {
           ['expiration', 400, "Missing 'expiration' in request body"],
           ['softSkills', 400, "Missing 'softSkills' in request body"]]
       )) { return; }
-      if(req.jwt.role !== "CLIENT") {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Client])) { return; }
+      let expiration = new Date(req.body.expiration).getTime();
+      let result = await this.programRequestService.saveNewAsync({
+        client: await this.userService.findByIdAsync(req.jwt.id),
+        expiration: expiration,
+        text: req.body.details,
+        softSkills: req.body.softSkills,
+        jobTitle: req.body.jobTitle,
+      });
+      if(result) {
+        res.status(200);
         res.json({
-          message: "Unauthorized"
+          message: "Success!"
         });
         return;
       } else {
-        let expiration = new Date(req.body.expiration).getTime();
-        let result = await this.programRequestService.saveNewAsync({
-          client: await this.userService.findByIdAsync(req.jwt.id),
-          expiration: expiration,
-          text: req.body.details,
-          softSkills: req.body.softSkills,
-          jobTitle: req.body.jobTitle,
-        });
-        if(result) {
-          res.status(200);
-          res.json({
-            message: "Success!"
-          });
-          return;
-        } else {
-          throw new Error("Could not save program request");
-        }
+        throw new Error("Could not save program request");
       }
     }
     catch (err) {

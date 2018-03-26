@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire } from './../utility/req-require';
+import { reqRequire, requireRole } from './../utility/req-require';
 import { ResponseService } from './../services/response.service';
 import { UserService } from './../services/user.service';
 import { VideoService } from './../services/video.service';
@@ -37,13 +37,7 @@ export class ResponseController {
           ['videoId', 400, "Missing 'videoId' in request body"],
           ['programId', 400, "Missing 'programId' in request body"]]
       )) { return; }
-      if (req.jwt.role !== RoleType.Subject) {
-        res.status(401);
-        res.json({
-          message: "Unauthorized"
-        });
-        return;
-      }
+      if(!requireRole(req, res, [RoleType.Subject])) { return; }
       let subject = await this.userService.repo.findOneById(req.jwt.id);
       if (!subject) { throw new Error("User does not exist!"); }
       let video = await this.videoService.repo.findOneById(req.body.videoId);
@@ -82,13 +76,7 @@ export class ResponseController {
         ['query', 400, "Request body missing",
           ['responseId', 400, "Missing 'responseId' in request query params"]]
       )) { return; }
-      if (req.jwt.role !== RoleType.Subject) {
-        res.status(401);
-        res.json({
-          message: "Unauthorized"
-        });
-        return;
-      }
+      if(!requireRole(req, res, [RoleType.Subject])) { return; }
       let response = await this.responseService.repo.findOneById(req.query.responseId, {relations: ['subject']});
       if (!response) { throw new Error("Response does not exist!"); }
       let signedUrl = await this.responseService.generateAudioUrlAsync(response);
@@ -118,13 +106,7 @@ export class ResponseController {
         ['body', 400, "Request body missing",
           ['responseId', 400, "Missing 'responseId' in request body"]]
       )) { return; }
-      if (req.jwt.role !== RoleType.Subject) {
-        res.status(401);
-        res.json({
-          message: "Unauthorized"
-        });
-        return;
-      }
+      if(!requireRole(req, res, [RoleType.Subject])) { return; }
       let response = await this.responseService.repo.findOneById(req.body.responseId);
       if (!response) { throw new Error("Response does not exist!"); }
       this.responseService.doSpeechToTextAsync(response);
@@ -152,13 +134,7 @@ export class ResponseController {
         ['body', 400, "Request body missing",
           ['responseId', 400, "Missing 'responseId' in request body"]]
       )) { return; }
-      if (req.jwt.role !== RoleType.Subject) {
-        res.status(401);
-        res.json({
-          message: "Unauthorized"
-        });
-        return;
-      }
+      if(!requireRole(req, res, [RoleType.Subject])) { return; }
       let response = await this.responseService.repo.findOneById(req.body.responseId);
       if (!response) { throw new Error("Response does not exist!"); }
       response.audio_gs_path = null;
@@ -188,39 +164,25 @@ export class ResponseController {
           ['subjectId', 400, "Missing 'subjectId' in request query params"],
           ['programId', 400, "Missing 'programId' in request query params"]]
       )) { return; }
-      if(!req.jwt) {
-        res.status(401);
-        res.json({
-          message: "Missing authentication token"
-        });
-        return;
-      }
-      if(req.jwt.role === "ADMIN") {
-        let responses = await this.responseService.getSubjectResponses(req.query);
-        let data = responses.map(function(response) {
-          return {
-            responseId: response.id,
-            text_version: response.text_version,
-            url: response.getResourceUrl()
-          }
-        })
-        if(responses) {
-          res.status(200);
-          res.json({
-            responses: data,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let responses = await this.responseService.getSubjectResponses(req.query);
+      let data = responses.map(function(response) {
+        return {
+          responseId: response.id,
+          text_version: response.text_version,
+          url: response.getResourceUrl()
         }
-      } else {
-        res.status(401);
+      })
+      if(responses) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          responses: data,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }

@@ -1,6 +1,7 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire } from './../utility/req-require';
+import { reqRequire, requireRole } from './../utility/req-require';
 import { UserService } from './../services/user.service';
+import { RoleType } from './../models/Role';
 
 export interface UserControllerDependencies {
   userService: UserService;
@@ -24,25 +25,18 @@ export class UserController {
           ['resultCount', 400, "Missing 'resultCount' in query params"],
           ['searchTerm', 400, "Missing 'searchTerm' in query params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN") {
-        let clients = await this.userService.getClients(req.query.page, req.query.resultCount, req.query.searchTerm);
-        if(clients) {
-          res.status(200);
-          res.json({
-            clients: clients,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let clients = await this.userService.getClients(req.query.page, req.query.resultCount, req.query.searchTerm);
+      if(clients) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          clients: clients,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }
@@ -65,25 +59,18 @@ export class UserController {
         ['params', 400, "Request route params missing",
           ['programId', 400, "Missing 'programId' in route params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN") {
-        let subjects = await this.userService.getProgramSubjects(req.params.programId);
-        if(subjects) {
-          res.status(200);
-          res.json({
-            subjects: subjects,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let subjects = await this.userService.getProgramSubjects(req.params.programId);
+      if(subjects) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          subjects: subjects,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }
@@ -106,25 +93,18 @@ export class UserController {
         ['params', 400, "Request route params missing",
           ['programId', 400, "Missing 'programId' in route params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN" || req.jwt.role === "CLIENT") {
-        let subjects = await this.userService.getTopSubjects(req.params.programId);
-        if(subjects) {
-          res.status(200);
-          res.json({
-            subjects: subjects,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin, RoleType.Client])) { return; }
+      let subjects = await this.userService.getTopSubjects(req.params.programId);
+      if(subjects) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          subjects: subjects,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }
@@ -154,25 +134,18 @@ export class UserController {
           ['programPage', 400, "Missing 'programPage' in query params"],
           ['programResultCount', 400, "Missing 'programResultCount' in query params"]]
       )) { return; }
-      if(req.jwt.role === "ADMIN") {
-        let client = await this.userService.getClientDetails(req.params.clientId, req.query);
-        if(client) {
-          res.status(200);
-          res.json({
-            client: client,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
-        }
-      } else {
-        res.status(401);
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let client = await this.userService.getClientDetails(req.params.clientId, req.query);
+      if(client) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          client: client,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }
@@ -194,25 +167,17 @@ export class UserController {
           ['id', 400, "Malformed auth token"],
           ['role', 400, "Malformed auth token"]]
       )) { return; }
-      if(req.jwt.role) {
-        let user = await this.userService.getProfileDetails(req.jwt.id);
-        if(user) {
-          res.status(200);
-          res.json({
-            user: user,
-            message: "Grabbed all the things"
-          })
-        } else {
-          res.status(500);
-          res.json({
-            message: "Unknown error"
-          });
-          return;
-        }
-      } else {
-        res.status(401);
+      let user = await this.userService.getProfileDetails(req.jwt.id);
+      if(user) {
+        res.status(200);
         res.json({
-          message: "Not Authorized"
+          user: user,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
         });
         return;
       }

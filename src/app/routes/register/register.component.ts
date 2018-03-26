@@ -15,9 +15,9 @@ export class RegisterComponent {
     public router: Router
   ) { }
 
-ngOnInit() {
+  ngOnInit() {
 
-}
+  }
 
   public onSubmit(registerForm: NgForm) {
     let credentials = registerForm.value as RegisterCredentials;

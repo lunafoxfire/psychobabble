@@ -6,11 +6,16 @@ import { ValidationToken } from './../models/ValidationToken';
 import { AuthService } from './../services/auth.service';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
+
+export interface AuthControllerDependencies {
+  authService: AuthService;
+}
+
 export class AuthController {
   private authService: AuthService;
 
-  constructor(authService: AuthService = null) {
-    this.authService = authService || new AuthService();
+  constructor(dependencies: AuthControllerDependencies = null) {
+    this.authService = dependencies ? dependencies.authService : new AuthService();
     fixThis(this, AuthController);
   }
 

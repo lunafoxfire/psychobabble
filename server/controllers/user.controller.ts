@@ -1,11 +1,16 @@
 import { fixThis } from './../utility/fix-this';
 import { UserService } from './../services/user.service';
 
+export interface UserControllerDependencies {
+  userService: UserService;
+}
+
 export class UserController {
   private userService: UserService;
-  constructor(userService: UserService = null) {
+
+  constructor(dependencies: UserControllerDependencies = null) {
+    this.userService = dependencies ? dependencies.userService : new UserService();
     fixThis(this, UserController);
-    this.userService = userService || new UserService();
   }
 
   public async getClients(req, res) {

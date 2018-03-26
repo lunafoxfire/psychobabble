@@ -15,7 +15,9 @@ describe("AuthController", function() {
 
   beforeEach(function() {
     authService = td.object<AuthService>(new AuthService);
-    authController = new AuthController(authService);
+    authController = new AuthController({
+      authService: authService
+    });
     req = new MockReq();
     res = new MockRes();
   });

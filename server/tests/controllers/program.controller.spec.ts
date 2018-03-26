@@ -8,7 +8,7 @@ import { ProgramService } from './../../services/program.service';
 import { ProgramRequestService } from './../../services/program-request.service';
 import { UserService } from './../../services/user.service';
 
-describe.only("ProgramController", function() {
+describe("ProgramController", function() {
   let programService: ProgramService;
   let requestService: ProgramRequestService;
   let userService: UserService;

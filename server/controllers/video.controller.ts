@@ -4,11 +4,15 @@ import { Video } from './../models/Video';
 import { RoleType } from './../models/Role';
 import { VideoService } from './../services/video.service';
 
+export interface VideoControllerDependencies {
+  videoService: VideoService;
+}
+
 export class VideoController {
   private videoService: VideoService;
 
-  constructor(videoService: VideoService = null) {
-    this.videoService = videoService || new VideoService();
+  constructor(dependencies: VideoControllerDependencies = null) {
+    this.videoService = dependencies ? dependencies.videoService : new VideoService();
     fixThis(this, VideoController);
   }
 

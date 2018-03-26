@@ -46,4 +46,9 @@ export class ClientService {
     let result = this.auth.get('/api/users/'+programId+'/top-subjects');
     return result;
   }
+
+  public closeProgram(programId): Observable<any> {
+    let result = this.auth.post(`/api/programs/close/${programId}`);
+    return result;
+  }
 }

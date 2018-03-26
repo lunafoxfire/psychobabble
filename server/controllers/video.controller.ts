@@ -1,4 +1,5 @@
 import { fixThis } from './../utility/fix-this';
+import { reqRequire } from './../utility/req-require';
 import * as AWS from 'aws-sdk';
 import { Video } from './../models/Video';
 import { RoleType } from './../models/Role';
@@ -17,10 +18,18 @@ export class VideoController {
   }
 
   public async getVideos(req, res) {
-    if(req.jwt.role === "ADMIN") {
+    if(!reqRequire(req, res,
+      ['jwt', 401, "Missing auth token",
+        ['role', 400, "Malformed auth token"]],
+      ['query', 400, "Request query params missing",
+        ['page', 400, "Missing 'page' in query params"],
+        ['resultCount', 400, "Missing 'resultCount' in query params"],
+        ['searchTerm', 400, "Missing 'searchTerm' in query params"]]
+    )) { return; }
+    if(req.jwt.role === RoleType.Admin) {
       let videos = await this.videoService.getAllVideos(req.query.page, req.query.resultCount, req.query.searchTerm).catch((err) => {
         console.log(err);
-        res.status(400);
+        res.status(500);
         res.json({
           message: "something went wrong"
         })
@@ -31,7 +40,7 @@ export class VideoController {
           videos: videos
         })
       } else {
-        res.status(400);
+        res.status(500);
         res.json({
           message: "something went wrong"
         })
@@ -40,7 +49,12 @@ export class VideoController {
   }
 
   public async generateVideoUrl(req, res) {
-    if(req.jwt.role = "ADMIN") {
+    if(!reqRequire(req, res,
+      ['jwt', 401, "Missing auth token",
+        ['role', 400, "Malformed auth token"],
+        ['username', 400, "Malformed auth token"]]
+    )) { return; }
+    if(req.jwt.role === RoleType.Admin) {
       let s3 = new AWS.S3();
       s3.config.update({
         accessKeyId: process.env.S3_ACCESS_KEY,
@@ -68,7 +82,7 @@ export class VideoController {
           });
         } else {
           console.log(err);
-          res.status(400);
+          res.status(500);
           res.json({
             message: "Something went wrong"
           })
@@ -83,7 +97,16 @@ export class VideoController {
   }
 
   public async uploadVideo(req, res) {
-    if(req.jwt.role = "Admin") {
+    if(!reqRequire(req, res,
+      ['jwt', 401, "Missing auth token",
+        ['role', 400, "Malformed auth token"]],
+      ['body', 400, "Request query params missing",
+        ['videoId', 400, "Missing 'videoId' in body"],
+        ['url', 400, "Missing 'url' in body"],
+        ['description', 400, "Missing 'description' in body"],
+        ['title', 400, "Missing 'title' in body"]]
+    )) { return; }
+    if(req.jwt.role === RoleType.Admin) {
       let result = await this.videoService.uploadAsync({
         id: req.body.videoId,
         url: req.body.url,
@@ -110,7 +133,13 @@ export class VideoController {
   }
 
   public async removeVideo(req, res) {
-    if(req.jwt.role === "ADMIN") {
+    if(!reqRequire(req, res,
+      ['jwt', 401, "Missing auth token",
+        ['role', 400, "Malformed auth token"]],
+      ['body', 400, "Request body missing",
+        ['videoId', 400, "Missing 'videoId' in body"]]
+    )) { return; }
+    if(req.jwt.role === RoleType.Admin) {
       let deleted = await this.videoService.deleteVideoId(req.body.videoId).then((bool) => {
         if(bool) {
           res.status(200);

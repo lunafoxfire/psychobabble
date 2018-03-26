@@ -60,4 +60,21 @@ describe("ProgramController", function() {
     });
   });
 
+  describe("makeProgram method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing id");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if body is missing");
+
+    it("should return 400 status if body is missing program");
+
+    it("should return 400 status if body is missing program.author");
+
+    it("should return 400 status if body is missing program.client");
+
+    it("should return 400 status if body is missing program.requestId");
+  });
 });

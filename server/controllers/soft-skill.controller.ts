@@ -3,7 +3,7 @@ import { reqRequire } from './../utility/req-require';
 import { SoftSkillService } from './../services/soft-skill.service';
 
 export interface SoftSkillControllerDependencies {
-  softSkillService: SoftSkillService,
+  softSkillService: SoftSkillService;
 }
 
 export class SoftSkillController {

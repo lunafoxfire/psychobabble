@@ -25,6 +25,9 @@ export class ClientProgramDetailsComponent implements OnInit {
       this.clientId = params['cid'];
       this.programId = params['pid'];
       this.program = this.service.getProgramDetails(this.programId, this.clientId);
+      this.program.subscribe(data => {
+        console.log(data);
+      })
       this.topSubjects = this.service.getTopSubjects(this.programId);
       this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
     })

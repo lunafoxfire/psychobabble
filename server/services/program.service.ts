@@ -132,7 +132,8 @@ export class ProgramService {
     if(program.client.id === client.id) {
       return {
         jobTitle: program.jobTitle,
-        videos: program.videos
+        videos: program.videos,
+        description: program.description
       };
     } else {
       return null;

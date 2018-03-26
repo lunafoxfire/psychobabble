@@ -45,7 +45,7 @@ export class AuthService {
         user.date_created = new Date().getTime();
         user.role = await this.roleService.findByNameAsync(regOptions.roleType);
         user.validated = regOptions.preValidated || false;
-      if (!user.validated) {
+      if (!user.validated && user.role.name !== "ADMIN") {
         user.validationToken = await this.generateValidTokenAsync();
         this.sendValidationEmail(user);
       }

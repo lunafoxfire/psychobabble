@@ -58,6 +58,37 @@ export class ProgramController {
     catch (err) { exceptionResult(err, res); }
   }
 
+  public async closeProgram(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token"],
+        ['params', 401, "Missing route parameters",
+          ['programId', 401, "Missing 'programId' route parameter"]]
+      )) { return; }
+      if (req.jwt.role === RoleType.Client) {
+        await this.programService.closeProgram(req.params.programId)
+        res.status(200);
+        res.json({
+          message: "Program successfully closed"
+        })
+      } else {
+        res.status(401);
+        res.json({
+          message: "Unauthorized"
+        });
+        return;
+      }
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async getAllPrograms(req, res) {
     try {
       if(!reqRequire(req, res,

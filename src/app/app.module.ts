@@ -42,7 +42,7 @@ import { ClientDetailsComponent } from './routes/admin/clients/client-details/cl
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
 
 // Client routes
-import { ProgramsComponent } from './routes/client/programs/programs.component';
+import { ProgramsComponent, ProgramCloseDialogComponent } from './routes/client/programs/programs.component';
 import { RequestsComponent } from './routes/client/requests/requests.component';
 import { MakeRequestComponent } from './routes/client/requests/make-request/make-request.component';
 import { ProgramDetailsComponent } from './routes/client/programs/program-details/program-details.component';
@@ -101,6 +101,7 @@ import { NewAdminComponent } from './routes/new-admin/new-admin.component';
     ProfileComponent,
     ScoringComponent,
     NewAdminComponent,
+    ProgramCloseDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -126,6 +127,9 @@ import { NewAdminComponent } from './routes/new-admin/new-admin.component';
     AudioRecorderService,
     EvaluationService,
     ProfileService,
+  ],
+  entryComponents: [
+    ProgramCloseDialogComponent,
   ],
   bootstrap: [AppComponent]
 })

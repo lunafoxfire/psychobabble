@@ -32,7 +32,6 @@ export class ProgramController {
         ['body', 400, "Request body missing",
           ['requestId', 400, "Missing 'requestId' in request body"],
           ['program', 400, "Missing 'program' in request body",
-            ['author', 400, "Missing 'program.author' in request body"],
             ['client', 400, "Missing 'program.client' in request body"]]]
       )) { return; }
       if(!requireRole(req, res, [RoleType.Admin])) { return; }

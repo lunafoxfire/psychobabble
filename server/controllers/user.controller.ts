@@ -107,7 +107,7 @@ export class UserController {
           ['clientId', 400, "Missing 'clientId' in rotue params"]],
         ['query', 400, "Request query params missing",
           ['requestSearchTerm', 400, "Missing 'requestSearchTerm' in query params"],
-          ['requestpage', 400, "Missing 'requestpage' in query params"],
+          ['requestPage', 400, "Missing 'requestpage' in query params"],
           ['requestResultCount', 400, "Missing 'requestResultCount' in query params"],
           ['programSearchTerm', 400, "Missing 'programSearchTerm' in query params"],
           ['programPage', 400, "Missing 'programPage' in query params"],

@@ -92,6 +92,14 @@ export class ResponseService {
     .where("response.reviewed = :reviewed", { reviewed: false })
     .getMany();
   }
+
+  public async scoreResponse(score: number, responseId: string) {
+    let response = await this.responseRepo.findOneById(responseId);
+    response.score = score;
+    response.reviewed = true;
+    this.responseRepo.save(response);
+    return response;
+  }
 }
 
 /** All options required to create a new Response. */

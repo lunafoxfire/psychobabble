@@ -65,6 +65,10 @@ export class AdminService {
     return result;
   }
 
+  public scoreResponse(score, responseId): Observable<any> {
+    let result = this.auth.post('/api/responses/score/'+responseId, {score: score})
+    return result;
+  }
 }
 
 export interface GetClientDetailsParameters {

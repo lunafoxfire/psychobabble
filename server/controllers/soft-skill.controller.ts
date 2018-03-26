@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, exceptionResult } from './../utility/req-require';
+import { reqRequire, exceptionResult } from './../utility/express-utilities';
 import { SoftSkillService } from './../services/soft-skill.service';
 
 export interface SoftSkillControllerDependencies {

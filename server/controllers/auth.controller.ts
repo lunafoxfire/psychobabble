@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/express-utilities';
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';

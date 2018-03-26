@@ -3,10 +3,10 @@ import * as chai from 'chai';
 import { expect } from 'chai';
 import * as td from 'testdouble';
 import { MockReq, MockRes } from './../../utility/mock-interfaces';
-import { reqRequire, requireRole } from './../../utility/req-require';
+import { reqRequire, requireRole } from './../../utility/express-utilities';
 import { RoleType } from './../../models/Role';
 
-describe("req-require library", function() {
+describe("express-utilities library", function() {
   let req: MockReq;
   let res: MockRes;
 

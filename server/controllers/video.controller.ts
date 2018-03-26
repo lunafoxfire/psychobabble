@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/express-utilities';
 import * as AWS from 'aws-sdk';
 import { Video } from './../models/Video';
 import { VideoService } from './../services/video.service';

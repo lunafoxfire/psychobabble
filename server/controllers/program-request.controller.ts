@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/express-utilities';
 import { ProgramRequestService, NewProgramRequestOptions } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
 import { RoleType } from './../models/Role';

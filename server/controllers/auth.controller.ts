@@ -1,16 +1,21 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/express-utilities';
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { AuthService } from './../services/auth.service';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
+
+export interface AuthControllerDependencies {
+  authService: AuthService;
+}
+
 export class AuthController {
   private authService: AuthService;
 
-  constructor(authService: AuthService = null) {
-    this.authService = authService || new AuthService();
+  constructor(dependencies: AuthControllerDependencies = null) {
+    this.authService = dependencies ? dependencies.authService : new AuthService();
     fixThis(this, AuthController);
   }
 
@@ -47,14 +52,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async registerAdmin(req, res) {
@@ -174,14 +172,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async loginLocal(req, res) {
@@ -240,14 +231,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async resendResetEmail(req, res) {
@@ -273,14 +257,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async passChange(req, res) {
@@ -312,14 +289,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async verifyUser(req, res) {
@@ -347,14 +317,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async verifyAdmin(req, res) {
@@ -412,13 +375,6 @@ export class AuthController {
       });
       return;
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

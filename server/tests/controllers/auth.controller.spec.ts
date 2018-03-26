@@ -15,7 +15,9 @@ describe("AuthController", function() {
 
   beforeEach(function() {
     authService = td.object<AuthService>(new AuthService);
-    authController = new AuthController(authService);
+    authController = new AuthController({
+      authService: authService
+    });
     req = new MockReq();
     res = new MockRes();
   });
@@ -542,7 +544,8 @@ describe("AuthController", function() {
   describe("resendVerification method", function() {
     beforeEach(function() {
       req.jwt = {
-        email: "test@test.com"
+        email: "test@test.com",
+        validated: false
       };
     });
 
@@ -555,6 +558,13 @@ describe("AuthController", function() {
 
     it("should return 400 if jwt is missing email", async function() {
       req.jwt.email = undefined;
+      await authController.resendVerification(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return 400 if jwt is missing validated", async function() {
+      req.jwt.validated = undefined;
       await authController.resendVerification(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;

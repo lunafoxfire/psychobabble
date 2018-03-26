@@ -1,3 +1,5 @@
+import { RoleType } from './../models/Role';
+
 /**
   *  Defines required fields that a controller method's req argument must contain. Returns false if a parameter is missing.
   *  Usage: reqRequire(req, res,
@@ -45,3 +47,37 @@ function evalReqArray(reqObject, reqArray: any[], res): boolean {
   }
   return true;
 };
+
+/**
+  * Checks if the user has at least one of the required roles. Returns false if user has none of the roles.
+  * Usage: requireRole(req, res, [Role1, Role2, ...])
+  */
+export function requireRole(req, res, allowedRoles: RoleType[]): boolean {
+  if (allowedRoles.length === 0) { return true; }
+  if (!req.jwt || ! req.jwt.role) {
+    throw new Error("Missing or invailid auth token");
+  }
+  let userRole = req.jwt.role;
+  let hasRole = false;
+  for (let i = 0; i < allowedRoles.length; i++) {
+    if (userRole === allowedRoles[i]) {
+      hasRole = true;
+      break;
+    }
+  }
+  if(!hasRole) {
+    res.status(401);
+    res.json({
+      message: "Unauthorized"
+    });
+  }
+  return hasRole;
+}
+
+export function exceptionResult(err, res) {
+  console.logDev(err);
+  res.status(500);
+  res.json({
+    message: "A server exception was thrown"
+  });
+}

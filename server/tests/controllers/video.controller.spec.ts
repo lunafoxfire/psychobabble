@@ -39,4 +39,80 @@ describe("VideoController", function() {
       expect(videoController).to.have.own.property('videoService').that.is.equal(videoService);
     });
   });
+
+  describe("getVideos method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if query params are missing");
+
+    it("should return 400 status if query params are missing page");
+
+    it("should return 400 status if query params are missing resultCount");
+
+    it("should return 400 status if query params are missing searchTerm");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return the videos on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("generateVideoUrl method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if jwt is missing username");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return the information on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("uploadVideo method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if body is missing");
+
+    it("should return 400 status if body is missing videoId");
+
+    it("should return 400 status if body is missing url");
+
+    it("should return 400 status if body is missing description");
+
+    it("should return 400 status if body is missing title");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("removeVideo method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if body is missing");
+
+    it("should return 400 status if body is missing videoId");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
 });

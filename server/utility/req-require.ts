@@ -73,3 +73,11 @@ export function requireRole(req, res, allowedRoles: RoleType[]): boolean {
   }
   return hasRole;
 }
+
+export function exceptionResult(err, res) {
+  console.logDev(err);
+  res.status(500);
+  res.json({
+    message: "A server exception was thrown"
+  });
+}

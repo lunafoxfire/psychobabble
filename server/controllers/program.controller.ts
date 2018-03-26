@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
 import { ProgramService } from './../services/program.service';
 import { ProgramRequestService } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
@@ -55,14 +55,7 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getAllPrograms(req, res) {
@@ -91,14 +84,7 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getProgramDetails(req, res) {
@@ -129,14 +115,7 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getProgramDetailsAdmin(req, res) {
@@ -165,14 +144,7 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getClientPrograms(req, res) {
@@ -203,14 +175,7 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getCurrentVideo(req, res) {
@@ -239,13 +204,6 @@ export class ProgramController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

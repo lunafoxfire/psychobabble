@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
 import { ResponseService } from './../services/response.service';
 import { UserService } from './../services/user.service';
 import { VideoService } from './../services/video.service';
@@ -58,14 +58,7 @@ export class ResponseController {
       });
       return;
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async generateAudioUrl(req, res) {
@@ -88,14 +81,7 @@ export class ResponseController {
       });
       return;
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async responseCreationSuccess(req, res) {
@@ -116,14 +102,7 @@ export class ResponseController {
       });
       return;
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async responseCreationFail(req, res) {
@@ -145,14 +124,7 @@ export class ResponseController {
       });
       return;
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getSubjectResponses(req, res) {
@@ -187,13 +159,6 @@ export class ResponseController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

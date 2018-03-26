@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
 import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
@@ -52,14 +52,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async registerSubject(req, res) {
@@ -95,14 +88,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async loginLocal(req, res) {
@@ -161,14 +147,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async resendResetEmail(req, res) {
@@ -194,14 +173,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async passChange(req, res) {
@@ -233,14 +205,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async verifyUser(req, res) {
@@ -268,14 +233,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async resendVerification(req, res) {
@@ -299,13 +257,6 @@ export class AuthController {
       });
       return;
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire } from './../utility/req-require';
+import { reqRequire, exceptionResult } from './../utility/req-require';
 import { SoftSkillService } from './../services/soft-skill.service';
 
 export interface SoftSkillControllerDependencies {
@@ -31,12 +31,6 @@ export class SoftSkillController {
         });
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

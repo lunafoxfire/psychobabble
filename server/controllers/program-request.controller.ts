@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
 import { ProgramRequestService, NewProgramRequestOptions } from './../services/program-request.service';
 import { UserService } from './../services/user.service';
 import { RoleType } from './../models/Role';
@@ -41,14 +41,7 @@ export class ProgramRequestController {
         throw new Error("Error getting requests");
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getPendingClientRequests(req, res) {
@@ -74,14 +67,7 @@ export class ProgramRequestController {
         throw new Error("An error occured while getting client requests");
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getRequestDetails(req, res) {
@@ -105,14 +91,7 @@ export class ProgramRequestController {
         throw new Error("Request could not be found");
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getClientRequestDetails(req, res) {
@@ -136,14 +115,7 @@ export class ProgramRequestController {
         throw new Error("Request could not be found");
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async makeProgramRequest(req, res) {
@@ -177,12 +149,6 @@ export class ProgramRequestController {
         throw new Error("Could not save program request");
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

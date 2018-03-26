@@ -1,5 +1,5 @@
 import { fixThis } from './../utility/fix-this';
-import { reqRequire, requireRole } from './../utility/req-require';
+import { reqRequire, requireRole, exceptionResult } from './../utility/req-require';
 import { UserService } from './../services/user.service';
 import { RoleType } from './../models/Role';
 
@@ -41,14 +41,7 @@ export class UserController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getProgramSubjects(req, res) {
@@ -75,14 +68,7 @@ export class UserController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getTopSubjects(req, res) {
@@ -109,14 +95,7 @@ export class UserController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getClientDetails(req, res) {
@@ -150,14 +129,7 @@ export class UserController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async getProfile(req, res) {
@@ -182,13 +154,6 @@ export class UserController {
         return;
       }
     }
-    catch(err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 }

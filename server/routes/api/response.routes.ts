@@ -37,5 +37,11 @@ export function loadRoutes() {
   // Called if the client fails when saving the audio to the S3 bucket
   router.post('/save-failed', auth, responseCtrl.responseCreationFail);
 
+  // POST /api/responses/score/:responseId
+  // auth: ADMIN
+  // params: score
+  // Save a score to a response
+  router.post('/score/:responseId', auth, responseCtrl.scoreResponse);
+
   return router;
 }

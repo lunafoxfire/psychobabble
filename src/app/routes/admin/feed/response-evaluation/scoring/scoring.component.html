@@ -3,8 +3,16 @@
     <mat-card-content>
       <audio controls>
         <source src="{{response.url}}" type="audio/wav">
-      </audio>
-      <p>{{response.text_version}}</p>
-    </mat-card-content>
-  </mat-card>
-</div>
+        </audio>
+        <p>{{response.text_version}}</p>
+        <select ngModel #score="ngModel" name="score">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+        <button type="button" name="button" (click)="scoreResponse(score, response.responseId)">Submit Score</button>
+      </mat-card-content>
+    </mat-card>
+  </div>

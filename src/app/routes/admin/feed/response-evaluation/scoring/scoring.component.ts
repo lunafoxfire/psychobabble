@@ -23,10 +23,12 @@ export class ScoringComponent implements OnInit {
       this.programId = params['pid'];
       this.subjectId = params['sid'];
       this.responses = this.service.getSubjectResponses(this.programId, this.subjectId);
-      this.responses.subscribe(data => {
-        console.log(data);
-      })
     });
   }
 
+  public scoreResponse(score, responseId) {
+    this.service.scoreResponse(score.value, responseId).subscribe(() => {
+      this.responses = this.service.getSubjectResponses(this.programId, this.subjectId);
+    });
+  }
 }

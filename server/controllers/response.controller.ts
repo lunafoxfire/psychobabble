@@ -161,4 +161,33 @@ export class ResponseController {
     }
     catch (err) { exceptionResult(err, res); }
   }
+
+  public async scoreResponse(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['role', 400, "Malformed auth token"]],
+        ['body', 401, "Missing body",
+         ['score', 401, "Missing 'score' in body"]],
+        ['params', 401, "Missing route params",
+         ['responseId', 401, "Missing 'responseId' in route params"]]
+      )) { return; }
+      if(!requireRole(req, res, [RoleType.Admin])) { return; }
+      let response = await this.responseService.scoreResponse(req.body.score, req.params.responseId);
+      if(response) {
+        res.status(200);
+        res.json({
+          response: response,
+          message: "Grabbed all the things"
+        })
+      } else {
+        res.status(500);
+        res.json({
+          message: "Unknown error"
+        });
+        return;
+      }
+    }
+    catch (err) { exceptionResult(err, res); }
+  }
 }

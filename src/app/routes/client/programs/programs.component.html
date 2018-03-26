@@ -11,6 +11,7 @@
         </mat-card-title>
         <mat-card-content>
           <p>{{program.description}}</p>
+          <button mat-raised-button (click)="openDialog(program.jobTitle, program.programId)">Delete</button>
         </mat-card-content>
       </mat-card>
     </div>

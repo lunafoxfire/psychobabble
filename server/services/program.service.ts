@@ -139,6 +139,12 @@ export class ProgramService {
       return null;
     }
   }
+
+  public async closeProgram(programId) {
+    let program = await this.programRepo.findOneById(programId);
+    program.closed = true;
+    this.programRepo.save(program);
+  }
 }
 
 /** All options required to create a new Program. */

@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ClientService } from './../client.service';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'programs',
@@ -15,7 +16,8 @@ export class ProgramsComponent implements OnInit {
   public searchTerm: string;
 
   constructor(
-    public service: ClientService
+    public service: ClientService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -32,4 +34,37 @@ export class ProgramsComponent implements OnInit {
     this.resultCount = pageEvent.pageSize;
     this.programs = this.service.getClientPrograms(this.page, this.resultCount, this.searchTerm);
   }
+
+  public openDialog(jobTitle: string, programId: string): void {
+    let dialogRef = this.dialog.open(ProgramCloseDialogComponent, {
+      width: '250px',
+      data: { jobTitle: jobTitle, programId: programId }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if(result) {
+        this.service.closeProgram(result).subscribe(data => {
+          console.log(data);
+          location.reload();
+        })
+      }
+    });
+  }
+}
+
+@Component({
+  selector: 'program-close-dialog',
+  templateUrl: './program-close-dialog.html',
+})
+export class ProgramCloseDialogComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<ProgramCloseDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  public onNoClick(): void {
+    this.dialogRef.close();
+  }
+
 }

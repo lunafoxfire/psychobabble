@@ -422,7 +422,10 @@ describe("ProgramRequestController", function() {
         role: "CLIENT"
       };
       req.body = {
-        nameArray: ["testName", "testName2"]
+        details: "test details",
+        jobTitle: "a job",
+        expiration: new Date().getTime() + 300000,
+        softSkills: [{id: 12}, {name: "A soft skill"}]
       };
       resultRequest = td.object<ProgramRequest>(new ProgramRequest);
       resultRequest.id = "abcde";
@@ -466,8 +469,29 @@ describe("ProgramRequestController", function() {
       expect(res.json().message).to.exist;
     });
 
-    it("should return status 400 if nameArray parameter is missing", async function() {
-      req.body.nameArray = undefined;
+    it("should return status 400 if body is missing details", async function() {
+      req.body.details = undefined;
+      await requestController.makeProgramRequest(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return status 400 if body is missing jobTitle", async function() {
+      req.body.jobTitle = undefined;
+      await requestController.makeProgramRequest(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return status 400 if body is missing expiration", async function() {
+      req.body.expiration = undefined;
+      await requestController.makeProgramRequest(req, res);
+      expect(res.status()).to.equal(400);
+      expect(res.json().message).to.exist;
+    });
+
+    it("should return status 400 if body is missing softSkills", async function() {
+      req.body.softSkills = undefined;
       await requestController.makeProgramRequest(req, res);
       expect(res.status()).to.equal(400);
       expect(res.json().message).to.exist;

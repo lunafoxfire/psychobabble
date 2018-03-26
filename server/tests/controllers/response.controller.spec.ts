@@ -472,6 +472,7 @@ describe("ResponseController", function() {
   });
 
   describe("getSubjectResponses method", function() {
+    let resultResponse;
     let resultResponses;
 
     beforeEach(function() {
@@ -482,7 +483,11 @@ describe("ResponseController", function() {
         subjectId: "test-subject-id",
         programId: "test-program-id",
       };
-      resultResponses = [new Response(), new Response()];
+      resultResponse = td.object<Response>(new Response);
+      resultResponse.id = "test-response-id";
+      resultResponse.text_version = "blah blah blah";
+      td.when(resultResponse.getResourceUrl()).thenReturn("www.audio.com");
+      resultResponses = [resultResponse, resultResponse];
       td.when(responseService.getSubjectResponses(td.matchers.anything()))
         .thenResolve(resultResponses);
     });
@@ -541,7 +546,9 @@ describe("ResponseController", function() {
 
     it("should return the array of responses", async function() {
       await responseController.getSubjectResponses(req, res);
-      expect(res.json().responses).to.equal(resultResponses);
+      expect(res.json().responses[0].responseId).to.equal("test-response-id");
+      expect(res.json().responses[0].text_version).to.equal("blah blah blah");
+      expect(res.json().responses[0].url).to.equal("www.audio.com");
     });
 
     it("should return 500 status if an error is thrown", async function() {

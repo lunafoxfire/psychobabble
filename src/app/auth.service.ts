@@ -23,6 +23,16 @@ export class AuthService {
     return this.interceptToken(baseRequest);
   }
 
+  public registerAdmin(email): Observable<any> {
+    let baseRequest = this.http.post('/api/auth/admin/register', {email: email});
+    return baseRequest;
+  }
+
+  public changeAdmin(credentials: RegisterCredentials): Observable<any> {
+    let baseRequest = this.post('/api/auth/admin/change', credentials);
+    return this.interceptToken(baseRequest);
+  }
+
   public login(credentials: LoginCredentials): Observable<any> {
     let baseRequest = this.http.post('/api/auth/login', credentials);
     return this.interceptToken(baseRequest);
@@ -31,6 +41,12 @@ export class AuthService {
   public verify(code: string): Observable<any> {
     if(this.isLoggedIn()) {
       let baseRequest = this.post('/api/auth/verify', {code:code});
+      return this.interceptToken(baseRequest);
+    }
+  }
+  public verifyAdmin(): Observable<any> {
+    if(this.isLoggedIn()) {
+      let baseRequest = this.post('/api/auth/verify-admin');
       return this.interceptToken(baseRequest);
     }
   }

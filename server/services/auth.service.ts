@@ -57,6 +57,25 @@ export class AuthService {
     }
   }
 
+  /** Generates credentials for a new administrator */
+  public async generateAdminCredentials(email: string) {
+    let credentials =  {
+      username: email,
+      email: email,
+      password: randomBytes(6).toString('hex')
+    }
+    let msg = {
+      to: email,
+      from: process.env.NOREPLY_EMAIL,
+      subject: 'Your Administrator Credentials',
+      html: `<p>Password: ${credentials.password}</p>`,
+    };
+    sgMail.send(msg).catch((err) => {
+      console.error(`SendGrid Error: ${err.code} - ${err.message}`);
+    });
+    return credentials;
+  }
+
   /** Registers a new admin to the database. */
   public async registerAdminAsync(username: string, email: string, password: string): Promise<User> {
     return this.registerAsync({
@@ -85,6 +104,20 @@ export class AuthService {
       password: password,
       roleType: RoleType.Subject
     });
+  }
+
+  /** Registers a new subject to the database. */
+  public async changeAdmin(userId: string, username: string, email: string, password: string): Promise<User> {
+    let admin = await this.userService.findByIdAsync(userId);
+    admin.username = username;
+    admin.normalized_username = User.normalizeField(admin.username);
+    admin.email = email;
+    admin.normalized_email = User.normalizeField(admin.email);
+    admin.salt = User.genSalt();
+    admin.hash = User.hashPassword(password, admin.salt);
+    admin.date_created = new Date().getTime();
+    await this.userService.saveAsync(admin);
+    return admin;
   }
 
   /** Generates the default admin account if no admin account currently exists. */
@@ -146,6 +179,14 @@ export class AuthService {
     } else {
       return currentUser;
     }
+  }
+
+  /** Verify Admin On First Login */
+  public async verifyAdmin(userId: string) {
+    let admin = await this.userService.findByIdAsync(userId);
+    admin.validated = true;
+    this.userService.saveAsync(admin);
+    return admin;
   }
 
   public async generatePassTokenAsync() {

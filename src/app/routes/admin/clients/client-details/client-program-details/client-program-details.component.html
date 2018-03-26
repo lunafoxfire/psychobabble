@@ -1,10 +1,29 @@
-<h1>Program Id: {{(program | async)?.program.jobTitle}}</h1>
-<h3>Link for this program: {{generatedUrl}}</h3>
-<h1>VIDEOS</h1>
-<div *ngFor="let video of (program | async)?.program.videos">
-  <p>{{video.url}}</p>
-</div>
-<h1>TOP SUBJECTS</h1>
-<div *ngFor="let subject of (topSubjects | async)?.subjects">
-  <p>{{subject}}</p>
-</div>
+<mat-card>
+  <mat-card-title>
+    <h1>Job Title: {{(program | async)?.program.jobTitle}}</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <h3>Link for this program: {{generatedUrl}}</h3>
+    <p>{{(program | async)?.program.description}}</p>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-title>
+    <h1>VIDEOS</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngFor="let video of (program | async)?.program.videos">
+      <p>{{video.url}}</p>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-title>
+    <h1>TOP SUBJECTS</h1>
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngFor="let subject of (topSubjects | async)?.subjects">
+      <p>{{subject}}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

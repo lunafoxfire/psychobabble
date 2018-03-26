@@ -57,6 +57,90 @@ export class AuthController {
     }
   }
 
+  public async registerAdmin(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['email', 400, "Missing 'email' in request body"]]
+      )) { return; }
+      console.logDev(`Registering new Admin | ${req.body.email}...`);
+      let adminCredentials = await this.authService.generateAdminCredentials(req.body.email);
+      let user = await this.authService.registerAdminAsync(adminCredentials.username, adminCredentials.email, adminCredentials.password);
+      if (user) {
+        let msg = `Registered ${user.email} with id ${user.id} as Admin`;
+        console.logDev(msg);
+        res.status(200);
+        res.json({
+          message: msg
+        });
+        return;
+      }
+      else {
+        let msg = `Username or email taken`;
+        console.logDev(msg);
+        res.status(422);
+        res.json({
+          message: msg
+        });
+        return;
+      }
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
+  public async changeAdmin(req, res) {
+    try {
+      console.log(req.jwt);
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing",
+          ['username', 400, "Missing 'username' in request body"],
+          ['email', 400, "Missing 'email' in request body"],
+          ['password', 400, "Missing 'password' in request body"]],
+        ['jwt', 401, "Missing auth token",
+          ['id', 400, "Malformed auth token"]]
+      )) { return; }
+      let username = req.body.username;
+      let email = req.body.email;
+      let password = req.body.password;
+      console.logDev(`Changing ${req.jwt.username} | ${req.jwt.email}...`);
+      let user = await this.authService.changeAdmin(req.jwt.id, username, email, password);
+      if (user) {
+        let msg = `Changed ${username} with id ${user.id}`;
+        console.logDev(msg);
+        res.status(200);
+        res.json({
+          message: msg,
+          token: user.generateJwt()
+        });
+        return;
+      }
+      else {
+        let msg = `Username or email taken`;
+        console.logDev(msg);
+        res.status(422);
+        res.json({
+          message: msg
+        });
+        return;
+      }
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
   public async registerSubject(req, res) {
     try {
       if(!reqRequire(req, res,
@@ -259,6 +343,40 @@ export class AuthController {
         res.status(401);
         res.json({
           message: "User validation failed"
+        });
+        return;
+      }
+    }
+    catch (err) {
+      console.logDev(err);
+      res.status(500);
+      res.json({
+        message: "Unknown error"
+      });
+      return;
+    }
+  }
+
+  public async verifyAdmin(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['body', 400, "Request body missing"],
+        ['jwt', 401, "Missing auth token",
+          ['id', 400, "Malformed auth token"]]
+      )) { return; }
+      let user = await this.authService.verifyAdmin(req.jwt.id);
+      if (user) {
+        res.status(200);
+        res.json({
+          message: "Admin successfully validated",
+          token: user.generateJwt()
+        });
+        return;
+      }
+      else {
+        res.status(401);
+        res.json({
+          message: "Admin validation failed"
         });
         return;
       }

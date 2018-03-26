@@ -21,6 +21,8 @@ export class LogInComponent {
       let resUrl = this.auth.getResponseUrl();
       if(resUrl && this.auth.isSubject()) {
         this.router.navigateByUrl(`/${resUrl}`);
+      } else if(this.auth.isAdmin() && !this.auth.isVerified()) {
+        this.router.navigateByUrl('/new-admin');
       } else {
         this.router.navigateByUrl('/');
       }

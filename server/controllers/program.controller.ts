@@ -108,9 +108,9 @@ export class ProgramController {
           message: "Grabbed program details"
         })
       } else {
-        res.status(401);
+        res.status(500);
         res.json({
-          message: "Not Authorized or Program Not Found"
+          message: "Program Not Found"
         });
         return;
       }
@@ -137,9 +137,9 @@ export class ProgramController {
           message: "Grabbed program details"
         })
       } else {
-        res.status(401);
+        res.status(500);
         res.json({
-          message: "Not Authorized or Program Not Found"
+          message: "Program Not Found"
         });
         return;
       }

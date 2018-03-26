@@ -76,5 +76,125 @@ describe("ProgramController", function() {
     it("should return 400 status if body is missing program.client");
 
     it("should return 400 status if body is missing program.requestId");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return the saved program on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("getAllPrograms method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if query params are missing");
+
+    it("should return 400 status if query params are missing page");
+
+    it("should return 400 status if query params are missing resultCount");
+
+    it("should return 400 status if query params are missing searchTerm");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return the programs on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("getProgramDetails method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing id");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if body is missing");
+
+    it("should return 400 status if body is missing client");
+
+    it("should return 400 status if route params are missing");
+
+    it("should return 400 status if route params are missing programId");
+
+    it("should return 401 status if role is not 'CLIENT'");
+
+    it("should return 200 status on success");
+
+    it("should return the program on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("getProgramDetailsAdmin method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if route params are missing");
+
+    it("should return 400 status if route params are missing clientId");
+
+    it("should return 400 status if route params are missing programId");
+
+    it("should return 401 status if role is not 'ADMIN'");
+
+    it("should return 200 status on success");
+
+    it("should return the program on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("getClientPrograms method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if route params are missing");
+
+    it("should return 400 status if route params are missing clientId");
+
+    it("should return 400 status if query params are missing");
+
+    it("should return 400 status if query params are missing page");
+
+    it("should return 400 status if query params are missing resultCount");
+
+    it("should return 400 status if query params are missing searchTerm");
+
+    it("should return 401 status if role is not 'CLIENT'");
+
+    it("should return 200 status on success");
+
+    it("should return the programs on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
+
+  describe("getCurrentVideo method", function() {
+    it("should return 401 status if jwt is missing");
+
+    it("should return 400 status if jwt is missing id");
+
+    it("should return 400 status if jwt is missing role");
+
+    it("should return 400 status if route params are missing");
+
+    it("should return 400 status if route params are missing programId");
+
+    it("should return 401 status if role is not 'SUBJECT'");
+
+    it("should return 200 status on success");
+
+    it("should return the video on success");
+
+    it("should return 500 status if an exception is thrown");
   });
 });

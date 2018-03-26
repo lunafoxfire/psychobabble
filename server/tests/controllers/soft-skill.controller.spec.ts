@@ -39,4 +39,15 @@ describe("SoftSkillController", function() {
       expect(softSkillController).to.have.own.property('softSkillService').that.is.equal(softSkillService);
     });
   });
+
+
+  describe("getAll method", function() {
+    it("should return 200 status on success");
+
+    it("should return 204 status if no skills exist");
+
+    it("should return the skills on success");
+
+    it("should return 500 status if an exception is thrown");
+  });
 });

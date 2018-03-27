@@ -27,7 +27,11 @@ import { ResponseGuardService } from './response-guard.service';
 import { VerifyGuardService } from './verify-guard.service';
 
 // Validators
-import { UsernameValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
+import {
+  UsernameValidatorDirective,
+  PasswordValidatorDirective,
+  ConfirmPasswordValidatorDirective
+} from './form-validator.directive';
 
 // General routes
 import { SplashComponent } from './routes/splash/splash.component';
@@ -92,6 +96,7 @@ import { NewAdminComponent } from './routes/new-admin/new-admin.component';
     ChangePasswordComponent,
     UsernameValidatorDirective,
     PasswordValidatorDirective,
+    ConfirmPasswordValidatorDirective,
     ProgramDesignComponent,
     ResponseEvaluationComponent,
     EvaluationComponent,

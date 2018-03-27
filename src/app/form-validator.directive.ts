@@ -1,4 +1,4 @@
-import { Directive } from '@angular/core';
+import { Directive, Input } from '@angular/core';
 import { Validator, FormControl, NG_VALIDATORS } from '@angular/forms';
 
 @Directive({
@@ -42,6 +42,25 @@ export class PasswordValidatorDirective implements Validator {
           hasNumber: hasNumber ? null : { valid: false }
         };
       }
+    }
+    return null;
+  }
+}
+
+@Directive({
+  selector: '[confirmPassword][ngModel]',
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: ConfirmPasswordValidatorDirective, multi: true }
+  ]
+})
+export class ConfirmPasswordValidatorDirective implements Validator {
+  @Input('confirmPassword') passwordField;
+  validate(control: FormControl) {
+    let input = control.value;
+    if(input !== this.passwordField.value) {
+      return {
+        confirmPassword: { valid: false }
+      };
     }
     return null;
   }

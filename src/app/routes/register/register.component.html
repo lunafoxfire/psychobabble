@@ -40,6 +40,15 @@
         <mat-error *ngIf="password.errors?.hasNumber">Password must contain at least one number</mat-error>
       </mat-form-field>
 
+      <mat-form-field>
+        <input ngModel matInput type="password"
+          placeholder="Confirm Password" name="confirm-password" #confirmPassword="ngModel"
+          minlength="6" maxlength="32" required [confirmPassword]="password"
+        />
+        <mat-error *ngIf="!password.errors && confirmPassword.errors?.required">Password confirmation is required</mat-error>
+        <mat-error *ngIf="!password.errors && confirmPassword.errors?.confirmPassword">Passwords do not match</mat-error>
+      </mat-form-field>
+
       <button mat-raised-button color="primary" type="submit" [disabled]="thinking">
         <span *ngIf="!thinking">Submit</span>
         <span *ngIf="thinking">Sending...</span>

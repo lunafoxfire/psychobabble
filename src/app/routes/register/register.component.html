@@ -3,7 +3,7 @@
     <h1>Register</h1>
   </mat-card-title>
   <mat-card-content>
-    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" novalidate>
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
       <mat-form-field>
         <input ngModel matInput type="text"
           placeholder="Username" name="username" #username="ngModel"
@@ -40,7 +40,10 @@
         <mat-error *ngIf="password.errors?.hasNumber">Password must contain at least one number</mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="thinking">
+        <span *ngIf="!thinking">Submit</span>
+        <span *ngIf="thinking">Sending...</span>
+      </button>
       <mat-error *ngIf="registrationErrors?.unknownError">Something went wrong...</mat-error>
     </form>
   </mat-card-content>

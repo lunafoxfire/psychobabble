@@ -15,33 +15,51 @@ export class RegisterComponent {
   @ViewChild('email') emailField: NgModel;
   @ViewChild('password') passwordField: NgModel;
 
+  public thinking: boolean = false;
+
   constructor(
     public auth: AuthService,
     public router: Router
   ) {}
 
-  ngOnInit() {
-
-  }
-
-  public onSubmit(registerForm: NgForm) {
-    let credentials = registerForm.value as RegisterCredentials;
-    if(this.auth.getResponseUrl()) {
-      this.auth.registerSubject(credentials).subscribe(() => {
+  public async onSubmit(registerForm: NgForm) {
+    this.thinking = true;
+    if (registerForm.valid) {
+      let result = await this.register(registerForm.value);
+      if (result.success) {
         this.router.navigateByUrl('/verify');
-      });
-    } else {
-      this.auth.registerClient(credentials).subscribe(() => {
-        this.router.navigateByUrl('/verify');
-      }, (errResponse) => {
-        this.setErrorsFromReason(errResponse.error.failureReason);
-      });
+      }
+      else {
+        this.thinking = false;
+        this.setErrorsFromReason(result.failureReason);
+      }
+    }
+    else { // Have a bit of delay just to give the user some feedback
+      setTimeout(() => {
+        this.thinking = false;
+      }, 500);
     }
   }
 
-  public setErrorsFromReason(failureReason: string) {
-    console.log(failureReason);
-    console.log(this.usernameField);
+  private register(credentials: RegisterCredentials): Promise<RegisterResult> {
+    return new Promise((resolve, reject) => {
+      if(this.auth.getResponseUrl()) {
+        this.auth.registerSubject(credentials).subscribe(() => {
+          resolve({success: true});
+        }, (errResponse) => {
+          resolve({success: false, failureReason: errResponse.error.failureReason});
+        });
+      } else {
+        this.auth.registerClient(credentials).subscribe(() => {
+          resolve({success: true});
+        }, (errResponse) => {
+          resolve({success: false, failureReason: errResponse.error.failureReason});
+        });
+      }
+    });
+  }
+
+  private setErrorsFromReason(failureReason: string) {
     switch(failureReason) {
       case "BAD_USERNAME":
         this.usernameField.control.setErrors({...this.usernameField.errors, badUsername: true});
@@ -63,4 +81,9 @@ export class RegisterComponent {
         break;
     }
   }
+}
+
+interface RegisterResult {
+  success: boolean;
+  failureReason?: string;
 }

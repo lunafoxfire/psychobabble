@@ -24,7 +24,6 @@ export class UsernameValidatorDirective implements Validator {
   }
 }
 
-
 @Directive({
   selector: '[password][ngModel]',
   providers: [

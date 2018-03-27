@@ -25,6 +25,9 @@ import { AppComponent } from './app.component';
 import { ResponseGuardService } from './response-guard.service';
 import { VerifyGuardService } from './verify-guard.service';
 
+// Validators
+import { UsernameValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
+
 // General routes
 import { SplashComponent } from './routes/splash/splash.component';
 import { LogInComponent } from './routes/login/login.component';
@@ -58,7 +61,6 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
-import { UsernameValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { ProfileComponent } from './routes/profile/profile.component';
@@ -99,7 +101,7 @@ import { NewAdminComponent } from './routes/new-admin/new-admin.component';
     ClientProgramDetailsComponent,
     ProfileComponent,
     ScoringComponent,
-    NewAdminComponent,
+    NewAdminComponent
   ],
   imports: [
     BrowserModule,

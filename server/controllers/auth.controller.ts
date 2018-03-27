@@ -45,7 +45,7 @@ export class AuthController {
         return;
       }
       else {
-        let msg = `Registration failed`;
+        let msg = `Registration failed: ${result.failureReason}`;
         console.logDev(msg);
         res.status(422);
         res.json({

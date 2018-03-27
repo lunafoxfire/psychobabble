@@ -10,6 +10,8 @@
           minlength="4" maxlength="20" required username
         />
         <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+        <mat-error *ngIf="username.errors?.badUsername">Invalid username</mat-error>
+        <mat-error *ngIf="username.errors?.usernameTaken">Sorry, that username is taken</mat-error>
         <mat-error *ngIf="username.errors?.minlength || username.errors?.maxlength">Username must be between 4 and 20 characters</mat-error>
         <mat-error *ngIf="username.errors?.startsWithLetter">Username must start with a letter</mat-error>
         <mat-error *ngIf="username.errors?.onlyValidChars">Username must only use a-z, 0-9, - and _</mat-error>
@@ -21,6 +23,8 @@
           required email
         />
         <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
+        <mat-error *ngIf="email.errors?.badEmail">An error occurred registering that email</mat-error>
+        <mat-error *ngIf="email.errors?.emailTaken">A user already exists with that email</mat-error>
         <mat-error *ngIf="email.errors?.email && !email.errors?.required">Not a valid email</mat-error>
       </mat-form-field>
 
@@ -30,12 +34,14 @@
           minlength="6" maxlength="32" required password
         />
         <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
+        <mat-error *ngIf="password.errors?.badPassword">Invalid password</mat-error>
         <mat-error *ngIf="password.errors?.minlength">Password must be between 6 and 32 characters</mat-error>
         <mat-error *ngIf="password.errors?.hasLetter">Password must contain at least one letter</mat-error>
         <mat-error *ngIf="password.errors?.hasNumber">Password must contain at least one number</mat-error>
       </mat-form-field>
 
       <button mat-raised-button color="primary" type="submit">Submit</button>
+      <mat-error *ngIf="registrationErrors?.unknownError">Something went wrong...</mat-error>
     </form>
   </mat-card-content>
 </mat-card>

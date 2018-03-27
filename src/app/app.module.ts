@@ -40,6 +40,8 @@ import { VideosComponent } from './routes/admin/videos/videos.component';
 import { ClientsComponent } from './routes/admin/clients/clients.component';
 import { ClientDetailsComponent } from './routes/admin/clients/client-details/client-details.component';
 import { ClientProgramDetailsComponent } from './routes/admin/clients/client-details/client-program-details/client-program-details.component';
+import { ScoringComponent } from './routes/admin/feed/response-evaluation/scoring/scoring.component';
+import { NewAdminComponent } from './routes/new-admin/new-admin.component';
 
 // Client routes
 import { ProgramsComponent, ProgramCloseDialogComponent } from './routes/client/programs/programs.component';
@@ -65,8 +67,6 @@ import { ProfileComponent } from './routes/profile/profile.component';
 
 // Imported modules
 import { MaterialModule } from './_imports/material.module';
-import { ScoringComponent } from './routes/admin/feed/response-evaluation/scoring/scoring.component';
-import { NewAdminComponent } from './routes/new-admin/new-admin.component';
 
 @NgModule({
   declarations: [

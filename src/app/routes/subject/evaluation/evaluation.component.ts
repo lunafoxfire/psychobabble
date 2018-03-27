@@ -16,6 +16,7 @@ export class EvaluationComponent implements OnInit {
   public currentVideo: Observable<Video>;
   public currentResponseId: Observable<string>;
   public state: EvalState;
+  public myEvalState = EvalState;
 
   constructor(
     public evalService: EvaluationService,
@@ -128,7 +129,7 @@ export class EvaluationComponent implements OnInit {
   }
 }
 
-enum EvalState {
+export enum EvalState {
   Initial =  'initial',
   LoadingVideo = 'loading-video',
   AwaitingPlay = 'awaiting-play',

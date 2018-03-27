@@ -3,7 +3,7 @@
     <h1>Register</h1>
   </mat-card-title>
   <mat-card-content>
-    <form #registerForm="ngForm" (ngSubmit)="registerForm.valid && onSubmit(registerForm)">
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" novalidate>
       <mat-form-field>
         <input ngModel matInput type="text"
           placeholder="Username" name="username" #username="ngModel"

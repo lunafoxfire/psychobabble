@@ -4,7 +4,7 @@
     (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
     <p>{{(currentVideo | async)?.description}}</p>
     <mat-hint><p>State: {{state}}</p></mat-hint>
-    <button *ngIf="state === myEvalState.AwaitingPlay" class="play" type="button" name="play-button" (click)="playVideo()"></button>
+    <button *ngIf="state === myEvalState.AwaitingPlay" class="play material-icons" type="button" name="play-button" (click)="playVideo()">home</button>
     <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" mat-raised-button (click)="startRecording()"></button>
     <button *ngIf="state === myEvalState.Recording" class="end-recording" mat-raised-button (click)="stopRecording()"></button>
   </mat-card-content>

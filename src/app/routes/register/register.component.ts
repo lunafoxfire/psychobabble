@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { RegisterService } from './register.service';
 import { NgForm, NgModel } from '@angular/forms';
-import { AuthService, RegisterCredentials } from './../../auth.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'register',
@@ -14,18 +13,17 @@ export class RegisterComponent {
   @ViewChild('username') usernameField: NgModel;
   @ViewChild('email') emailField: NgModel;
   @ViewChild('password') passwordField: NgModel;
-
   public thinking: boolean = false;
 
   constructor(
-    public auth: AuthService,
+    public regService: RegisterService,
     public router: Router
   ) {}
 
   public async onSubmit(registerForm: NgForm) {
     this.thinking = true;
     if (registerForm.valid) {
-      let result = await this.register(registerForm.value);
+      let result = await this.regService.register(registerForm.value);
       if (result.success) {
         this.router.navigateByUrl('/verify');
       }
@@ -39,24 +37,6 @@ export class RegisterComponent {
         this.thinking = false;
       }, 500);
     }
-  }
-
-  private register(credentials: RegisterCredentials): Promise<RegisterResult> {
-    return new Promise((resolve, reject) => {
-      if(this.auth.getResponseUrl()) {
-        this.auth.registerSubject(credentials).subscribe(() => {
-          resolve({success: true});
-        }, (errResponse) => {
-          resolve({success: false, failureReason: errResponse.error.failureReason});
-        });
-      } else {
-        this.auth.registerClient(credentials).subscribe(() => {
-          resolve({success: true});
-        }, (errResponse) => {
-          resolve({success: false, failureReason: errResponse.error.failureReason});
-        });
-      }
-    });
   }
 
   private setErrorsFromReason(failureReason: string) {
@@ -81,9 +61,4 @@ export class RegisterComponent {
         break;
     }
   }
-}
-
-interface RegisterResult {
-  success: boolean;
-  failureReason?: string;
 }

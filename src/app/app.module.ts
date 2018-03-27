@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthService } from './auth.service';
+import { RegisterService } from './routes/register/register.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
 import { AdminService } from './routes/admin/admin.service';
@@ -114,6 +115,7 @@ import { NewAdminComponent } from './routes/new-admin/new-admin.component';
   ],
   providers: [
     AuthService,
+    RegisterService,
     VideoService,
     TimedRedirectService,
     AuthGuardService,

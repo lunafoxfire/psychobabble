@@ -1,14 +1,11 @@
-<mat-card>
-  <mat-card-title>
-    <h1>{{(currentVideo | async)?.title}}</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <video #evalVideo width="320" height="240" src="{{(currentVideo | async)?.url}}"
+<mat-card class="card">
+  <mat-card-content class="content">
+    <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
     (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
     <p>{{(currentVideo | async)?.description}}</p>
     <mat-hint><p>State: {{state}}</p></mat-hint>
-    <button mat-raised-button type="button" name="play-button" (click)="playVideo()">Play</button>
-    <button mat-raised-button (click)="startRecording()">Record</button>
-    <button mat-raised-button (click)="stopRecording()">Stop Recording</button>
+    <button *ngIf="state === myEvalState.AwaitingPlay" class="play" type="button" name="play-button" (click)="playVideo()"></button>
+    <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" mat-raised-button (click)="startRecording()"></button>
+    <button *ngIf="state === myEvalState.Recording" class="end-recording" mat-raised-button (click)="stopRecording()"></button>
   </mat-card-content>
 </mat-card>

@@ -3,7 +3,7 @@
     <h1>Register</h1>
   </mat-card-title>
   <mat-card-content>
-    <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)">
+    <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
       <mat-form-field>
         <input ngModel matInput type="text"
           placeholder="Username" name="username" #username="ngModel"
@@ -46,14 +46,19 @@
           minlength="6" maxlength="32" required [confirmPassword]="password"
         />
         <mat-error *ngIf="!password.errors && confirmPassword.errors?.required">Password confirmation is required</mat-error>
-        <mat-error *ngIf="!password.errors && confirmPassword.errors?.confirmPassword">Passwords do not match</mat-error>
+        <mat-error *ngIf="!password.errors && !confirmPassword.errors?.required && confirmPassword.errors?.confirmPassword">Passwords do not match</mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="thinking">
-        <span *ngIf="!thinking">Submit</span>
-        <span *ngIf="thinking">Sending...</span>
-      </button>
-      <mat-error *ngIf="registrationErrors?.unknownError">Something went wrong...</mat-error>
+      <div class="submit-button-group">
+        <button mat-raised-button color="primary" type="submit" [disabled]="thinking">
+          <span *ngIf="!thinking">Submit</span>
+          <span *ngIf="thinking">Sending...</span>
+        </button>
+        <div *ngIf="registerForm.invalid && submitted" class="submit-errors">
+          <mat-error *ngIf="!registerForm.errors?.unknownError"><i class="material-icons">error_outline</i> Please check for errors</mat-error>
+          <mat-error *ngIf="registerForm.errors?.unknownError"><i class="material-icons">error_outline</i> An unknown error has occured</mat-error>
+        </div>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>

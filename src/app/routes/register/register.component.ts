@@ -10,20 +10,23 @@ import { NgForm, NgModel } from '@angular/forms';
 })
 
 export class RegisterComponent {
+  @ViewChild('registerForm') registerForm: NgForm;
   @ViewChild('username') usernameField: NgModel;
   @ViewChild('email') emailField: NgModel;
   @ViewChild('password') passwordField: NgModel;
   public thinking: boolean = false;
+  public submitted: boolean = false;
 
   constructor(
     public regService: RegisterService,
     public router: Router
   ) {}
 
-  public async onSubmit(registerForm: NgForm) {
+  public async onSubmit() {
+    this.submitted = true;
     this.thinking = true;
-    if (registerForm.valid) {
-      let result = await this.regService.register(registerForm.value);
+    if (this.registerForm.valid) {
+      let result = await this.regService.register(this.registerForm.value);
       if (result.success) {
         this.router.navigateByUrl('/verify');
       }
@@ -57,7 +60,7 @@ export class RegisterComponent {
         this.emailField.control.setErrors({...this.emailField.errors, emailTaken: true});
         break;
       default:
-        console.log("UNKNOWN ERROR");
+        this.registerForm.control.setErrors({...this.registerForm.errors, unknownError: true});
         break;
     }
   }

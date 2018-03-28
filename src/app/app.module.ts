@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthService } from './auth.service';
+import { RegisterService } from './routes/register/register.service';
 import { TimedRedirectService } from './timed-redirect.service';
 import { VideoService } from './routes/admin/videos/video.service';
 import { AdminService } from './routes/admin/admin.service';
@@ -24,6 +25,13 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { ResponseGuardService } from './response-guard.service';
 import { VerifyGuardService } from './verify-guard.service';
+
+// Validators
+import {
+  UsernameValidatorDirective,
+  PasswordValidatorDirective,
+  ConfirmPasswordValidatorDirective
+} from './form-validator.directive';
 
 // General routes
 import { SplashComponent } from './routes/splash/splash.component';
@@ -60,7 +68,6 @@ import { AlreadyLoggedInComponent } from './routes/error/already-logged-in/alrea
 
 // Shared components
 import { SiteNavBarComponent } from './_shared/site-nav-bar/site-nav-bar.component';
-import { UsernameValidatorDirective, EmailValidatorDirective, PasswordValidatorDirective } from './form-validator.directive';
 import { ProgramDesignComponent } from './routes/admin/feed/program-design/program-design.component';
 import { ResponseEvaluationComponent } from './routes/admin/feed/response-evaluation/response-evaluation.component';
 import { ProfileComponent } from './routes/profile/profile.component';
@@ -88,8 +95,8 @@ import { MaterialModule } from './_imports/material.module';
     ResetComponent,
     ChangePasswordComponent,
     UsernameValidatorDirective,
-    EmailValidatorDirective,
     PasswordValidatorDirective,
+    ConfirmPasswordValidatorDirective,
     ProgramDesignComponent,
     ResponseEvaluationComponent,
     EvaluationComponent,
@@ -114,6 +121,7 @@ import { MaterialModule } from './_imports/material.module';
   ],
   providers: [
     AuthService,
+    RegisterService,
     VideoService,
     TimedRedirectService,
     AuthGuardService,

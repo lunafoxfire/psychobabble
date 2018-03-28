@@ -7,7 +7,8 @@ import { SoftSkill, SoftSkillType } from './../models/SoftSkill';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { Video } from './../models/Video';
-import { AuthService, UserRegistrationOptions } from './../services/auth.service';
+import { AuthService } from './../services/auth.service';
+import { UserRegistrationOptions } from './../services/auth.service.models';
 import { UserService } from './../services/user.service';
 import { VideoService } from './../services/video.service';
 import { ProgramRequestService } from './../services/program-request.service';
@@ -336,7 +337,7 @@ export class TestData {
       this.subjects.push(await authService.registerAsync(user));
       return;
     }));
-    
+
     console.log("Generating soft skills...");
     await softSkillService.syncSoftSkillsToDbAsync();
 

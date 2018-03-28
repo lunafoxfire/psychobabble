@@ -1,4 +1,5 @@
 import { Repository, getRepository } from 'typeorm';
+import { RegistrationResult, FailureReason, UserRegistrationOptions } from './auth.service.models';
 import { User } from './../models/User';
 import { RoleType } from './../models/Role';
 import { ValidationToken } from './../models/ValidationToken';
@@ -30,31 +31,43 @@ export class AuthService {
   }
 
   /** Registers a new User to the database. */
-  // TODO: Return some results object with more info on failures (taken username, etc.)
-  public async registerAsync(regOptions: UserRegistrationOptions): Promise<User> {
-    let usernameTaken = await this.userService.findByEmailAsync(regOptions.username);
+  public async registerAsync(regOptions: UserRegistrationOptions): Promise<RegistrationResult> {
+    if(!User.checkUsername(regOptions.username)) {
+      return new RegistrationResult(false, null, FailureReason.BadUsername);
+    }
+    if(!User.checkPassword(regOptions.password)) {
+      return new RegistrationResult(false, null, FailureReason.BadPassword);
+    }
+    if(!User.checkEmail(regOptions.email)) {
+      return new RegistrationResult(false, null, FailureReason.BadEmail);
+    }
+    let usernameTaken = await this.userService.findByUsernameAsync(regOptions.username);
+    if(usernameTaken) {
+      return new RegistrationResult(false, null, FailureReason.UsernameTaken);
+    }
     let emailTaken = await this.userService.findByEmailAsync(regOptions.email);
-    if (!usernameTaken && !emailTaken) {
-      let user = new User();
-        user.username = regOptions.username;
-        user.normalized_username = User.normalizeField(user.username);
-        user.email = regOptions.email;
-        user.normalized_email = User.normalizeField(user.email);
-        user.salt = User.genSalt();
-        user.hash = User.hashPassword(regOptions.password, user.salt);
-        user.date_created = new Date().getTime();
-        user.role = await this.roleService.findByNameAsync(regOptions.roleType);
-        user.validated = regOptions.preValidated || false;
-      if (!user.validated && user.role.name !== "ADMIN") {
-        user.validationToken = await this.generateValidTokenAsync();
-        this.sendValidationEmail(user);
+    if(emailTaken) {
+      return new RegistrationResult(false, null, FailureReason.EmailTaken);
+    }
+    let user = new User();
+      user.username = regOptions.username;
+      user.normalized_username = User.normalizeField(user.username);
+      user.email = regOptions.email;
+      user.normalized_email = User.normalizeField(user.email);
+      user.salt = User.genSalt();
+      user.hash = User.hashPassword(regOptions.password, user.salt);
+      user.date_created = new Date().getTime();
+      user.role = await this.roleService.findByNameAsync(regOptions.roleType);
+      user.validated = regOptions.preValidated || false;
+    if (!user.validated  && user.role.name !== RoleType.Admin) {
+      user.validationToken = await this.generateValidTokenAsync();
+      let emailSentSuccessfully = await this.sendValidationEmail(user);
+      if (!emailSentSuccessfully) {
+        return new RegistrationResult(false, null, FailureReason.BadEmail);
       }
-      await this.userService.saveAsync(user);
-      return user;
     }
-    else {
-      return null;
-    }
+    await this.userService.saveAsync(user);
+    return new RegistrationResult(true, user);
   }
 
   /** Generates credentials for a new administrator */
@@ -77,7 +90,7 @@ export class AuthService {
   }
 
   /** Registers a new admin to the database. */
-  public async registerAdminAsync(username: string, email: string, password: string): Promise<User> {
+  public async registerAdminAsync(username: string, email: string, password: string): Promise<RegistrationResult> {
     return this.registerAsync({
       username: username,
       email: email,
@@ -87,7 +100,7 @@ export class AuthService {
   }
 
   /** Registers a new client to the database. */
-  public async registerClientAsync(username: string, email: string, password: string): Promise<User> {
+  public async registerClientAsync(username: string, email: string, password: string): Promise<RegistrationResult> {
     return this.registerAsync({
       username: username,
       email: email,
@@ -97,7 +110,7 @@ export class AuthService {
   }
 
   /** Registers a new subject to the database. */
-  public async registerSubjectAsync(username: string, email: string, password: string): Promise<User> {
+  public async registerSubjectAsync(username: string, email: string, password: string): Promise<RegistrationResult> {
     return this.registerAsync({
       username: username,
       email: email,
@@ -121,7 +134,7 @@ export class AuthService {
   }
 
   /** Generates the default admin account if no admin account currently exists. */
-  public async generateDefaultAdminIfNoAdminAsync(): Promise<User> {
+  public async generateDefaultAdminIfNoAdminAsync(): Promise<RegistrationResult> {
     if (await this.userService.doesAdminExistAsync()) {
       return null;
     }
@@ -131,7 +144,7 @@ export class AuthService {
   }
 
   /** Registers the default admin account to the database. */
-  public async generateDefaultAdminAsync(): Promise<User> {
+  public async generateDefaultAdminAsync(): Promise<RegistrationResult> {
     return this.registerAsync({
       username: process.env.DEFAULT_ADMIN_USERNAME,
       email: null,
@@ -198,18 +211,24 @@ export class AuthService {
     return newToken;
   }
 
-  /** Sends the user an email containing their validation token code. */
-  public sendValidationEmail(user: User) {
-    console.log(`Sending validation email to ${user.email}`);
+  /** Sends the user an email containing their validation token code. Returns a promise of true or false depending on success. */
+  // TODO: Use sendgrid supression stuff to only send to valid addresses
+  public async sendValidationEmail(user: User): Promise<boolean> {
+    console.logDev(`Sending validation email to ${user.email}`);
     let msg = {
       to: user.email,
       from: process.env.NOREPLY_EMAIL,
       subject: 'Account Activation',
       html: `<h3>Please enter this code: ${user.validationToken.code}<h3>`,
     };
-    sgMail.send(msg).catch((err) => {
-      console.error(`SendGrid Error: ${err.code} - ${err.message}`);
-    });
+    try {
+      await sgMail.send(msg);
+      return true;
+    }
+    catch (err) {
+      console.logDev(`SendGrid Error: ${err.code} - ${err.message}`);
+      return false;
+    }
   }
 
   public async resendValidationEmail(email) {
@@ -256,18 +275,4 @@ export class AuthService {
     console.log(url);
     return url;
   }
-}
-
-/** All options required to register a new User. */
-export interface UserRegistrationOptions {
-  /** The User's username. */
-  username: string;
-  /** The User's email. */
-  email: string;
-  /** The User's password. */
-  password: string;
-  /** The User's role. */
-  roleType: RoleType;
-  /** Whether the user can skip email validation. Optional. */
-  preValidated?: boolean;
 }

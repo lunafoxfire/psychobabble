@@ -4,6 +4,7 @@ import * as passport from 'passport';
 import { User } from './../models/User';
 import { ValidationToken } from './../models/ValidationToken';
 import { AuthService } from './../services/auth.service';
+import { RegistrationResult, FailureReason } from './../services/auth.service.models';
 
 // https://www.sitepoint.com/user-authentication-mean-stack/
 
@@ -31,8 +32,9 @@ export class AuthController {
       let email = req.body.email;
       let password = req.body.password;
       console.logDev(`Registering ${username} | ${email}...`);
-      let user = await this.authService.registerClientAsync(username, email, password);
-      if (user) {
+      let result = await this.authService.registerClientAsync(username, email, password);
+      if (result.succeeded) {
+        let user = result.registeredUser;
         let msg = `Registered ${username} with id ${user.id}`;
         console.logDev(msg);
         res.status(200);
@@ -43,11 +45,12 @@ export class AuthController {
         return;
       }
       else {
-        let msg = `Username or email taken`;
+        let msg = `Registration failed: ${result.failureReason}`;
         console.logDev(msg);
         res.status(422);
         res.json({
-          message: msg
+          message: msg,
+          failureReason: result.failureReason
         });
         return;
       }

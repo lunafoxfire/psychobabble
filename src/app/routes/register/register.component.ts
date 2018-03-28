@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { AuthService, RegisterCredentials } from './../../auth.service';
+import { RegisterService } from './register.service';
+import { NgForm, NgModel } from '@angular/forms';
 
 @Component({
   selector: 'register',
@@ -10,25 +10,58 @@ import { AuthService, RegisterCredentials } from './../../auth.service';
 })
 
 export class RegisterComponent {
+  @ViewChild('registerForm') registerForm: NgForm;
+  @ViewChild('username') usernameField: NgModel;
+  @ViewChild('email') emailField: NgModel;
+  @ViewChild('password') passwordField: NgModel;
+  public thinking: boolean = false;
+  public submitted: boolean = false;
+
   constructor(
-    public auth: AuthService,
+    public regService: RegisterService,
     public router: Router
-  ) { }
+  ) {}
 
-ngOnInit() {
-
-}
-
-  public onSubmit(registerForm: NgForm) {
-    let credentials = registerForm.value as RegisterCredentials;
-    if(this.auth.getResponseUrl()) {
-      this.auth.registerSubject(credentials).subscribe(() => {
+  public async onSubmit() {
+    this.submitted = true;
+    this.thinking = true;
+    if (this.registerForm.valid) {
+      let result = await this.regService.register(this.registerForm.value);
+      if (result.success) {
         this.router.navigateByUrl('/verify');
-      });
-    } else {
-      this.auth.registerClient(credentials).subscribe(() => {
-        this.router.navigateByUrl('/verify');
-      });
+      }
+      else {
+        this.thinking = false;
+        this.setErrorsFromReason(result.failureReason);
+      }
+    }
+    else { // Have a bit of delay just to give the user some feedback
+      setTimeout(() => {
+        this.thinking = false;
+      }, 500);
+    }
+  }
+
+  private setErrorsFromReason(failureReason: string) {
+    switch(failureReason) {
+      case "BAD_USERNAME":
+        this.usernameField.control.setErrors({...this.usernameField.errors, badUsername: true});
+        break;
+      case "USERNAME_TAKEN":
+        this.usernameField.control.setErrors({...this.usernameField.errors, usernameTaken: true});
+        break;
+      case "BAD_PASSWORD":
+        this.passwordField.control.setErrors({...this.passwordField.errors, badPassword: true});
+        break;
+      case "BAD_EMAIL":
+        this.emailField.control.setErrors({...this.emailField.errors, badEmail: true});
+        break;
+      case "EMAIL_TAKEN":
+        this.emailField.control.setErrors({...this.emailField.errors, emailTaken: true});
+        break;
+      default:
+        this.registerForm.control.setErrors({...this.registerForm.errors, unknownError: true});
+        break;
     }
   }
 }

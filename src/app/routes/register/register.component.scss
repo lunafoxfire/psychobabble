@@ -3,6 +3,17 @@ mat-form-field {
   margin-bottom: 20px;
 }
 
-button[type="submit"] {
+.submit-button-group {
   margin-top: 15px;
+  display: table;
+  button {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  .submit-errors {
+    display: table-cell;
+    vertical-align: middle;
+    background-clip: padding-box;
+    border-left: 20px solid transparent;
+  }
 }

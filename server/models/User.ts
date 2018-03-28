@@ -107,4 +107,26 @@ export class User {
   public static normalizeField(field: string): string {
     return (field) ? field.toUpperCase() : null;
   }
+
+  /** Checks if a username is a valid username. */
+  public static checkUsername(username: string): boolean {
+    const properLength = username.length >= 4 && username.length <= 20;
+    const startsWithLetter = !!username.match(/^[a-z]/gi);
+    const onlyValidChars = !!username.match(/^[a-z0-9\-_]*$/gi);
+    return (properLength && startsWithLetter && onlyValidChars);
+  }
+
+  /** Checks if a password is a valid password. */
+  public static checkPassword(password: string): boolean {
+    const properLength = password.length >= 6 && password.length <= 32;
+    const hasLetter = !!password.match(/[a-z]/gi);
+    const hasNumber = !!password.match(/[0-9]/gi);
+    return (properLength && hasLetter && hasNumber);
+  }
+
+  /** Checks if an email meets minimum requirements for a valid address. */
+  public static checkEmail(email: string): boolean {
+    const validEmail = !!email.match(/^[a-z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/gi);
+    return (validEmail);
+  }
 }

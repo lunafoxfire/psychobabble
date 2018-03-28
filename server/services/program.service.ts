@@ -105,6 +105,7 @@ export class ProgramService {
     .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
     .leftJoinAndSelect("response.video", "video")
     .getMany();
+
     let program = await this.programRepo.createQueryBuilder("program")
     .where("program.id = :programId", { programId: programId })
     .leftJoinAndSelect("program.videos", "video")
@@ -125,6 +126,43 @@ export class ProgramService {
       }
     }
     return video;
+  }
+
+  public async getCurrentVideoCount(programId: string, subjectId: string) {
+    let responses = await this.responseRepo.createQueryBuilder("response")
+    .innerJoin("response.subject", "subject", "subject.id = :subjectId", { subjectId: subjectId })
+    .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .leftJoinAndSelect("response.video", "video")
+    .getMany();
+
+    let program = await this.programRepo.createQueryBuilder("program")
+    .where("program.id = :programId", { programId: programId })
+    .leftJoinAndSelect("program.videos", "video")
+    .getOne();
+
+    let videoCount = [];
+    for(let i = 1; i <= program.videos.length; i++) {
+      videoCount.push(i);
+    }
+    let question = 0;
+    for(let i = 0; i < program.videos.length; i++) {
+      let match = false;
+      for(let j = 0; j < responses.length; j++) {
+        if(program.videos[i].id === responses[j].video.id) {
+          match = true;
+          break;
+        }
+      }
+      if(!match) {
+        question = i;
+        break;
+      }
+    }
+
+    return {
+      videoCount: videoCount,
+      question: question
+    }
   }
 
   public async getDetails(programId, client: User) {

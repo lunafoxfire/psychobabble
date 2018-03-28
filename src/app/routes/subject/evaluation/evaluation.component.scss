@@ -1,6 +1,17 @@
 .card {
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.my-icons {
+  color: white;
+  font-size: 150px;
+}
+
+.material-icons {
+  vertical-align: middle;
 }
 
 .content {
@@ -9,29 +20,41 @@
   justify-content: center;
 }
 
+.my-stepper {
+  position: relative;
+}
+
+.video-container {
+  height: 500px;
+  top: 130px;
+}
 .evaluation-video {
-  position: absolute;
-  width: 1000px;
-  height: 800px;
+  height: 100%;
 }
 
 .play {
   position: absolute;
   z-index: 10;
-  top: 350px;
-  background-color: transparent;
+  top: 180px;
+  background-color: rgba(153, 153, 153, .5);
+  border-radius: 50%;
+  border: none;
 }
 
 .start-recording {
   position: absolute;
   z-index: 9;
-  top: 350px;
-  background-color: transparent;
+  top: 180px;
+  background-color: rgba(153, 153, 153, .5);
+  border-radius: 50%;
+  border: none;
 }
 
 .end-recording {
   position: absolute;
   z-index: 8;
-  top: 350px;
-  background-color: transparent;
+  top: 180px;
+  background-color: rgba(153, 153, 153, .5);
+  border-radius: 50%;
+  border: none;
 }

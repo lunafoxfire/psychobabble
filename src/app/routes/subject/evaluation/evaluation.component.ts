@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
@@ -12,8 +12,12 @@ import { AudioRecorderService } from './audio-recorder.service';
 })
 export class EvaluationComponent implements OnInit {
   @ViewChild('evalVideo') videoElement;
+  @ViewChild('stepper') stepperElement;
   public programId: Observable<string>;
   public currentVideo: Observable<Video>;
+  public currentVideoCount: number[];
+  public currentQuestion: number;
+  public myNumber = 1;
   public currentResponseId: Observable<string>;
   public state: EvalState;
   public myEvalState = EvalState;
@@ -33,6 +37,13 @@ export class EvaluationComponent implements OnInit {
 
   ngOnInit() {
     this.loadNextVideo();
+    this.programId.subscribe((programId) => {
+      this.evalService.getCurrentVideoCount(programId).subscribe(data => {
+        this.currentVideoCount = data.videoCount;
+        console.log(data.question);
+        this.currentQuestion = data.question;
+      });
+    })
   }
 
   public loadNextVideo() {
@@ -84,7 +95,7 @@ export class EvaluationComponent implements OnInit {
     }
   }
 
-  public stopRecording() {
+  public stopRecording(stepper) {
     if (this.state === EvalState.Recording) {
       this.recorder.endSession().then((arrayBuffer) => {
         this.state = EvalState.FinalizeResponse;
@@ -101,6 +112,7 @@ export class EvaluationComponent implements OnInit {
         });
       });
     }
+    stepper.next();
   }
 
   public responseSaveSuccess() {

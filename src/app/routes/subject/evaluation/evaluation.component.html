@@ -1,11 +1,19 @@
 <mat-card class="card">
+  <p>{{currentQuestion}}<p>
+  <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="1">
+    <mat-step *ngFor="let question of currentVideoCount">
+      <ng-template matStepLabel>Question {{question}}</ng-template>
+    </mat-step>
+  </mat-horizontal-stepper>
+</mat-card>
+<mat-card class="card">
   <mat-card-content class="content">
-    <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
-    (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
-    <p>{{(currentVideo | async)?.description}}</p>
-    <mat-hint><p>State: {{state}}</p></mat-hint>
-    <button *ngIf="state === myEvalState.AwaitingPlay" class="play material-icons" type="button" name="play-button" (click)="playVideo()">home</button>
-    <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" mat-raised-button (click)="startRecording()"></button>
-    <button *ngIf="state === myEvalState.Recording" class="end-recording" mat-raised-button (click)="stopRecording()"></button>
+    <div class="video-container">
+      <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
+      (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
+    </div>
+    <button *ngIf="state === myEvalState.AwaitingPlay" class="play" name="play-button" (click)="playVideo()"><i class="material-icons my-icons">play_arrow</i></button>
+    <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" (click)="startRecording()"><i class="material-icons my-icons">mic</i></button>
+    <button *ngIf="state === myEvalState.Recording" class="end-recording" (click)="stopRecording(stepper)"><i class="material-icons my-icons">stop</i></button>
   </mat-card-content>
 </mat-card>

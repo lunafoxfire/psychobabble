@@ -66,8 +66,9 @@ export class AuthController {
       )) { return; }
       console.logDev(`Registering new Admin | ${req.body.email}...`);
       let adminCredentials = await this.authService.generateAdminCredentials(req.body.email);
-      let user = await this.authService.registerAdminAsync(adminCredentials.username, adminCredentials.email, adminCredentials.password);
-      if (user) {
+      let result = await this.authService.registerAdminAsync(adminCredentials.username, adminCredentials.email, adminCredentials.password);
+      if (result.succeeded) {
+        let user = result.registeredUser;
         let msg = `Registered ${user.email} with id ${user.id} as Admin`;
         console.logDev(msg);
         res.status(200);
@@ -77,25 +78,20 @@ export class AuthController {
         return;
       }
       else {
-        let msg = `Username or email taken`;
+        let msg = `Registration failed: ${result.failureReason}`;
         console.logDev(msg);
         res.status(422);
         res.json({
-          message: msg
+          message: msg,
+          failureReason: result.failureReason
         });
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
+  // TODO: Do checks for name/email uniqueness
   public async changeAdmin(req, res) {
     try {
       console.log(req.jwt);
@@ -132,14 +128,7 @@ export class AuthController {
         return;
       }
     }
-    catch (err) {
-      console.logDev(err);
-      res.status(500);
-      res.json({
-        message: "Unknown error"
-      });
-      return;
-    }
+    catch (err) { exceptionResult(err, res); }
   }
 
   public async registerSubject(req, res) {
@@ -154,8 +143,9 @@ export class AuthController {
       let email = req.body.email;
       let password = req.body.password;
       console.logDev(`Registering ${username} | ${email}...`);
-      let user = await this.authService.registerSubjectAsync(username, email, password);
-      if (user) {
+      let result = await this.authService.registerSubjectAsync(username, email, password);
+      if (result.succeeded) {
+        let user = result.registeredUser
         let msg = `Registered ${username} with id ${user.id}`;
         console.logDev(msg);
         res.status(200);
@@ -166,11 +156,12 @@ export class AuthController {
         return;
       }
       else {
-        let msg = `Username or email taken`;
+        let msg = `Registration failed: ${result.failureReason}`;
         console.logDev(msg);
         res.status(422);
         res.json({
-          message: msg
+          message: msg,
+          failureReason: result.failureReason
         });
         return;
       }

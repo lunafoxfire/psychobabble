@@ -4,7 +4,6 @@
   ],
   "rules": {
     "arrow-return-shorthand": true,
-    "callable-types": true,
     "class-name": true,
     "comment-format": [
       true,
@@ -60,10 +59,6 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
     "no-misused-new": true,
     "no-non-null-assertion": true,
     "no-shadowed-variable": true,
@@ -79,15 +74,9 @@
     "one-line": [
       true,
       "check-open-brace",
-      "check-catch",
-      "check-else",
       "check-whitespace"
     ],
     "prefer-const": true,
-    "quotemark": [
-      true,
-      "single"
-    ],
     "radix": true,
     "semicolon": [
       true,
@@ -117,23 +106,10 @@
       "check-separator",
       "check-type"
     ],
-    "directive-selector": [
-      true,
-      "attribute",
-      "app",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
-    ],
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
-    "no-input-rename": true,
     "no-output-rename": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,

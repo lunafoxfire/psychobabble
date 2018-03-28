@@ -1,17 +1,34 @@
-.splash-spacer {
-  visibility: hidden;
-  height: 130px;
-}
+@import '../../../../assets/styles/_mixins';
 
-.splash-container {
-  display: flex;
-  justify-content: center;
+:host {
+  display: block;
 }
 
 .jumbotron {
-  padding: 70px 50px;
-
-  h1 {
-    font-size: 70px;
+  position: relative;
+  &:nth-child(1) {
+    height: 600px;
+    background-color: #a2c6e9;
   }
+  &:nth-child(2) {
+    height: 600px;
+    background-color: #ffffff;
+    @include angledBorder(before, true, 3deg);
+  }
+  &:nth-child(3) {
+    height: 600px;
+    background-color: #a2c6e9;
+    @include angledBorder(before, false, 3deg);
+  }
+  &:nth-child(4) {
+    height: 500px;
+    background-color: #ffffff;
+    @include angledBorder(before, true, 3deg);
+  }
+}
+
+.call-to-action {
+  position: relative;
+  background-color: #0b2453;
+  height: 400px
 }

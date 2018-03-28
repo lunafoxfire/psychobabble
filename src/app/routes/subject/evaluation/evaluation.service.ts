@@ -16,12 +16,7 @@ export class EvaluationService {
   public getCurrentVideo(programId: string): Promise<Video> {
     return new Promise((resolve, reject) => {
       this.auth.get<any>(`/api/programs/${programId}/get-video`).subscribe((data) => {
-        let video =   {
-            id: '99edc7e1-4142-4268-87b8-16605b57157d',
-            title: "Stats",
-            url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/stats.mp4",
-            description: null
-          } as Video;
+        let video =  data.video as Video;
         if (video) {
           resolve(video);
         }

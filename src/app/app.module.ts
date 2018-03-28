@@ -32,13 +32,13 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     BrowserAnimationsModule,
     MaterialModule,
-    RouterModule.forRoot(ROUTES),
     AuthModule,
     AdminModule,
     ClientModule,
     SubjectModule,
     SharedModule,
     ErrorModule,
+    RouterModule.forRoot(ROUTES),
   ],
   providers: [
 

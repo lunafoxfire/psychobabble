@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { ROUTES } from './shared.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
 
 import { SplashComponent } from './home/splash/splash.component';
@@ -23,7 +23,7 @@ import { ProfileService } from './profile/profile.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule.forChild([]),
+    RouterModule.forChild(ROUTES),
   ],
   providers: [
     HomeGuardService,

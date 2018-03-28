@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { ROUTES } from './admin.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
 
 import { ClientsComponent } from './clients/clients.component';
@@ -35,7 +35,7 @@ import { VideoService } from './videos/video.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule.forChild([]),
+    RouterModule.forChild(ROUTES),
   ],
   providers: [
     AdminService,

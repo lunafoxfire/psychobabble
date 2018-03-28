@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { ROUTES } from './client.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
 
 import { ProgramsComponent, ProgramCloseDialogComponent } from './programs/programs.component';
@@ -27,7 +27,7 @@ import { ClientService } from './client.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule.forChild([]),
+    RouterModule.forChild(ROUTES),
   ],
   providers: [
     ClientService,

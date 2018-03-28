@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
+import { ROUTES } from './auth.routes';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
 
 import { ChangePasswordComponent } from './change-password/change-password.component';
@@ -40,7 +40,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    RouterModule.forChild([]),
+    RouterModule.forChild(ROUTES),
   ],
   providers: [
     AuthService,

@@ -27,6 +27,11 @@ export function loadRoutes() {
   // Get a video for subject evaluation (paginated)
   router.get('/:programId/get-video', auth, programCtrl.getCurrentVideo);
 
+  // GET /api/programs/:programId/get-video
+  // auth: SUBJECT
+  // Get count of videos for stepper
+  router.get('/:programId/get-video-count', auth, programCtrl.getCurrentVideoCount);
+
   // GET /api/programs/client/:programId
   // auth: CLIENT
   // Get the details and results of a particular program for this client

@@ -29,6 +29,11 @@ export class EvaluationService {
     });
   }
 
+  public getCurrentVideoCount(programId: string): Observable<any> {
+    let result = this.auth.get(`/api/programs/${programId}/get-video-count`);
+    return result;
+  }
+
   /** Returns a promise containing the new response's id. */
   public beginResponseProcess(programId: string, videoId: string): Promise<string> {
     return new Promise((resolve, reject) => {

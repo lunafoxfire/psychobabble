@@ -236,4 +236,34 @@ export class ProgramController {
     }
     catch (err) { exceptionResult(err, res); }
   }
+
+  public async getCurrentVideoCount(req, res) {
+    try {
+      if(!reqRequire(req, res,
+        ['jwt', 401, "Missing auth token",
+          ['id', 400, "Malformed auth token"],
+          ['role', 400, "Malformed auth token"]],
+        ['params', 400, "Request route params missing",
+          ['programId', 400, "Missing 'programId' in route params"]]
+      )) { return; }
+      if(!requireRole(req, res, [RoleType.Subject])) { return; }
+      let videoCountObject = await this.programService.getCurrentVideoCount(req.params.programId, req.jwt.id);
+      if(videoCountObject) {
+        res.status(200);
+        res.json({
+          videoCount: videoCountObject.videoCount,
+          question: videoCountObject.question,
+          message: "Grabbed all the things"
+        })
+        return;
+      } else {
+        res.status(200);
+        res.json({
+          message: "All videos watched"
+        });
+        return;
+      }
+    }
+    catch (err) { exceptionResult(err, res); }
+  }
 }

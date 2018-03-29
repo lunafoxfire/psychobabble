@@ -1,11 +1,14 @@
 <mat-card class="branding-card">
-  <h3>Home Depot. Employee Assessment Portal</h3>
+  <div class="branding-container">
+    <img src="https://corporate.homedepot.com/sites/default/files/styles/thumbnail/public/image_gallery/THD_logo.jpg?itok=dWP4RaDu" alt="Company Logo" class="logo">
+    <h2 class="company-name">THE HOME DEPOT</h2>
+    <h2 class="portal">EMPLOYEE ASSESSMENT PORTAL</h2>
+  </div>
 </mat-card>
 <mat-card class="top-card">
   <div class="stepper-container" *ngIf="!processing">
     <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="currentQuestion">
-      <mat-step *ngFor="let question of currentVideoCount">
-        <ng-template matStepLabel>Question {{question}}</ng-template>
+      <mat-step *ngFor="let question of currentVideoCount" label="Question {{question}}">
       </mat-step>
     </mat-horizontal-stepper>
   </div>

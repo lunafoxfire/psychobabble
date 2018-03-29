@@ -1,10 +1,11 @@
-<mat-card class="card">
-  <p>{{currentQuestion}}<p>
-  <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="1">
-    <mat-step *ngFor="let question of currentVideoCount">
-      <ng-template matStepLabel>Question {{question}}</ng-template>
-    </mat-step>
-  </mat-horizontal-stepper>
+<mat-card class="top-card">
+  <div *ngIf="!processing">
+    <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="currentQuestion">
+      <mat-step *ngFor="let question of currentVideoCount">
+        <ng-template matStepLabel>Question {{question}}</ng-template>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
 </mat-card>
 <mat-card class="card">
   <mat-card-content class="content">
@@ -14,6 +15,15 @@
     </div>
     <button *ngIf="state === myEvalState.AwaitingPlay" class="play" name="play-button" (click)="playVideo()"><i class="material-icons my-icons">play_arrow</i></button>
     <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" (click)="startRecording()"><i class="material-icons my-icons">mic</i></button>
-    <button *ngIf="state === myEvalState.Recording" class="end-recording" (click)="stopRecording(stepper)"><i class="material-icons my-icons">stop</i></button>
+    <button *ngIf="state === myEvalState.Recording" class="end-recording" (click)="stopRecording()"><i class="material-icons my-icons">stop</i></button>
   </mat-card-content>
+</mat-card>
+<div class="spacer">
+
+</div>
+<div class="hint-card">
+  <mat-hint>When prompted, please speak clearly into the microphone to yield best results</mat-hint>
+</div>
+<mat-card class="bottom-card">
+  <p>Powered by PsychoBabble</p>
 </mat-card>

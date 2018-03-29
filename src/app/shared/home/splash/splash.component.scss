@@ -1,34 +1,144 @@
 @import '../../../../assets/styles/_mixins';
+@import '../../../../assets/styles/_theme';
 
 :host {
   display: block;
+  @include font-pt-sans;
+  font-size: 20px;
+}
+
+.logo-placeholder {
+  font-size: 80px;
+  @include textGradient($primary-gradient-color1, $primary-gradient-color2, right);
+}
+
+h1,
+h2 {
+  @include font-bebas-kai;
+  line-height: 1em;
+  text-transform: uppercase;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+h1 {
+  font-size: 58px;
+}
+h2 {
+  font-size: 55px;
+}
+
+ul {
+  list-style: none;
+  padding-left: 7px;
+  li {
+    margin-bottom: 8px;
+    &:before { // custom bullet points
+      content: '';
+      display: inline-block;
+      background-image: linear-gradient($primary-color, $primary-color);
+      height: 18px;
+      width: 18px;
+      margin-right: 20px;
+    }
+  }
+}
+
+.jumbotron-button {
+  background-color: $primary-color;
+  color: $light-text-color;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 20px 130px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.jumbotron-content.dark {
+  h1, h2 {
+    @include textGradient($primary-gradient-color1, $primary-gradient-color2, right);
+  }
+  p, li {
+    color: $dark-text-color;
+  }
+}
+
+.jumbotron-content.light {
+  h1, h2, p, li {
+    color: $light-text-color;
+  }
 }
 
 .jumbotron {
-  position: relative;
   &:nth-child(1) {
-    height: 600px;
-    background-color: #a2c6e9;
+    height: 800px;
+    background-image: url('/assets/img/splash/hero.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    .jumbotron-content {
+      position: relative;
+      width: 550px;
+      top: 140px;
+      left: 200px;
+    }
   }
+
+  // TODO: Fully responsive image
   &:nth-child(2) {
-    height: 600px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     background-color: #ffffff;
     @include angledBorder(before, true, 3deg);
+    .jumbotron-image {
+      position: relative;
+      background-image: url('/assets/img/splash/guy.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: 0% 20%;
+      min-width: 600px;
+      min-height: 600px;
+      flex: 1 0 auto;
+    }
+    .jumbotron-content {
+      padding-top: 100px;
+      padding-bottom: 200px;
+      width: 550px;
+      margin-right: 60px;
+      margin-left: 60px;
+      flex: 0 0 auto;
+    }
   }
+
   &:nth-child(3) {
     height: 600px;
-    background-color: #a2c6e9;
+    background-image: linear-gradient(to left, $primary-gradient-color1, $primary-gradient-color2);
     @include angledBorder(before, false, 3deg);
+    .jumbotron-content {
+      position: absolute;
+      width: 550px;
+      left: 200px;
+      top: 70px;
+    }
   }
+
   &:nth-child(4) {
-    height: 500px;
+    height: 600px;
     background-color: #ffffff;
     @include angledBorder(before, true, 3deg);
+    .jumbotron-content {
+      .jumbotron-header {
+        @include textGradient($primary-gradient-color1, $primary-gradient-color2, left);
+      }
+      position: absolute;
+      width: 550px;
+      right: 200px;
+      top: 120px;
+    }
   }
-}
 
-.call-to-action {
-  position: relative;
-  background-color: #0b2453;
-  height: 400px
+  &:nth-child(5) {
+    height: 400px;
+    background-color: #0b2453;
+  }
 }

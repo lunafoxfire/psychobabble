@@ -1,1 +1,22 @@
+@font-face {
+    font-family: 'Bebas Kai';
+    src: url('/assets/fonts/BebasKai-Regular.otf');
+}
+
+@mixin font-bebas-kai {
+    font-family: 'Bebas Kai', sans-serif
+}
+
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+@mixin font-pt-sans {
+    font-family: 'PT Sans', sans-serif
+}
+
+$primary-color: #4a8de6;
+$primary-gradient-color1: #85c8ff;
+$primary-gradient-color2: #6d91f3;
+
+$light-text-color: #fefefe;
+$dark-text-color: #797676;
+
 $error-color: #f44336;

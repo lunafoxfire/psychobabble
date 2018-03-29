@@ -144,7 +144,7 @@ export class ProgramService {
     for(let i = 1; i <= program.videos.length; i++) {
       videoCount.push(i);
     }
-    let question = 0;
+    let question = null;
     for(let i = 0; i < program.videos.length; i++) {
       let match = false;
       for(let j = 0; j < responses.length; j++) {

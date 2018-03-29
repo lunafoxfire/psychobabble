@@ -1,5 +1,8 @@
+<mat-card class="branding-card">
+  <h3>Home Depot. Employee Assessment Portal</h3>
+</mat-card>
 <mat-card class="top-card">
-  <div *ngIf="!processing">
+  <div class="stepper-container" *ngIf="!processing">
     <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="currentQuestion">
       <mat-step *ngFor="let question of currentVideoCount">
         <ng-template matStepLabel>Question {{question}}</ng-template>
@@ -7,11 +10,13 @@
     </mat-horizontal-stepper>
   </div>
 </mat-card>
-<mat-card class="card">
-  <mat-card-content class="content">
-    <div class="video-container">
-      <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
-      (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
+<mat-card class="video-card">
+  <mat-card-content class="video-content">
+    <div class="black-bars">
+      <div class="video-container">
+        <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
+        (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>
+      </div>
     </div>
     <button *ngIf="state === myEvalState.AwaitingPlay" class="play" name="play-button" (click)="playVideo()"><i class="material-icons my-icons">play_arrow</i></button>
     <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" (click)="startRecording()"><i class="material-icons my-icons">mic</i></button>
@@ -23,6 +28,9 @@
 </div>
 <div class="hint-card">
   <mat-hint>When prompted, please speak clearly into the microphone to yield best results</mat-hint>
+</div>
+<div class="second-spacer">
+
 </div>
 <mat-card class="bottom-card">
   <p>Powered by PsychoBabble</p>

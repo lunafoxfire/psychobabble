@@ -12,7 +12,6 @@ import { AudioRecorderService } from './audio-recorder.service';
 })
 export class EvaluationComponent implements OnInit {
   @ViewChild('evalVideo') videoElement;
-  @ViewChild('stepper') stepperElement;
   public programId: Observable<string>;
   public currentVideo: Observable<Video>;
   public currentVideoCount: number[];
@@ -42,7 +41,6 @@ export class EvaluationComponent implements OnInit {
         this.currentVideoCount = data.videoCount;
         this.currentQuestion = data.question;
         this.processing = false;
-        console.log(this.stepperElement);
       });
     })
   }
@@ -113,6 +111,14 @@ export class EvaluationComponent implements OnInit {
         });
       });
     }
+    this.processing = true;
+    this.programId.subscribe((programId) => {
+      this.evalService.getCurrentVideoCount(programId).subscribe(data => {
+        this.currentVideoCount = data.videoCount;
+        this.currentQuestion = data.question;
+        this.processing = false;
+      });
+    })
   }
 
   public responseSaveSuccess() {

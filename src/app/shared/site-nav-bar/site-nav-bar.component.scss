@@ -2,3 +2,11 @@ mat-toolbar {
   display: flex;
   justify-content: space-between;
 }
+
+.hide-navbar {
+  display: none;
+}
+
+.show-navbar {
+  display: flex;
+}

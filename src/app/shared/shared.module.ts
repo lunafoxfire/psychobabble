@@ -8,6 +8,7 @@ import { MaterialModule } from './../_imports/material.module';
 import { SplashComponent } from './home/splash/splash.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SiteNavBarComponent } from './site-nav-bar/site-nav-bar.component';
+import { SiteFooterComponent } from './site-footer/site-footer.component';
 
 import { HomeGuardService } from './home/home-guard.service';
 import { ProfileService } from './profile/profile.service';
@@ -17,6 +18,7 @@ import { ProfileService } from './profile/profile.service';
     SplashComponent,
     ProfileComponent,
     SiteNavBarComponent,
+    SiteFooterComponent,
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { ProfileService } from './profile/profile.service';
   ],
   exports: [
     SiteNavBarComponent,
+    SiteFooterComponent
   ]
 })
 export class SharedModule { }

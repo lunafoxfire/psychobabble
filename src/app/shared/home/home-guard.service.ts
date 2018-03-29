@@ -21,7 +21,7 @@ export class HomeGuardService implements CanActivate {
         return false;
       }
       else if (this.auth.isSubject()) {
-        this.router.navigateByUrl('/not-found'); // TODO: Temp redirect url
+        this.router.navigateByUrl('/profile'); // TODO: Temp redirect url
         return false;
       }
       else {

@@ -46,7 +46,7 @@ export class ProgramService {
     .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .skip(page*resultCount)
     .take(resultCount)
-    .orderBy("program.expiration", "DESC")
+    .orderBy("program.expiration", "ASC")
     .getMany();
 
     let programCount = await this.programRepo.createQueryBuilder("program")

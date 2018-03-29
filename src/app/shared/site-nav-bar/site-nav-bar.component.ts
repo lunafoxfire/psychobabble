@@ -16,7 +16,7 @@ export class SiteNavBarComponent implements OnInit {
 
   ngOnInit() {
     window.onscroll = () => {
-      if(window.pageYOffset > 10) {
+      if(window.pageYOffset > 100) {
         this.scroll = true;
       } else {
         this.scroll = false;
@@ -25,12 +25,14 @@ export class SiteNavBarComponent implements OnInit {
   }
 
   isScrolled() {
-    if(!this.auth.isAdmin) {
+    if(!this.auth.isLoggedIn()) {
       if(this.scroll) {
-        return "show-navbar";
+        return "scroll-navbar";
       } else {
         return "hide-navbar";
       }
+    } else if(this.auth.isSubject()) {
+      return "hide-navbar";
     } else {
       return "show-navbar";
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { zip } from 'rxjs/observable/zip';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,7 @@ export class EvaluationComponent implements OnInit {
   public currentVideo: Observable<Video>;
   public currentVideoCount: number[];
   public currentQuestion: number;
-  public myNumber = 1;
+  public processing = true;
   public currentResponseId: Observable<string>;
   public state: EvalState;
   public myEvalState = EvalState;
@@ -40,8 +40,9 @@ export class EvaluationComponent implements OnInit {
     this.programId.subscribe((programId) => {
       this.evalService.getCurrentVideoCount(programId).subscribe(data => {
         this.currentVideoCount = data.videoCount;
-        console.log(data.question);
         this.currentQuestion = data.question;
+        this.processing = false;
+        console.log(this.stepperElement);
       });
     })
   }
@@ -95,7 +96,7 @@ export class EvaluationComponent implements OnInit {
     }
   }
 
-  public stopRecording(stepper) {
+  public stopRecording() {
     if (this.state === EvalState.Recording) {
       this.recorder.endSession().then((arrayBuffer) => {
         this.state = EvalState.FinalizeResponse;
@@ -112,7 +113,6 @@ export class EvaluationComponent implements OnInit {
         });
       });
     }
-    stepper.next();
   }
 
   public responseSaveSuccess() {

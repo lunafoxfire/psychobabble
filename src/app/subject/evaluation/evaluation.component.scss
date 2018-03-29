@@ -1,8 +1,34 @@
+body {
+  background-color: black !important;
+}
+
 .card {
   display: flex;
   justify-content: center;
+  width: 100vw;
+  height: 400px;
+  background-color: grey;
+  z-index: 6;
+  box-shadow: none;
+}
+.spacer {
+  height: 100px;
+  z-index: 5;
+}
+.hint-card {
   width: 100%;
+  height: 100px;
+  text-align: center;
+}
+.top-card {
+  z-index: -1;
+  height: 150px;
+  width: 100%;
+}
+.bottom-card {
   height: 100%;
+  background-color: black;
+  color: white;
 }
 
 .my-icons {
@@ -16,7 +42,8 @@
 
 .content {
   display: flex;
-  position: relative;
+  position: absolute;
+  bottom: -50px;
   justify-content: center;
 }
 

@@ -119,6 +119,21 @@ $video-height: 700px;
   z-index: 6;
 }
 
+.loading {
+  position: absolute;
+  top: 310px;
+}
+
+.done-message {
+  position: absolute;
+  top: 310px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  z-index: 40;
+}
+
 // ****************** Stepper ***********************
 
 .my-stepper {

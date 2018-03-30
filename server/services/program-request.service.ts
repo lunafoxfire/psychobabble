@@ -28,6 +28,9 @@ export class ProgramRequestService {
       newRequest.text = requestOptions.text;
       newRequest.dateCreated = new Date().getTime();
       newRequest.softSkills = requestOptions.softSkills;
+      console.log("***********************88")
+      console.log(requestOptions.expiration);
+      console.log("***********************88")
       newRequest.expiration = requestOptions.expiration;
       newRequest.closed = false;
       newRequest.jobTitle = requestOptions.jobTitle;

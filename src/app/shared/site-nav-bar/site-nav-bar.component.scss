@@ -9,7 +9,7 @@ mat-toolbar {
   position: fixed;
   width: 100%;
   z-index: 10;
-  display: none;
+  top: -100px;
 }
 
 .show-navbar {
@@ -28,11 +28,23 @@ mat-toolbar {
 }
 
  @keyframes fadein {
-   from { opacity: 0; }
-   to { opacity: 1; }
+   from {
+     opacity: 0;
+     top: -100px;
+    }
+   to {
+     opacity: 1;
+     top: 0px;
+    }
  }
 
  @keyframes fadeout {
-   from { opacity: 1; }
-   to { opacity: 0; }
+   from {
+     opacity: 1;
+     top: 0px;
+    }
+   to {
+     opacity: 0;
+     top: -100px;
+    }
  }

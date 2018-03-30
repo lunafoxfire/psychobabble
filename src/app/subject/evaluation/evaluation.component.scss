@@ -1,3 +1,5 @@
+@import '../../../assets/styles/_theme';
+
 //Top Stuff
 
 .branding-card {
@@ -13,22 +15,26 @@
 }
 
 .logo {
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   position: absolute;
-  top: 0;
+  top: 10px;
 }
 
 .company-name {
+  @include font-bebas-kai;
   position: absolute;
-  left: 120px;
-  top: 0;
+  left: 95px;
+  top: -25px;
+  font-size: 35px;
 }
 
 .portal {
+  @include font-bebas-kai;
   position: absolute;
-  bottom: 0;
-  left: 120px;
+  bottom: -25px;
+  left: 95px;
+  font-size: 35px;
 }
 
 .branding-container {
@@ -56,9 +62,24 @@
 }
 
 .bottom-card {
-  background-color: #4f4f4f;
+  background-color: #262626;
   color: white;
   text-align: center;
+  color: grey;
+  font-size: 15px;
+}
+
+.psycho-babble {
+  @include font-bebas-kai;
+  color: #58a0c4;
+  font-style: italic;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.babble-logo {
+  height: 20px;
+  width: 20px;
 }
 
 // Video
@@ -69,6 +90,7 @@ $video-height: 700px;
   position: absolute;
   bottom: -100px;
   justify-content: center;
+  // border: 1px solid black;
 }
 
 .black-bars {

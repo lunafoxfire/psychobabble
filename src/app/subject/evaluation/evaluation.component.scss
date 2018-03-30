@@ -1,6 +1,6 @@
 @import '../../../assets/styles/_theme';
 
-//Top Stuff
+// **************** Top Stuff **************
 
 .branding-card {
   display: flex;
@@ -44,7 +44,7 @@
   height: 100px;
 }
 
-// Bottom stuff
+// ****************** Bottom stuff *********************
 
 .spacer {
   height: 140px;
@@ -82,7 +82,7 @@
   width: 20px;
 }
 
-// Video
+// ***************************** Video ************************
 $video-height: 700px;
 
 .video-content {
@@ -90,7 +90,6 @@ $video-height: 700px;
   position: absolute;
   bottom: -100px;
   justify-content: center;
-  // border: 1px solid black;
 }
 
 .black-bars {
@@ -120,7 +119,7 @@ $video-height: 700px;
   z-index: 6;
 }
 
-// Stepper
+// ****************** Stepper ***********************
 
 .my-stepper {
   position: relative;
@@ -141,10 +140,71 @@ $video-height: 700px;
   width: 100%;
 }
 
-// Video Buttons
+::ng-deep .mat-step-label {
+  position: absolute;
+  top: 0;
+  left: -18px;
+  color: white !important;
+  font-size: 16px;
+  font-weight: bold;
+  overflow: visible !important;
+}
 
-$button-centering: 260px;
-$button-color: rgba(242, 120, 21, .5);
+::ng-deep .mat-step-label-active {
+  color: white !important;
+  position: absolute;
+  bottom: 0;
+  left: -18px;
+  &::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -9px;
+    right: 30px;
+    border-left: 10px solid transparent !important;
+    border-right: 10px solid transparent !important;
+    border-bottom: 20px solid white !important;
+  }
+}
+
+::ng-deep .ng-star-inserted {
+  color: white;
+}
+
+::ng-deep .mat-step-icon, ::ng-deep .mat-step-icon-not-touched {
+  background-color: white !important;
+  margin-right: 0 !important;
+  height: 18px !important;
+  width: 18px !important;
+  position: absolute;
+  left: 16px;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  display: none;
+}
+
+::ng-deep .mat-stepper-horizontal-line {
+  min-width: 140px !important;
+  border-color: white !important;
+  position: flex;
+}
+
+::ng-deep .mat-horizontal-stepper-header {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+  width: 49px !important;
+  overflow: visible !important;
+}
+
+::ng-deep .mat-step-header {
+  overflow: visible !important;
+}
+
+// ********************** Video Buttons *************************
+
+$button-centering: 283px;
+$button-color: rgba(242, 120, 21, .7);
 
 .play, .start-recording, .end-recording {
   position: absolute;

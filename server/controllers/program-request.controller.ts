@@ -131,7 +131,11 @@ export class ProgramRequestController {
           ['softSkills', 400, "Missing 'softSkills' in request body"]]
       )) { return; }
       if(!requireRole(req, res, [RoleType.Client])) { return; }
-      let expiration = new Date(req.body.expiration).getTime();
+      let expiration: number = 0;
+      if(req.body.expiration) {
+        expiration = new Date(req.body.expiration).getTime();
+      }
+      console.log(expiration);
       let result = await this.programRequestService.saveNewAsync({
         client: await this.userService.findByIdAsync(req.jwt.id),
         expiration: expiration,

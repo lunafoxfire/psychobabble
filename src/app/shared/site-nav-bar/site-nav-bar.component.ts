@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -10,8 +10,10 @@ import { AuthService } from '../../auth/auth.service';
 
 export class SiteNavBarComponent implements OnInit {
   public scroll: boolean = false;
+  public programId: string;
   constructor(
-    public auth: AuthService
+    public auth: AuthService,
+    public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -25,13 +27,13 @@ export class SiteNavBarComponent implements OnInit {
   }
 
   isScrolled() {
-    if(!this.auth.isLoggedIn()) {
+    if(window.location.pathname === "/") {
       if(this.scroll) {
         return "scroll-navbar";
       } else {
         return "hide-navbar";
       }
-    } else if(this.auth.isSubject()) {
+    } else if (window.location.pathname.match(/^\/programs\/.*$/m)) {
       return "hide-navbar";
     } else {
       return "show-navbar";

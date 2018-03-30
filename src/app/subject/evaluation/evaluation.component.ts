@@ -124,7 +124,7 @@ export class EvaluationComponent implements OnInit {
   public responseSaveSuccess() {
     if (this.state === EvalState.FinalizeResponse) {
       this.state = EvalState.GetNextVideo;
-      this.loadNextVideo();
+      this.getNextVideo();
     }
   }
 
@@ -136,7 +136,9 @@ export class EvaluationComponent implements OnInit {
   // TODO: Use this method to provide a bit of buffer time before loading next video
   public getNextVideo() {
     if (this.state === EvalState.GetNextVideo) {
-      this.loadNextVideo();
+      setTimeout(() => {
+        this.loadNextVideo()
+      }, 2000);
     }
   }
 

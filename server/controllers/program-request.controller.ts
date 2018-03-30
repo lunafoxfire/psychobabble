@@ -135,7 +135,6 @@ export class ProgramRequestController {
       if(req.body.expiration) {
         expiration = new Date(req.body.expiration).getTime();
       }
-      console.log(expiration);
       let result = await this.programRequestService.saveNewAsync({
         client: await this.userService.findByIdAsync(req.jwt.id),
         expiration: expiration,

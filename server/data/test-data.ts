@@ -29,14 +29,14 @@ const TestClients: UserRegistrationOptions[] = [
   {
     username: "TestClient2",
     email: "test2@test.com",
-    password: "asdfghjklsemicolon",
+    password: "asdfghjklsemicolon1",
     roleType: RoleType.Client,
     preValidated: true
   },
   {
     username: "TestClient3",
     email: "test3@test.com",
-    password: "drowssap",
+    password: "1drowssap",
     roleType: RoleType.Client,
     preValidated: true
   },
@@ -46,7 +46,7 @@ const TestSubjects: UserRegistrationOptions[] = [
   {
     username: "TestSubjectA",
     email: "testA@test.com",
-    password: "letmein",
+    password: "letmein1",
     roleType: RoleType.Subject,
     preValidated: true
   },
@@ -325,16 +325,19 @@ export class TestData {
     await roleService.syncRolesToDbAsync();
 
     console.log("Generating admin...");
-    this.admin = await authService.generateDefaultAdminAsync();
+    const result = await authService.generateDefaultAdminAsync();
+    this.admin = result.registeredUser;
 
     console.log("Generating users...");
     await authService.generateDefaultAdminIfNoAdminAsync();
     await Promise.all(TestClients.map(async (user) => {
-      this.clients.push(await authService.registerAsync(user));
+      const result = await authService.registerAsync(user);
+      this.clients.push(result.registeredUser);
       return;
     }));
     await Promise.all(TestSubjects.map(async (user) => {
-      this.subjects.push(await authService.registerAsync(user));
+      const result = await authService.registerAsync(user);
+      this.subjects.push(result.registeredUser);
       return;
     }));
 

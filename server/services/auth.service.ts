@@ -38,8 +38,10 @@ export class AuthService {
     if(!User.checkPassword(regOptions.password)) {
       return new RegistrationResult(false, null, FailureReason.BadPassword);
     }
-    if(!User.checkEmail(regOptions.email)) {
-      return new RegistrationResult(false, null, FailureReason.BadEmail);
+    if(!regOptions.preValidated) {
+      if(!User.checkEmail(regOptions.email)) {
+        return new RegistrationResult(false, null, FailureReason.BadEmail);
+      }
     }
     let usernameTaken = await this.userService.findByUsernameAsync(regOptions.username);
     if(usernameTaken) {

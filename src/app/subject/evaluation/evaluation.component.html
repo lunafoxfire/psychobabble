@@ -8,7 +8,8 @@
 <mat-card class="top-card">
   <div class="stepper-container" *ngIf="!processing">
     <mat-horizontal-stepper class="my-stepper" [linear]="true" #stepper="matHorizontalStepper" [selectedIndex]="currentQuestion">
-      <mat-step *ngFor="let question of currentVideoCount" label="Question {{question}}">
+      <mat-step *ngFor="let question of currentVideoCount">
+        <ng-template class="stepper-label" matStepLabel>Question {{question}}</ng-template>
       </mat-step>
     </mat-horizontal-stepper>
   </div>

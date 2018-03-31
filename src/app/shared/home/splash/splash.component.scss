@@ -1,46 +1,59 @@
-@import '../../../../assets/styles/_mixins';
-@import '../../../../assets/styles/_theme';
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
 
 :host {
   display: block;
   @include font-pt-sans;
-  font-size: 20px;
+  font-size: 17px;
 }
 
 .logo-placeholder {
   font-size: 80px;
-  @include textGradient($primary-gradient-color1, $primary-gradient-color2, right);
+  @include textGradient(right, $primary-text-gradient);
 }
 
 h1,
 h2 {
   @include font-bebas-kai;
-  line-height: 1em;
   text-transform: uppercase;
+  line-height: 1em;
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 28px;
 }
 h1 {
   font-size: 58px;
+  font-weight: 500;
+  letter-spacing: -2px;
 }
 h2 {
-  font-size: 55px;
+  font-size: 46px;
+  font-weight: normal;
+  letter-spacing: -1px;
+}
+
+p {
+  margin-bottom: 1.5em;
 }
 
 ul {
   list-style: none;
-  padding-left: 7px;
+  line-height: 1.7em;
+  padding-left: 15px;
+  padding-top: 10px;
   li {
-    margin-bottom: 8px;
     &:before { // custom bullet points
       content: '';
       display: inline-block;
       background-image: linear-gradient($primary-color, $primary-color);
-      height: 18px;
-      width: 18px;
+      height: 1em;
+      width: 1em;
       margin-right: 20px;
     }
   }
+}
+
+.break-line {
+  display: inline-block;
 }
 
 .jumbotron-button {
@@ -48,15 +61,15 @@ ul {
   color: $light-text-color;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 18px;
-  padding: 20px 130px;
+  font-size: 15px;
+  padding: 12px 100px;
   margin-top: 20px;
   border-radius: 5px;
 }
 
 .jumbotron-content.dark {
   h1, h2 {
-    @include textGradient($primary-gradient-color1, $primary-gradient-color2, right);
+    @include textGradient(right, $primary-text-gradient);
   }
   p, li {
     color: $dark-text-color;
@@ -70,75 +83,91 @@ ul {
 }
 
 .jumbotron {
+  position: relative;
+  display: flex;
+  
+  // TODO: Solve upscaling image
   &:nth-child(1) {
-    height: 800px;
+    padding-top: 100px;
+    padding-bottom: 200px;
     background-image: url('/assets/img/splash/hero.png');
     background-repeat: no-repeat;
     background-size: cover;
     .jumbotron-content {
-      position: relative;
-      width: 550px;
-      top: 140px;
-      left: 200px;
+      width: 450px;
+      margin-left: 270px;
     }
   }
 
-  // TODO: Fully responsive image
+  // TODO: Media query for image
   &:nth-child(2) {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    background-color: #ffffff;
-    @include angledBorder(before, true, 3deg);
+    background-color: $light-background-color;
+    @include angledEdge(top, 3deg);
     .jumbotron-image {
-      position: relative;
       background-image: url('/assets/img/splash/guy.png');
       background-size: contain;
       background-repeat: no-repeat;
-      background-position: 0% 20%;
-      min-width: 600px;
-      min-height: 600px;
+      background-position: 0% 100%;
       flex: 1 0 auto;
     }
     .jumbotron-content {
-      padding-top: 100px;
-      padding-bottom: 200px;
-      width: 550px;
+      width: 500px;
+      margin-top: 100px;
+      margin-bottom: 170px;
       margin-right: 60px;
       margin-left: 60px;
       flex: 0 0 auto;
     }
   }
 
+  // TODO: Bg image clips outside of jumbotron
+  // HACK: Solved by making image exact color of above div's background
   &:nth-child(3) {
-    height: 600px;
-    background-image: linear-gradient(to left, $primary-gradient-color1, $primary-gradient-color2);
-    @include angledBorder(before, false, 3deg);
-    .jumbotron-content {
+    background-image: linear-gradient(to right, $primary-background-gradient);
+    @include angledEdge(top, -3deg);
+    img {
       position: absolute;
       width: 550px;
-      left: 200px;
-      top: 70px;
+      right: 50px;
+      top: -100px;
+      clip: rect(0px, 550px, 800px, 0px);
+    }
+    .jumbotron-content {
+      width: 450px;
+      margin-top: 40px;
+      margin-bottom: 130px;
+      margin-left: 180px;
     }
   }
 
   &:nth-child(4) {
-    height: 600px;
-    background-color: #ffffff;
-    @include angledBorder(before, true, 3deg);
+    background-color: $light-background-color;
+    @include angledEdge(top, 3deg);
+    .jumbotron-image {
+      background-image: url('/assets/img/splash/tablet.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: 0% 50%;
+      flex: 1 0 auto;
+    }
     .jumbotron-content {
-      .jumbotron-header {
-        @include textGradient($primary-gradient-color1, $primary-gradient-color2, left);
-      }
-      position: absolute;
-      width: 550px;
-      right: 200px;
-      top: 120px;
+      width: 450px;
+      margin-top: 100px;
+      margin-bottom: 170px;
+      margin-right: 100px;
+      margin-left: 60px;
+      flex: 0 0 auto;
     }
   }
 
   &:nth-child(5) {
-    height: 400px;
-    background-color: #0b2453;
+    justify-content: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+    background-color: $primary-background-dark;
+    .jumbotron-content {
+      text-align: center;
+      width: 600px;
+    }
   }
 }

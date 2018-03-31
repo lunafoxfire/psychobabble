@@ -1,76 +1,56 @@
 // ADAPTED FROM: https://www.viget.com/articles/angled-edges-with-css-masks-and-transforms/
-@mixin angledBorder($pseudo, $flip: false, $angle: 1.5deg) {
-    @if $pseudo=='before' or $pseudo=='after' or $pseudo=='both' {
-        position: relative;
-        z-index: 1;
-        $selector: if($pseudo=='both', '&:before,&:after', '&:#{$pseudo}');
-        #{$selector} {
-            content: '';
-            background: inherit;
-            display: block;
-            height: 50%;
-            position: absolute;
-            left: 0;
-            right: 0;
-            z-index: -1;
-            -webkit-backface-visibility: hidden; // for Chrome Windows
-        }
-        @if $pseudo=='before' {
-            #{$selector} {
-                top: 0;
-                @if $flip {
-                    transform: skewY($angle * -1);
-                    transform-origin: 0 0;
-                }
-                @else {
-                    transform: skewY($angle);
-                    transform-origin: 100% 0;
-                }
-            }
-        }
-        @if $pseudo=='after' {
-            #{$selector} {
-                bottom: 0;
-                @if $flip {
-                    transform: skewY($angle);
-                    transform-origin: 0 100%;
-                }
-                @else {
-                    transform: skewY($angle * -1);
-                    transform-origin: 100%;
-                }
-            }
-        }
-        @if $pseudo=='both' {
-            &:before {
-                top: 0;
-                @if $flip {
-                    transform: skewY($angle * -1);
-                    transform-origin: 0 0;
-                }
-                @else {
-                    transform: skewY($angle);
-                    transform-origin: 100% 0;
-                }
-            }
-            &:after {
-                bottom: 0;
-                @if $flip {
-                    transform: skewY($angle);
-                    transform-origin: 0 0;
-                }
-                @else {
-                    transform: skewY($angle * -1);
-                    transform-origin: 100%;
-                }
-            }
-        }
+// Creates an angled border on either the top, bottom, or both of an element
+// Side effects -- uses :before and/or :after pseudos, sets position: relative
+@mixin angledEdge($edge, $angles...) {
+  $topAngle: -1 * nth($angles, 1);
+  $bottomAngle: $topAngle;
+  @if ($edge == both and length($angles) > 1) {
+    $bottomAngle: -1 * nth($angles, 2);
+  }
+  position: relative;
+  z-index: 1;
+  $pseudo: '';
+  @if ($edge == top or $edge == both) {
+    $pseudo: $pseudo + '&:before,';
+    &:before {
+      top: 0;
+      transform: skewY($topAngle);
+      @if($topAngle > 0) {
+        transform-origin: 100% 0;
+      }
+      @else {
+        transform-origin: 0 0;
+      }
     }
+  }
+  @if ($edge == bottom or $edge == both) {
+    $pseudo: $pseudo + '&:after';
+    &:after {
+      bottom: 0;
+      transform: skewY($bottomAngle);
+      @if($bottomAngle > 0) {
+        transform-origin: 0 100%;
+      }
+      @else {
+        transform-origin: 100% 100%;
+      }
+    }
+  }
+  #{$pseudo} {
+    content: '';
+    background: inherit;
+    display: block;
+    height: 50%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: -1;
+  }
 }
 
-@mixin textGradient($color1, $color2, $angle: left) {
-  color: $color1;
-  background: -webkit-linear-gradient($angle, $color1, $color2);
+@mixin textGradient($direction, $colors...) {
+  color: nth($colors, 1);
+  background: -webkit-linear-gradient($direction, $colors);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

@@ -343,7 +343,7 @@ $button-color: rgba(242, 120, 21, .7);
     z-index: 40;
   }
 
-  $transition-centering: 100px;
+  $transition-centering: 165px;
 
   .loading {
     top: $transition-centering;
@@ -353,7 +353,7 @@ $button-color: rgba(242, 120, 21, .7);
     top: $transition-centering;
   }
 
-  $button-centering: 75px;
+  $button-centering: 140px;
 
   .play, .start-recording, .end-recording {
     top: $button-centering;

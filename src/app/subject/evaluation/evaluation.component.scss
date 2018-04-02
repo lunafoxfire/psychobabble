@@ -19,10 +19,14 @@
 
 .bottom-card {
   background-color: #262626;
+  display: flex;
+  justify-content: center;
+  align-content: center;
   color: white;
   text-align: center;
   color: grey;
   font-size: 15px;
+  height: 50px;
 }
 
 .psycho-babble {
@@ -67,14 +71,14 @@
   position: absolute;
   top: 0;
   left: -17px;
-  color: white !important;
+  color: transparent !important;
   font-size: 14px;
   font-weight: bold;
   overflow: visible !important;
   display: flex !important;
   &::after {
     content: '';
-    display: block;
+    display: flex !important;
     position: absolute;
     top: 60px !important;
     right: 21px;
@@ -174,7 +178,7 @@ $transition-centering: 40px;
 
 // ********************** Video Buttons *************************
 
-$button-centering: 16px;
+$button-centering: 50px;
 $button-color: rgba(242, 120, 21, .7);
 
 .play, .start-recording, .end-recording {
@@ -191,7 +195,7 @@ $button-color: rgba(242, 120, 21, .7);
 
 .my-icons {
   color: white;
-  font-size: 150px;
+  font-size: 80px;
 }
 
 .material-icons {
@@ -241,8 +245,34 @@ $button-color: rgba(242, 120, 21, .7);
   width: 340px;
   height: 100px;
 }
+
+.question-count {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 12px;
+}
+
+.recording-alert {
+  color: red;
+  position: absolute;
+  bottom: 3px;
+  right: 20px;
+  font-size: 12px;
+}
+
 // ************** flipped phone (based on iphone 5/SE) **************
 @media screen and (min-width: 568px) {
+
+  .question-count {
+    bottom: 23px;
+    left: 40px;
+  }
+
+  .recording-alert {
+    bottom: 6px;
+    right: 40px;
+  }
 
   $video-height: 320px;
 
@@ -282,13 +312,17 @@ $button-color: rgba(242, 120, 21, .7);
     top: $transition-centering;
   }
 
-  $button-centering: 75px;
+  $button-centering: 125px;
 
   .play, .start-recording, .end-recording {
     top: $button-centering;
   }
-}
 
+  .my-icons {
+    font-size: 80px;
+  }
+}
+// *************** tablet breakpoint *****************88
 @media screen and (min-width: 1024px) {
   $video-height: 440px;
 
@@ -353,10 +387,14 @@ $button-color: rgba(242, 120, 21, .7);
     top: $transition-centering;
   }
 
-  $button-centering: 140px;
+  $button-centering: 160px;
 
   .play, .start-recording, .end-recording {
     top: $button-centering;
+  }
+
+  .my-icons {
+    font-size: 120px;
   }
 
   // ********************* stepper **************
@@ -381,7 +419,7 @@ $button-color: rgba(242, 120, 21, .7);
   }
 
   ::ng-deep .mat-step-label {
-    display: flex !important;
+    display: none !important;
     position: absolute;
     top: 0;
     left: -18px;
@@ -392,7 +430,8 @@ $button-color: rgba(242, 120, 21, .7);
   }
 
   ::ng-deep .mat-step-label-active {
-    color: white !important;
+    display: flex !important;
+    color: transparent !important;
     position: absolute;
     bottom: 0;
     left: -18px;
@@ -449,12 +488,12 @@ $button-color: rgba(242, 120, 21, .7);
   .branding-card {
     display: flex;
     justify-content: center;
-    height: 160px;
+    height: 106px;
   }
 
   .top-card {
     z-index: -1;
-    height: 260px;
+    height: 190px;
     width: 100%;
   }
 
@@ -462,21 +501,21 @@ $button-color: rgba(242, 120, 21, .7);
     height: 80px;
     width: 80px;
     position: absolute;
-    top: 10px;
+    top: -10px;
   }
 
   .company-name {
     @include font-bebas-kai;
     position: absolute;
     left: 95px;
-    top: -25px;
+    top: -45px;
     font-size: 35px;
   }
 
   .portal {
     @include font-bebas-kai;
     position: absolute;
-    bottom: -25px;
+    bottom: -5px;
     left: 95px;
     font-size: 35px;
   }
@@ -488,14 +527,23 @@ $button-color: rgba(242, 120, 21, .7);
     height: 100px;
   }
 
+  .question-count {
+    bottom: 77px;
+    left: 360px;
+  }
+
+  .recording-alert {
+    bottom: 60px;
+    right: 360px;
+  }
 
   // ***************************** Video ************************
-  $video-height: 700px;
+  $video-height: 640px;
 
   .video-content {
     display: flex;
     position: absolute;
-    bottom: -100px;
+    bottom: -70px;
     justify-content: center;
   }
 
@@ -520,7 +568,7 @@ $button-color: rgba(242, 120, 21, .7);
     height: 500px;
   }
 
-  $transition-centering: 310px;
+  $transition-centering: 267px;
 
   .loading {
     top: $transition-centering;
@@ -552,7 +600,7 @@ $button-color: rgba(242, 120, 21, .7);
   }
 
   ::ng-deep .mat-step-label {
-    display: flex !important;
+    display: none !important;
     position: absolute;
     top: 0;
     left: -18px;
@@ -563,7 +611,8 @@ $button-color: rgba(242, 120, 21, .7);
   }
 
   ::ng-deep .mat-step-label-active {
-    color: white !important;
+    display: flex !important;
+    color: transparent !important;
     position: absolute;
     bottom: 0;
     left: -18px;
@@ -597,7 +646,7 @@ $button-color: rgba(242, 120, 21, .7);
   }
 
   ::ng-deep .mat-stepper-horizontal-line {
-    min-width: 140px !important;
+    min-width: 70px !important;
     border-color: white !important;
     position: flex;
   }
@@ -616,20 +665,24 @@ $button-color: rgba(242, 120, 21, .7);
   // ****************** Bottom stuff *********************
 
   .spacer {
-    height: 140px;
+    height: 80px;
     z-index: 5;
   }
 
   .second-spacer {
-    height: 100px;
+    height: 30px;
     z-index: 5;
   }
 
   // ********************** Video Buttons *************************
 
-  $button-centering: 283px;
+  $button-centering: 240px;
 
   .play, .start-recording, .end-recording {
     top: $button-centering;
+  }
+
+  .my-icons {
+    font-size: 150px;
   }
 }

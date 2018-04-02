@@ -13,6 +13,12 @@
       </mat-step>
     </mat-horizontal-stepper>
   </div>
+  <div class="question-count">
+    Question {{currentQuestion + 1}}/{{currentVideoCount?.length}}
+  </div>
+  <div *ngIf="state === myEvalState.Recording" class="recording-alert">
+    <p><i class="material-icons">radio_button_checked</i> Recording</p>
+  </div>
 </mat-card>
 <mat-card class="video-card">
   <mat-card-content class="video-content">
@@ -41,6 +47,6 @@
 <div class="second-spacer">
 
 </div>
-<mat-card class="bottom-card">
+<div class="bottom-card">
   <p>Powered by <img class="babble-logo" src="../../../assets/img/icon.png"><span class="psycho-babble">PsychoBabble</span></p>
-</mat-card>
+</div>

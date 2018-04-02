@@ -84,6 +84,7 @@ ul {
 
 .jumbotron {
   position: relative;
+  z-index: 1;
   display: flex;
   
   // TODO: Solve upscaling image
@@ -98,12 +99,12 @@ ul {
       margin-left: 270px;
     }
   }
-
+  
   // TODO: Media query for image
   &:nth-child(2) {
     background-color: $light-background-color;
     @include angledEdge(top, 3deg);
-    .jumbotron-image {
+    .jumbotron-image#img-guy {
       background-image: url('/assets/img/splash/guy.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -119,18 +120,21 @@ ul {
       flex: 0 0 auto;
     }
   }
-
+  
   // TODO: Bg image clips outside of jumbotron
   // HACK: Solved by making image exact color of above div's background
   &:nth-child(3) {
     background-image: linear-gradient(to right, $primary-background-gradient);
     @include angledEdge(top, -3deg);
-    img {
+    .jumbotron-image#img-bg-texture {
+      background-image: url('/assets/img/splash/bg-texture.png');
+      background-size: cover;
+      background-repeat: no-repeat;
       position: absolute;
       width: 550px;
+      height: 2000px;
       right: 50px;
       top: -100px;
-      clip: rect(0px, 550px, 800px, 0px);
     }
     .jumbotron-content {
       width: 450px;
@@ -139,11 +143,11 @@ ul {
       margin-left: 180px;
     }
   }
-
+  
   &:nth-child(4) {
     background-color: $light-background-color;
     @include angledEdge(top, 3deg);
-    .jumbotron-image {
+    .jumbotron-image#img-tablet {
       background-image: url('/assets/img/splash/tablet.png');
       background-size: contain;
       background-repeat: no-repeat;

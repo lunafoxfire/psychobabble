@@ -1,0 +1,55 @@
+@import 'src/assets/styles/_theme';
+
+.top-bar {
+  @include font-bebas-kai;
+  background-color: #4c4c4c;
+  color: white;
+  text-align: center;
+}
+
+.request-table {
+  border-spacing: 0px;
+}
+
+.top-inputs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-bar {
+  width: 25% !important;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid grey;
+  padding: 2px;
+}
+
+.search-button {
+  background-color: blue;
+  color:white;
+  border: none
+}
+
+.new-request {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: blue;
+  color: white;
+  font-size: 30px;
+  border-radius: 50%;
+}
+
+.all-requests {
+
+}
+
+.single-request {
+  padding-bottom: 3px;
+  padding-top: 3px;
+  text-align: center;
+  &:nth-child(2n) {
+    background-color: grey;
+  }
+}

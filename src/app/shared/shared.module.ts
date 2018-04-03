@@ -10,6 +10,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { SiteNavBarComponent } from './site-nav-bar/site-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
 
+import { EaseScrollDirective, ParallaxDirective } from './parallax.directives';
+
 import { HomeGuardService } from './home/home-guard.service';
 import { ProfileService } from './profile/profile.service';
 
@@ -19,6 +21,8 @@ import { ProfileService } from './profile/profile.service';
     ProfileComponent,
     SiteNavBarComponent,
     SiteFooterComponent,
+    EaseScrollDirective,
+    ParallaxDirective,
   ],
   imports: [
     CommonModule,
@@ -33,7 +37,9 @@ import { ProfileService } from './profile/profile.service';
   ],
   exports: [
     SiteNavBarComponent,
-    SiteFooterComponent
+    SiteFooterComponent,
+    EaseScrollDirective,
+    ParallaxDirective,
   ]
 })
 export class SharedModule { }

@@ -18,11 +18,11 @@ describe("Environment variables", function() {
       expect(process.env.SERVER_PORT).to.exist;
     });
     it("should be a number", function() {
-      let portNumber = parseInt(process.env.SERVER_PORT);
+      const portNumber = parseInt(process.env.SERVER_PORT);
       expect(portNumber).to.be.a('number');
     });
     it("should be between 0 and 65535", function() {
-      let portNumber = parseInt(process.env.SERVER_PORT);
+      const portNumber = parseInt(process.env.SERVER_PORT);
       expect(portNumber).to.be.not.lessThan(0);
       expect(portNumber).to.be.not.greaterThan(65535);
     });
@@ -60,11 +60,11 @@ describe("Environment variables", function() {
       expect(process.env.POSTGRES_PORT).to.exist;
     });
     it("should be a number", function() {
-      let portNumber = parseInt(process.env.POSTGRES_PORT);
+      const portNumber = parseInt(process.env.POSTGRES_PORT);
       expect(portNumber).to.be.a('number');
     });
     it("should be between 0 and 65535", function() {
-      let portNumber = parseInt(process.env.POSTGRES_PORT);
+      const portNumber = parseInt(process.env.POSTGRES_PORT);
       expect(portNumber).to.be.not.lessThan(0);
       expect(portNumber).to.be.not.greaterThan(65535);
     });

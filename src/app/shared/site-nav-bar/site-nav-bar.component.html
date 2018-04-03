@@ -1,19 +1,26 @@
 <div [class]="isScrolled()">
-  <mat-toolbar color="primary">
-    <div class="nav-links-right">
-      <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/">Home</a>
-      <a mat-button *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Programs</a>
-      <a mat-button *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
-
-      <a mat-button *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
-      <a mat-button *ngIf="auth.isAdmin()" routerLink="/admin/videos" routerLinkActive="active">Videos</a>
-      <a mat-button *ngIf="auth.isAdmin()" routerLink="/admin/clients" routerLinkActive="active">Clients</a>
+  <div class="bar-container">
+    <div class="permanent-bar">
+      <p class="home"><img class="babble-logo" src="/assets/img/icon.png" alt="psychobabble logo"><span class="psycho-babble">PSYCHOBABBLE</span></p>
+      <div *ngIf="!auth.isLoggedIn()" class="register-login">
+        <p><a routerLink="/register">REGISTER</a> |
+          <a routerLink="/login">LOGIN</a></p>
+        </div>
+        <div *ngIf="auth.isLoggedIn()" class="logged-in">
+          <p><a routerLink="/profile">{{loggedInUser}}</a> |
+            <a routerLink="/logout" (click)="auth.logout()">LOGOUT</a></p>
+          </div>
+        </div>
+        <div *ngIf="auth.isLoggedIn()" class="changing-bar">
+          <div class="client-links">
+            <a *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Programs</a>
+            <a *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
+          </div>
+          <div class="admin-links">
+            <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
+            <a *ngIf="auth.isAdmin()" routerLink="/admin/videos" routerLinkActive="active">Videos</a>
+            <a *ngIf="auth.isAdmin()" routerLink="/admin/clients" routerLinkActive="active">Clients</a>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="nav-links-left">
-      <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/register">Register</a>
-      <a mat-button *ngIf="!auth.isLoggedIn()" routerLink="/login">Log In</a>
-      <a mat-button *ngIf="auth.isLoggedIn()" routerLink="/logout" (click)="auth.logout()">Log Out</a>
-      <a mat-button *ngIf="auth.isLoggedIn()" routerLink="/profile">Profile</a>
-    </div>
-  </mat-toolbar>
-</div>

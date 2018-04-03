@@ -11,12 +11,19 @@ import { AuthService } from '../../auth/auth.service';
 export class SiteNavBarComponent implements OnInit {
   public scroll: boolean = false;
   public programId: string;
+  public loggedInUser: string;
+
   constructor(
     public auth: AuthService,
     public route: ActivatedRoute
   ) { }
 
   ngOnInit() {
+    let token = this.auth.getTokenPayload();
+    if(token) {
+      //TODO: Display correct name without refresh
+      this.loggedInUser = token.username;
+    }
     window.onscroll = () => {
       if(window.pageYOffset > 100) {
         this.scroll = true;
@@ -26,7 +33,7 @@ export class SiteNavBarComponent implements OnInit {
     }
   }
 
-  isScrolled() {
+  public isScrolled() {
     if(window.location.pathname === "/") {
       if(this.scroll) {
         return "scroll-navbar";

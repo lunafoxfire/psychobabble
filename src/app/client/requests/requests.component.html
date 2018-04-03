@@ -1,17 +1,17 @@
 <div class="background-image">
-  <p>image tag goes here</p>
+  <h1>Program Requests</h1>
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input placeholder="Search..." class="search-bar" type="text" #search ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchRequests(search)">search</button>
+    </div>
+    <div class="new-request" routerLink="new">
+      +
+    </div>
+  </div>
 </div>
 <div>
   <div>
-    <div class="top-inputs">
-      <div class="search-inputs">
-        <input placeholder="Search..." class="search-bar" type="text" #search ngModel>
-        <button class="search-button" type="button" name="button" (click)="searchRequests(search)">search</button>
-      </div>
-      <div class="new-request" routerLink="new">
-        +
-      </div>
-    </div>
     <table class="request-table">
       <tr class="top-bar">
         <th>REQUEST TITLE</th>

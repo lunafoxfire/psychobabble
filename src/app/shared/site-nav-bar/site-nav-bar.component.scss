@@ -1,7 +1,4 @@
-mat-toolbar {
-  display: flex;
-  justify-content: space-between;
-}
+@import 'src/assets/styles/_theme';
 
 .hide-navbar {
   opacity: 0;
@@ -14,17 +11,71 @@ mat-toolbar {
 
 .show-navbar {
   display: flex;
-  background-color: #673ab7;
-  color: white;
 }
 
 .scroll-navbar {
-  background-color: #673ab7;
-  color: white;
   position: fixed;
   width: 100%;
   z-index: 10;
   animation: fadein 1s;
+}
+
+.permanent-bar {
+  @include font-bebas-kai;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 7px;
+  background-image: linear-gradient(to left, $primary-background-gradient);
+  font-size: 20px;
+}
+
+.changing-bar {
+  display: flex;
+  justify-content: space-between;
+  background-color: $light-background-color;
+  height: 50px;
+  & div {
+    margin-top: auto;
+    padding: 7px;
+    & a {
+      padding: 7px;
+      font-size: 20px;
+      text-decoration: none;
+      color: $dark-text-color;
+      &:hover {
+        text-decoration: underline;
+        text-decoration-color: $dark-text-color;
+      }
+    }
+  }
+}
+
+.logged-in, register-login {
+  & p {
+    color: $light-text-color;
+    & a {
+      text-decoration: none;
+      color: $light-text-color;
+    }
+  }
+}
+
+.bar-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.psycho-babble {
+  color: $light-text-color;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.babble-logo {
+  height: 20px;
+  width: 20px;
 }
 
  @keyframes fadein {

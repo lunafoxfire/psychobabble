@@ -54,3 +54,22 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+@mixin blurredBackground($url, $blur) {
+  position: relative;
+  z-index: 1;
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: -1;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;;
+    background-image: url($url);
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur($blur);
+  }
+}

@@ -24,7 +24,6 @@ export class EaseScrollDirective {
     else {
       const scrollPercent = Math.min(topScrollDist / elHeight, 1);
       this.transformY = scrollPercent * topScrollDist / 2;
-      if (this.debug === 'debug') { console.log(scrollPercent, topScrollDist); }
     }
     el.style.transform = `translateY(${this.transformY}px)`;
   }

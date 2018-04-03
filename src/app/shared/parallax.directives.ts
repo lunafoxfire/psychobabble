@@ -5,6 +5,7 @@ import { Directive, ElementRef, Input } from '@angular/core';
 })
 export class EaseScrollDirective {
   private transformY = 0;
+  @Input('appEaseScroll') private debug: string;
   constructor(el: ElementRef) {
     window.addEventListener('scroll', (e) => {
       requestAnimationFrame(() => {
@@ -17,6 +18,8 @@ export class EaseScrollDirective {
     const windowHeight = window.innerHeight;
     const coords = el.getBoundingClientRect();
     const elBottom = coords.bottom - this.transformY;
+    const elTop = coords.top - this.transformY;
+    if (this.debug === 'debug') { console.log(elTop); }
     if (elBottom > windowHeight) {
       this.transformY = 0;
     }
@@ -51,7 +54,6 @@ export class ParallaxDirective {
     const elHeight = coords.height;
     const scrollAmount = windowHeight - elTop;
     this.transformY = -scrollAmount * this.magnitude;
-    console.log(this.transformY);
     el.style.transform = `translateY(${this.transformY}px)`;
   }
 }

@@ -126,15 +126,20 @@ ul {
   &:nth-child(3) {
     background-image: linear-gradient(to right, $primary-background-gradient);
     @include angledEdge(top, -3deg);
-    .jumbotron-image#img-bg-texture {
-      background-image: url('/assets/img/splash/bg-texture.png');
+    .jumbotron-image {
       background-size: cover;
-      background-repeat: no-repeat;
+      background-repeat: repeat;
       position: absolute;
       width: 550px;
-      height: 2000px;
-      right: 50px;
-      top: -100px;
+      height: 1200px;
+      &#img-bg-1 {
+        background-image: url('/assets/img/splash/bg-1.png');
+        right: 0px;
+      }
+      &#img-bg-2 {
+        background-image: url('/assets/img/splash/bg-3.png');
+        right: 200px;
+      }
     }
     .jumbotron-content {
       width: 450px;

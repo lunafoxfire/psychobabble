@@ -28,6 +28,9 @@
         <h3>You Have Completed This Assessment</h3>
         <p>When you're ready, you may close this window, or click <a href="/profile">here</a> to visit your profile.</p>
       </div>
+      <div *ngIf="state === myEvalState.AwaitingRecord" class="countdown">
+        <h1>Recording in {{countdown}}</h1>
+      </div>
       <div class="video-container">
         <video class="evaluation-video" #evalVideo src="{{(currentVideo | async)?.url}}"
         (ended)="videoEnd()" (canplaythrough)="videoLoaded()" (contextmenu)="false"></video>

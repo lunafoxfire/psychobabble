@@ -13,7 +13,7 @@
       </mat-step>
     </mat-horizontal-stepper>
   </div>
-  <div class="question-count">
+  <div *ngIf="state !== myEvalState.Done" class="question-count">
     Question {{currentQuestion + 1}}/{{currentVideoCount?.length}}
   </div>
   <div *ngIf="state === myEvalState.Recording" class="recording-alert">
@@ -34,6 +34,12 @@
       </div>
     </div>
     <button *ngIf="state === myEvalState.AwaitingPlay" class="play" name="play-button" (click)="playVideo()"><i class="material-icons my-icons">play_arrow</i></button>
+    <svg *ngIf="state === myEvalState.Recording" class="recording-animation-inset">
+      <circle class="inset" cx="60" cy="65" r="45" />
+    </svg>
+    <svg *ngIf="state === myEvalState.Recording" class="recording-animation">
+      <circle class="animation" cx="60" cy="65" r="45" />
+    </svg>
     <button *ngIf="state === myEvalState.AwaitingRecord" class="start-recording" (click)="startRecording()"><i class="material-icons my-icons">mic</i></button>
     <button *ngIf="state === myEvalState.Recording" class="end-recording" (click)="stopRecording()"><i class="material-icons my-icons">stop</i></button>
   </mat-card-content>

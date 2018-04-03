@@ -1,7 +1,7 @@
 @import '../../../assets/styles/_theme';
 
 // ****************** Bottom stuff *********************
-
+//TODO: Question 3/8 needs to be moved up to right next to the stepper
 .spacer {
   height: 40px;
   z-index: 5;
@@ -13,11 +13,13 @@
 }
 
 .hint-card {
+  @include font-pt-sans;
   width: 100%;
   text-align: center;
 }
 
 .bottom-card {
+  @include font-pt-sans;
   background-color: #262626;
   display: flex;
   justify-content: center;
@@ -150,13 +152,14 @@ $video-height: 180px;
   height: 100%;
 }
 
-.video-card {
-  display: flex;
+::ng-deep .video-card {
+  display: flex !important;
   justify-content: center;
   width: 100%;
   height: 150px;
   background-color: #f2f2f2;
   z-index: 6;
+  box-shadow: none !important;
 }
 
 $transition-centering: 40px;
@@ -167,6 +170,7 @@ $transition-centering: 40px;
 }
 
 .done-message {
+  @include font-pt-sans;
   position: absolute;
   top: $transition-centering;
   color: white;
@@ -179,7 +183,7 @@ $transition-centering: 40px;
 // ********************** Video Buttons *************************
 
 $button-centering: 50px;
-$button-color: rgba(242, 120, 21, .7);
+$button-color: rgb(242, 120, 21);
 
 .play, .start-recording, .end-recording {
   position: absolute;
@@ -187,9 +191,49 @@ $button-color: rgba(242, 120, 21, .7);
   top: $button-centering;
   background-color: $button-color;
   border-radius: 50%;
+  height: 90px;
   border: none;
   &:hover {
     cursor: pointer;
+  }
+}
+
+.animation {
+  fill: transparent;
+  stroke: white;
+  stroke-width: 9;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  z-index: 100;
+  animation: rotate 90s linear;
+}
+
+.recording-animation {
+  position: absolute;
+  top: 30px;
+  height: 120px;
+  width: 120px;
+}
+
+.inset {
+  fill: transparent;
+  stroke: grey;
+  stroke-width: 9;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 0;
+  z-index: 90;
+}
+
+.recording-animation-inset {
+  position: absolute;
+  top: 30px;
+  height: 120px;
+  width: 120px;
+}
+
+@keyframes rotate {
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
@@ -247,6 +291,7 @@ $button-color: rgba(242, 120, 21, .7);
 }
 
 .question-count {
+  @include font-pt-sans;
   position: absolute;
   bottom: 20px;
   left: 20px;
@@ -254,15 +299,39 @@ $button-color: rgba(242, 120, 21, .7);
 }
 
 .recording-alert {
+  @include font-pt-sans;
   color: red;
   position: absolute;
   bottom: 3px;
   right: 20px;
   font-size: 12px;
+  animation: opacityPulse 2s infinite;
+}
+
+@keyframes opacityPulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .3;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 // ************** flipped phone (based on iphone 5/SE) **************
 @media screen and (min-width: 568px) {
+
+  $animation-centering: 105px;
+
+  .recording-animation {
+    top: $animation-centering;
+  }
+
+  .recording-animation-inset {
+    top: $animation-centering;
+  }
 
   .question-count {
     bottom: 23px;
@@ -391,6 +460,42 @@ $button-color: rgba(242, 120, 21, .7);
 
   .play, .start-recording, .end-recording {
     top: $button-centering;
+    height: 130px;
+  }
+
+  $animation-centering: 145px;
+
+  .animation {
+    stroke-dasharray: 439;
+    stroke-dashoffset: 439;
+    r: 69;
+    cx: 85;
+    cy: 80;
+  }
+
+  .recording-animation {
+    top: $animation-centering;
+    height: 170px;
+    width: 170px;
+  }
+
+  .inset {
+    stroke-dasharray: 439;
+    r: 69;
+    cx: 85;
+    cy: 80;
+  }
+
+  .recording-animation-inset {
+    top: $animation-centering;
+    height: 170px;
+    width: 170px;
+  }
+
+  @keyframes rotate {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
 
   .my-icons {
@@ -530,11 +635,13 @@ $button-color: rgba(242, 120, 21, .7);
   .question-count {
     bottom: 77px;
     left: 360px;
+    font-size: 15px;
   }
 
   .recording-alert {
     bottom: 60px;
     right: 360px;
+    font-size: 15px;
   }
 
   // ***************************** Video ************************
@@ -624,7 +731,7 @@ $button-color: rgba(242, 120, 21, .7);
       right: 30px;
       border-left: 10px solid transparent !important;
       border-right: 10px solid transparent !important;
-      border-bottom: 20px solid white !important;
+      border-bottom: 15px solid white !important;
     }
   }
 
@@ -680,9 +787,39 @@ $button-color: rgba(242, 120, 21, .7);
 
   .play, .start-recording, .end-recording {
     top: $button-centering;
+    height: 160px;
   }
 
   .my-icons {
     font-size: 150px;
+  }
+
+  $animation-centering: 235px;
+
+  .animation {
+    stroke-dasharray: 508;
+    stroke-dashoffset: 508;
+    r: 81;
+    cx: 88;
+    cy: 85;
+  }
+
+  .recording-animation {
+    top: $animation-centering;
+    height: 175px;
+    width: 175px;
+  }
+
+  .inset {
+    stroke-dasharray: 508;
+    r: 81;
+    cx: 88;
+    cy: 85;
+  }
+
+  .recording-animation-inset {
+    top: $animation-centering;
+    height: 175px;
+    width: 175px;
   }
 }

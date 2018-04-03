@@ -180,6 +180,20 @@ $transition-centering: 40px;
   z-index: 40;
 }
 
+.countdown {
+  @include font-pt-sans;
+  position: absolute;
+  top: 5px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  z-index: 40;
+  background-color: rgba(175, 175, 175, .7);
+  padding: 5px;
+  font-size: 6px;
+}
+
 // ********************** Video Buttons *************************
 
 $button-centering: 50px;
@@ -296,6 +310,7 @@ $button-color: rgb(242, 120, 21);
   bottom: 20px;
   left: 20px;
   font-size: 12px;
+  font-weight: bold;
 }
 
 .recording-alert {
@@ -381,6 +396,12 @@ $button-color: rgb(242, 120, 21);
     top: $transition-centering;
   }
 
+  .countdown {
+    top: 35px;
+    padding: 7px;
+    font-size: 10px;
+  }
+
   $button-centering: 125px;
 
   .play, .start-recording, .end-recording {
@@ -391,7 +412,7 @@ $button-color: rgb(242, 120, 21);
     font-size: 80px;
   }
 }
-// *************** tablet breakpoint *****************88
+// *************** tablet breakpoint *****************
 @media screen and (min-width: 1024px) {
   $video-height: 440px;
 
@@ -432,18 +453,17 @@ $button-color: rgb(242, 120, 21);
   $transition-centering: 40px;
 
   .loading {
-    position: absolute;
     top: $transition-centering;
   }
 
   .done-message {
-    position: absolute;
     top: $transition-centering;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    z-index: 40;
+  }
+
+  .countdown {
+    top: 40px;
+    padding: 10px;
+    font-size: 14px;
   }
 
   $transition-centering: 165px;
@@ -683,6 +703,12 @@ $button-color: rgb(242, 120, 21);
 
   .done-message {
     top: $transition-centering;
+  }
+
+  .countdown {
+    top: 60px;
+    padding: 12px;
+    font-size: 16px;
   }
 
   // **************** stepper ******************

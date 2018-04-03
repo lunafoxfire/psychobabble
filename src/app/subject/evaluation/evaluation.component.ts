@@ -20,6 +20,7 @@ export class EvaluationComponent implements OnInit {
   public currentResponseId: Observable<string>;
   public state: EvalState;
   public myEvalState = EvalState;
+  public countdown: number = 3;
 
   constructor(
     public evalService: EvaluationService,
@@ -84,9 +85,19 @@ export class EvaluationComponent implements OnInit {
   public videoEnd() {
     if (this.state === EvalState.Playing) {
       this.state = EvalState.AwaitingRecord;
+      const myInterval = setInterval(() => {
+        if(this.countdown > 0) {
+          this.countdown--;
+        }
+      }, 1000);
       setTimeout(() => {
         if(this.state === EvalState.AwaitingRecord) {
+          this.countdown = 3;
+          clearInterval(myInterval);
           this.startRecording();
+        } else {
+          this.countdown = 3;
+          clearInterval(myInterval);
         }
       }, 3000);
     }
@@ -96,15 +107,10 @@ export class EvaluationComponent implements OnInit {
     if (this.state === EvalState.AwaitingRecord) {
       this.recorder.startSession();
       this.state = EvalState.Recording;
-      let timer = 0;
-      let myInterval = setInterval(function() {
-        timer++;
-      }, 1000);
       setTimeout(() => {
         console.log("Inside Start Recording Timeout");
         if(this.state === EvalState.Recording) {
           console.log("Stop Recording");
-          clearInterval(myInterval);
           this.stopRecording();
         }
       }, 90000);

@@ -15,18 +15,16 @@ export class EaseScrollDirective {
   }
 
   private doParallax(el) {
-    const windowHeight = window.innerHeight;
     const coords = el.getBoundingClientRect();
-    const elBottom = coords.bottom - this.transformY;
-    const elTop = coords.top - this.transformY;
-    if (this.debug === 'debug') { console.log(elTop); }
-    if (elBottom > windowHeight) {
+    const elHeight = coords.height;
+    const topScrollDist = Math.min(-(coords.top - this.transformY), elHeight);
+    if (topScrollDist <= 0) {
       this.transformY = 0;
     }
     else {
-      const scrollPercent = Math.min(1 - elBottom / windowHeight, 1);
-      const scrollAmount = windowHeight - elBottom;
-      this.transformY = scrollPercent * scrollAmount / 2;
+      const scrollPercent = Math.min(topScrollDist / elHeight, 1);
+      this.transformY = scrollPercent * topScrollDist / 2;
+      if (this.debug === 'debug') { console.log(scrollPercent, topScrollDist); }
     }
     el.style.transform = `translateY(${this.transformY}px)`;
   }

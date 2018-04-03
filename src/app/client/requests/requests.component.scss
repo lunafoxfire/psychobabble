@@ -1,0 +1,81 @@
+@import 'src/assets/styles/_theme';
+
+.top-bar {
+  @include font-bebas-kai;
+  background-color: #4c4c4c;
+  color: white;
+  text-align: center;
+}
+
+.request-table {
+  border-spacing: 0px;
+  width: 100%;
+}
+
+.background-image {
+  height: 110px;
+  width: 100%;
+  background-image: url('/assets/img/splash/hero.png');
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  text-align: center;
+  & h1 {
+    @include font-bebas-kai;
+    // color: $light-text-color;
+    //just for now so I can see it
+    color: black;
+    margin: 0px;
+  }
+}
+
+.top-inputs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-bar {
+  width: 25% !important;
+  border: none;
+  background-color: transparent;
+  border-bottom: 1px solid grey;
+  padding: 2px;
+}
+
+.search-button {
+  background-color: $primary-color;
+  color:white;
+  border: none
+}
+
+.new-request {
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  background-color: $primary-color;
+  color: white;
+  font-size: 30px;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+}
+
+.single-request {
+  padding-bottom: 3px;
+  padding-top: 3px;
+  text-align: center;
+  &:nth-child(2n) {
+    background-color: grey;
+  }
+}
+
+// ************** flipped phone (based on iphone 5/SE) **************
+@media screen and (min-width: 568px) {
+  .request-table {
+    & tr {
+      height: 30px;
+    }
+  }
+}

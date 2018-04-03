@@ -79,7 +79,7 @@ export class ProgramRequestService {
     return {
       requests:  requests.map(function(request) {
         return {
-          client: request.client.username,
+          dateCreated: UnixToDate(request.dateCreated),
           requestId: request.id,
           jobTitle: request.jobTitle,
           text: request.text

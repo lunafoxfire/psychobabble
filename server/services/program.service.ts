@@ -40,30 +40,35 @@ export class ProgramService {
 
   public async getPrograms(page, resultCount, searchTerm) {
     let programs = await this.programRepo.createQueryBuilder("program")
-    .where("program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .innerJoinAndSelect("program.client", "client", "program.closed = :closed", { closed: false })
-    .innerJoinAndSelect("program.author", "author", "program.closed = :closed", { closed: false })
-    .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .innerJoinAndSelect("program.client", "client")
+    .innerJoinAndSelect("program.author", "author")
+    .where("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .skip(page*resultCount)
     .take(resultCount)
-    .orderBy("program.expiration", "ASC")
+    .orderBy("program.expiration", "DESC")
     .getMany();
 
     let programCount = await this.programRepo.createQueryBuilder("program")
-    .innerJoinAndSelect("program.client", "client", "program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .innerJoinAndSelect("program.author", "author", "program.expiration >= :currentTime OR program.expiration = :zero", { currentTime: new Date().getTime(), zero: 0 })
-    .where("program.closed = :closed", { closed: false })
-    .andWhere("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
+    .innerJoinAndSelect("program.client", "client")
+    .innerJoinAndSelect("program.author", "author")
+    .where("UPPER(program.jobTitle) LIKE :searchTerm OR UPPER(client.username) LIKE :searchTerm OR UPPER(author.username) LIKE :searchTerm", { searchTerm: '%'+searchTerm.toUpperCase()+'%' })
     .getCount();
 
     let thingToReturn = {
       programs: programs.map(function(program) {
+        if(program.expiration.toString() !== "0") {
+          if(program.expiration <= new Date().getTime())
+          {
+            program.closed = true;
+          }
+        }
         return {
           description: program.description,
           client: program.client.username,
           author: program.author.username,
           programId: program.id,
           jobTitle: program.jobTitle,
+          closed: program.closed
         }
       }),
       programCount: programCount
@@ -74,23 +79,30 @@ export class ProgramService {
   public async getClientPrograms(clientId, params) {
     let programs = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :clientId", { clientId: clientId })
-    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration >= :currentTime OR program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration = :zero", { closed: false, currentTime: new Date().getTime(), searchTerm: '%'+params.searchTerm.toUpperCase()+'%', zero: 0 })
+    .where("UPPER(program.jobTitle) LIKE :searchTerm", { searchTerm: '%'+params.searchTerm.toUpperCase()+'%' })
     .skip(params.page*params.resultCount)
     .take(params.resultCount)
-    .orderBy("program.expiration", "DESC")
+    .orderBy("program.expiration", "ASC")
     .getMany();
 
     let programCount = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :clientId", { clientId: clientId })
-    .where("program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration >= :currentTime OR program.closed = :closed AND UPPER(program.jobTitle) LIKE :searchTerm AND program.expiration = :zero", { closed: false, currentTime: new Date().getTime(), searchTerm: '%'+params.searchTerm.toUpperCase()+'%', zero: 0 })
+    .where("UPPER(program.jobTitle) LIKE :searchTerm", { searchTerm: '%'+params.searchTerm.toUpperCase()+'%' })
     .getCount();
 
     return {
       programs: programs.map(function(program) {
+        if(program.expiration.toString() !== "0") {
+          if(program.expiration <= new Date().getTime())
+          {
+            program.closed = true;
+          }
+        }
         return {
           description: program.description,
           programId: program.id,
           jobTitle: program.jobTitle,
+          closed: program.closed
         }
       }),
       programCount: programCount

@@ -76,11 +76,14 @@ export class UserController {
       if(!reqRequire(req, res,
         ['jwt', 401, "Missing auth token",
           ['role', 400, "Malformed auth token"]],
+        ['query', 400, "Request query params missing",
+          ['page', 400, "Missing 'page' in query params"],
+          ['resultCount', 400, "Missing 'resultCount' in query params"]],
         ['params', 400, "Request route params missing",
           ['programId', 400, "Missing 'programId' in route params"]]
       )) { return; }
       if(!requireRole(req, res, [RoleType.Admin, RoleType.Client])) { return; }
-      let subjects = await this.userService.getTopSubjects(req.params.programId);
+      let subjects = await this.userService.getTopSubjects(req.params.programId, req.query.page, req.query.resultCount);
       if(subjects) {
         res.status(200);
         res.json({

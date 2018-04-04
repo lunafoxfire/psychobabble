@@ -18,10 +18,13 @@
         <th>REQUEST DESCRIPTION</th>
         <th>REQUEST CREATED</th>
       </tr>
-      <tr *ngFor="let request of (requests | async)?.requests.requests" class="single-request" routerLink="client/{{request.requestId}}">
+      <!--- routerLink="client/{{request.requestId}}" --->
+      <tr *ngFor="let request of (requests | async)?.requests.requests" class="single-request">
         <td>{{request.jobTitle}}</td>
         <td>{{request.text}}</td>
-        <td>{{request.dateCreated}}</td>
+        <td>{{request.dateCreated}}
+          <button class="close-button">Cancel</button>
+        </td>
       </tr>
     </table>
     <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)" class="paginator"></mat-paginator>

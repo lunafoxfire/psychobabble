@@ -7,25 +7,30 @@
   text-align: center;
 }
 
+::ng-deep .top-bar th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
 .request-table {
   border-spacing: 0px;
   width: 100%;
 }
 
 .background-image {
+  position: relative;
   height: 110px;
   width: 100%;
-  background-image: url('/assets/img/splash/hero.png');
+  background-image: url('/assets/img/reqbckgrd.png');
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-content: center;
   text-align: center;
-  & h1 {
+  h1 {
     @include font-bebas-kai;
-    // color: $light-text-color;
-    //just for now so I can see it
-    color: black;
+    color: $light-text-color;
     margin: 0px;
   }
 }
@@ -36,17 +41,24 @@
 }
 
 .search-bar {
-  width: 25% !important;
-  border: none;
-  background-color: transparent;
+  width: 35% !important;
+  text-align: left;
   border-bottom: 1px solid grey;
-  padding: 2px;
 }
 
 .search-button {
-  background-color: $primary-color;
-  color:white;
-  border: none
+  background-color: transparent;
+  color: $primary-color;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.search-inputs {
+  position: absolute;
+  bottom: 2px;
+  left: -45px;
 }
 
 .new-request {
@@ -59,23 +71,91 @@
   font-size: 30px;
   border-radius: 50%;
   position: absolute;
-  top: 0;
+  bottom: 5px;
+  right: 50px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .single-request {
-  padding-bottom: 3px;
-  padding-top: 3px;
-  text-align: center;
-  &:nth-child(2n) {
-    background-color: grey;
+  &:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 3px #333);
   }
+  td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    max-width: 106px;
+    min-width: 106px;
+    word-wrap: break-word;
+  }
+  text-align: center;
+  &:nth-child(2n+1) {
+    background-color: #f2f2f2;
+  }
+  &:nth-child(2n) {
+    background-color: $light-background-color;
+  }
+}
+
+::ng-deep .mat-paginator-container {
+  margin-top: 10px;
+  flex-wrap: nowrap !important;
 }
 
 // ************** flipped phone (based on iphone 5/SE) **************
 @media screen and (min-width: 568px) {
   .request-table {
-    & tr {
+    tr {
       height: 30px;
     }
   }
+
+  .search-bar {
+    width: 45% !important;
+  }
+
+  .search-inputs {
+    left: -40px;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .new-request {
+    bottom: -18px;
+    right: 40px;
+    font-size: 35px;
+  }
+
+  .request-table {
+    font-size: 24px;
+    .single-request {
+      height: 60px;
+    }
+  }
+
+  .search-bar {
+    width: 55% !important;
+  }
+
+  .search-button {
+    i {
+      font-size: 40px;
+    }
+  }
+
+  .search-inputs {
+    left: -20px;
+  }
+
+  .background-image {
+    height: 150px;
+    font-size: 32px;
+  }
+}
+
+@media screen and (min-width: 1240px) {
+
 }

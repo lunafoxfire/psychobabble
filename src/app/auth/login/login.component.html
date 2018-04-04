@@ -1,26 +1,25 @@
-<mat-card>
-  <mat-card-title>
-    <h1>Log In</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-      <mat-form-field>
-        <input matInput ngModel #loginName="ngModel" type="text"
-          placeholder="Username or Email" name="loginName"
-          required
-        />
-      </mat-form-field>
+<form-card>
+  <form-header>
+    <span id="welcome">Welcome back to</span><br>
+    <span id="app-name">Psychobabble.</span><br>
+    <span id="tagline">Login to get babbling.</span>
+  </form-header>
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+    <mat-form-field>
+      <input matInput ngModel #loginName="ngModel" type="text"
+        placeholder="Username or Email" name="loginName"
+        required
+      />
+    </mat-form-field>
 
-      <mat-form-field>
-        <input matInput ngModel #password="ngModel" type="password"
-          placeholder="Password" name="password"
-          required
-        />
-        <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput ngModel #password="ngModel" type="password"
+        placeholder="Password" name="password"
+        required
+      />
+      <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
+    </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-    </form>
-
-  </mat-card-content>
-</mat-card>
+    <form-submit-button>Login</form-submit-button>
+  </form> 
+</form-card>

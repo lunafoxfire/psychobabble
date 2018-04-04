@@ -1,0 +1,24 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+.submit-button {
+  background-color: $primary-color;
+  color: $light-text-color;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 6px 120px;
+  margin-top: 25px;
+  &[disabled] {
+    color: $light-text-color;
+    background-color: lighten(desaturate($primary-color, 25%), 15%);
+  }
+}
+
+.submit-error {
+  position: relative;
+  height: 55px;
+  mat-error {
+    @include centeredAbsolutePos;
+    top: 15px;
+  }
+}

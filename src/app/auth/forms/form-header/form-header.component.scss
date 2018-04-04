@@ -1,0 +1,25 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host ::ng-deep {
+  .form-header {
+    text-transform: uppercase;
+    color: $light-text-color;
+    background-color: $primary-color;
+    padding: 35px 20px;
+  
+    span#welcome {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    span#app-name {
+      @include font-bebas-kai;
+      font-size: 32px;
+      line-height: 2px;
+    }
+    span#tagline {
+      font-size: 20px;
+      font-weight: 100;
+    }
+  }
+}

@@ -23,7 +23,7 @@
 <mat-card class="video-card">
   <mat-card-content class="video-content">
     <div class="black-bars">
-      <mat-progress-spinner *ngIf="state === myEvalState.LoadingVideo || state === myEvalState.GetNextVideo" class="loading" color="warn" mode="indeterminate"></mat-progress-spinner>
+      <mat-progress-spinner *ngIf="state === myEvalState.FinalizeResponse || state === myEvalState.LoadingVideo || state === myEvalState.GetNextVideo" class="loading" color="warn" mode="indeterminate"></mat-progress-spinner>
       <div *ngIf="state === myEvalState.Done" class="done-message">
         <h3>You Have Completed This Assessment</h3>
         <p>When you're ready, you may close this window, or click <a href="/profile">here</a> to visit your profile.</p>

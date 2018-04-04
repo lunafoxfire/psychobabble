@@ -40,7 +40,7 @@ export class SiteNavBarComponent implements OnInit {
       } else {
         return "hide-navbar";
       }
-    } else if (window.location.pathname.match(/^\/programs\/.*$/m)) {
+    } else if (window.location.pathname.match(/^\/programs\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/im)) {
       return "hide-navbar";
     } else {
       return "show-navbar";

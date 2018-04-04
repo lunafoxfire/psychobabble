@@ -22,9 +22,6 @@ export class ProgramsComponent implements OnInit {
 
   ngOnInit() {
     this.programs = this.service.getClientPrograms(this.page, this.resultCount);
-    this.programs.subscribe(data => {
-      console.log(data);
-    })
   }
 
   public searchPrograms(searchTerm) {

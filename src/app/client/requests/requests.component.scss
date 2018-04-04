@@ -13,6 +13,17 @@
   text-align: center;
 }
 
+.close-button {
+  background-color: $primary-color;
+  border: 1px solid black;
+  font-size: 15px;
+  transition: font-size .5s;
+  &:hover {
+    cursor: pointer;
+    font-size: 17px;
+  }
+}
+
 .request-table {
   border-spacing: 0px;
   width: 100%;
@@ -79,10 +90,10 @@
 }
 
 .single-request {
-  &:hover {
-    cursor: pointer;
-    filter: drop-shadow(0 0 3px #333);
-  }
+  // &:hover {
+  //   cursor: pointer;
+  //   filter: drop-shadow(0 0 3px #333);
+  // }
   td {
     padding-top: 15px;
     padding-bottom: 15px;

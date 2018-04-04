@@ -123,8 +123,6 @@ export class ProgramController {
         ['jwt', 401, "Missing auth token",
           ['id', 400, "Malformed auth token"],
           ['role', 400, "Malformed auth token"]],
-        ['body', 400, "Request body missing",
-          ['client', 400, "Missing 'client' in request body"]],
         ['params', 400, "Request route params missing",
           ['programId', 400, "Missing 'programId' in route params"]]
       )) { return; }

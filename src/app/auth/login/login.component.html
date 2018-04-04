@@ -1,8 +1,10 @@
-<mat-card>
-  <mat-card-title>
-    <h1>Log In</h1>
+<mat-card class="user-form">
+  <mat-card-title class="form-header">
+    <span id="welcome">Welcome back to</span><br>
+    <span id="app-name">Psychobabble.</span><br>
+    <span id="login-text">Login to get babbling.</span>
   </mat-card-title>
-  <mat-card-content>
+  <mat-card-content class="form-fields">
     <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
       <mat-form-field>
         <input matInput ngModel #loginName="ngModel" type="text"
@@ -16,10 +18,10 @@
           placeholder="Password" name="password"
           required
         />
-        <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
+        <mat-hint id="forgot-pass"><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" type="submit">Submit</button>
+      <button class="submit-button" mat-button type="submit">Login</button>
     </form>
 
   </mat-card-content>

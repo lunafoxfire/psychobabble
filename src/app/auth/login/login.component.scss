@@ -1,8 +1,88 @@
-mat-form-field {
-  display: block;
-  margin-bottom: 20px;
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-image: linear-gradient(to right, $primary-background-gradient-dark);
+  min-height: 100vh;
+  @include font-pt-sans;
 }
 
-button[type="submit"] {
-  margin-top: 15px;
+.user-form {
+  width: 400px;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding: 0px;
+  border-radius: 5px;
+  overflow: hidden;
+  $inner-padding: 20px;
+  mat-form-field {
+    display: block;
+    margin-bottom: 20px;
+  }
+  .form-header {
+    text-transform: uppercase;
+    color: $light-text-color;
+    background-color: $primary-color;
+    padding: 35px $inner-padding;
+    span#welcome {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    span#app-name {
+      @include font-bebas-kai;
+      font-size: 32px;
+      line-height: 2px;
+    }
+    span#login-text {
+      font-size: 20px;
+      font-weight: 100;
+    }
+  }
+  .form-fields {
+    $form-text-color: lighten($primary-color, 10%);
+    padding: 40px $inner-padding 70px;
+    text-align: center;
+    ::ng-deep .mat-form-field-label-wrapper {
+      top: -1.6em;
+      padding-top: 1em;
+    }
+    ::ng-deep .mat-form-field-label {
+      color: $form-text-color;
+      opacity: 0.8;
+      @include font-pt-sans;
+      font-size: 18px;
+      text-transform: lowercase;
+    }
+    ::ng-deep .mat-form-field-underline {
+      background-color: rgba($form-text-color, 0.45);
+    }
+    ::ng-deep .mat-form-field-invalid {
+      .mat-form-field-label {
+        color: $error-color;
+      }
+    }
+    #forgot-pass {
+      display: block;
+      width: 100%;
+      margin-right: -10px;
+      text-align: right;
+      a {
+        @include font-pt-sans;
+        color: $form-text-color;
+        font-size: 13px;
+        text-decoration: none;
+      }
+    }
+  }
+  .submit-button {
+    background-color: $primary-color;
+    color: $light-text-color;
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 6px 120px;
+    margin-top: 25px;
+  }
 }

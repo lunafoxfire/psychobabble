@@ -13,6 +13,17 @@
   text-align: center;
 }
 
+.close-button {
+  background-color: $primary-color;
+  border: 1px solid black;
+  font-size: 15px;
+  transition: font-size .5s;
+  &:hover {
+    cursor: pointer;
+    font-size: 17px;
+  }
+}
+
 .request-table {
   border-spacing: 0px;
   width: 100%;
@@ -79,10 +90,10 @@
 }
 
 .single-request {
-  &:hover {
-    cursor: pointer;
-    filter: drop-shadow(0 0 3px #333);
-  }
+  // &:hover {
+  //   cursor: pointer;
+  //   filter: drop-shadow(0 0 3px #333);
+  // }
   td {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -122,6 +133,7 @@
   }
 }
 
+// ************ Tablet ********************
 @media screen and (min-width: 1024px) {
   .new-request {
     bottom: -18px;
@@ -154,8 +166,4 @@
     height: 150px;
     font-size: 32px;
   }
-}
-
-@media screen and (min-width: 1240px) {
-
 }

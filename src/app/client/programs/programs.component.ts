@@ -35,7 +35,8 @@ export class ProgramsComponent implements OnInit {
     this.programs = this.service.getClientPrograms(this.page, this.resultCount, this.searchTerm);
   }
 
-  public openDialog(jobTitle: string, programId: string): void {
+  public openDialog(jobTitle: string, programId: string, event): void {
+    event.stopPropagation();
     const dialogRef = this.dialog.open(ProgramCloseDialogComponent, {
       width: '250px',
       data: { jobTitle: jobTitle, programId: programId }

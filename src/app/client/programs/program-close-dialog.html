@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Are you sure you want to delete {{data.jobTitle}}</h1>
+<h1 mat-dialog-title>Are you sure you want to close {{data.jobTitle}}?</h1>
+<mat-hint>You will still be able to view this programs details</mat-hint>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
   <button mat-button [mat-dialog-close]="data.programId" cdkFocusInitial>Ok</button>

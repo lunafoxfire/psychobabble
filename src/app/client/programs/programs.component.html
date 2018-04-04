@@ -1,20 +1,26 @@
-<mat-card>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput type="text" ngModel placeholder="Search..." #search>
-    </mat-form-field>
-    <button mat-raised-button type="button" name="button" (click)="searchPrograms(search)">search</button>
-    <div *ngFor="let program of (programs | async)?.programs.programs">
-      <mat-card>
-        <mat-card-title>
-          <a routerLink="client/{{program.programId}}">{{program.jobTitle}}</a>
-        </mat-card-title>
-        <mat-card-content>
-          <p>{{program.description}}</p>
-          <button mat-raised-button (click)="openDialog(program.jobTitle, program.programId)">Delete</button>
-        </mat-card-content>
-      </mat-card>
+<div class="background-image">
+  <h1>Programs</h1>
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchRequests(search)"><i class="material-icons">search</i></button>
     </div>
-    <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>
+<div>
+  <table class="program-table">
+    <tr class="top-bar">
+      <th>PROGRAM NAME</th>
+      <th>PROGRAM DESCRIPTION</th>
+      <th>STATUS</th>
+    </tr>
+    <tr *ngFor="let program of (programs | async)?.programs.programs" class="single-program" routerLink="client/{{program.programId}}">
+      <td>{{program.jobTitle}}</td>
+      <td>{{program.description}}</td>
+      <td *ngIf="program.closed">Completed</td>
+      <td *ngIf="!program.closed">Active
+        <button class="close-button" (click)="openDialog(program.jobTitle, program.programId, $event)">Close</button></td>
+    </tr>
+  </table>
+  <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
+</div>

@@ -11,6 +11,10 @@ import { NewAdminComponent } from './new-admin/new-admin.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetComponent } from './reset/reset.component';
 import { VerifyComponent } from './verify/verify.component';
+import { FormCardComponent } from './forms/form-card/form-card.component';
+import { FormHeaderComponent } from './forms/form-header/form-header.component';
+import { FormHelpTextComponent } from './forms/form-help-text/form-help-text.component';
+import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
 
 import { AuthService } from './auth.service';
 import { RegisterService } from './register/register.service';
@@ -34,6 +38,10 @@ import {
     UsernameValidatorDirective,
     PasswordValidatorDirective,
     ConfirmPasswordValidatorDirective,
+    FormCardComponent,
+    FormHelpTextComponent,
+    FormHeaderComponent,
+    FormSubmitButtonComponent,
   ],
   imports: [
     CommonModule,

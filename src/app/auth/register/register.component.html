@@ -1,64 +1,58 @@
-<mat-card>
-  <mat-card-title>
-    <h1>Register</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
-      <mat-form-field>
-        <input ngModel matInput type="text"
-          placeholder="Username" name="username" #username="ngModel"
-          minlength="4" maxlength="20" required username
-        />
-        <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
-        <mat-error *ngIf="username.errors?.badUsername">Invalid username</mat-error>
-        <mat-error *ngIf="username.errors?.usernameTaken">Sorry, that username is taken</mat-error>
-        <mat-error *ngIf="username.errors?.minlength || username.errors?.maxlength">Username must be between 4 and 20 characters</mat-error>
-        <mat-error *ngIf="username.errors?.startsWithLetter">Username must start with a letter</mat-error>
-        <mat-error *ngIf="username.errors?.onlyValidChars">Username must only use a-z, 0-9, - and _</mat-error>
-      </mat-form-field>
+<form-card>
+  <form-header>
+    <span id="welcome">Welcome to</span><br>
+    <span id="app-name">Psychobabble.</span><br>
+    <span id="tagline">Register to start babbling.</span>
+  </form-header>
+  <form #registerForm="ngForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+      <input ngModel matInput type="text"
+        placeholder="Username" name="username" #username="ngModel"
+        minlength="4" maxlength="20" required username
+      />
+      <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+      <mat-error *ngIf="username.errors?.badUsername">Invalid username</mat-error>
+      <mat-error *ngIf="username.errors?.usernameTaken">Sorry, that username is taken</mat-error>
+      <mat-error *ngIf="username.errors?.minlength || username.errors?.maxlength">Username must be between 4 and 20 characters</mat-error>
+      <mat-error *ngIf="username.errors?.startsWithLetter">Username must start with a letter</mat-error>
+      <mat-error *ngIf="username.errors?.onlyValidChars">Username must only use a-z, 0-9, - and _</mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <input ngModel matInput type="email"
-          placeholder="Email" name="email" #email="ngModel"
-          required email
-        />
-        <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
-        <mat-error *ngIf="email.errors?.badEmail">An error occurred registering that email</mat-error>
-        <mat-error *ngIf="email.errors?.emailTaken">A user already exists with that email</mat-error>
-        <mat-error *ngIf="email.errors?.email && !email.errors?.required">Not a valid email</mat-error>
-      </mat-form-field>
+    <mat-form-field>
+      <input ngModel matInput type="email"
+        placeholder="Email" name="email" #email="ngModel"
+        required email
+      />
+      <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
+      <mat-error *ngIf="email.errors?.badEmail">An error occurred registering that email</mat-error>
+      <mat-error *ngIf="email.errors?.emailTaken">A user already exists with that email</mat-error>
+      <mat-error *ngIf="email.errors?.email && !email.errors?.required">Not a valid email</mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <input ngModel matInput type="password"
-          placeholder="Password" name="password" #password="ngModel"
-          minlength="6" maxlength="32" required password
-        />
-        <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
-        <mat-error *ngIf="password.errors?.badPassword">Invalid password</mat-error>
-        <mat-error *ngIf="password.errors?.minlength">Password must be between 6 and 32 characters</mat-error>
-        <mat-error *ngIf="password.errors?.hasLetter">Password must contain at least one letter</mat-error>
-        <mat-error *ngIf="password.errors?.hasNumber">Password must contain at least one number</mat-error>
-      </mat-form-field>
+    <mat-form-field>
+      <input ngModel matInput type="password"
+        placeholder="Password" name="password" #password="ngModel"
+        minlength="6" maxlength="32" required password
+      />
+      <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
+      <mat-error *ngIf="password.errors?.badPassword">Invalid password</mat-error>
+      <mat-error *ngIf="password.errors?.minlength">Password must be between 6 and 32 characters</mat-error>
+      <mat-error *ngIf="password.errors?.hasLetter">Password must contain at least one letter</mat-error>
+      <mat-error *ngIf="password.errors?.hasNumber">Password must contain at least one number</mat-error>
+    </mat-form-field>
 
-      <mat-form-field>
-        <input ngModel matInput type="password"
-          placeholder="Confirm Password" name="confirm-password" #confirmPassword="ngModel"
-          minlength="6" maxlength="32" required [confirmPassword]="password"
-        />
-        <mat-error *ngIf="!password.errors && confirmPassword.errors?.required">Password confirmation is required</mat-error>
-        <mat-error *ngIf="!password.errors && !confirmPassword.errors?.required && confirmPassword.errors?.confirmPassword">Passwords do not match</mat-error>
-      </mat-form-field>
+    <mat-form-field>
+      <input ngModel matInput type="password"
+        placeholder="Confirm Password" name="confirm-password" #confirmPassword="ngModel"
+        minlength="6" maxlength="32" required [confirmPassword]="password"
+      />
+      <mat-error *ngIf="!password.errors && confirmPassword.errors?.required">Password confirmation is required</mat-error>
+      <mat-error *ngIf="!password.errors && !confirmPassword.errors?.required && confirmPassword.errors?.confirmPassword">Passwords do not match</mat-error>
+    </mat-form-field>
 
-      <div class="submit-button-group">
-        <button mat-raised-button color="primary" type="submit" [disabled]="thinking">
-          <span *ngIf="!thinking">Submit</span>
-          <span *ngIf="thinking">Sending...</span>
-        </button>
-        <div *ngIf="registerForm.invalid && submitted" class="submit-errors">
-          <mat-error *ngIf="!registerForm.errors?.unknownError"><i class="material-icons">error_outline</i> Please check for errors</mat-error>
-          <mat-error *ngIf="registerForm.errors?.unknownError"><i class="material-icons">error_outline</i> An unknown error has occured</mat-error>
-        </div>
-      </div>
-    </form>
-  </mat-card-content>
-</mat-card>
+    <form-submit-button [sending]="thinking" [error]="registerForm.invalid && submitted"
+      [errorText]="registerForm.errors?.unknownError ? 'An unknown error has occurred' : null">
+      Register
+    </form-submit-button>
+  </form>
+</form-card>

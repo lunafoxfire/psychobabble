@@ -1,0 +1,9 @@
+<button class="submit-button" mat-button type="submit" [disabled]="sending">
+  <span *ngIf="!sending"><ng-content></ng-content></span>
+  <span *ngIf="sending">{{sendingText || "Sending..."}}</span>
+</button>
+<div class="submit-error">
+  <mat-error *ngIf="error">
+    <i class="material-icons">error_outline</i> {{errorText || "Please confirm your information"}}
+  </mat-error>
+</div>

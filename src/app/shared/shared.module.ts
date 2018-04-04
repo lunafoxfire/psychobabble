@@ -9,6 +9,10 @@ import { SplashComponent } from './home/splash/splash.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SiteNavBarComponent } from './site-nav-bar/site-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
+import { FormCardComponent } from './forms/form-card/form-card.component';
+import { FormHeaderComponent } from './forms/form-header/form-header.component';
+import { FormContentComponent } from './forms/form-content/form-content.component';
+import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
 
 import { EaseScrollDirective, ParallaxDirective } from './parallax.directives';
 
@@ -23,6 +27,10 @@ import { ProfileService } from './profile/profile.service';
     SiteFooterComponent,
     EaseScrollDirective,
     ParallaxDirective,
+    FormCardComponent,
+    FormHeaderComponent,
+    FormContentComponent,
+    FormSubmitButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +48,10 @@ import { ProfileService } from './profile/profile.service';
     SiteFooterComponent,
     EaseScrollDirective,
     ParallaxDirective,
+    FormCardComponent,
+    FormHeaderComponent,
+    FormContentComponent,
+    FormSubmitButtonComponent,
   ]
 })
 export class SharedModule { }

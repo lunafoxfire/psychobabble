@@ -13,7 +13,6 @@ import { ResetComponent } from './reset/reset.component';
 import { VerifyComponent } from './verify/verify.component';
 import { FormCardComponent } from './forms/form-card/form-card.component';
 import { FormHeaderComponent } from './forms/form-header/form-header.component';
-import { FormHelpTextComponent } from './forms/form-help-text/form-help-text.component';
 import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
 
 import { AuthService } from './auth.service';
@@ -26,6 +25,7 @@ import {
   PasswordValidatorDirective,
   ConfirmPasswordValidatorDirective,
  } from './form-validator.directives';
+import { FormContentComponent } from './forms/form-content/form-content.component';
 
 @NgModule({
   declarations: [
@@ -39,9 +39,9 @@ import {
     PasswordValidatorDirective,
     ConfirmPasswordValidatorDirective,
     FormCardComponent,
-    FormHelpTextComponent,
     FormHeaderComponent,
     FormSubmitButtonComponent,
+    FormContentComponent,
   ],
   imports: [
     CommonModule,

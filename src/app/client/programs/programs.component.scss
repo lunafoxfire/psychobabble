@@ -84,6 +84,10 @@
     padding-right: 10px;
     max-width: 106px;
     min-width: 106px;
+    height: 53px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     word-wrap: break-word;
   }
   text-align: center;

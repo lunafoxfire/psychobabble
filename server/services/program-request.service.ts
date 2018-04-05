@@ -54,7 +54,7 @@ export class ProgramRequestService {
           client: request.client.username,
           requestId: request.id,
           jobTitle: request.jobTitle,
-          text: request.text
+          dateCreated: UnixToDate(request.dateCreated)
         }
       }),
       requestCount: requestCount

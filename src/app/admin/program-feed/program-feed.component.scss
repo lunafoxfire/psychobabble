@@ -13,14 +13,10 @@
   text-align: center;
 }
 
-.video-table {
+.program-table {
   @include font-pt-sans
   border-spacing: 0px;
   width: 100%;
-}
-
-.thumbnail {
-  height: 53px;
 }
 
 .background-image {
@@ -66,26 +62,11 @@
   left: -45px;
 }
 
-.new-video {
-  padding-left: 10px;
-  padding-right: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  background-color: $primary-color;
-  color: white;
-  font-size: 30px;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 5px;
-  right: 50px;
-  transition: filter 1s;
+.single-program {
   &:hover {
-    filter: drop-shadow(0 0 5px black);
     cursor: pointer;
+    filter: drop-shadow(0 0 3px #333);
   }
-}
-
-.single-video {
   td {
     padding-top: 15px;
     padding-bottom: 15px;
@@ -114,7 +95,7 @@
 
 // ************** flipped phone (based on iphone 5/SE) **************
 @media screen and (min-width: 568px) {
-  .video-table {
+  .program-table {
     tr {
       height: 30px;
     }
@@ -131,19 +112,9 @@
 
 // ************ Tablet ********************
 @media screen and (min-width: 1024px) {
-  .new-video {
-    bottom: -18px;
-    right: 40px;
-    font-size: 35px;
-  }
-
-  .thumbnail {
-    height: 120px;
-  }
-
-  .video-table {
+  .program-table {
     font-size: 24px;
-    .single-video {
+    .single-program {
       height: 60px;
     }
   }
@@ -165,18 +136,5 @@
   .background-image {
     height: 150px;
     font-size: 32px;
-  }
-}
-
-@media screen and (min-width: 1240px) {
-  .new-video {
-    font-size: 50px;
-    width: 60px;
-    bottom: -26px;
-    right: 80px;
-  }
-
-  .thumbnail {
-    height: 150px;
   }
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { VideoService } from './../video.service';
 import { NgForm } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-video',
@@ -14,11 +15,16 @@ export class VideoUploadComponent implements OnInit {
   constructor(
     public auth: VideoService,
     public http: HttpClient,
-    public router: Router
+    public router: Router,
+    public dialogRef: MatDialogRef<VideoUploadComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit() {
+  }
 
+  public onNoClick(): void {
+    this.dialogRef.close();
   }
 
   public sendVideo(file, description, title) {
@@ -36,7 +42,8 @@ export class VideoUploadComponent implements OnInit {
           this.http.put(result["url"], file.files[0], httpOptions).subscribe((response) => {
             const reference = `https://s3.amazonaws.com/${result["reference"]}`;
             this.auth.makeVideo(reference, result["videoId"], description.value, title.value).subscribe(() => {
-              this.router.navigateByUrl('/');
+              this.onNoClick()
+              location.reload();
             });
           }, (error) => {
             this.auth.deleteVideo(result["videoId"]).subscribe((data) => {

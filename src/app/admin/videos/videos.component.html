@@ -1,23 +1,30 @@
-<mat-card>
-  <mat-card-content>
-    <a mat-raised-button routerLink="/admin/videos/upload">Upload New Video</a>
-    <mat-form-field>
-      <input matInput type="text" #videoSearch ngModel>
-    </mat-form-field>
-    <button mat-raised-button type="button" name="button" (click)="searchVideos(videoSearch)">search</button>
-    <div *ngFor="let video of (videos | async)?.videos.videos">
-      <mat-card>
-        <mat-card-title>
-          <h2>{{video.title}}</h2>
-        </mat-card-title>
-        <mat-card-content>
-          <video #myVideo width="320" height="240" controls>
-            <source src="{{video.url}}" type="video/mp4">
-            </video>
-            <p>{{video.description}}</p>
-          </mat-card-content>
-        </mat-card>
-      </div>
+<div class="background-image">
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchVideos(search)"><i class="material-icons">search</i></button>
+    </div>
+    <div class="new-video" (click)="openDialog($event)">
+      +
+    </div>
+  </div>
+</div>
+<div>
+  <div>
+    <table class="video-table">
+      <tr class="top-bar">
+        <th></th>
+        <th>VIDEO TITLE</th>
+        <th>VIDEO DESCRIPTION</th>
+      </tr>
+      <tr *ngFor="let video of (videos | async)?.videos.videos" class="single-video">
+        <td><video class="thumbnail" #myVideo preload="metadata">
+          <source src="{{video.url}}#t=0.1" type="video/mp4">
+          </video></td>
+          <td>{{video.title}}</td>
+          <td>{{video.description}}</td>
+        </tr>
+      </table>
       <mat-paginator [length]="(videos | async)?.videos.videoCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>

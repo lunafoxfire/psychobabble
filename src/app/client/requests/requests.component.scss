@@ -25,6 +25,7 @@
 }
 
 .request-table {
+  @include font-pt-sans
   border-spacing: 0px;
   width: 100%;
 }
@@ -33,7 +34,7 @@
   position: relative;
   height: 110px;
   width: 100%;
-  background-image: url('/assets/img/reqbckgrd.png');
+  background-image: url('/assets/img/banner-bg.png');
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -84,7 +85,9 @@
   position: absolute;
   bottom: 5px;
   right: 50px;
+  transition: filter 1s;
   &:hover {
+    filter: drop-shadow(0 0 5px black);
     cursor: pointer;
   }
 }
@@ -100,6 +103,10 @@
     padding-right: 10px;
     max-width: 106px;
     min-width: 106px;
+    height: 53px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     word-wrap: break-word;
   }
   text-align: center;
@@ -165,5 +172,14 @@
   .background-image {
     height: 150px;
     font-size: 32px;
+  }
+}
+
+@media screen and (min-width: 1240px) {
+  .new-request {
+    font-size: 50px;
+    width: 60px;
+    bottom: -26px;
+    right: 80px;
   }
 }

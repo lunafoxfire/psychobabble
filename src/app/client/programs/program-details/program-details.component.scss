@@ -38,6 +38,7 @@
 }
 
 .subject-table {
+  @include font-pt-sans
   border-spacing: 0px;
   width: 100%;
 }
@@ -46,7 +47,7 @@
   position: relative;
   height: 110px;
   width: 100%;
-  background-image: url('/assets/img/reqbckgrd.png');
+  background-image: url('/assets/img/banner-bg.png');
   display: flex;
   flex-direction: column;
   align-content: center;

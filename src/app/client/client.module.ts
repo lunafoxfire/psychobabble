@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ROUTES } from './client.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
-
+import { SharedModule } from './../shared/shared.module';
 import { ProgramsComponent, ProgramCloseDialogComponent } from './programs/programs.component';
 import { ProgramDetailsComponent } from './programs/program-details/program-details.component';
 import { RequestsComponent } from './requests/requests.component';
@@ -27,6 +27,7 @@ import { ClientService } from './client.service';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    SharedModule,
     RouterModule.forChild(ROUTES),
   ],
   providers: [
@@ -35,6 +36,7 @@ import { ClientService } from './client.service';
   exports: [],
   entryComponents: [
     ProgramCloseDialogComponent,
+    MakeRequestComponent
   ]
 })
 export class ClientModule { }

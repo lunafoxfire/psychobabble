@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ClientService } from './../client.service';
+import { MatDialog } from '@angular/material';
+import { MakeRequestComponent } from './make-request/make-request.component';
 
 @Component({
   selector: 'programs',
@@ -15,7 +17,8 @@ export class RequestsComponent implements OnInit {
   public searchTerm: string;
 
   constructor(
-    public service: ClientService
+    public service: ClientService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -34,5 +37,18 @@ export class RequestsComponent implements OnInit {
     this.page = pageEvent.pageIndex;
     this.resultCount = pageEvent.pageSize;
     this.requests = this.service.getClientRequests(this.page, this.resultCount, this.searchTerm);
+  }
+
+  public openDialog(event): void {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(MakeRequestComponent, {});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.service.closeProgram(result).subscribe(data => {
+          location.reload();
+        });
+      }
+    });
   }
 }

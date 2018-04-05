@@ -1,5 +1,9 @@
 @import 'src/assets/styles/_theme';
 
+.home:hover {
+  cursor: pointer;
+}
+
 .hide-navbar {
   opacity: 0;
   animation: fadeout 1s;

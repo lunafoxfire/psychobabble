@@ -5,7 +5,7 @@
       <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
       <button class="search-button" type="button" name="button" (click)="searchRequests(search)"><i class="material-icons">search</i></button>
     </div>
-    <div class="new-request" routerLink="new">
+    <div class="new-request" (click)="openDialog($event)">
       +
     </div>
   </div>
@@ -23,6 +23,7 @@
         <td>{{request.jobTitle}}</td>
         <td>{{request.text}}</td>
         <td>{{request.dateCreated}}
+          <br>
           <button class="close-button">Cancel</button>
         </td>
       </tr>

@@ -43,7 +43,7 @@ import { VideoService } from './videos/video.service';
   ],
   providers: [
     AdminService,
-    VideoService
+    VideoService,
   ],
   exports: [],
   entryComponents: [

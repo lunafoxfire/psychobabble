@@ -41,4 +41,10 @@ export class ProgramDetailsComponent implements OnInit {
     document.addEventListener('copy', copyListener);
     document.execCommand('copy');
   }
+
+  public nextPage(pageEvent) {
+    this.page = pageEvent.pageIndex;
+    this.resultCount = pageEvent.pageSize;
+    this.topSubjects = this.service.getTopSubjects(this.programId, this.page, this.resultCount);
+  }
 }

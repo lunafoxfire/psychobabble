@@ -2,8 +2,9 @@ import { Repository, getRepository } from 'typeorm';
 import { User } from './../models/User';
 import { RoleType } from './../models/Role';
 import { RoleService } from './role.service';
-import { ProgramRequest } from './../models/ProgramRequest'
-import { Program } from './../models/Program'
+import { ProgramRequest } from './../models/ProgramRequest';
+import { Program } from './../models/Program';
+import { UnixToDate } from './../utility/unix-date';;
 
 export interface UserServiceDependencies {
   userRepo: Repository<User>;
@@ -172,21 +173,45 @@ export class UserService {
 
     let programs = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
-    .where("program.closed = :closed AND program.expiration >= :currentTime AND UPPER(program.jobTitle) LIKE :programSearchTerm OR program.closed = :closed AND program.expiration = :zero AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, currentTime: new Date().getTime(), zero: 0, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
+    .where("UPPER(program.jobTitle) LIKE :programSearchTerm", { programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .skip(params.programPage*params.programResultCount)
     .take(params.programResultCount)
     .getMany()
 
     let programCount = await this.programRepo.createQueryBuilder("program")
     .innerJoinAndSelect("program.client", "client", "client.id = :id", { id: clientId })
-    .where("program.closed = :closed AND program.expiration >= :currentTime AND UPPER(program.jobTitle) LIKE :programSearchTerm OR program.closed = :closed AND program.expiration = :zero AND UPPER(program.jobTitle) LIKE :programSearchTerm", { closed: false, currentTime: new Date().getTime(), zero: 0, programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
+    .where("UPPER(program.jobTitle) LIKE :programSearchTerm", { programSearchTerm: '%'+params.programSearchTerm.toUpperCase()+'%' })
     .getCount()
+
+    let returnRequests = requests.map(function(request) {
+      return {
+        jobTitle: request.jobTitle,
+        text: request.text,
+        dateCreated: UnixToDate(request.dateCreated),
+        id: request.id
+      }
+    })
+
+    let returnPrograms = programs.map(function(program) {
+      if(program.expiration.toString() !== "0") {
+        if(program.expiration <= new Date().getTime())
+        {
+          program.closed = true;
+        }
+      }
+      return {
+        jobTitle: program.jobTitle,
+        description: program.description,
+        closed: program.closed,
+        id: program.id
+      }
+    })
 
     return {
       username: client.username,
       email: client.email,
-      programs: programs,
-      requests: requests,
+      programs: returnPrograms,
+      requests: returnRequests,
       requestCount: requestCount,
       programCount: programCount,
     }

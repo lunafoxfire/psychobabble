@@ -1,46 +1,54 @@
-<mat-card>
-  <mat-card-title>
-    <h1>{{(client | async)?.client.username}}</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <p>{{(client | async)?.client.email}}</p>
-  </mat-card-content>
-</mat-card>
-<mat-card>
-  <mat-card-title>
-    <h1>PROGRAMS</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput type="text" #programSearch>
-    </mat-form-field>
-    <button mat-raised-button type="button" name="button" (click)="searchPrograms(programSearch)">search</button>
-    <div *ngFor="let program of (client | async)?.client.programs">
-      <mat-card>
-        <mat-card-title>
-          <a routerLink="program/{{program.id}}">{{program.jobTitle}}</a>
-        </mat-card-title>
-      </mat-card>
+<div class="background-image">
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input matInput placeholder="Search..." class="search-bar" type="text" #programSearch ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchPrograms(programSearch)"><i class="material-icons">search</i></button>
     </div>
+  </div>
+</div>
+<div>
+  <div>
+    <table class="program-table">
+      <tr class="top-bar">
+        <th>PROGRAM NAME</th>
+        <th>PROGRAM DESCRIPTION</th>
+        <th>STATUS</th>
+      </tr>
+      <tr *ngFor="let program of (client | async)?.client.programs" class="single-program" routerLink="program/{{program.id}}">
+        <td>{{program.jobTitle}}</td>
+        <td>{{program.description}}</td>
+        <td *ngIf="!program.closed">Active</td>
+        <td *ngIf="program.closed">Completed</td>
+      </tr>
+    </table>
     <mat-paginator [length]="(client | async)?.client.programCount" [pageSize]="programResultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextProgramPage($event)"></mat-paginator>
-  </mat-card-content>
-</mat-card>
-<mat-card>
-  <mat-card-title>
-    <h1>REQUESTS</h1>
-  </mat-card-title>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput type="text" #requestSearch>
-    </mat-form-field>
-    <button mat-raised-button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
-    <div *ngFor="let request of (client | async)?.client.requests">
-      <mat-card>
-        <mat-card-title>
-          <a routerLink="/admin/feed/requests/{{request.id}}">{{request.jobTitle}}</a>
-        </mat-card-title>
-      </mat-card>
+  </div>
+</div>
+
+<!-- ******************** -->
+
+<div class="background-image">
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input matInput placeholder="Search..." class="search-bar" type="text" #requestSearch ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchRequests(requestSearch)"><i class="material-icons">search</i></button>
     </div>
+  </div>
+</div>
+<div>
+  <div>
+    <table class="request-table">
+      <tr class="top-bar">
+        <th>REQUEST NAME</th>
+        <th>REQUEST DESCRIPTION</th>
+        <th>DATE CREATED</th>
+      </tr>
+      <tr *ngFor="let request of (client | async)?.client.requests" class="single-request" routerLink="/admin/request-feed/requests/{{request.id}}">
+        <td>{{request.jobTitle}}</td>
+        <td>{{request.text}}</td>
+        <td>{{request.dateCreated}}</td>
+      </tr>
+    </table>
     <mat-paginator [length]="(client | async)?.client.requestCount" [pageSize]="requestResultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextRequestPage($event)"></mat-paginator>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>

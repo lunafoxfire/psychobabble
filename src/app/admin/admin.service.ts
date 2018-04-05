@@ -72,8 +72,11 @@ export class AdminService {
     return result;
   }
 
-  public getTopSubjects(programId): Observable<any> {
-    const result = this.auth.get('/api/users/' + programId + '/top-subjects');
+  public getTopSubjects(programId, page, resultCount): Observable<any> {
+    const params = new HttpParams()
+      .append("page", page)
+      .append("resultCount", resultCount);
+    const result = this.auth.get('/api/users/' + programId + '/top-subjects', params);
     return result;
   }
 

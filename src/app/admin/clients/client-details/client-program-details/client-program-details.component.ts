@@ -13,6 +13,9 @@ export class ClientProgramDetailsComponent implements OnInit {
   public programId: string;
   public generatedUrl: string;
   public program: Observable<any>;
+  public page = 0;
+  public resultCount = 10;
+  public pageSizeOptions = [1, 5, 10, 25, 50, 100];
   public topSubjects: Observable<any>;
 
   constructor(
@@ -25,9 +28,24 @@ export class ClientProgramDetailsComponent implements OnInit {
       this.clientId = params['cid'];
       this.programId = params['pid'];
       this.program = this.service.getProgramDetails(this.programId, this.clientId);
-      this.topSubjects = this.service.getTopSubjects(this.programId);
+      this.topSubjects = this.service.getTopSubjects(this.programId, this.page, this.resultCount);
       this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
     })
   }
 
+  public nextPage(pageEvent) {
+    this.page = pageEvent.pageIndex;
+    this.resultCount = pageEvent.pageSize;
+    this.topSubjects = this.service.getTopSubjects(this.programId, this.page, this.resultCount);
+  }
+
+  public copyToClipboard() {
+    let copyListener = (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', this.generatedUrl);
+      e.preventDefault();
+      document.removeEventListener('copy', copyListener);
+    }
+    document.addEventListener('copy', copyListener);
+    document.execCommand('copy');
+  }
 }

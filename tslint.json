@@ -61,7 +61,6 @@
     "no-eval": true,
     "no-misused-new": true,
     "no-non-null-assertion": true,
-    "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
@@ -99,7 +98,7 @@
     "variable-name": false,
     "whitespace": [
       true,
-      "check-branch",
+      // "check-branch",
       "check-decl",
       "check-operator",
       "check-separator",

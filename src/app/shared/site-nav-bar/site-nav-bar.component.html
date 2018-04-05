@@ -1,26 +1,33 @@
 <div [class]="isScrolled()">
   <div class="bar-container">
     <div class="permanent-bar">
-      <p class="home"><img class="babble-logo" src="/assets/img/logo-colored.png" alt="psychobabble logo"><span class="psycho-babble">PSYCHOBABBLE</span></p>
+      <p class="home">
+        <img class="babble-logo" src="/assets/img/logo-colored.png" alt="psychobabble logo">
+        <span class="psycho-babble">PSYCHOBABBLE</span>
+      </p>
       <div *ngIf="!auth.isLoggedIn()" class="register-login">
-        <p><a routerLink="/register">REGISTER</a> |
-          <a routerLink="/login">LOGIN</a></p>
-        </div>
-        <div *ngIf="auth.isLoggedIn()" class="logged-in">
-          <p><a routerLink="/profile">{{loggedInUser}}</a> |
-            <a routerLink="/logout" (click)="auth.logout()">LOGOUT</a></p>
-          </div>
-        </div>
-        <div *ngIf="auth.isLoggedIn()" class="changing-bar">
-          <div class="client-links">
-            <a *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Programs</a>
-            <a *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
-          </div>
-          <div class="admin-links">
-            <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
-            <a *ngIf="auth.isAdmin()" routerLink="/admin/videos" routerLinkActive="active">Videos</a>
-            <a *ngIf="auth.isAdmin()" routerLink="/admin/clients" routerLinkActive="active">Clients</a>
-          </div>
-        </div>
+        <p>
+          <a routerLink="/register">REGISTER</a> |
+          <a routerLink="/login">LOGIN</a>
+        </p>
+      </div>
+      <div *ngIf="auth.isLoggedIn()" class="logged-in">
+        <p>
+          <a routerLink="/profile">{{loggedInUser}}</a> |
+          <a routerLink="/logout" (click)="auth.logout()">LOGOUT</a>
+        </p>
       </div>
     </div>
+    <div *ngIf="auth.isLoggedIn()" class="changing-bar">
+      <div class="client-links">
+        <a *ngIf="auth.isClient()" routerLink="/programs" routerLinkActive="active">Programs</a>
+        <a *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
+      </div>
+      <div class="admin-links">
+        <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
+        <a *ngIf="auth.isAdmin()" routerLink="/admin/videos" routerLinkActive="active">Videos</a>
+        <a *ngIf="auth.isAdmin()" routerLink="/admin/clients" routerLinkActive="active">Clients</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,6 +19,7 @@ import { EaseScrollDirective, ParallaxDirective } from './parallax.directives';
 
 import { HomeGuardService } from './home/home-guard.service';
 import { ProfileService } from './profile/profile.service';
+import { SiteNavBarService } from './site-nav-bar/site-nav-bar.service';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ProfileService } from './profile/profile.service';
   providers: [
     HomeGuardService,
     ProfileService,
+    SiteNavBarService,
   ],
   exports: [
     SiteNavBarComponent,

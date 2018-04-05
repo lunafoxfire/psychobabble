@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { SiteNavBarService, NavData } from './site-nav-bar.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'site-nav-bar',
@@ -15,13 +17,14 @@ export class SiteNavBarComponent implements OnInit {
 
   constructor(
     public auth: AuthService,
-    public route: ActivatedRoute
+    public route: ActivatedRoute,
+    public navService: SiteNavBarService,
   ) { }
 
   ngOnInit() {
-    let token = this.auth.getTokenPayload();
+    const token = this.auth.getTokenPayload();
     if(token) {
-      //TODO: Display correct name without refresh
+      // TODO: Display correct name without refresh
       this.loggedInUser = token.username;
     }
     window.onscroll = () => {
@@ -30,12 +33,12 @@ export class SiteNavBarComponent implements OnInit {
       } else {
         this.scroll = false;
       }
-    }
+    };
   }
 
   public isScrolled() {
-    if(window.location.pathname === "/") {
-      if(this.scroll) {
+    if (window.location.pathname === "/") {
+      if (this.scroll) {
         return "scroll-navbar";
       } else {
         return "hide-navbar";
@@ -46,4 +49,26 @@ export class SiteNavBarComponent implements OnInit {
       return "show-navbar";
     }
   }
+
+  // public getDisplayMode(): Observable<string> {
+  //   return Observable.create(observer => {
+  //     this.navService.getRouteData().then(data => {
+  //       if (data.navDisplayMode === 'animate') {
+  //         if (this.scroll) {
+  //           observer.next("scroll-navbar");
+  //         }
+  //         else {
+  //           observer.next("hide-navbar");
+  //         }
+  //       }
+  //       else if (data.navDisplayMode === 'hide') {
+  //         observer.next("hide-navbar");
+  //       }
+  //       else {
+  //         observer.next("show-navbar");
+  //       }
+  //       // observer.complete();
+  //     });
+  //   });
+  // }
 }

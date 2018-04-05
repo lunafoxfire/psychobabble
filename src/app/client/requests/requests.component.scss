@@ -34,7 +34,7 @@
   position: relative;
   height: 110px;
   width: 100%;
-  background-image: url('/assets/img/reqbckgrd.png');
+  background-image: url('/assets/img/banner-bg.png');
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -103,6 +103,10 @@
     padding-right: 10px;
     max-width: 106px;
     min-width: 106px;
+    height: 53px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     word-wrap: break-word;
   }
   text-align: center;

@@ -41,15 +41,11 @@ export class RequestsComponent implements OnInit {
 
   public openDialog(event): void {
     event.stopPropagation();
-    const dialogRef = this.dialog.open(MakeRequestComponent, {
-      width: '250px'
-    });
+    const dialogRef = this.dialog.open(MakeRequestComponent, {});
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.service.closeProgram(result).subscribe(data => {
-          console.log(data);
           location.reload();
         });
       }

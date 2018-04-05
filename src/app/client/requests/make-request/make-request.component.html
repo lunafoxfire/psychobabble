@@ -1,5 +1,9 @@
-<mat-card>
-  <mat-card-content>
+<form-card md-dialog-content>
+  <form-header mat-dialog-title>
+    <h1>REQUEST A NEW PROGRAM</h1>
+    <p>Input the information below to request a program</p>
+  </form-header>
+  <form-content>
     <form #form="ngForm" (submit)="form.valid && submitRequest(jobTitle, expiration, details)">
       <mat-form-field>
         <input matInput type="text" name="job-title" #jobTitle ngModel required placeholder="Job Title">
@@ -8,10 +12,6 @@
       <mat-form-field>
         <input matInput ngModel #expiration name="expiration" type="date" min="{{weekFromNow}}">
       </mat-form-field>
-      <label for="details">Additional Details</label>
-      <mat-form-field>
-        <textarea #details matInput ngModel name="details" rows="8" cols="80" required></textarea>
-      </mat-form-field>
       <mat-form-field>
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let chip of chips" [selectable]="selectable" [removable]="removable" (remove)="removeChip(chip)">
@@ -19,7 +19,7 @@
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
 
-          <input placeholder="Select option..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [matChipInputAddOnBlur]="addOnBlur"
+          <input placeholder="Enter Soft Skill..." [matChipInputFor]="chipList" [matAutocomplete]="auto" [matChipInputAddOnBlur]="addOnBlur"
           matInput [formControl]="myControl" #chipInput/>
         </mat-chip-list>
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addChip($event, chipInput)">
@@ -28,7 +28,11 @@
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <button mat-raised-button type="submit" name="button">submit</button>
+      <label for="details">Additional Details</label>
+      <mat-form-field>
+        <textarea class="text-field" #details matInput ngModel name="details" required></textarea>
+      </mat-form-field>
+      <form-submit-button mat-dialog-actions>submit</form-submit-button>
     </form>
-  </mat-card-content>
-</mat-card>
+  </form-content>
+</form-card>

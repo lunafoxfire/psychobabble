@@ -35,6 +35,10 @@ export class MakeRequestComponent implements OnInit {
     this.weekFromNow = (`${date.getFullYear()}-${month}-${date.getDate() + 7}`);
   }
 
+  public onNoClick(): void {
+    this.dialogRef.close();
+  }
+
   ngOnInit() {
     this.service.getSkills().subscribe(data => {
       this.softSkills = data.skillArray;
@@ -97,10 +101,9 @@ export class MakeRequestComponent implements OnInit {
       expiration: expiration.value,
       jobTitle: jobTitle.value,
     };
-    console.log(request);
     this.service.makeRequest(request).subscribe((data) => {
-      console.log(data);
-      this.router.navigateByUrl('/');
+      this.onNoClick()
+      location.reload();
     });
   }
 }

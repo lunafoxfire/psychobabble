@@ -1,0 +1,50 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host ::ng-deep {
+  .form-content {
+    $form-text-color: lighten($primary-color, 10%);
+    padding: 20px 20px 5px;
+    text-align: center;
+    color: $form-text-color;
+
+    mat-form-field {
+      display: block;
+      margin-bottom: 20px;
+    }  
+
+    .mat-form-field-label-wrapper {
+      top: -1.6em;
+      padding-top: 1em;
+    }
+    .mat-form-field-label {
+      color: $form-text-color;
+      opacity: 0.8;
+      @include font-pt-sans;
+      font-size: 18px;
+      text-transform: lowercase;
+    }
+    .mat-form-field-underline {
+      background-color: rgba($form-text-color, 0.45);
+    }
+    .mat-form-field-invalid {
+      .mat-form-field-label {
+        color: $error-color;
+      }
+    }
+
+    mat-hint {
+      @include font-pt-sans;
+      color: $form-text-color;
+      font-size: 13px;
+      display: block;
+      width: 100%;
+      margin-right: -10px;
+      text-align: right;
+      a {
+        color: currentColor;
+        text-decoration: none;
+      }
+    }
+  }
+}

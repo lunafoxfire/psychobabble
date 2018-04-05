@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormHelpTextComponent } from './form-help-text.component';
+import { FormContentComponent } from './form-content.component';
 
-describe('FormHelpTextComponent', () => {
-  let component: FormHelpTextComponent;
-  let fixture: ComponentFixture<FormHelpTextComponent>;
+describe('FormContentComponent', () => {
+  let component: FormContentComponent;
+  let fixture: ComponentFixture<FormContentComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormHelpTextComponent ]
+      declarations: [ FormContentComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormHelpTextComponent);
+    fixture = TestBed.createComponent(FormContentComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

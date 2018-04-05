@@ -4,22 +4,24 @@
     <span id="app-name">Psychobabble.</span><br>
     <span id="tagline">Login to get babbling.</span>
   </form-header>
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-    <mat-form-field>
-      <input matInput ngModel #loginName="ngModel" type="text"
-        placeholder="Username or Email" name="loginName"
-        required
-      />
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput ngModel #password="ngModel" type="password"
-        placeholder="Password" name="password"
-        required
-      />
-      <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
-    </mat-form-field>
-
-    <form-submit-button>Login</form-submit-button>
-  </form> 
+  <form-content>
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+      <mat-form-field>
+        <input matInput ngModel #loginName="ngModel" type="text"
+          placeholder="Username or Email" name="loginName"
+          required
+        />
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput ngModel #password="ngModel" type="password"
+          placeholder="Password" name="password"
+          required
+        />
+        <mat-hint><a routerLink="/password-reset">Forgot your password?</a></mat-hint>
+      </mat-form-field>
+  
+      <form-submit-button>Login</form-submit-button>
+    </form> 
+  </form-content>
 </form-card>

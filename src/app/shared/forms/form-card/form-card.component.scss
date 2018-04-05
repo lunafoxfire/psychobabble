@@ -1,0 +1,22 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-image: url('/assets/img/body-bg.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  @include font-pt-sans;
+  
+  .form-card {
+    width: 400px;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 0px;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+}

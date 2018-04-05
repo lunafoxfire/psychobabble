@@ -35,6 +35,7 @@ import { ClientService } from './client.service';
   exports: [],
   entryComponents: [
     ProgramCloseDialogComponent,
+    MakeRequestComponent
   ]
 })
 export class ClientModule { }

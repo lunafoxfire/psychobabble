@@ -25,6 +25,7 @@
 }
 
 .request-table {
+  @include font-pt-sans
   border-spacing: 0px;
   width: 100%;
 }
@@ -84,7 +85,9 @@
   position: absolute;
   bottom: 5px;
   right: 50px;
+  transition: filter 1s;
   &:hover {
+    filter: drop-shadow(0 0 5px black);
     cursor: pointer;
   }
 }
@@ -165,5 +168,14 @@
   .background-image {
     height: 150px;
     font-size: 32px;
+  }
+}
+
+@media screen and (min-width: 1240px) {
+  .new-request {
+    font-size: 50px;
+    width: 60px;
+    bottom: -26px;
+    right: 80px;
   }
 }

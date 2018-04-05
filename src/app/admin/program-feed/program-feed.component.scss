@@ -1,0 +1,151 @@
+@import 'src/assets/styles/_theme';
+
+.top-bar {
+  @include font-bebas-kai;
+  background-color: #4c4c4c;
+  color: white;
+  text-align: center;
+}
+
+.close-button {
+  background-color: $primary-color;
+  border: 1px solid black;
+  font-size: 15px;
+  transition: font-size .5s;
+  &:hover {
+    cursor: pointer;
+    font-size: 17px;
+  }
+}
+
+::ng-deep .top-bar th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+.program-table {
+  @include font-pt-sans
+  border-spacing: 0px;
+  width: 100%;
+}
+
+.background-image {
+  position: relative;
+  height: 110px;
+  width: 100%;
+  background-color: $light-background-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: center;
+  text-align: center;
+  h1 {
+    @include font-bebas-kai;
+    color: $light-text-color;
+    margin: 0px;
+  }
+}
+
+.top-inputs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.search-bar {
+  width: 35% !important;
+  text-align: left;
+  border-bottom: 1px solid grey;
+}
+
+.search-button {
+  background-color: transparent;
+  color: $primary-color;
+  border: none;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.search-inputs {
+  position: absolute;
+  bottom: 2px;
+  left: -45px;
+}
+
+.single-program {
+  &:hover {
+    cursor: pointer;
+    filter: drop-shadow(0 0 3px #333);
+  }
+  td {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 10px;
+    max-width: 106px;
+    min-width: 106px;
+    height: 53px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+  }
+  text-align: center;
+  &:nth-child(2n+1) {
+    background-color: #f2f2f2;
+  }
+  &:nth-child(2n) {
+    background-color: $light-background-color;
+  }
+}
+
+::ng-deep .mat-paginator-container {
+  margin-top: 10px;
+  flex-wrap: nowrap !important;
+}
+
+// ************** flipped phone (based on iphone 5/SE) **************
+@media screen and (min-width: 568px) {
+  .program-table {
+    tr {
+      height: 30px;
+    }
+  }
+
+  .search-bar {
+    width: 45% !important;
+  }
+
+  .search-inputs {
+    left: -40px;
+  }
+}
+
+// ************ Tablet ********************
+@media screen and (min-width: 1024px) {
+  .program-table {
+    font-size: 24px;
+    .single-program {
+      height: 60px;
+    }
+  }
+
+  .search-bar {
+    width: 55% !important;
+  }
+
+  .search-button {
+    i {
+      font-size: 40px;
+    }
+  }
+
+  .search-inputs {
+    left: -20px;
+  }
+
+  .background-image {
+    height: 150px;
+    font-size: 32px;
+  }
+}

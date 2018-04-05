@@ -1,22 +1,25 @@
-<mat-card>
-  <mat-card-title>
-    Requests
-  </mat-card-title>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput type="text" ngModel #requestSearch>
-    </mat-form-field>
-    <button mat-raised-button type="button" name="button" (click)="searchRequests(requestSearch)">search</button>
-    <div *ngFor="let request of (requests | async)?.requests.requests">
-      <mat-card>
-        <mat-card-title>
-          <a routerLink="requests/{{request.requestId}}">{{request.jobTitle}}</a>
-        </mat-card-title>
-        <mat-card-content>
-          <p>Client: {{request.client}}</p>
-        </mat-card-content>
-      </mat-card>
+<div class="background-image">
+  <div class="top-inputs">
+    <div class="search-inputs">
+      <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
+      <button class="search-button" type="button" name="button" (click)="searchRequests(search)"><i class="material-icons">search</i></button>
     </div>
-    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
-  </mat-card-content>
-</mat-card>
+  </div>
+</div>
+<div>
+  <div>
+    <table class="request-table">
+      <tr class="top-bar">
+        <th>REQUEST TITLE</th>
+        <th>REQUEST CLIENT</th>
+        <th>REQUEST CREATED</th>
+      </tr>
+      <tr *ngFor="let request of (requests | async)?.requests.requests" class="single-request" routerLink="requests/{{request.requestId}}">
+        <td>{{request.jobTitle}}</td>
+        <td>{{request.client}}</td>
+        <td>{{request.dateCreated}}</td>
+      </tr>
+    </table>
+    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)" class="paginator"></mat-paginator>
+  </div>
+</div>

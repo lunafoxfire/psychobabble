@@ -1,0 +1,30 @@
+:host ::ng-deep {
+  .form-content {
+    padding: 50px 30px 30px !important;
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 30px;
+    }
+
+    h3 {
+      font-size: 19px;
+      font-weight: normal;
+      margin-bottom: 25px;
+    }
+
+    p {
+      font-size: 17px;
+    }
+
+    input {
+      font-size: 19px;
+      font-weight: normal;
+      text-align: center;
+    }
+
+    .submit-button {
+      text-transform: none;
+    }
+  }
+}

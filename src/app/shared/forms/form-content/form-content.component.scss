@@ -8,9 +8,22 @@
     text-align: center;
     color: $form-text-color;
 
+    a {
+      color: $form-text-color;
+      text-decoration: underline;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
     mat-form-field {
       display: block;
       margin-bottom: 20px;
+
+      input {
+        @include font-pt-sans;
+        color: $dark-text-color;
+      }
     }  
 
     .mat-form-field-label-wrapper {
@@ -42,7 +55,6 @@
       margin-right: -10px;
       text-align: right;
       a {
-        color: currentColor;
         text-decoration: none;
       }
     }

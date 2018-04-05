@@ -4,9 +4,10 @@
 .submit-button {
   background-color: $primary-color;
   color: $light-text-color;
-  font-size: 15px;
+  font-size: 16px;
   text-transform: uppercase;
-  padding: 6px 120px;
+  width: 300px;
+  padding: 6px 0px;
   margin-top: 25px;
   &[disabled] {
     color: $light-text-color;

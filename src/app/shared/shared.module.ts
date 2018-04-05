@@ -10,6 +10,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { SiteNavBarComponent } from './site-nav-bar/site-nav-bar.component';
 import { SiteFooterComponent } from './site-footer/site-footer.component';
 import { FormCardComponent } from './forms/form-card/form-card.component';
+import { FormCardLiteComponent } from './forms/form-card-lite/form-card-lite.component';
 import { FormHeaderComponent } from './forms/form-header/form-header.component';
 import { FormContentComponent } from './forms/form-content/form-content.component';
 import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
@@ -31,6 +32,7 @@ import { ProfileService } from './profile/profile.service';
     FormHeaderComponent,
     FormContentComponent,
     FormSubmitButtonComponent,
+    FormCardLiteComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +54,7 @@ import { ProfileService } from './profile/profile.service';
     FormHeaderComponent,
     FormContentComponent,
     FormSubmitButtonComponent,
+    FormCardLiteComponent,
   ]
 })
 export class SharedModule { }

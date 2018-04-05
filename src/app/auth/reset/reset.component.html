@@ -1,9 +1,21 @@
-<form #form="ngForm" (ngSubmit)="form.valid && resetSubmit(email)" novalidate>
-  <label for="email">Email:</label>
-  <input #email="ngModel" type="email" ngModel name="email" required email>
-  <div style="color:red" *ngIf="email.errors && (email.dirty || email.touched || form.submitted)">
-    <p *ngIf="email.errors.required">email is required</p>
-    <p *ngIf="email.errors.email">Not a valid email</p>
-  </div>
-  <button type="submit">Reset Password</button>
-</form>
+<form-card-lite>
+  <h2>
+    Forgot your password?<br>
+    No problem.
+  </h2>
+  <h3>Enter your email below.</h3>
+  <form #form="ngForm" (ngSubmit)="form.valid && resetSubmit(email)">
+    <mat-form-field>
+      <input matInput ngModel #email="ngModel" type="email"
+        placeholder="" name="email"
+        required email
+      />
+      <mat-error *ngIf="email.errors?.required">Email is required</mat-error>
+      <mat-error *ngIf="email.errors?.email && !email.errors?.required">Not a valid email</mat-error>
+    </mat-form-field>
+
+    <form-submit-button [sending]="" [error]="">
+      Send email.
+    </form-submit-button>
+  </form>
+</form-card-lite>

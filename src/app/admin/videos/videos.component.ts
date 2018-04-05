@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { VideoService } from './video.service';
+import { MatDialog } from '@angular/material';
+import { VideoUploadComponent } from './video-upload/video-upload.component';
 
 @Component({
   selector: 'videos',
@@ -17,7 +19,8 @@ export class VideosComponent implements OnInit {
   @ViewChild('myVideo') myVideo: any;
   played: boolean;
   constructor(
-    public service: VideoService
+    public service: VideoService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -33,5 +36,10 @@ export class VideosComponent implements OnInit {
     this.page = pageEvent.pageIndex;
     this.resultCount = pageEvent.pageSize;
     this.videos = this.service.getAllVideos(this.page, this.resultCount, this.searchTerm);
+  }
+
+  public openDialog(event): void {
+    event.stopPropagation();
+    const dialogRef = this.dialog.open(VideoUploadComponent, {});
   }
 }

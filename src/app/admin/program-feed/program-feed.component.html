@@ -1,5 +1,4 @@
 <div class="background-image">
-  <h1>Programs</h1>
   <div class="top-inputs">
     <div class="search-inputs">
       <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
@@ -12,14 +11,14 @@
     <tr class="top-bar">
       <th>PROGRAM NAME</th>
       <th>PROGRAM DESCRIPTION</th>
-      <th>STATUS</th>
+      <th>PROGRAM CLIENT</th>
+      <th>PROGRAM AUTHOR</th>
     </tr>
-    <tr *ngFor="let program of (programs | async)?.programs.programs" class="single-program" routerLink="client/{{program.programId}}">
+    <tr *ngFor="let program of (programs | async)?.programs.programs" class="single-program" routerLink="programs/{{program.programId}}">
       <td>{{program.jobTitle}}</td>
       <td>{{program.description}}</td>
-      <td *ngIf="program.closed">Completed</td>
-      <td *ngIf="!program.closed">Active
-        <button class="close-button" (click)="openDialog(program.jobTitle, program.programId, $event)">Close</button></td>
+      <td>{{program.client}}</td>
+      <td>{{program.author}}</td>
     </tr>
   </table>
   <mat-paginator [length]="(programs | async)?.programs.programCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>

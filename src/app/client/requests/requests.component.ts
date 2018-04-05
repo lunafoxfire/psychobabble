@@ -23,9 +23,6 @@ export class RequestsComponent implements OnInit {
 
   ngOnInit() {
     this.requests = this.service.getClientRequests(this.page, this.resultCount);
-    this.requests.subscribe(data => {
-      console.log(data);
-    })
   }
 
   public searchRequests(searchTerm) {
@@ -42,13 +39,5 @@ export class RequestsComponent implements OnInit {
   public openDialog(event): void {
     event.stopPropagation();
     const dialogRef = this.dialog.open(MakeRequestComponent, {});
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.service.closeProgram(result).subscribe(data => {
-          location.reload();
-        });
-      }
-    });
   }
 }

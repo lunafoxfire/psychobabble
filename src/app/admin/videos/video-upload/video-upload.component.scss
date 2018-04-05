@@ -1,0 +1,80 @@
+::ng-deep form-card {
+  background-image: none !important;
+  min-height: unset !important;
+  .form-card {
+    margin: 0 !important;
+    width: 100%;
+  }
+}
+
+::ng-deep form-header {
+  .form-header {
+    padding: 15px 5px !important;
+    text-align: center;
+    h1 {
+      font-size: 25px;
+    }
+    p {
+      font-size: 12px;
+    }
+  }
+}
+
+.file-input {
+  display: flex;
+  align-self: flex-start;
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+
+.text-area {
+  height: 80px;
+}
+
+::ng-deep form-submit-button {
+  display: flex;
+  justify-content: center;
+  .submit-button {
+    padding: 6px 40px !important;
+    margin: 5px !important;
+  }
+  .submit-error {
+    height: 10px !important;
+  }
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  height: 80vh !important;
+  background-color: transparent !important;
+}
+
+@media screen and (min-height: 674px) {
+  ::ng-deep .mat-dialog-container {
+    height: auto !important;
+  }
+
+  ::ng-deep form-header {
+    .form-header {
+      padding: 15px 15px !important;
+      h1 {
+        font-size: 35px;
+      }
+      p {
+        font-size: 24px;
+      }
+    }
+  }
+
+  ::ng-deep form-card {
+    .form-card {
+      padding: 20px !important;
+    }
+  }
+
+  ::ng-deep form-content {
+    .form-content {
+      padding: 30px 30px 15px !important;
+    }
+  }
+}

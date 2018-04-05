@@ -17,7 +17,8 @@
             <a *ngIf="auth.isClient()" routerLink="/requests" routerLinkActive="active">Requests</a>
           </div>
           <div class="admin-links">
-            <a *ngIf="auth.isAdmin()" routerLink="/admin/feed" routerLinkActive="active">Feed</a>
+            <a *ngIf="auth.isAdmin()" routerLink="/admin/program-feed" routerLinkActive="active">Programs</a>
+            <a *ngIf="auth.isAdmin()" routerLink="/admin/request-feed" routerLinkActive="active">Requests</a>
             <a *ngIf="auth.isAdmin()" routerLink="/admin/videos" routerLinkActive="active">Videos</a>
             <a *ngIf="auth.isAdmin()" routerLink="/admin/clients" routerLinkActive="active">Clients</a>
           </div>

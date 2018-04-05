@@ -1,17 +1,21 @@
-<mat-card>
-  <mat-card-content>
+<form-card md-dialog-content>
+  <form-header mat-dialog-title>
+    <h1>UPLOAD VIDEO</h1>
+    <p>Input the information below to upload video</p>
+  </form-header>
+  <form-content>
     <form #form="ngForm" (ngSubmit)="form.valid && sendVideo(file, description, title)" enctype="multipart/form-data">
       <mat-form-field>
         <input matInput #title ngModel name="title" type="text" placeholder="Title" required>
       </mat-form-field>
-        <input #file ngModel type="file" name="file" accept="video/mp4">
+      <input class="file-input" #file ngModel type="file" name="file" accept="video/mp4">
       <mat-form-field>
-        <textarea placeholder="Description" matInput #description="ngModel" ngModel name="name" rows="8" cols="80" required></textarea>
+        <textarea class="text-area" placeholder="Description" matInput #description="ngModel" ngModel name="name" required></textarea>
       </mat-form-field>
       <div style="color:red" *ngIf="description.errors && (description.dirty || description.touched || form.submitted)">
         <p *ngIf="description.errors.required">Description is required</p>
       </div>
-      <button mat-raised-button type="submit" name="submit">Upload to Amazon S3</button>
+      <form-submit-button mat-dialog-actions>Upload</form-submit-button>
     </form>
-  </mat-card-content>
-</mat-card>
+  </form-content>
+</form-card>

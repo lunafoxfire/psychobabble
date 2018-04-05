@@ -1,12 +1,8 @@
 <div class="background-image">
-  <h1>Program Requests</h1>
   <div class="top-inputs">
     <div class="search-inputs">
       <input matInput placeholder="Search..." class="search-bar" type="text" #search ngModel>
       <button class="search-button" type="button" name="button" (click)="searchRequests(search)"><i class="material-icons">search</i></button>
-    </div>
-    <div class="new-request" (click)="openDialog($event)">
-      +
     </div>
   </div>
 </div>
@@ -15,17 +11,13 @@
     <table class="request-table">
       <tr class="top-bar">
         <th>REQUEST TITLE</th>
-        <th>REQUEST DESCRIPTION</th>
+        <th>REQUEST CLIENT</th>
         <th>REQUEST CREATED</th>
       </tr>
-      <!--- routerLink="client/{{request.requestId}}" --->
-      <tr *ngFor="let request of (requests | async)?.requests.requests" class="single-request">
+      <tr *ngFor="let request of (requests | async)?.requests.requests" class="single-request" routerLink="requests/{{request.requestId}}">
         <td>{{request.jobTitle}}</td>
-        <td>{{request.text}}</td>
-        <td>{{request.dateCreated}}
-          <br>
-          <button class="close-button">Cancel</button>
-        </td>
+        <td>{{request.client}}</td>
+        <td>{{request.dateCreated}}</td>
       </tr>
     </table>
     <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>

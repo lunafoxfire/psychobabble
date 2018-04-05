@@ -3,7 +3,6 @@ import { Routes, CanActivate } from '@angular/router';
 import { ProgramsComponent, ProgramCloseDialogComponent } from './programs/programs.component';
 import { ProgramDetailsComponent } from './programs/program-details/program-details.component';
 import { RequestsComponent } from './requests/requests.component';
-import { MakeRequestComponent } from './requests/make-request/make-request.component';
 import { RequestDetailsComponent } from './requests/request-details/request-details.component';
 
 import { AuthRole } from './../auth/auth.service';
@@ -22,11 +21,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'requests', component: RequestsComponent,
-    canActivate: [AuthGuard],
-    data: { allowedRoles: [AuthRole.Client] }
-  },
-  {
-    path: 'requests/new', component: MakeRequestComponent,
     canActivate: [AuthGuard],
     data: { allowedRoles: [AuthRole.Client] }
   },

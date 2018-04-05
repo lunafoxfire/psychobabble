@@ -43,10 +43,8 @@ export class ProgramsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
       if (result) {
         this.service.closeProgram(result).subscribe(data => {
-          console.log(data);
           location.reload();
         });
       }

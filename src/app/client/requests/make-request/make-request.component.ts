@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ClientService } from './../../client.service';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { startWith } from 'rxjs/operators/startWith';
 import { map } from 'rxjs/operators/map';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatAutocompleteSelectedEvent, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'requests',
@@ -26,7 +26,9 @@ export class MakeRequestComponent implements OnInit {
   public addOnBlur: boolean = true;
   constructor(
     public service: ClientService,
-    public router: Router
+    public router: Router,
+    public dialogRef: MatDialogRef<MakeRequestComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     const date = new Date();
     const month = this.padMonth(date);

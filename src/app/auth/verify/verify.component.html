@@ -1,4 +1,13 @@
-<h1>Enter Recieved Code Here</h1>
-<input type="text" #code>
-<button type="button" (click)="sendCode(code)">Submit</button>
-<button type="button" (click)="resendVerify()">Resend Email</button>
+<form-card-lite>
+  <h2>
+    Wait! There's one more step to start babbling.
+  </h2>
+  <h3>Check your email and enter your six-digit code below.</h3>
+  <mat-form-field>
+    <input matInput #code type="text">
+  </mat-form-field>
+  <form-submit-button (click)="sendCode(code)" [sending]="" [error]="">
+    Got it.
+  </form-submit-button>
+  <p>Didn't recieve an email? <a (click)="resendVerify()">Resend it.</a></p>
+</form-card-lite>

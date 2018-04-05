@@ -13,7 +13,7 @@ export class HomeGuardService implements CanActivate {
   canActivate(): boolean {
     if (this.auth.isLoggedIn()) {
       if (this.auth.isAdmin()) {
-        this.router.navigateByUrl('/admin/feed');
+        this.router.navigateByUrl('/admin/program-feed');
         return false;
       }
       else if (this.auth.isClient()) {

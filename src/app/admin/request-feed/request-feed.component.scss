@@ -13,17 +13,6 @@
   text-align: center;
 }
 
-.close-button {
-  background-color: $primary-color;
-  border: 1px solid black;
-  font-size: 15px;
-  transition: font-size .5s;
-  &:hover {
-    cursor: pointer;
-    font-size: 17px;
-  }
-}
-
 .request-table {
   @include font-pt-sans
   border-spacing: 0px;
@@ -71,25 +60,6 @@
   position: absolute;
   bottom: 2px;
   left: -45px;
-}
-
-.new-request {
-  padding-left: 10px;
-  padding-right: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  background-color: $primary-color;
-  color: white;
-  font-size: 30px;
-  border-radius: 50%;
-  position: absolute;
-  bottom: 5px;
-  right: 50px;
-  transition: filter 1s;
-  &:hover {
-    filter: drop-shadow(0 0 5px black);
-    cursor: pointer;
-  }
 }
 
 .single-request {
@@ -142,11 +112,6 @@
 
 // ************ Tablet ********************
 @media screen and (min-width: 1024px) {
-  .new-request {
-    bottom: -18px;
-    right: 40px;
-    font-size: 35px;
-  }
 
   .request-table {
     font-size: 24px;
@@ -176,10 +141,5 @@
 }
 
 @media screen and (min-width: 1240px) {
-  .new-request {
-    font-size: 50px;
-    width: 60px;
-    bottom: -26px;
-    right: 80px;
-  }
+
 }

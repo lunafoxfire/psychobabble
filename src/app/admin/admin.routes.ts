@@ -9,7 +9,6 @@ import { ProgramDesignComponent } from './request-feed/program-design/program-de
 import { ResponseEvaluationComponent } from './program-feed/response-evaluation/response-evaluation.component';
 import { ScoringComponent } from './program-feed/response-evaluation/scoring/scoring.component';
 import { VideosComponent } from './videos/videos.component';
-import { VideoUploadComponent } from './videos/video-upload/video-upload.component';
 
 import { AuthRole } from './../auth/auth.service';
 import { AuthGuardService as AuthGuard } from './../auth/auth-guard.service';
@@ -42,11 +41,6 @@ export const ROUTES: Routes = [
   },
   {
     path: 'admin/videos', component: VideosComponent,
-    canActivate: [AuthGuard],
-    data: { allowedRoles: [AuthRole.Admin] }
-  },
-  {
-    path: 'admin/videos/upload', component: VideoUploadComponent,
     canActivate: [AuthGuard],
     data: { allowedRoles: [AuthRole.Admin] }
   },

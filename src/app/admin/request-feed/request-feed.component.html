@@ -20,6 +20,6 @@
         <td>{{request.dateCreated}}</td>
       </tr>
     </table>
-    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)" class="paginator"></mat-paginator>
+    <mat-paginator [length]="(requests | async)?.requests.requestCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
   </div>
 </div>

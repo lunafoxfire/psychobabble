@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { ROUTES } from './admin.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './../_imports/material.module';
+import { SharedModule } from './../shared/shared.module';
 
 import { ClientsComponent } from './clients/clients.component';
 import { ClientDetailsComponent } from './clients/client-details/client-details.component';
@@ -38,11 +39,15 @@ import { VideoService } from './videos/video.service';
     ReactiveFormsModule,
     MaterialModule,
     RouterModule.forChild(ROUTES),
+    SharedModule
   ],
   providers: [
     AdminService,
     VideoService
   ],
-  exports: []
+  exports: [],
+  entryComponents: [
+    VideoUploadComponent
+  ]
 })
 export class AdminModule { }

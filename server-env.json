@@ -1,0 +1,24 @@
+{
+  "SERVER_PORT": 3000,
+  "DEFAULT_ADMIN_USERNAME": "admin",
+  "DEFAULT_ADMIN_PASSWORD": "admin1",
+
+  "POSTGRES_HOST": "127.0.0.1",
+  "POSTGRES_PORT": 5432,
+  "POSTGRES_USERNAME": "postgres",
+  "POSTGRES_PASSWORD": "l33th4x",
+  "POSTGRES_PROD_DATABASE": "dev-db",
+  "POSTGRES_DEV_DATABASE": "dev-db",
+  "POSTGRES_TEST_DATABASE": "test-db",
+
+  "JWT_SECRET": "BETgpAqUQ=?TZt#BTWWs%Wp^nhLOV1%^oTjwu$Lu6gg3xj!0gpXGTNA2Mc-&KDLTfUZUzP^&x?WhV$kJrQ_n_^7m3RPQr$Yu%RtCn$7pRyv-B7YPL-AKhb&TTxkpOete",
+
+  "SENDGRID_API_KEY": "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",
+  "NOREPLY_EMAIL": "noreply@intern.com",
+
+  "S3_BUCKET_NAME": "epicodus-internship",
+  "S3_ACCESS_KEY": "AKIAIAMGCFBA54EHU6OQ",
+  "S3_SECRET_KEY": "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",
+
+  "GOOGLE_APPLICATION_CREDENTIALS": "./goog-creds.json"
+}

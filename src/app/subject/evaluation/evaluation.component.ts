@@ -21,6 +21,7 @@ export class EvaluationComponent implements OnInit {
   public state: EvalState;
   public myEvalState = EvalState;
   public countdown: number = 3;
+  public RecordTimer: any;
 
   constructor(
     public evalService: EvaluationService,
@@ -107,17 +108,16 @@ export class EvaluationComponent implements OnInit {
     if (this.state === EvalState.AwaitingRecord) {
       this.recorder.startSession();
       this.state = EvalState.Recording;
-      setTimeout(() => {
-        console.log("Inside Start Recording Timeout");
+      this.RecordTimer = setTimeout(() => {
         if(this.state === EvalState.Recording) {
-          console.log("Stop Recording");
           this.stopRecording();
         }
-      }, 90000);
+      }, 60000);
     }
   }
 
   public stopRecording() {
+    clearTimeout(this.RecordTimer);
     if (this.state === EvalState.Recording) {
       this.recorder.endSession().then((arrayBuffer) => {
         this.state = EvalState.FinalizeResponse;

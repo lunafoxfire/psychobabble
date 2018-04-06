@@ -40,6 +40,13 @@ const TestClients: UserRegistrationOptions[] = [
     roleType: RoleType.Client,
     preValidated: true
   },
+  {
+    username: "EyeCue_Lab",
+    email: "eyecue@eyecue.com",
+    password: "3y3cu3",
+    roleType: RoleType.Client,
+    preValidated: true
+  }
 ];
 
 const TestSubjects: UserRegistrationOptions[] = [
@@ -78,6 +85,13 @@ const TestSubjects: UserRegistrationOptions[] = [
     roleType: RoleType.Subject,
     preValidated: true
   },
+  {
+    username: "Rane",
+    email: "rane@rane.com",
+    password: "ran3fi3lds",
+    roleType: RoleType.Subject,
+    preValidated: true
+  }
 ];
 
 // =========== Videos =========== //
@@ -129,6 +143,48 @@ const TestVideos = [
     url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/stats.mp4",
     description: null,
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.TimeManagementAbilities]
+  },
+  {
+    title: "Intro",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/intro_3.mp4",
+    description: "Intro for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.TimeManagementAbilities]
+  },
+  {
+    title: "Question 1",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/question_1_3.mp4",
+    description: "First Question for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.SelfConfidence]
+  },
+  {
+    title: "Question 2",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/question_2_3.mp4",
+    description: "Second Question for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.FlexibilityAdaptability, SoftSkillType.TimeManagementAbilities, SoftSkillType.GoodCommunicationSkills, SoftSkillType.StrongWorkEthic, SoftSkillType.SelfConfidence]
+  },
+  {
+    title: "Question 3",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/question_3_3.mp4",
+    description: "Third Question for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.FlexibilityAdaptability, SoftSkillType.GoodCommunicationSkills, SoftSkillType.StrongWorkEthic]
+  },
+  {
+    title: "Question 4",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/question_4_3.mp4",
+    description: "Fourth Question for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.TimeManagementAbilities, SoftSkillType.SelfConfidence]
+  },
+  {
+    title: "Question 5",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/question_5_3.mp4",
+    description: "Fifth Question for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.GoodCommunicationSkills, SoftSkillType.StrongWorkEthic, SoftSkillType.SelfConfidence]
+  },
+  {
+    title: "Conclusion",
+    url: "https://s3.amazonaws.com/epicodus-internship/Test-Folder/conclusion_3.mp4",
+    description: "Conclusion for EyeCue Lab Assessment",
+    softSkills: [SoftSkillType.GoodCommunicationSkills, SoftSkillType.StrongWorkEthic, SoftSkillType.SelfConfidence]
   },
 ];
 
@@ -298,6 +354,13 @@ const TestProgramRequests = [
     expiration: 0,
     text: "Find good employee pl0x",
     softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.PositiveAttitude, SoftSkillType.GoodCommunicationSkills, SoftSkillType.TimeManagementAbilities, SoftSkillType.ProblemSolvingSkills]
+  },
+  {
+    jobTitle: "EyeCue Intern",
+    clientIndex: 3,
+    expiration: 0,
+    text: "We're looking for a person who takes challenges head on, is willing to work hard, and works well with a small team.",
+    softSkills: [SoftSkillType.StrongWorkEthic, SoftSkillType.ActingAsATeamPlayer, SoftSkillType.WorkingWellUnderPressure, SoftSkillType.FlexibilityAdaptability, SoftSkillType.ProblemSolvingSkills]
   },
 ]
 

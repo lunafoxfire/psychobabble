@@ -1,0 +1,9 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: $light-background-color;
+}

@@ -1,0 +1,23 @@
+@import 'src/assets/styles/_mixins';
+@import 'src/assets/styles/_theme';
+
+:host {
+  display: block;
+  @include font-bebas-kai;
+  font-size: 22px;
+  color: $soft-black;
+  padding: 15px 30px;
+  
+    &:hover {
+      cursor: pointer;
+    }
+
+  &[active] {
+    color: $primary-color;
+    border-bottom: solid 4px $primary-color;
+  }
+
+  &:nth-child(n + 2) {
+    margin-left: 15px;
+  }
+}

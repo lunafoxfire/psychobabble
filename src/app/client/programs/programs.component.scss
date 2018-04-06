@@ -25,7 +25,7 @@
 }
 
 .program-table {
-  @include font-pt-sans
+  @include font-pt-sans;
   border-spacing: 0px;
   width: 100%;
 }

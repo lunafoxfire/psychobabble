@@ -1,7 +1,16 @@
-<div *ngFor="let subject of (subjects | async)?.subjects.subjects">
-  <mat-card>
-    <mat-card-title>
-      <a routerLink="subject/{{subject.subjectId}}/responses">{{subject.username}}</a>
-    </mat-card-title>
-  </mat-card>
+<div class="background-image">
+
+</div>
+<div>
+  <table class="subject-table">
+    <tr class="top-bar">
+      <th>APPLICANT NAME</th>
+      <th>CONTACT INFORMATION</th>
+    </tr>
+    <tr *ngFor="let subject of (subjects | async)?.subjects.subjects" routerLink="subject/{{subject.subjectId}}/responses" class="single-subject">
+      <td>{{subject.username}}</td>
+      <td>{{subject.email}}</td>
+    </tr>
+  </table>
+  <mat-paginator [length]="(subjects | async)?.subjects.subjectCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
 </div>

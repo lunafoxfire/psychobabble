@@ -1,10 +1,21 @@
-<div *ngFor="let response of (responses | async)?.responses">
-  <mat-card>
-    <mat-card-content>
-      <audio controls>
-        <source src="{{response.url}}" type="audio/wav">
+<div class="background-image">
+
+</div>
+<div>
+  <table class="response-table">
+    <tr class="top-bar">
+      <th>AUDIO</th>
+      <th>TEXT</th>
+      <th>SCORING</th>
+    </tr>
+    <tr *ngFor="let response of (responses | async)?.responses" class="single-response">
+      <td>
+        <audio controls>
+          <source src="{{response.url}}" type="audio/wav">
         </audio>
-        <p>{{response.text_version}}</p>
+      </td>
+      <td>{{response.text_version}}</td>
+      <td>
         <select ngModel #score="ngModel" name="score">
           <option value="1">1</option>
           <option value="2">2</option>
@@ -13,6 +24,7 @@
           <option value="5">5</option>
         </select>
         <button type="button" name="button" (click)="scoreResponse(score, response.responseId)">Submit Score</button>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -91,11 +91,13 @@ export class UserService {
   }
 
   /** Gets all subjects that have responded to a program (paginated) */
-  public async getProgramSubjects(programId) {
+  public async getProgramSubjects(page, resultCount, programId) {
     let subjectRole = await this.roleService.findByNameAsync(RoleType.Subject);
     let subjects = await this.userRepo.createQueryBuilder("subject")
     .innerJoin("subject.responses", "response")
     .innerJoin("response.program", "program", "program.id = :programId", { programId: programId })
+    .skip(page*resultCount)
+    .take(resultCount)
     .getMany();
 
     let subjectCount = await this.userRepo.createQueryBuilder("subject")

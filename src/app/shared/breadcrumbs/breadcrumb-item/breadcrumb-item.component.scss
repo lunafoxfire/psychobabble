@@ -1,0 +1,25 @@
+@import 'src/assets/styles/_theme';
+@import 'src/assets/styles/_mixins';
+
+:host {
+  display: inline-block;
+  padding: 3px 5px;
+  color: $primary-color;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:nth-child(n + 2) {
+    &:before {
+      content: "/";
+      display: inline-block;
+      margin-right: 10px;
+    }
+  }
+
+  &:last-child {
+    color: $dark-text-color;
+    cursor: unset;
+  }
+}

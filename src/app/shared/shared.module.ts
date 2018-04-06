@@ -16,6 +16,8 @@ import { FormContentComponent } from './forms/form-content/form-content.componen
 import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
 import { SubNavComponent } from './sub-nav/sub-nav.component';
 import { SubNavItemComponent } from './sub-nav/sub-nav-item/sub-nav-item.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { BreadcrumbItemComponent } from './breadcrumbs/breadcrumb-item/breadcrumb-item.component';
 
 import { EaseScrollDirective, ParallaxDirective } from './parallax.directives';
 
@@ -38,6 +40,8 @@ import { SiteNavBarService } from './site-nav-bar/site-nav-bar.service';
     FormCardLiteComponent,
     SubNavComponent,
     SubNavItemComponent,
+    BreadcrumbsComponent,
+    BreadcrumbItemComponent,
   ],
   imports: [
     CommonModule,
@@ -63,6 +67,8 @@ import { SiteNavBarService } from './site-nav-bar/site-nav-bar.service';
     FormCardLiteComponent,
     SubNavComponent,
     SubNavItemComponent,
+    BreadcrumbsComponent,
+    BreadcrumbItemComponent,
   ]
 })
 export class SharedModule { }

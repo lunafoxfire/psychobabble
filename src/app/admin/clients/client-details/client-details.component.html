@@ -1,3 +1,8 @@
+<breadcrumbs>
+  <breadcrumb-item routerLink="/admin/clients">Clients</breadcrumb-item>
+  <breadcrumb-item>{{(client | async)?.client.username}}</breadcrumb-item>
+</breadcrumbs>
+
 <sub-nav>
   <sub-nav-item [active]="activeTab === 'programs'" (click)="activeTab = 'programs'">Programs</sub-nav-item>
   <sub-nav-item [active]="activeTab === 'requests'" (click)="activeTab = 'requests'">Requests</sub-nav-item>

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./client-details.component.scss']
 })
 export class ClientDetailsComponent implements OnInit {
+  public activeTab: string = 'programs';
   public client: Observable<any>;
   public clientId: string;
   public programPage = 0;

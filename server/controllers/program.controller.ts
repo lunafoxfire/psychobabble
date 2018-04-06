@@ -161,6 +161,7 @@ export class ProgramController {
       if(program) {
         res.status(200);
         res.json({
+          client: client,
           program: program,
           message: "Grabbed program details"
         })

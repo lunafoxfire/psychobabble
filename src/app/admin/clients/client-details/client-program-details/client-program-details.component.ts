@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./client-program-details.component.scss']
 })
 export class ClientProgramDetailsComponent implements OnInit {
+  public activeTab: string = 'program-materials';
   public clientId: string;
   public programId: string;
   public generatedUrl: string;
@@ -28,9 +29,12 @@ export class ClientProgramDetailsComponent implements OnInit {
       this.clientId = params['cid'];
       this.programId = params['pid'];
       this.program = this.service.getProgramDetails(this.programId, this.clientId);
+      this.program.subscribe(data => {
+        console.log(data);
+      });
       this.topSubjects = this.service.getTopSubjects(this.programId, this.page, this.resultCount);
       this.generatedUrl = `${window.location.protocol}//${window.location.host}/programs/${this.programId}`;
-    })
+    });
   }
 
   public nextPage(pageEvent) {

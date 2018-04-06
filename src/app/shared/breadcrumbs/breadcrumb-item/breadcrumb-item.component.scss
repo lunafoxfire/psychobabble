@@ -8,12 +8,14 @@
 
   &:hover {
     cursor: pointer;
+    text-decoration: underline;
   }
 
   &:nth-child(n + 2) {
     &:before {
       content: "/";
       display: inline-block;
+      color: $dark-text-color;
       margin-right: 10px;
     }
   }
@@ -21,5 +23,6 @@
   &:last-child {
     color: $dark-text-color;
     cursor: unset;
+    text-decoration: none;    
   }
 }

@@ -1,42 +1,57 @@
-<div class="background-image">
-</div>
-<div>
+<breadcrumbs>
+  <breadcrumb-item routerLink="/admin/clients">Clients</breadcrumb-item>
+  <breadcrumb-item routerLink="/admin/clients/{{clientId}}">{{(program | async)?.client.username}}</breadcrumb-item>
+  <breadcrumb-item>{{(program | async)?.program.jobTitle}}</breadcrumb-item>
+</breadcrumbs>
+
+<sub-nav>
+  <sub-nav-item [active]="activeTab === 'program-materials'" (click)="activeTab = 'program-materials'">Program Materials</sub-nav-item>
+  <sub-nav-item [active]="activeTab === 'top-applicants'" (click)="activeTab = 'top-applicants'">Top Applicants</sub-nav-item>
+</sub-nav>
+
+<div *ngIf="activeTab === 'program-materials'">
+  <div class="background-image">
+  </div>
   <div>
-    <table class="video-table">
-      <tr class="top-bar">
-        <th></th>
-        <th>VIDEO TITLE</th>
-        <th>VIDEO DESCRIPTION</th>
-      </tr>
-      <tr *ngFor="let video of (program | async)?.program.videos" class="single-video">
-        <td><video class="thumbnail" #myVideo preload="metadata">
-          <source src="{{video.url}}#t=0.1" type="video/mp4">
-          </video></td>
-          <td>{{video.title}}</td>
-          <td>{{video.description}}</td>
+    <div>
+      <table class="video-table">
+        <tr class="top-bar">
+          <th></th>
+          <th>VIDEO TITLE</th>
+          <th>VIDEO DESCRIPTION</th>
         </tr>
-      </table>
+        <tr *ngFor="let video of (program | async)?.program.videos" class="single-video">
+          <td><video class="thumbnail" #myVideo preload="metadata">
+            <source src="{{video.url}}#t=0.1" type="video/mp4">
+            </video></td>
+            <td>{{video.title}}</td>
+            <td>{{video.description}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+</div>
+
+<div *ngIf="activeTab === 'top-applicants'">
+  <div class="background-image">
+    <div class="copy-link">
+      <input class="link" type="text" value="{{generatedUrl}}">
+      <button class="copy-button" type="button" name="button" (click)="copyToClipboard()"><i class="material-icons">content_copy</i></button>
     </div>
   </div>
-
-<div class="background-image">
-  <div class="copy-link">
-    <input class="link" type="text" value="{{generatedUrl}}">
-    <button class="copy-button" type="button" name="button" (click)="copyToClipboard()"><i class="material-icons">content_copy</i></button>
+  <div>
+    <table class="subject-table">
+      <tr class="top-bar">
+        <th>APPLICANT NAME</th>
+        <th>CONTACT INFORMATION</th>
+        <th>SCORE</th>
+      </tr>
+      <tr *ngFor="let subject of (topSubjects | async)?.subjects.subjects" class="single-subject">
+        <td>{{subject.subjectName}}</td>
+        <td>{{subject.contactInfo}}</td>
+        <td>{{subject.averageScore}}</td>
+      </tr>
+    </table>
+    <mat-paginator [length]="(topSubjects | async)?.subjects.subjectCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
   </div>
-</div>
-<div>
-  <table class="subject-table">
-    <tr class="top-bar">
-      <th>APPLICANT NAME</th>
-      <th>CONTACT INFORMATION</th>
-      <th>SCORE</th>
-    </tr>
-    <tr *ngFor="let subject of (topSubjects | async)?.subjects.subjects" class="single-subject">
-      <td>{{subject.subjectName}}</td>
-      <td>{{subject.contactInfo}}</td>
-      <td>{{subject.averageScore}}</td>
-    </tr>
-  </table>
-  <mat-paginator [length]="(topSubjects | async)?.subjects.subjectCount" [pageSize]="resultCount" [pageSizeOptions]="pageSizeOptions" (page)="nextPage($event)"></mat-paginator>
 </div>

@@ -14,6 +14,8 @@ import { FormCardLiteComponent } from './forms/form-card-lite/form-card-lite.com
 import { FormHeaderComponent } from './forms/form-header/form-header.component';
 import { FormContentComponent } from './forms/form-content/form-content.component';
 import { FormSubmitButtonComponent } from './forms/form-submit-button/form-submit-button.component';
+import { SubNavComponent } from './sub-nav/sub-nav.component';
+import { SubNavItemComponent } from './sub-nav/sub-nav-item/sub-nav-item.component';
 
 import { EaseScrollDirective, ParallaxDirective } from './parallax.directives';
 
@@ -34,6 +36,8 @@ import { SiteNavBarService } from './site-nav-bar/site-nav-bar.service';
     FormContentComponent,
     FormSubmitButtonComponent,
     FormCardLiteComponent,
+    SubNavComponent,
+    SubNavItemComponent,
   ],
   imports: [
     CommonModule,
@@ -57,6 +61,8 @@ import { SiteNavBarService } from './site-nav-bar/site-nav-bar.service';
     FormContentComponent,
     FormSubmitButtonComponent,
     FormCardLiteComponent,
+    SubNavComponent,
+    SubNavItemComponent,
   ]
 })
 export class SharedModule { }

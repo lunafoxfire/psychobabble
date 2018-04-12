@@ -1,23 +1,7 @@
-# Soft-Skill-Tester
+# Psychobabble
 
-### Files you need to make
-* goog-creds.json
-  * Make a google product and download their credentails file. Click on the Try It Free button [here](https://goo.gl/WtJ3Sz)
-* server-env.json
-  * SERVER_PORT:
-  * DEFAULT_ADMIN_USERNAME:
-  * DEFAULT_ADMIN_PASSWORD:
-  * POSTGRES_HOST:
-  * POSTGRES_PORT:
-  * POSTGRES_USERNAME:
-  * POSTGRES_PASSWORD:
-  * POSTGRES_PROD_DATABASE:
-  * POSTGRES_DEV_DATABASE:
-  * POSTGRES_TEST_DATABASE:
-  * JWT_SECRET:
-  * SENDGRID_API_KEY:
-  * NOREPLY_EMAIL:
-  * S3_BUCKET_NAME:
-  * S3_ACCESS_KEY:
-  * S3_SECRET_KEY:
-  * GOOGLE_APPLICATION_CREDENTIALS: './goog-creds.json'
+Psychobabble is a technology-assisted service offered to employers to help enhance their application process, particularly when it comes to soft-skill assessment. Currently, the most common way for an employer to grade the soft-skills of potential applicants is through multiple choice personality questionaires, which have many flaws. Soft-skills are more accurately determined through conversational, open-ended methods that allow an applicant to build their own answer to a question rather than choose from a predetermined list. Psychobabble provides a platform for applicants to record verbal answers to video-format questions during an online application. These answers are then analyzed by experts and graded based on how well they match the particular soft-skill traits that an employer is looking for.
+
+## Live Site
+
+The site can be found hosted at http://psychobabble.eyecue.io/
